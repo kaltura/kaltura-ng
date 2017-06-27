@@ -17,11 +17,13 @@ var createNpmPackageJson = require('./create-npm-package-json');
 
 		if (fs.existsSync(distPath)) {
 			deleteFolderRecursive(distPath);
-			fs.mkdirSync(distPath);
 		}
+
+		fs.mkdirSync(distPath);
 
 		var packageJsonFilePath = path.resolve(rootPath, 'package.json');
 		if (fs.existsSync(packageJsonFilePath)) {
+			console.log('g');
 			var packageFileContent = fs.readFileSync(packageJsonFilePath,'utf8');
 			var npmPackageFileContent = createNpmPackageJson(packageFileContent);
 			fs.writeFileSync(path.resolve(rootPath,'dist/package.json'),npmPackageFileContent);
