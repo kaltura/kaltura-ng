@@ -1,0 +1,10 @@
+<div #container class="kPopupWidget kAverageElevation" [style.display]="isShow ? 'block' : 'none'" [style.width]="popupWidth+'px'" [style.height]="_popupWidgetHeight">
+    <div class="tooltipUp" *ngIf="showTooltip" [style.marginLeft]="popupWidth/2-12+'px'"></div>
+    <i *ngIf="closeBtn" class="kCloseBtn kIconclose_small" (click)="close()"></i>
+    <div class="kPopupWidgetContent" *ngIf="isShow">
+        <ng-content *ngIf="!_template"></ng-content>
+		<ng-template *ngIf="_template"
+			[ngTemplateOutlet]="_template">
+		</ng-template>
+    </div>
+</div>

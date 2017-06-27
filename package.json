@@ -1,0 +1,34 @@
+{
+  "name": "kaltura-ng",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "contributors": [
+    {
+      "name": "Eran Sakal",
+      "email": "eran@sakalim.com"
+    },
+    {
+      "name": "Amir Chervinsky",
+      "email": "amir.chr@gmail.com"
+    }
+  ],
+  "scripts": {
+    "setup": "lerna clean && npm run setup:lite",
+    "setup:lite": "lerna bootstrap --nohoist && npm run build",
+    "build": "lerna run build --concurrency 1",
+    "clean": "lerna clean"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "lerna": "file:./scripts/lerna-v2.0.0-rc.5.tgz"
+  },
+  "engines": {
+    "node": ">= 7.0.0"
+  },
+  "devDependencies": {
+    "rxjs": "^5.4.1",
+    "zone.js": "^0.8.12"
+  }
+}

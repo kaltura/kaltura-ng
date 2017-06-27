@@ -1,0 +1,17 @@
+<div [formGroup]="form" [ngSwitch]="control.controlType">
+    <textarea  *ngSwitchCase="'TextArea'" [formControlName]="control.key"  pInputTextarea></textarea>
+
+    <input *ngSwitchCase="'Textbox'" [formControlName]="control.key" pInputText/>
+
+    <p-dropdown *ngSwitchCase="'Dropdown'" [formControlName]="control.key"  [options]="control.values | kPrimeListOptions : control.required"></p-dropdown>
+
+    <p-multiSelect *ngSwitchCase="'List'" [formControlName]="control.key"  [options]="control.values | kPrimeListOptions"></p-multiSelect>
+
+    <p-calendar *ngSwitchCase="'DatePicker'" [formControlName]="control.key"   icon="kIconcalendar" [showIcon]="true" [monthNavigator]="true" [yearNavigator]="true" [showTime]="control.showTime" yearRange="2005:2030"></p-calendar>
+
+    <select [id]="control.key" *ngSwitchCase="'dropdown'" [formControlName]="control.key">
+        <option *ngFor="let opt of control.options" [value]="opt.key">{{opt.value}}</option>
+    </select>
+
+    <span *ngSwitchDefault="">Missing control for {{control.controlType}}</span>
+</div>

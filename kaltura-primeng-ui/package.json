@@ -1,0 +1,90 @@
+{
+	"name": "@kaltura-ng/kaltura-primeng-ui",
+	"version": "0.2.0",
+	"private": true,
+	"description": "Angular - Kaltura UI directives, pipes and services that utilizes PrimeNG suite",
+	"keywords": [
+		"kaltura"
+	],
+	"license": "AGPL-3.0",
+	"homepage": "https://github.com/kaltura/kaltura-ng#readme",
+	"author": "https://github.com/kaltura/kaltura-ng/graphs/contributors",
+	"scripts": {
+		"preinstall" : "node ../scripts/prepare-dist",
+		"postinstall": "node ../scripts/fix-tsconfig-paths.js",
+		"build": "gulp build",
+		"build:prod": "gulp build --production",
+		"lint": "tslint src/**/*.ts",
+		"watch": "gulp watch"
+	},
+	"config" : {
+		"npmDistDirectory" : "dist"
+	},
+	"contributors": [
+		{
+			"name": "Eran Sakal",
+			"email": "eran@sakalim.com"
+		},
+		{
+			"name": "Amir Chervinsky",
+			"email": "amir.chr@gmail.com"
+		}
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/kaltura/kaltura-ng.git"
+	},
+	"bugs": {
+		"url": "https://github.com/kaltura/kaltura-ng/issues"
+	},
+	"main": "index.js",
+	"typings": "index.d.ts",
+	"dependencies": {
+		"@angular/common": "^4.0.0",
+		"@angular/core": "^4.0.0",
+		"@angular/forms": "^4.0.0",
+		"@kaltura-ng/kaltura-client": "^0.1.0",
+		"@kaltura-ng/kaltura-common": "^0.2.0",
+		"@kaltura-ng/kaltura-ui": "^0.2.0",
+		"jquery": "~3.1.0",
+		"kaltura-typescript-client": "^2.1.0",
+		"primeng": "4.0.3",
+		"ramda": "~0.22.1",
+		"rxjs": "~5.1.0",
+		"tslib": "^1.5.0"
+	},
+	"devDependencies": {
+      "@angular/common": "^4.0.0",
+      "@angular/platform-browser": "^4.0.0",
+      "@angular/platform-browser-dynamic": "^4.0.0",
+      "@types/core-js": "^0.9.37",
+      "@types/jquery": "^2.0.40",
+      "@types/ramda": "0.0.3",
+      "@angular/compiler": "^4.0.0",
+      "@angular/compiler-cli": "^4.0.0",
+      "@angular/core": "^4.0.0",
+      "del": "^2.2.2",
+      "glob": "^7.1.2",
+      "gulp": "^3.9.1",
+      "gulp-add-src": "^0.2.0",
+      "gulp-json-editor": "^2.2.1",
+      "gulp-load-plugins": "^1.4.0",
+      "gulp-ngc": "^0.3.0",
+      "gulp-sass": "^3.1.0",
+      "gulp-sourcemaps": "^1.6.0",
+      "gulp-tslint": "^7.1.0",
+      "gulp-typescript": "^3.1.2",
+      "gulp-util": "^3.0.7",
+      "lerna": "^2.0.0-rc.5",
+      "merge2": "^1.0.2",
+      "node-sass": "^4.5.3",
+      "rimraf": "^2.5.1",
+      "run-sequence": "1.2.2",
+      "through2": "^2.0.3",
+      "tslint": "4.3.1",
+      "typescript": "^2.3.3"
+	},
+	"engines": {
+		"node": ">= 7.0.0"
+	}
+}

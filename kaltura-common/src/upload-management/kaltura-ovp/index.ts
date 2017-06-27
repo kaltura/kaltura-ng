@@ -1,0 +1,1 @@
+export { KalturaOVPFile } from './kaltura-ovp-file';

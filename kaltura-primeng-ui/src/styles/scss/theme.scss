@@ -1,0 +1,82 @@
+@import './kaltura-prime-ui';
+
+.kOverrideFAIcons {
+
+  .fa {
+    @extend .kPrimeUIIcon;
+  }
+
+  // auto complete
+  .ui-autocomplete {
+    .ui-autocomplete-panel {
+      .ui-autocomplete-list-item {
+        min-height: 50px;
+        border-left: none;
+        border-right: none;
+        border-bottom: 2px solid #dadada;
+        display: flex;
+        align-items: center;
+
+        &:last-child {
+          border-bottom: none;
+        }
+        &.ui-state-highlight, &:hover {
+          background-color: #dadada;
+        }
+      }
+
+      .ui-autocomplete-notification-item {
+        min-height: 50px;
+        border-left: none;
+        border-right: none;
+        display: flex;
+        align-items: center;
+
+        &.ui-state-highlight, &:hover {
+          background-color: transparent;
+          cursor: default;
+        }
+      }
+    }
+
+    .kIsItemDisabled {
+      color: #999999;
+      cursor: default;
+    }
+    ul.ui-autocomplete-multiple-container {
+      width: 100%;
+      padding: 6px 6px;
+      padding-right: 0px;
+    }
+    li.ui-autocomplete-token {
+      margin-right: 6px;
+      height: 24px;
+      border: 0px solid $kPrimary;
+      background-color: $kPrimary;
+      border-radius: 3px;
+      color: #ffffff;
+      padding-top: 4px;
+      margin-bottom: 3px;
+      margin-top: 3px;
+      &:hover {
+        background-color: darken(#00A784, 10%);
+      }
+    }
+    .ui-autocomplete-input-token .ui-inputtext {
+      border: 0px none;
+      box-shadow: none;
+    }
+    .ui-autocomplete-token-icon.fa-close {
+      margin-right: 2px;
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.3);
+        border: 0px solid rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+      }
+    }
+    .ui-autocomplete-token-icon.fa-close:before {
+
+      content: $k-icon-close_small;
+    }
+  }
+}

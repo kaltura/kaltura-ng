@@ -1,0 +1,32 @@
+:host{
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+.kPopupWidget{
+    background-color: #ffffff;
+    border-radius: 4px;
+    overflow: hidden;
+    .kCloseBtn{
+        font-size: 14px;
+        float: right;
+        color: #999999;
+        margin-top: 14px;
+        margin-right: 14px;
+        cursor: pointer;
+        &:hover{
+            color: #00a784;
+        }
+    }
+    .kPopupWidgetContent{
+        margin: 12px;
+    }
+    .tooltipUp{
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAOCAYAAAA1+Nx+AAAAAXNSR0IArs4c6QAAAMpJREFUOBGtk0EOwiAQRcF0Z2JXspFTcAE9erkACXfADa50b3DGMAYjlGktSUNDhvfmlyLEguG9V86544ItQnKLEZxSslCfpJQXY8yNs3fHKcrwSSl1gGcE0cRN0k1AnSNca33ChkII1xjjA5Kce0lmE5SdExwF+I5CTpJmggI+lnAU0MhJ7nNnUhVw4FzJj2AJnCP5EmS4LQ+UIL25dfAfwT9wktckb8EW8JZEbgmvSQa8/mu+OcFqM/3WcBntAPA9LdSK165l5vMFmCyyP+zXS30AAAAASUVORK5CYII=');
+        position: absolute;
+        margin-top: -12px;
+        width: 24px;
+        height: 12px;
+    }
+}
+

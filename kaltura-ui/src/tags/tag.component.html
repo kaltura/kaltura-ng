@@ -1,0 +1,13 @@
+<div class="kTag" *ngIf="label" [ngSwitch]="!!template">
+	<div *ngSwitchCase="true">
+		<!-- CUSTOM TEMPLATE -->
+		<ng-template
+			[ngOutletContext]="{item: { label: label, tooltip: tooltip, showRemove: showRemove, data: data }}"
+			[ngTemplateOutlet]="template">
+		</ng-template>
+	</div>
+    <div class="kTagContent" title="{{tooltip}}" *ngSwitchCase="false">
+        <span class="kTagLabel">{{label}}</span>
+        <i *ngIf="showRemove" class="kTagRemove kIconclose_small" (click)="removeTag(data)"></i>
+    </div>
+</div>

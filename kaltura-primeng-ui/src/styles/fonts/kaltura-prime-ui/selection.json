@@ -1,0 +1,83 @@
+{
+  "IcoMoonType": "selection",
+  "icons": [
+    {
+      "icon": {
+        "paths": [
+          "M639.449 494.633l217.556-217.556c39.081-39.081 39.656-104.493-0.333-144.482-40.268-40.268-104.677-40.139-144.482-0.333l-217.556 217.556-217.556-217.556c-39.081-39.081-104.493-39.656-144.482 0.333-40.268 40.268-40.139 104.677-0.333 144.482l217.556 217.556-217.556 217.556c-39.081 39.081-39.656 104.493 0.333 144.482 40.268 40.268 104.677 40.139 144.482 0.333l217.556-217.556 217.556 217.556c39.081 39.081 104.493 39.656 144.482-0.333 40.268-40.268 40.139-104.677 0.333-144.482l-217.556-217.556z"
+        ],
+        "attrs": [
+          {}
+        ],
+        "isMulticolor": false,
+        "isMulticolor2": false,
+        "grid": 0,
+        "tags": [
+          "close_small"
+        ]
+      },
+      "attrs": [
+        {}
+      ],
+      "properties": {
+        "order": 13,
+        "id": 3,
+        "name": "close_small",
+        "prevSize": 12,
+        "code": 59675
+      },
+      "setIdx": 0,
+      "setId": 1,
+      "iconIdx": 0
+    }
+  ],
+  "height": 1024,
+  "metadata": {
+    "name": "kaltura-prime-ui"
+  },
+  "preferences": {
+    "showGlyphs": true,
+    "showCodes": true,
+    "showQuickUse": true,
+    "showQuickUse2": true,
+    "showSVGs": true,
+    "fontPref": {
+      "prefix": "k-icon-",
+      "metadata": {
+        "fontFamily": "kaltura-prime-ui",
+        "majorVersion": 1,
+        "minorVersion": 0
+      },
+      "metrics": {
+        "emSize": 1024,
+        "baseline": 6.25,
+        "whitespace": 50
+      },
+      "showSelector": true,
+      "showMetrics": false,
+      "showMetadata": false,
+      "noie8": true,
+      "ie7": false,
+      "embed": false,
+      "cssVars": true,
+      "cssVarsFormat": "scss",
+      "showVersion": false,
+      "selector": "",
+      "classSelector": ".kPrimeUI"
+    },
+    "imagePref": {
+      "prefix": "icon-",
+      "png": true,
+      "useClassSelector": true,
+      "color": 0,
+      "bgColor": 16777215,
+      "classSelector": ".icon",
+      "height": 32,
+      "columns": 16,
+      "margin": 16
+    },
+    "historySize": 100,
+    "gridSize": 16,
+    "showGrid": true
+  }
+}
