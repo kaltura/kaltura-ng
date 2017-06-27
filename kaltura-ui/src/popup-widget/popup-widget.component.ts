@@ -28,6 +28,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 	@Input() showTooltip: boolean = false;
 	@Input() modal: boolean = false;
 	@Input() closeBtn: boolean = true;
+	@Input() closeBtnInside: boolean = false;
 	@Input() closeOnClickOutside: boolean = true;
 	@Input() targetOffset: any = {'x':0, 'y': 0};
 	@Input() childrenPopups: PopupWidgetComponent[] = [];
