@@ -7,6 +7,7 @@
     background-color: #ffffff;
     border-radius: 4px;
     overflow: hidden;
+    box-shadow: 0 16px 20px 0 rgba(0,0,0,0.3);
     .kCloseBtn:not(.closeBtnInside) {
         position: absolute;
         right: -118px;
@@ -35,9 +36,6 @@
         &:hover {
             color: #00a784;
         }
-    }
-    .kPopupWidgetContent{
-        margin: 12px;
     }
     .tooltipUp{
         background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAOCAYAAAA1+Nx+AAAAAXNSR0IArs4c6QAAAMpJREFUOBGtk0EOwiAQRcF0Z2JXspFTcAE9erkACXfADa50b3DGMAYjlGktSUNDhvfmlyLEguG9V86544ItQnKLEZxSslCfpJQXY8yNs3fHKcrwSSl1gGcE0cRN0k1AnSNca33ChkII1xjjA5Kce0lmE5SdExwF+I5CTpJmggI+lnAU0MhJ7nNnUhVw4FzJj2AJnCP5EmS4LQ+UIL25dfAfwT9wktckb8EW8JZEbgmvSQa8/mu+OcFqM/3WcBntAPA9LdSK165l5vMFmCyyP+zXS30AAAAASUVORK5CYII=');
