@@ -16,6 +16,7 @@ export class KTooltipDirective implements OnDestroy{
 	@Input() kTooltip = "";
 	@Input() placement: TooltipPositions = "top";
 	@Input() delay = 0;
+	@Input() maxWidth: number = 0;
 
 	@HostListener("mouseenter") onMouseEnter() {
 		if (this._tooltip === null && this.kTooltip && this.kTooltip.length) {
@@ -34,6 +35,10 @@ export class KTooltipDirective implements OnDestroy{
 	createElem() {
 		this._tooltip = document.createElement('span');
 		this._tooltip.className += "ng-tooltip ng-tooltip-" + this.placement;
+		if (this.maxWidth > 0){
+			this._tooltip.style.maxWidth = this.maxWidth + "px";
+			this._tooltip.style.textAlign = "left";
+		}
 		this._tooltip.textContent = this.kTooltip;
 		setTimeout(() => {
 			if (this._tooltip) {
