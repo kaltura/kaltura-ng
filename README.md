@@ -6,14 +6,15 @@ A set of packages providing common infrastructure for angular based applications
 ## Packages
 Kaltura-ng is a [monorepo](https://developer.atlassian.com/blog/2015/10/monorepos-in-git/) containing several packages:
 
-| Package | Version  |
+| Package | Latest Version  |
 |:--------|:-------|
 | kaltura-client | ![npm (scoped)](https://img.shields.io/npm/v/@kaltura-ng/kaltura-client.svg?maxAge=86400) |
 | kaltura-common | ![npm (scoped)](https://img.shields.io/npm/v/@kaltura-ng/kaltura-common.svg?maxAge=86400) |
 | kaltura-ui | ![npm (scoped)](https://img.shields.io/npm/v/@kaltura-ng/kaltura-ui.svg?maxAge=86400) |
 | kaltura-primeng-ui | ![npm (scoped)](https://img.shields.io/npm/v/@kaltura-ng/kaltura-primeng-ui.svg?maxAge=86400) |
-
-> Those packages are being developed along side the [KMC-ng](https://github.com/kaltura/kmc-ng) application. 
+**Notes**
+- Those packages are being developed along side the [KMC-ng](https://github.com/kaltura/kmc-ng) application.
+- The version number listed above represent the latest version deployed to npm for each package. 
   
 ## Technology stack and conventions
 Kaltura Angular libraries use the following technologies and conventions:
