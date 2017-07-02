@@ -17,13 +17,13 @@
     "setup": "lerna clean && npm run setup:lite",
     "setup:lite": "lerna bootstrap --nohoist && npm run build",
     "build": "lerna run build --concurrency 1",
-    "publish" : "lerna publish --conventional-commits --skip-git --skip-npm",
+    "publish": "lerna publish --conventional-commits --skip-git --skip-npm",
     "clean": "lerna clean"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "lerna": "file:./scripts/lerna-v2.0.0-rc.5.tgz"
+    "lerna": "https://github.com/esakal/lerna.git#temp-publish"
   },
   "engines": {
     "node": ">= 7.0.0"
