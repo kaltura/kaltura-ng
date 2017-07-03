@@ -18,7 +18,7 @@
 		"watch": "gulp watch"
 	},
 	"config" : {
-		"npmDistDirectory" : "dist"
+		"publishDirectory" : "dist"
 	},
 	"contributors": [
 		{
