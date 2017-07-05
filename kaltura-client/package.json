@@ -14,7 +14,7 @@
 		"email": "community@kaltura.com"
 	},
 	"scripts": {
-		"postinstall": "node ../scripts/fix-tsconfig-paths.js && yarn licenses ",
+		"postinstall": "node ../scripts/fix-tsconfig-paths.js",
 		"build": "gulp build ",
 		"clean": "gulp clean ",
 		"build:prod": "gulp build --production",
