@@ -4,13 +4,17 @@
 	"private": true,
 	"description": "Kaltura Angular wrapper for 'kaltura-typescript-client' library",
 	"keywords": [
-		"kaltura"
+		"kaltura",
+		"kaltura-ng"
 	],
 	"license": "AGPL-3.0",
 	"homepage": "https://github.com/kaltura/kaltura-ng#readme",
-	"author": "https://github.com/kaltura/kaltura-ng/graphs/contributors",
+	"author": {
+		"name": "Kaltura Community",
+		"email": "community@kaltura.com"
+	},
 	"scripts": {
-		"postinstall": "node ../scripts/fix-tsconfig-paths.js",
+		"postinstall": "node ../scripts/fix-tsconfig-paths.js && yarn licenses ",
 		"build": "gulp build ",
 		"clean": "gulp clean ",
 		"build:prod": "gulp build --production",
@@ -18,7 +22,7 @@
 		"watch": "gulp watch"
 	},
 	"config" : {
-		"npmDistDirectory" : "dist"
+		"publishDirectory" : "dist"
 	},
 	"contributors": [
 		{
@@ -79,6 +83,7 @@
 		"typescript": "^2.3.3"
 	},
 	"engines": {
-		"node": ">= 7.0.0"
+		"node": ">= 7.0.0",
+		"yarn": ">= 0.24.6"
 	}
 }

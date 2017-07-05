@@ -2,7 +2,15 @@
   "name": "kaltura-ng",
   "version": "0.0.0",
   "private": true,
-  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaltura/kaltura-ng.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kaltura/kaltura-ng/issues"
+  },
+  "homepage": "https://github.com/kaltura/kaltura-ng#readme",
+  "description": "A set of packages providing common infrastructure for angular based applications connected to the Kaltura platform",
   "contributors": [
     {
       "name": "Eran Sakal",
@@ -13,23 +21,27 @@
       "email": "amir.chr@gmail.com"
     }
   ],
+  "keywords": [
+    "kaltura"
+  ],
   "scripts": {
     "setup": "lerna clean && npm run setup:lite",
     "setup:lite": "lerna bootstrap --nohoist && npm run build",
     "build": "lerna run build --concurrency 1",
-    "publish" : "lerna publish --conventional-commits --skip-git --skip-npm",
+    "publish": "lerna publish --conventional-commits --skip-git --skip-npm",
     "clean": "lerna clean"
   },
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "lerna": "file:./scripts/lerna-v2.0.0-rc.5.tgz"
+  "author": {
+    "name": "Kaltura Community",
+    "email": "community@kaltura.com"
   },
+  "license": "AGPL-3.0",
+  "dependencies": {},
   "engines": {
-    "node": ">= 7.0.0"
+    "node": ">= 7.0.0",
+    "yarn": ">= 0.24.6"
   },
   "devDependencies": {
-    "rxjs": "^5.4.1",
-    "zone.js": "^0.8.12"
+    "lerna": "https://github.com/esakal/lerna.git#temp-publish"
   }
 }
