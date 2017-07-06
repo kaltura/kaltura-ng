@@ -87,6 +87,13 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
     // public API methods
     open(){
         if (this.isEnabled && this.validate()) {
+	        // handle auto height
+	        if (!this.popupHeight  || this.popupHeight === 'auto'){
+		        this._popupWidgetHeight = 'auto';
+	        }else
+	        {
+		        this._popupWidgetHeight = this.popupHeight + "px";
+	        }
             // set location according to targetRef
 	        const parentLeft = this.appendTo && !this.modal ? this.appendTo.getBoundingClientRect().left : 0;
 	        const parentTop = this.appendTo && !this.modal ? this.appendTo.getBoundingClientRect().top : 0;
@@ -167,13 +174,6 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
     // component lifecycle events
 	ngOnInit()
 	{
-		if (!this.popupHeight  || this.popupHeight === 'auto'){
-			this._popupWidgetHeight = 'auto';
-
-		}else
-		{
-			this._popupWidgetHeight = this.popupHeight + "px";
-		}
 	}
 
     ngAfterViewInit() {
