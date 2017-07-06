@@ -25,6 +25,7 @@
     "kaltura"
   ],
   "scripts": {
+    "kws": "kws",
     "setup": "lerna clean && npm run setup:lite",
     "setup:lite": "lerna bootstrap --nohoist && npm run build",
     "build": "lerna run build --concurrency 1",
@@ -36,7 +37,9 @@
     "email": "community@kaltura.com"
   },
   "license": "AGPL-3.0",
-  "dependencies": {},
+  "dependencies": {
+    "@kaltura-ng/dev-workspace": "^2.0.2"
+  },
   "engines": {
     "node": ">= 7.0.0",
     "yarn": ">= 0.24.6"
