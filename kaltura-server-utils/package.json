@@ -1,8 +1,8 @@
 {
-	"name": "@kaltura-ng/kaltura-common",
+	"name": "@kaltura-ng/kaltura-server-utils",
 	"version": "0.2.0",
 	"private": true,
-	"description": "Angular - commonly needed services within Kaltura projects",
+	"description": "Angular - commonly needed services within Kaltura OVP projects",
 	"keywords": [
 		"kaltura",
 		"kaltura-ng"
@@ -46,8 +46,13 @@
 		"@angular/common": "^4.0.0",
 		"@angular/compiler": "^4.0.0",
 		"@angular/core": "^4.0.0",
+		"@angular/forms": "4.2.4",
 		"@angular/http": "^4.0.0",
 		"@angular/router": "^4.0.0",
+		"@kaltura-ng/kaltura-client": "^0.1.0",
+		"@kaltura-ng/kaltura-common": "^0.2.0",
+		"@kaltura-ng/kaltura-ui": "^0.2.0",
+		"kaltura-typescript-client": "^2.1.0",
 		"ng2-translate": "~5.0.0",
 		"ramda": "~0.22.1",
 		"rxjs": "~5.1.0",

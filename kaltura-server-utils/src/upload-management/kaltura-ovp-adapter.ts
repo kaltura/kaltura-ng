@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { UploadFileAdapter, UploadStatus } from '../upload-file-adapter';
+import { UploadFileAdapter, UploadStatus, UploadFile } from '@kaltura-ng/kaltura-common';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
-import { UploadFile } from '../upload-file';
 import { KalturaClient } from '@kaltura-ng/kaltura-client';
 import { UploadTokenAddAction } from 'kaltura-typescript-client/types/UploadTokenAddAction';
 import { UploadTokenUploadAction } from 'kaltura-typescript-client/types/UploadTokenUploadAction';
 import { KalturaUploadToken } from 'kaltura-typescript-client/types/KalturaUploadToken';
-import '../../rxjs/add/operators';
+import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import { KalturaOVPFile } from './kaltura-ovp-file';
 
 

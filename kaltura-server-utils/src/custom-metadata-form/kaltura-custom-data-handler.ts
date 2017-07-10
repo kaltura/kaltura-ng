@@ -1,12 +1,10 @@
-import { MetadataProfile } from '@kaltura-ng/kaltura-common/metadata-profile';
-import { MetadataItemTypes, MetadataItem } from '@kaltura-ng/kaltura-common';
+import { MetadataItemTypes, MetadataItem, MetadataProfile } from '../custom-metadata';
 import { KalturaMetadata } from 'kaltura-typescript-client/types/KalturaMetadata';
 import { XmlParser } from '@kaltura-ng/kaltura-common/xml-parser';
-import { DynamicSectionControl } from '../controls/dynamic-section-control';
+import { DynamicSectionControl, DynamicFormService } from '@kaltura-ng/kaltura-ui/dynamic-form';
 import { KalturaUtils } from '@kaltura-ng/kaltura-common';
 import { FormGroup } from '@angular/forms';
 import { DynamicSectionFactory } from './dynamic-section-factory';
-import { DynamicFormService } from '../dynamic-form.service';
 
 export class KalturaCustomDataHandler
 {

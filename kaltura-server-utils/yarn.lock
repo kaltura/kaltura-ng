@@ -28,6 +28,12 @@
   dependencies:
     tslib "^1.7.1"
 
+"@angular/forms@4.2.4":
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/@angular/forms/-/forms-4.2.4.tgz#ae09755332ea463f561df01aac2bd369e5d35dc9"
+  dependencies:
+    tslib "^1.7.1"
+
 "@angular/http@^4.0.0":
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/@angular/http/-/http-4.2.4.tgz#ed039c0d53a587d24575f4cabfd1db8e7f1e3f8b"
@@ -64,6 +70,18 @@
   dependencies:
     normalize-path "^2.0.1"
     through2 "^2.0.3"
+
+"@kaltura-ng/kaltura-client@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@kaltura-ng/kaltura-client/-/kaltura-client-0.1.0.tgz#80e7f2dc4b0fce144c747c4854b2981719b8321d"
+
+"@kaltura-ng/kaltura-common@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@kaltura-ng/kaltura-common/-/kaltura-common-0.2.0.tgz#e9141fa496f11d50ec3f0b5ff82316af58e58aba"
+
+"@kaltura-ng/kaltura-ui@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@kaltura-ng/kaltura-ui/-/kaltura-ui-0.2.0.tgz#4da62069e240d0b9730ec2b58702e85a494dd7e7"
 
 "@types/core-js@^0.9.37":
   version "0.9.41"
@@ -1910,6 +1928,10 @@ jsprim@^1.2.2:
     extsprintf "1.0.2"
     json-schema "0.2.3"
     verror "1.3.6"
+
+kaltura-typescript-client@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/kaltura-typescript-client/-/kaltura-typescript-client-2.1.0.tgz#0b4beba88238cfb13276e1dae0250d5c477ad2e9"
 
 kind-of@^3.0.2:
   version "3.2.2"

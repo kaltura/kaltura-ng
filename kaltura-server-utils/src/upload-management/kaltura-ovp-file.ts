@@ -1,4 +1,4 @@
-import { UploadFile } from '../upload-file';
+import { UploadFile } from '@kaltura-ng/kaltura-common';
 export class KalturaOVPFile implements UploadFile
 {
 

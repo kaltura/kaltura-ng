@@ -1,13 +1,16 @@
 
+import {
+	MetadataProfile, MetadataItemTypes, MetadataItem
+} from './metadata-profile';
+import { XmlParser } from '@kaltura-ng/kaltura-common';
+
+
 import { KalturaMetadataProfile } from 'kaltura-typescript-client/types/KalturaMetadataProfile';
 
 import {
 	KalturaMetadataProfileStatus
 } from 'kaltura-typescript-client/types/KalturaMetadataProfileStatus'
-import {
-	MetadataProfile, MetadataItemTypes, MetadataItem
-} from './metadata-profile';
-import { XmlParser } from '../xml-parser/xml-parser';
+
 
 export class MetadataProfileParser {
 	private _extractElementType(element: any): MetadataItemTypes {
@@ -36,6 +39,53 @@ export class MetadataProfileParser {
 				}
 				break;
 		}
+
+		return result;
+	}
+
+
+	private _extractElementItem(element: any): MetadataItem {
+		let result: MetadataItem = null;
+
+		result = {
+			type: this._extractElementType(element),
+			name: element.attr.name ? element.attr.name.value : '',
+			id: element.attr.id ? element.attr.id.value : '',
+			isRequired: element.attr.minOccurs.value + '' === '1',
+			allowMultiple: element.attr.maxOccurs.value + '' === 'unbounded',
+			optionalValues: [],
+			children: []
+		};
+
+		if (element.complexType && element.complexType.sequence) {
+			let elementItems = element.complexType.sequence.element;
+			elementItems = elementItems instanceof Array ? elementItems : elementItems ? [elementItems] : null;
+			if (elementItems) {
+				elementItems.forEach(elementItem => {
+					result.children.push(this._extractElementItem(elementItem));
+				});
+			}
+		}
+
+		if (element.simpleType && element.simpleType.restriction && element.simpleType.restriction.enumeration) {
+			let elementItems = element.simpleType.restriction.enumeration;
+			elementItems = elementItems instanceof Array ? elementItems : elementItems ? [elementItems] : null;
+			if (elementItems) {
+				elementItems.forEach(elementItem => {
+					const elementValue = elementItem.attr.value  ? elementItem.attr.value.value+'' : null;
+					if (elementValue) {
+						result.optionalValues.push(
+							{
+								value: elementValue,
+								text: elementValue
+							}
+						);
+					}
+				});
+			}
+		}
+
+		this._updateItemInfo(element, result);
 
 		return result;
 	}
@@ -100,56 +150,10 @@ export class MetadataProfileParser {
 				item.key = annotation.appinfo.key && annotation.appinfo.key.text ? annotation.appinfo.key.text : '';
 				item.isSearchable = annotation.appinfo.searchable && annotation.appinfo.searchable.text;
 				item.isTimeControl = annotation.appinfo.timeControl && annotation.appinfo.timeControl.text;
-				item.description = annotation.appinfo.description && annotation.appinfo.description.text  ? annotation.appinfo.description.text : '';
+				item.description = annotation.appinfo.description && annotation.appinfo.description.text ? annotation.appinfo.description.text : '';
 
 			}
 		}
 	}
 
-
-	private _extractElementItem(element: any): MetadataItem {
-		let result: MetadataItem = null;
-
-		result = {
-			type: this._extractElementType(element),
-			name: element.attr.name ? element.attr.name.value : '',
-			id: element.attr.id ? element.attr.id.value : '',
-			isRequired: element.attr.minOccurs.value + '' === '1',
-			allowMultiple: element.attr.maxOccurs.value + '' === 'unbounded',
-			optionalValues: [],
-			children: []
-		};
-
-		if (element.complexType && element.complexType.sequence) {
-			let elementItems = element.complexType.sequence.element;
-			elementItems = elementItems instanceof Array ? elementItems : elementItems ? [elementItems] : null;
-			if (elementItems) {
-				elementItems.forEach(elementItem => {
-					result.children.push(this._extractElementItem(elementItem));
-				});
-			}
-		}
-
-		if (element.simpleType && element.simpleType.restriction && element.simpleType.restriction.enumeration) {
-			let elementItems = element.simpleType.restriction.enumeration;
-			elementItems = elementItems instanceof Array ? elementItems : elementItems ? [elementItems] : null;
-			if (elementItems) {
-				elementItems.forEach(elementItem => {
-					const elementValue = elementItem.attr.value  ? elementItem.attr.value.value+'' : null;
-					if (elementValue) {
-						result.optionalValues.push(
-							{
-								value: elementValue,
-								text: elementValue
-							}
-						);
-					}
-				});
-			}
-		}
-
-		this._updateItemInfo(element, result);
-
-		return result;
-	}
 }

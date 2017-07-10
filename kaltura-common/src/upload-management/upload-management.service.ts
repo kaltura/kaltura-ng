@@ -4,8 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import '../rxjs/add/operators';
 import { UploadFileAdapter, UploadStatus } from './upload-file-adapter';
 import { UploadFile } from './upload-file';
-import { KalturaOVPFile } from './kaltura-ovp/kaltura-ovp-file';
-import { KalturaOVPAdapter } from './kaltura-ovp/kaltura-ovp-adapter';
 
 export type FileChangesStatus = "uploading" | "uploaded" | "uploadFailure";
 
@@ -85,13 +83,14 @@ export class UploadManagement {
     }
 
     private _getUploadAdapter(fileData: UploadFile): UploadFileAdapter {
-        if (fileData instanceof KalturaOVPFile && this._uploadFileAdapter instanceof KalturaOVPAdapter) {
-            // currently supporting only kaltura vamb file uploads,
-            // can extend later in this function to support more destinations such as OTT servers
-            return this._uploadFileAdapter;
-        } else {
-            return null;
-        }
+        throw new Error("MISSING _getUploadAdapter");
+        // if (fileData instanceof KalturaOVPFile && this._uploadFileAdapter instanceof KalturaOVPAdapter) {
+        //     // currently supporting only kaltura vamb file uploads,
+        //     // can extend later in this function to support more destinations such as OTT servers
+        //     return this._uploadFileAdapter;
+        // } else {
+        //     return null;
+        // }
     }
 
 }
