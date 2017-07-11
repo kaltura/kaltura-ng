@@ -1,3 +1,3 @@
-export { KalturaOVPFile } from './kaltura-ovp-file';
-export * from './kaltura-ovp-adapter';
-export * from './kaltura-ovp.module';
+export * from './kaltura-server-adapter';
+export * from './kaltura-server-file';
+export * from './kaltura-server.module';

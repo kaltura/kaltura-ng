@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { UploadManagement } from './upload-management.service';
-import { UploadFileAdapter } from './upload-file-adapter';
 
 @NgModule({
     imports: <any[]>[

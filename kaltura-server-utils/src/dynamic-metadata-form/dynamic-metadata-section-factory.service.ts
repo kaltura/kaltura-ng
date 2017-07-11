@@ -1,8 +1,10 @@
+import { Injectable } from '@angular/core';
 import { MetadataProfile, MetadataItemTypes, MetadataItem } from '../custom-metadata';
 import { DynamicSectionControl, DynamicFormControlBase, TextAreaControl, DatePickerControl, ListControl, TextboxControl, DynamicDropdownControl } from '@kaltura-ng/kaltura-ui/dynamic-form';
 import { LinkedEntriesControl } from './linked-entries-control';
 
-export class DynamicSectionFactory{
+@Injectable()
+export class DynamicMetadataSectionFactory {
     create(metadataProfile : MetadataProfile) : DynamicSectionControl
     {
         let result = null;
