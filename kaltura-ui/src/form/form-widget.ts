@@ -3,9 +3,6 @@ import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import 'rxjs/add/observable/of';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
-import { KalturaMultiRequest } from 'kaltura-typescript-client';
-import '@kaltura-ng/kaltura-common/rxjs/add/operators';
-import 'rxjs/add/operator/catch';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/observable/of';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
@@ -14,7 +11,7 @@ import { FormManager } from './form-manager';
 
 export declare type FormWidgetState = { key : string, isActive : boolean,  isValid : boolean, isDirty : boolean, isBusy : boolean, isAttached : boolean, wasActivated : boolean };
 
-export abstract class FormWidget<TData> implements OnDestroy
+export abstract class FormWidget<TData, TRequest> implements OnDestroy
 {
     public get data(): TData {
         return this._data;
@@ -38,11 +35,11 @@ export abstract class FormWidget<TData> implements OnDestroy
 
     private _widgetState : FormWidgetState = {key: this.key, isValid: true, isDirty: false, isAttached: false, isBusy : false, isActive : false,  wasActivated : false};
 
-    protected _onDataSaving(newData: TData, request: KalturaMultiRequest, originalData: TData): void;
-    protected _onDataSaving(newData: TData, request: KalturaMultiRequest): void;
-    protected _onDataSaving(newData: TData, request: KalturaMultiRequest, originalData?: TData): void {
+    protected _onDataSaving(newData: TData, request: TRequest, originalData: TData): void;
+    protected _onDataSaving(newData: TData, request: TRequest): void;
+    protected _onDataSaving(newData: TData, request: TRequest, originalData?: TData): void {
     }
-    protected _manager : FormManager<TData>;
+    protected _manager : FormManager<TData, TRequest>;
 
     private _widgetReset : Subject<any> = new Subject<any>();
     public widgetReset$ = this._widgetReset.asObservable();
@@ -104,7 +101,7 @@ export abstract class FormWidget<TData> implements OnDestroy
     protected _onActivate(firstTimeActivating: boolean): Observable<{failed: boolean, error?: Error}> | void {
     }
 
-    public setManager(manager : FormManager<TData>) :void {
+    public setManager(manager : FormManager<TData,TRequest>) :void {
         this._manager = manager;
     }
 
@@ -126,7 +123,7 @@ export abstract class FormWidget<TData> implements OnDestroy
         }
     }
 
-    public onDataSaving(newData: TData, request: KalturaMultiRequest, originalData: TData): void {
+    public onDataSaving(newData: TData, request: TRequest, originalData: TData): void {
         if (this.wasActivated) {
             this._onDataSaving(newData, request, originalData);
         }
