@@ -21,7 +21,7 @@ export const UploadFileAdapterToken = new InjectionToken<string>('upload-file-ad
 @Injectable()
 export class UploadManagement {
     private _trackedFiles: BehaviorSubject<FileChanges> = new BehaviorSubject<FileChanges>({});
-    public trackedFiles = this._trackedFiles.monitor('get upload files state');
+    public trackedFiles = this._trackedFiles.asObservable().monitor('get upload files state');
 
     constructor(@Inject(UploadFileAdapterToken) @Optional()  private _uploadFileAdapter: UploadFileAdapterBase[]) {
 

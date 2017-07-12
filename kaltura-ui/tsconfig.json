@@ -41,12 +41,6 @@
       "@angular/forms/*": [
         "../node_modules/@angular/forms/*"
       ],
-      "@kaltura-ng/kaltura-client": [
-        "../node_modules/@kaltura-ng/kaltura-client"
-      ],
-      "@kaltura-ng/kaltura-client/*": [
-        "../node_modules/@kaltura-ng/kaltura-client/*"
-      ],
       "@kaltura-ng/kaltura-common": [
         "../node_modules/@kaltura-ng/kaltura-common"
       ],
@@ -58,12 +52,6 @@
       ],
       "jquery/*": [
         "../node_modules/jquery/*"
-      ],
-      "kaltura-typescript-client": [
-        "../node_modules/kaltura-typescript-client"
-      ],
-      "kaltura-typescript-client/*": [
-        "../node_modules/kaltura-typescript-client/*"
       ],
       "moment": [
         "../node_modules/moment"

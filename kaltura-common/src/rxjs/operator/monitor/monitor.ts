@@ -16,11 +16,11 @@ class monitorOperator<T> implements Operator<T, T> {
 
     call(subscriber: Subscriber<T>, source: any): TeardownLogic {
 
-        return source.subscribe(new monitorSubscriber(subscriber, this.action, this.context));
+        return source.subscribe(new MonitorSubscriber(subscriber, this.action, this.context));
     }
 }
 
-class monitorSubscriber<T> extends Subscriber<T> {
+class MonitorSubscriber<T> extends Subscriber<T> {
 
     private actionId : string;
     constructor(destination: Subscriber<T>,
