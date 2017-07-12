@@ -1,15 +1,10 @@
-import { MetadataProfile } from '@kaltura-ng/kaltura-common/metadata-profile';
-import { MetadataItemTypes, MetadataItem } from '@kaltura-ng/kaltura-common';
-import { DynamicSectionControl } from '../controls/dynamic-section-control';
-import { DynamicFormControlBase } from '../dynamic-form-control-base';
-import { TextAreaControl } from '../controls/text-area-control';
-import { DatePickerControl } from '../controls/datepicker-control';
-import { ListControl } from '../controls/list-control';
-import { TextboxControl } from '../controls/textbox-control';
-import { DynamicDropdownControl } from '../controls/dynamic-dropdown-control';
+import { Injectable } from '@angular/core';
+import { MetadataProfile, MetadataItemTypes, MetadataItem } from '../custom-metadata';
+import { DynamicSectionControl, DynamicFormControlBase, TextAreaControl, DatePickerControl, ListControl, TextboxControl, DynamicDropdownControl } from '@kaltura-ng/kaltura-ui/dynamic-form';
 import { LinkedEntriesControl } from './linked-entries-control';
 
-export class DynamicSectionFactory{
+@Injectable()
+export class DynamicMetadataSectionFactory {
     create(metadataProfile : MetadataProfile) : DynamicSectionControl
     {
         let result = null;

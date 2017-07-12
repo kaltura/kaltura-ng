@@ -45,7 +45,7 @@ class CancelOnDestroySubscriber<T> extends Subscriber<T> {
                 private manualDestroy? : Observable<any>) {
         super(destination);
 
-        const sources = manualDestroy ? Observable.merge(manualDestroy, _instance.__ngOnDestroySource__) :  _instance.__ngOnDestroySource__;
+        const sources = manualDestroy ? Observable.merge(manualDestroy, _instance.__ngOnDestroySource__) :  _instance.__ngOnDestroySource__.asObservable();
 
         this.add(sources.subscribe(
             () => {

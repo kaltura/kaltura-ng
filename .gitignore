@@ -18,3 +18,4 @@ Desktop.ini
 **/.DS_Store
 
 dist
+lerna-debug.log

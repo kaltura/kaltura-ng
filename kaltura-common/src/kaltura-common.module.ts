@@ -5,11 +5,7 @@ import { TranslateModule } from 'ng2-translate/ng2-translate';
 
 import { KalturaUtils } from './utils/kaltura-utils';
 import { AppStorage } from './app-storage.service';
-import { AppNavigator } from './app-navigator.service';
 import { AppLocalization, LocalizationPipe } from './localization/index';
-import { AppAuthentication } from './auth/app-authentication.service';
-import { AuthCanActivate } from './auth/auth-can-activate.service';
-import { AppBootstrap } from './bootstrap/app-bootstrap.service';
 
 
 @NgModule({
@@ -38,12 +34,8 @@ export class KalturaCommonModule {
         return {
             ngModule: KalturaCommonModule,
             providers: [
-                AuthCanActivate,
                 AppStorage,
-                AppNavigator,
-                AppBootstrap,
                 AppLocalization,
-                AppAuthentication,
 	            KalturaUtils
             ]
         };

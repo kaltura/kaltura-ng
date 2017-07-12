@@ -1,11 +1,9 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import '../rxjs/add/operators';
-import { UploadFileAdapter, UploadStatus } from './upload-file-adapter';
+import { UploadFileAdapterBase, UploadStatus } from './upload-file-adapter-base';
 import { UploadFile } from './upload-file';
-import { KalturaOVPFile } from './kaltura-ovp/kaltura-ovp-file';
-import { KalturaOVPAdapter } from './kaltura-ovp/kaltura-ovp-adapter';
 
 export type FileChangesStatus = "uploading" | "uploaded" | "uploadFailure";
 
@@ -18,12 +16,14 @@ export interface FileChanges
     }
 };
 
+export const UploadFileAdapterToken = new InjectionToken<string>('upload-file-adapter');
+
 @Injectable()
 export class UploadManagement {
     private _trackedFiles: BehaviorSubject<FileChanges> = new BehaviorSubject<FileChanges>({});
-    public trackedFiles = this._trackedFiles.monitor('get upload files state');
+    public trackedFiles = this._trackedFiles.asObservable().monitor('get upload files state');
 
-    constructor(@Optional() private _uploadFileAdapter: UploadFileAdapter) {
+    constructor(@Inject(UploadFileAdapterToken) @Optional()  private _uploadFileAdapter: UploadFileAdapterBase[]) {
 
     }
 
@@ -51,7 +51,7 @@ export class UploadManagement {
         });
     }
 
-    private _initiateNewUpload(uploadAdapter : UploadFileAdapter, uploadToken : string, fileData : UploadFile) : void
+    private _initiateNewUpload(uploadAdapter : UploadFileAdapterBase, uploadToken : string, fileData : UploadFile) : void
     {
         uploadAdapter.newUpload(uploadToken, fileData)
             .subscribe(
@@ -84,12 +84,13 @@ export class UploadManagement {
 
     }
 
-    private _getUploadAdapter(fileData: UploadFile): UploadFileAdapter {
-        if (fileData instanceof KalturaOVPFile && this._uploadFileAdapter instanceof KalturaOVPAdapter) {
-            // currently supporting only kaltura vamb file uploads,
-            // can extend later in this function to support more destinations such as OTT servers
-            return this._uploadFileAdapter;
-        } else {
+    private _getUploadAdapter(fileData: UploadFile): UploadFileAdapterBase {
+
+        if (this._uploadFileAdapter) {
+            return this._uploadFileAdapter.find(uploadFileAdapter => {
+                return uploadFileAdapter.canHandle(fileData);
+            });
+        }else {
             return null;
         }
     }

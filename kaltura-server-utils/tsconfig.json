@@ -41,6 +41,12 @@
       "@angular/core/*": [
         "../node_modules/@angular/core/*"
       ],
+      "@angular/forms": [
+        "../node_modules/@angular/forms"
+      ],
+      "@angular/forms/*": [
+        "../node_modules/@angular/forms/*"
+      ],
       "@angular/http": [
         "../node_modules/@angular/http"
       ],
@@ -52,6 +58,30 @@
       ],
       "@angular/router/*": [
         "../node_modules/@angular/router/*"
+      ],
+      "@kaltura-ng/kaltura-client": [
+        "../node_modules/@kaltura-ng/kaltura-client"
+      ],
+      "@kaltura-ng/kaltura-client/*": [
+        "../node_modules/@kaltura-ng/kaltura-client/*"
+      ],
+      "@kaltura-ng/kaltura-common": [
+        "../node_modules/@kaltura-ng/kaltura-common"
+      ],
+      "@kaltura-ng/kaltura-common/*": [
+        "../node_modules/@kaltura-ng/kaltura-common/*"
+      ],
+      "@kaltura-ng/kaltura-ui": [
+        "../node_modules/@kaltura-ng/kaltura-ui"
+      ],
+      "@kaltura-ng/kaltura-ui/*": [
+        "../node_modules/@kaltura-ng/kaltura-ui/*"
+      ],
+      "kaltura-typescript-client": [
+        "../node_modules/kaltura-typescript-client"
+      ],
+      "kaltura-typescript-client/*": [
+        "../node_modules/kaltura-typescript-client/*"
       ],
       "ng2-translate": [
         "../node_modules/ng2-translate"

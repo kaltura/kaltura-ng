@@ -1,10 +1,11 @@
 {
-  "lerna": "2.0.0-rc.5",
+  "lerna": "0.0.2",
   "packages": [
-    "kaltura-client",
     "kaltura-common",
     "kaltura-ui",
-    "kaltura-primeng-ui"
+    "kaltura-primeng-ui",
+    "kaltura-client",
+    "kaltura-server-utils"
   ],
  "npmClient": "yarn",
   "version": "independent"

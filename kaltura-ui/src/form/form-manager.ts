@@ -3,12 +3,11 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/share';
-
+import 'rxjs/add/operator/map';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import { FormWidget, FormWidgetState } from './form-widget';
-import { KalturaMultiRequest } from 'kaltura-typescript-client';
 
 export declare type FormWidgetsState = {
     [key : number] : FormWidgetState
@@ -21,8 +20,8 @@ export enum OnDataSavingReasons
     buildRequestFailure
 }
 
-export abstract class FormManager<TData> implements OnDestroy {
-    private _widgets: FormWidget<TData>[] = [];
+export abstract class FormManager<TData, TRequest> implements OnDestroy {
+    private _widgets: FormWidget<TData, TRequest>[] = [];
     private _widgetsState: BehaviorSubject<FormWidgetsState> = new BehaviorSubject<FormWidgetsState>({});
     public widgetsState$ = this._widgetsState.asObservable();
 
@@ -43,7 +42,7 @@ export abstract class FormManager<TData> implements OnDestroy {
         }
     }
 
-    public registerWidgets(widgets : FormWidget<TData>[])
+    public registerWidgets(widgets : FormWidget<TData,TRequest>[])
     {
         if (widgets)
         {
@@ -93,7 +92,7 @@ export abstract class FormManager<TData> implements OnDestroy {
         return { errors };
     }
 
-    private _widgetsOnDataSaving(newData: TData, request: KalturaMultiRequest, originalData: TData): { errors?: Error[] } {
+    private _widgetsOnDataSaving(newData: TData, request: TRequest, originalData: TData): { errors?: Error[] } {
         const errors: Error[] = [];
 
         this._widgets.filter(widget => widget.isActive).forEach(widget => {
@@ -110,7 +109,7 @@ export abstract class FormManager<TData> implements OnDestroy {
     }
 
 
-    public onDataSaving(newData: TData, request: KalturaMultiRequest, originalData: TData): Observable<{ ready: boolean, reason?: OnDataSavingReasons, errors?: Error[] }> {
+    public onDataSaving(newData: TData, request: TRequest, originalData: TData): Observable<{ ready: boolean, reason?: OnDataSavingReasons, errors?: Error[] }> {
 
         const isAttachedWidgetBusy = !!this._widgets.find(widget => widget.isAttached && widget.isBusy);
 
@@ -170,15 +169,15 @@ export abstract class FormManager<TData> implements OnDestroy {
     }
 
 
-    public findWidgetByKey(widgetKey: string): FormWidget<TData> {
-        return <FormWidget<TData>>this._widgets.find(widget => widget.key === widgetKey);
+    public findWidgetByKey(widgetKey: string): FormWidget<TData,TRequest> {
+        return <FormWidget<TData,TRequest>>this._widgets.find(widget => widget.key === widgetKey);
     }
 
     ngOnDestroy() {
         this._widgetsState.complete();
     }
 
-    public attachWidget<TWidget extends FormWidget<TData>>(widgetType : { new(...args) : TWidget}) : TWidget {
+    public attachWidget<TWidget extends FormWidget<TData,TRequest>>(widgetType : { new(...args) : TWidget}) : TWidget {
         const widget = this._widgets.find(widget => widget instanceof widgetType);
 
 
@@ -201,7 +200,7 @@ export abstract class FormManager<TData> implements OnDestroy {
         return null;
     }
 
-    public detachWidget(widget : FormWidget<TData>) : FormWidget<TData>{
+    public detachWidget(widget : FormWidget<TData,TRequest>) : FormWidget<TData,TRequest>{
         const isWidgetOfForm = this._widgets.indexOf(widget) !== -1;
 
         if (!isWidgetOfForm) {

@@ -3,16 +3,14 @@ import { PartnerProfileStore } from '../partner-profile';
 import { ISubscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
-
 import { KalturaClient } from '@kaltura-ng/kaltura-client';
 import { KalturaMetadataObjectType } from 'kaltura-typescript-client/types/KalturaMetadataObjectType';
 import { MetadataProfileListAction } from 'kaltura-typescript-client/types/MetadataProfileListAction';
+import { MetadataProfile } from './metadata-profile';
 import { MetadataProfileParser } from './kaltura-metadata-parser';
 import { KalturaMetadataProfileCreateMode } from 'kaltura-typescript-client/types/KalturaMetadataProfileCreateMode';
 import { KalturaMetadataProfileFilter } from 'kaltura-typescript-client/types/KalturaMetadataProfileFilter';
 import { KalturaMetadataProfileListResponse } from 'kaltura-typescript-client/types/KalturaMetadataProfileListResponse';
-
-import { MetadataProfile } from './metadata-profile';
 
 export enum MetadataProfileCreateModes {
     Api,
@@ -38,6 +36,9 @@ export class MetadataProfileStore extends PartnerProfileStore
     constructor(private _kalturaServerClient: KalturaClient) {
         super();
     }
+
+
+
 
     public get(filters : GetFilters) : Observable<{items : MetadataProfile[]}>
     {

@@ -1,18 +1,13 @@
-import { MetadataProfile } from '@kaltura-ng/kaltura-common/metadata-profile';
-import { MetadataItemTypes, MetadataItem } from '@kaltura-ng/kaltura-common';
+import { MetadataItemTypes, MetadataItem, MetadataProfile } from '../custom-metadata';
 import { KalturaMetadata } from 'kaltura-typescript-client/types/KalturaMetadata';
 import { XmlParser } from '@kaltura-ng/kaltura-common/xml-parser';
-import { DynamicSectionControl } from '../controls/dynamic-section-control';
+import { DynamicSectionControl, DynamicFormService } from '@kaltura-ng/kaltura-ui/dynamic-form';
 import { KalturaUtils } from '@kaltura-ng/kaltura-common';
 import { FormGroup } from '@angular/forms';
-import { DynamicSectionFactory } from './dynamic-section-factory';
-import { DynamicFormService } from '../dynamic-form.service';
 
-export class KalturaCustomDataHandler
+export class DynamicMetadataForm
 {
-    private _dynamicSection : DynamicSectionControl;
     private _formGroup : FormGroup;
-    private _dynamicSectionFactory = new DynamicSectionFactory();
 
     public get isReady() : boolean
     {
@@ -24,11 +19,6 @@ export class KalturaCustomDataHandler
         return this._formGroup;
     }
 
-    public get dynamicSection() : DynamicSectionControl
-    {
-        return this._dynamicSection;
-    }
-
     public get dirty() : boolean
     {
         return this._formGroup && this._formGroup.dirty;
@@ -38,24 +28,12 @@ export class KalturaCustomDataHandler
         return this._metadataProfile;
     }
 
-    constructor(private _metadataProfile : MetadataProfile, private _dynamicFormService : DynamicFormService)
+    constructor(private _metadataProfile : MetadataProfile, public formSectionControl : DynamicSectionControl, private _dynamicFormService : DynamicFormService)
     {
-        this._createDynamicSection();
     }
-
-    private _createDynamicSection()
-    {
-        try {
-            this._dynamicSection = this._dynamicSectionFactory.create(this._metadataProfile);
-        }catch(e)
-        {
-            console.warn('[kaltura] -> could not create dynamic form from provided metadata profile scheme. Ignoring form data.'); // keep warning
-        }
-    }
-
     resetForm(serverMetadata? : KalturaMetadata) : void
     {
-        if (this._dynamicSection && this._metadataProfile) {
+        if (this.formSectionControl && this._metadataProfile) {
 
             try {
                 let formValue = {};
@@ -65,7 +43,7 @@ export class KalturaCustomDataHandler
                     formValue = this._toFormValue(rawValue['metadata'], this._metadataProfile.items);
                 }
 
-                this._formGroup = this._dynamicFormService.toFormGroup(this._dynamicSection.children, {formValue: formValue});
+                this._formGroup = this._dynamicFormService.toFormGroup(this.formSectionControl.children, {formValue: formValue});
                 this._formGroup.reset(formValue);
             } catch (e) {
                 this._formGroup = null;
