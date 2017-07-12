@@ -29,7 +29,8 @@
     "setup": "lerna clean && npm run setup:lite",
     "setup:lite": "lerna bootstrap --nohoist && npm run build",
     "build": "lerna run build --concurrency 1",
-    "publish": "lerna publish --conventional-commits --skip-git --skip-npm",
+    "publish:preview": "lerna publish --conventional-commits --skip-git --skip-npm",
+    "publish:all": "lerna publish --conventional-commits",
     "clean": "lerna clean"
   },
   "author": {
