@@ -1,6 +1,6 @@
 {
 	"name": "@kaltura-ng/kaltura-client",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"private": true,
 	"description": "Kaltura Angular wrapper for 'kaltura-typescript-client' library",
 	"keywords": [
@@ -21,8 +21,8 @@
 		"lint": "tslint src/**/*.ts",
 		"watch": "gulp watch"
 	},
-	"config" : {
-		"publishDirectory" : "dist"
+	"config": {
+		"publishDirectory": "dist"
 	},
 	"contributors": [
 		{
@@ -50,8 +50,6 @@
 		"rxjs": "^5.1.0",
 		"tslib": "^1.5.0",
 		"typescript": "^2.3.3"
-	},
-	"devDependencies": {
 	},
 	"engines": {
 		"node": ">= 7.0.0",

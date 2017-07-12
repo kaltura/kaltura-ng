@@ -1,6 +1,6 @@
 {
 	"name": "@kaltura-ng/kaltura-common",
-	"version": "0.2.0",
+	"version": "1.0.0",
 	"private": true,
 	"description": "Angular - commonly needed services within Kaltura projects",
 	"keywords": [
@@ -52,9 +52,6 @@
 		"ramda": "~0.22.1",
 		"rxjs": "~5.1.0",
 		"tslib": "^1.5.0"
-	},
-	"devDependencies": {
-
 	},
 	"engines": {
 		"node": ">= 7.0.0",
