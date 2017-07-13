@@ -14,9 +14,9 @@
   dependencies:
     tslib "^1.7.1"
 
-kaltura-typescript-client@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/kaltura-typescript-client/-/kaltura-typescript-client-2.1.0.tgz#0b4beba88238cfb13276e1dae0250d5c477ad2e9"
+kaltura-typescript-client@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/kaltura-typescript-client/-/kaltura-typescript-client-4.0.0.tgz#6add4552797ad32b7c814f674b1a43eb9bcba16b"
 
 rxjs@^5.1.0:
   version "5.4.2"
