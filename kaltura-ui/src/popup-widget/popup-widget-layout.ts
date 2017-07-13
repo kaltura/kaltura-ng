@@ -2,7 +2,7 @@ export class PopupWidgetLayout {
 
   constructor() {}
 
-  private static popupWidgetInitialZindex = 200;
+  private static popupWidgetInitialZindex = 130000;
 
   static getPopupZindex(){
       PopupWidgetLayout.popupWidgetInitialZindex += 2;

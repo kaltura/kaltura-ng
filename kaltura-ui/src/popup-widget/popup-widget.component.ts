@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, EventEmitter, OnDestroy, Input, Output, ElementRef, HostListener, OnInit, TemplateRef, ContentChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from "rxjs/Subscription";
+import { Observable } from 'rxjs';
+import { ISubscription } from "rxjs/Subscription";
 import { PopupWidgetLayout } from './popup-widget-layout';
 
 export const PopupWidgetStates = {
@@ -30,6 +30,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 	@Input() closeBtn: boolean = true;
 	@Input() closeBtnInside: boolean = false;
 	@Input() closeOnClickOutside: boolean = true;
+	@Input() closeOnScroll: boolean = false;
 	@Input() targetOffset: any = {'x':0, 'y': 0};
 	@Input() childrenPopups: PopupWidgetComponent[] = [];
 	@ContentChild(TemplateRef) public _template: TemplateRef<any>;
@@ -75,7 +76,8 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 	public _popupWidgetHeight: string;
     private _modalOverlay: any;
 	private _parentPopup: PopupWidgetComponent;
-	private _stateChangeSubscription: Subscription = null;
+	private _stateChangeSubscription: ISubscription = null;
+	private _windowScrollSubscription: ISubscription = null;
 	private _statechange: BehaviorSubject<popupStatus> = new BehaviorSubject<popupStatus>({state: ''});
 
 	public state$: Observable<popupStatus> = this._statechange.asObservable();
@@ -102,9 +104,11 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 		        this.popup.nativeElement.style.marginLeft = window.innerWidth/2 - this.popupWidth/2 + 'px';
 		        const marginTop = this.popupHeight !== 'auto' ? (window.innerHeight/2 - this.popupHeight/2) : 100;
 		        this.popup.nativeElement.style.marginTop = marginTop + 'px';
+		        this.popup.nativeElement.style.position = "fixed";
 	        }else{
 		        this.popup.nativeElement.style.marginLeft = this._targetRef.getBoundingClientRect().left - parentLeft + this.targetOffset['x'] + 'px';
 		        this.popup.nativeElement.style.marginTop = this._targetRef.getBoundingClientRect().top - parentTop + this.targetOffset['y'] + 'px';
+		        this.popup.nativeElement.style.position = "absolute";
 	        }
             this.popup.nativeElement.style.zIndex = PopupWidgetLayout.getPopupZindex();
 
@@ -187,9 +191,16 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 		        }
 	        }
         }
+        if (this.closeOnScroll){
+	        this._windowScrollSubscription = Observable.fromEvent(window, 'scroll').subscribe(() => this.close());
+        }
     }
 
     ngOnDestroy(){
+	    if (this.closeOnScroll && this._windowScrollSubscription){
+		    this._windowScrollSubscription.unsubscribe();
+		    this._windowScrollSubscription = null;
+	    }
     	if (this._targetRef) {
 		    this._targetRef.removeEventListener('click', (e: any) => this.toggle());
 	    }
