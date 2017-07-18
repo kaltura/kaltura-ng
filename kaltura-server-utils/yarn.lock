@@ -38,9 +38,21 @@
   dependencies:
     tslib "^1.7.1"
 
-kaltura-typescript-client@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/kaltura-typescript-client/-/kaltura-typescript-client-2.1.0.tgz#0b4beba88238cfb13276e1dae0250d5c477ad2e9"
+"@kaltura-ng/kaltura-client@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@kaltura-ng/kaltura-client/-/kaltura-client-0.1.1.tgz#c02c9c83b421c40733a76f4c68f4a5c5df9d7683"
+
+"@kaltura-ng/kaltura-common@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@kaltura-ng/kaltura-common/-/kaltura-common-1.0.0.tgz#ec3bd61702869e75873aced1fd4e7f9a9ab911a1"
+
+"@kaltura-ng/kaltura-ui@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@kaltura-ng/kaltura-ui/-/kaltura-ui-1.0.0.tgz#f5cf943c3971bfb866d2941605299bf6e6ab89b5"
+
+kaltura-typescript-client@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/kaltura-typescript-client/-/kaltura-typescript-client-4.0.0.tgz#6add4552797ad32b7c814f674b1a43eb9bcba16b"
 
 ng2-translate@~5.0.0:
   version "5.0.0"

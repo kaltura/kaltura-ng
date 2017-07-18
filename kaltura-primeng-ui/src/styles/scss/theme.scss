@@ -61,6 +61,9 @@
       &:hover {
         background-color: darken(#00A784, 10%);
       }
+      &.userAdded{
+        background-color: transparentize($kPrimary, 0.5);
+      }
     }
     .ui-autocomplete-input-token .ui-inputtext {
       border: 0px none;

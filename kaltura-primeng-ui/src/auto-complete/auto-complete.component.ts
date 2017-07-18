@@ -1,9 +1,9 @@
-import { Component, AfterViewInit, forwardRef, ChangeDetectorRef, AfterViewChecked, Input, ElementRef, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, AfterViewInit, forwardRef, ChangeDetectorRef, AfterViewChecked, Input, ElementRef, OnDestroy, Renderer2, IterableDiffers } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 import { AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR } from "primeng/components/autocomplete/autocomplete";
 import { DomHandler } from "primeng/components/dom/domhandler";
-import { ObjectUtils } from 'primeng/components/utils/ObjectUtils';
+import { ObjectUtils } from 'primeng/components/utils/objectutils';
 
 // [kmcng] upon upgrade: Be patient and bring a big cup of coffee.... good luck!
 
@@ -264,10 +264,11 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
      * @param renderer
      * @param objectUtils
      */
-    constructor(public el: ElementRef, public domHandler: DomHandler, public renderer: Renderer2, public objectUtils: ObjectUtils, cd : ChangeDetectorRef)
+    constructor(public el: ElementRef, public domHandler: DomHandler, public renderer: Renderer2, public objectUtils: ObjectUtils, cd : ChangeDetectorRef, public differs: IterableDiffers)
     {
-        super(el,domHandler, renderer, objectUtils, cd);
+        super(el,domHandler, renderer, objectUtils, cd, differs);
     }
+
 
     hide()
     {
