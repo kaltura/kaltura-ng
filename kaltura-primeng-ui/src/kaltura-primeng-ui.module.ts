@@ -4,6 +4,7 @@ import { InputTextModule, MenuModule } from 'primeng/primeng';
 import { FillHeightDirective } from './directives/datatable-fillheight';
 import { DropdownCloseOnScroll } from './directives/dropdown-close-on-scroll';
 import { MenuCloseOnScroll } from './directives/menu-close-on-scroll';
+import { StickyDatatableHeaderDirective } from './directives/sticky-datatable-header.directive';
 
 /**
  * @deprecated use separated module for each component
@@ -14,11 +15,13 @@ import { MenuCloseOnScroll } from './directives/menu-close-on-scroll';
     ],
     declarations: <any[]>[
         FillHeightDirective,
+	    StickyDatatableHeaderDirective,
 	    DropdownCloseOnScroll,
 	    MenuCloseOnScroll
     ],
     exports: <any[]>[
         FillHeightDirective,
+	    StickyDatatableHeaderDirective,
 	    DropdownCloseOnScroll,
 	    MenuCloseOnScroll
     ],
