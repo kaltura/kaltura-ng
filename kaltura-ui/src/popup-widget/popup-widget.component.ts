@@ -26,6 +26,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 	@Input() popupWidth: number;
     @Input() popupHeight: number | 'auto' = 'auto';
 	@Input() showTooltip: boolean = false;
+	@Input() preventPageScroll: boolean = false;
 	@Input() modal: boolean = false;
 	@Input() closeBtn: boolean = true;
 	@Input() closeBtnInside: boolean = false;
@@ -73,6 +74,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
     }
 
 	private _targetRef: any;
+    private _saveOriginalScroll: string = "";
 	public _popupWidgetHeight: string;
     private _modalOverlay: any;
 	private _parentPopup: PopupWidgetComponent;
@@ -127,6 +129,13 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 		        this._modalOverlay.addEventListener("mousedown", (event : any) => {event.stopPropagation();this.close();});
                 document.body.appendChild(this._modalOverlay);
             }
+
+            // prevent page scroll
+	        if (this.preventPageScroll){
+	        	this._saveOriginalScroll = window.getComputedStyle(document.body)["overflow-y"];
+	        	document.body.style.overflowY = 'hidden';
+	        }
+
             setTimeout(()=>{
 	            this.addClickOutsideSupport();
             },0);
@@ -152,6 +161,10 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 		        if (this.modal && this._modalOverlay) {
 			        document.body.removeChild(this._modalOverlay);
 			        this._modalOverlay = null;
+		        }
+		        // prevent page scroll
+		        if (this.preventPageScroll){
+			        document.body.style.overflowY = this._saveOriginalScroll;
 		        }
 		        this.removeClickOutsideSupport();
 		        this.onClose.emit(); // dispatch onClose event (API)
