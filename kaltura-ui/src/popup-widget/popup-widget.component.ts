@@ -151,7 +151,9 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 		        }
 		        this.removeClickOutsideSupport();
 		        this.onClose.emit(); // dispatch onClose event (API)
-		        this._statechange.next({state: PopupWidgetStates.Close, context: context, reason: reason});
+		        setTimeout(()=>{
+			        this._statechange.next({state: PopupWidgetStates.Close, context: context, reason: reason}); // use timeout to prever valueChangeAfterChecked error
+		        },0);
 	        }
         }
 
