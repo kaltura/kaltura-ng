@@ -5,6 +5,7 @@ import { DatePipe } from './date.pipe';
 import { SafePipe } from './safe.pipe';
 import { TimePipe } from './time.pipe';
 import { FileSizePipe } from './file-size.pipe';
+import { StickyNavDirective } from './directives/sticky-nav.directive';
 
 @NgModule({
     imports: <any[]>[
@@ -15,14 +16,16 @@ import { FileSizePipe } from './file-size.pipe';
         TimePipe,
 	    FileDialogComponent,
         DatePipe,
-        FileSizePipe
+        FileSizePipe,
+        StickyNavDirective
     ],
     exports: <any[]>[
         TimePipe,
         SafePipe,
 	    FileDialogComponent,
         DatePipe,
-        FileSizePipe
+        FileSizePipe,
+        StickyNavDirective
     ],
     providers: <any[]>[
     ]
