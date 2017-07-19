@@ -1,4 +1,4 @@
-import { Output, EventEmitter, Component, ElementRef, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { AreaBlockerMessage } from './area-blocker-message';
 
 
@@ -15,6 +15,8 @@ export class AreaBlockerComponent implements OnInit  {
   public _message : AreaBlockerMessage;
 
   @Input() showLoader : boolean;
+  @Input() centerOnScreen : boolean = false;
+  @Input() spinnerMarginTop : number = 0;
 
   @Input()
   set message(value : AreaBlockerMessage | string)
@@ -41,5 +43,6 @@ export class AreaBlockerComponent implements OnInit  {
   {
 
   }
+
 }
 
