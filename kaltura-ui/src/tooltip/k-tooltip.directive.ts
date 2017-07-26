@@ -13,13 +13,13 @@ export class KTooltipDirective implements OnDestroy{
 	private _tooltip: any = null;
 
 	@Input() tooltipOffset: number = 8;
-	@Input() kTooltip = "";
+	@Input() kTooltip : number | string = "";
 	@Input() placement: TooltipPositions = "top";
 	@Input() delay = 0;
 	@Input() maxWidth: number = 0;
 
 	@HostListener("mouseenter") onMouseEnter() {
-		if (this._tooltip === null && this.kTooltip && this.kTooltip.length) {
+		if (this._tooltip === null && this.kTooltip !== null && typeof this.kTooltip !== 'undefined' && this.kTooltip !== '') {
 			document.body.appendChild(this.createElem());
 			this.setPosition();
 		}

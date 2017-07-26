@@ -5,6 +5,7 @@
     "kaltura-ui",
     "kaltura-primeng-ui",
     "kaltura-client",
+    "kaltura-ott-client",
     "kaltura-server-utils"
   ],
  "npmClient": "yarn",
