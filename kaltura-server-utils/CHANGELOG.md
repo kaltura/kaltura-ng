@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-server-utils@1.0.0...@kaltura-ng/kaltura-server-utils@1.0.1) (2017-07-26)
+
+
+
+
 <a name="1.0.0"></a>
 # 1.0.0 (2017-07-12)
 
