@@ -5,6 +5,7 @@ import { DatePipe } from './date.pipe';
 import { SafePipe } from './safe.pipe';
 import { TimePipe } from './time.pipe';
 import { FileSizePipe } from './file-size.pipe';
+import { LineBreakPipe } from './line-break.pipe';
 
 @NgModule({
     imports: <any[]>[
@@ -15,14 +16,16 @@ import { FileSizePipe } from './file-size.pipe';
         TimePipe,
 	    FileDialogComponent,
         DatePipe,
-        FileSizePipe
+        FileSizePipe,
+        LineBreakPipe
     ],
     exports: <any[]>[
         TimePipe,
         SafePipe,
 	    FileDialogComponent,
         DatePipe,
-        FileSizePipe
+        FileSizePipe,
+        LineBreakPipe
     ],
     providers: <any[]>[
     ]
