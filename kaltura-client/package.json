@@ -46,7 +46,7 @@
 	"dependencies": {
 		"@angular/core": "^4.0.0",
 		"@angular/http": "^4.0.0",
-		"kaltura-typescript-client": "^4.0.0",
+		"kaltura-typescript-client": "4.x",
 		"rxjs": "^5.1.0",
 		"tslib": "^1.5.0",
 		"typescript": "^2.3.3"
