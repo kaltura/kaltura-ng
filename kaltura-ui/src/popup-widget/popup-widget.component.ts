@@ -21,7 +21,7 @@ export type popupStatus = {
     styleUrls: ['./popup-widget.component.scss']
 })
 export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
-
+	@Input() transparent = false;
 	@Input() appendTo: any;
 	@Input() popupWidth: number;
     @Input() popupHeight: number | 'auto' = 'auto';
