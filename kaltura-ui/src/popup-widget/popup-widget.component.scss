@@ -8,6 +8,10 @@
     border-radius: 4px;
     overflow: hidden;
     box-shadow: 0 16px 20px 0 rgba(0,0,0,0.3);
+    &.transparent {
+        box-shadow: none;
+        background: 0;
+    }
     .kCloseBtn:not(.closeBtnInside) {
         position: absolute;
         right: -118px;
