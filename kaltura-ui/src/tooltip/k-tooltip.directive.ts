@@ -39,7 +39,7 @@ export class KTooltipDirective implements OnDestroy{
 			this._tooltip.style.maxWidth = this.maxWidth + "px";
 			this._tooltip.style.textAlign = "left";
 		}
-		this._tooltip.textContent = this.kTooltip;
+		this._tooltip.innerHTML = this.kTooltip;
 		setTimeout(() => {
 			if (this._tooltip) {
 				this._tooltip.className += " ng-tooltip-show";
