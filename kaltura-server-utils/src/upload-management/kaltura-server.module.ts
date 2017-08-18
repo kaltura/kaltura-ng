@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { KalturaClientModule } from '@kaltura-ng/kaltura-client';
 import { UploadFileAdapterToken, UploadManagementModule } from '@kaltura-ng/kaltura-common';
-import { KalturaServerAdapter } from './kaltura-server-adapter';
+import { KalturaUploadAdapter } from './kaltura-upload';
 
 @NgModule({
     imports: <any[]>[
@@ -15,7 +15,7 @@ import { KalturaServerAdapter } from './kaltura-server-adapter';
     providers: <any[]>[
         {
             provide : UploadFileAdapterToken,
-            useClass : KalturaServerAdapter,
+            useClass : KalturaUploadAdapter,
             multi : true
         }
     ]

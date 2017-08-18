@@ -2,29 +2,41 @@ import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import '../rxjs/add/operators';
-import { UploadFileAdapterBase, UploadStatus } from './upload-file-adapter-base';
-import { UploadFile } from './upload-file';
+import { UploadFileAdapter, UploadFile } from './upload-file';
+import { Subject } from 'rxjs/Subject';
 
-export type FileChangesStatus = "uploading" | "uploaded" | "uploadFailure";
-
-export interface FileChanges
+export interface TrackedFile
 {
-    [uploadToken : string] : {
-        status : FileChangesStatus,
-        progress?: number,
-        failureReason? : string
-    }
+    uploadToken: string,
+    status : "uploading" | "uploaded" | "uploadFailure" | "pending",
+    uploadStartAt? : Date,
+    progress?: number,
+    fileName : string;
+    fileSize : number;
+    uploadCompleteAt? : Date,
+    failureReason? : string
+}
+
+export interface TrackedFiles
+{
+    [uploadToken : string] : TrackedFile
 };
 
 export const UploadFileAdapterToken = new InjectionToken<string>('upload-file-adapter');
 
 @Injectable()
 export class UploadManagement {
-    private _trackedFiles: BehaviorSubject<FileChanges> = new BehaviorSubject<FileChanges>({});
-    public trackedFiles = this._trackedFiles.asObservable().monitor('get upload files state');
+    private _trackedFiles : TrackedFiles = {};
+    private _onTrackFileChange = new Subject<TrackedFile>();
+    public onTrackFileChange$ = this._onTrackFileChange.asObservable().monitor('tracked file state change');
 
-    constructor(@Inject(UploadFileAdapterToken) @Optional()  private _uploadFileAdapter: UploadFileAdapterBase[]) {
+    constructor(@Inject(UploadFileAdapterToken) @Optional()  private _uploadFileAdapter: UploadFileAdapter<any>[]) {
 
+    }
+
+    public getTrackedFiles() : TrackedFiles
+    {
+        return Object.assign({}, this._trackedFiles);
     }
 
     public newUpload(fileData: UploadFile): Observable<{ uploadToken: string}> {
@@ -46,45 +58,82 @@ export class UploadManagement {
                         }
                     );
             } else {
-                observer.error(new Error(`cannot upload file, requested file type is not supported (did you remember to register a relevant adapter for '${typeof fileData}'?)`));
+                observer.error(new Error(`cannot upload file, requested file type is not supported (did you remember to register a relevant adapter?)`));
             }
         });
     }
 
-    private _initiateNewUpload(uploadAdapter : UploadFileAdapterBase, uploadToken : string, fileData : UploadFile) : void
-    {
+
+
+    private _initiateNewUpload(uploadAdapter : UploadFileAdapter<any>, uploadToken : string, fileData : UploadFile) : void {
+        if (this._trackedFiles[uploadToken]) {
+            throw new Error(`cannot initiate new upload token '${uploadToken}', token is already in use`);
+        }
+
+        // create new track file
+        const newTrackedFile = this._trackedFiles[uploadToken] = {
+            uploadToken,
+            fileName : fileData.getFileName(),
+            fileSize : fileData.getFileSize(),
+            status: "pending"
+        };
+
+        this._onTrackFileChange.next(newTrackedFile);
+
         uploadAdapter.newUpload(uploadToken, fileData)
             .subscribe(
                 (uploadProgress) => {
-                    const trackData = this._trackedFiles.getValue();
+                    const trackedFile = this._trackedFiles[uploadToken];
 
-                    switch (uploadProgress.status) {
-                        case 'uploading':
-                            trackData[uploadToken] = {
-                                status: "uploading",
-                                progress: uploadProgress.progress
-                            };
-                            this._trackedFiles.next(trackData);
-                            break;
-                        case 'uploaded':
-                            trackData[uploadToken] = {status: 'uploaded'};
-                            this._trackedFiles.next(trackData);
-                            break;
-                        default:
-                            break;
+                    if (trackedFile) {
+                        switch (uploadProgress.status) {
+                            case 'uploading': {
+                                const newTrackedFile = this._trackedFiles[uploadToken] = Object.assign({},
+                                    trackedFile,
+                                    {
+                                        status: "uploading",
+                                        progress: uploadProgress.progress,
+                                        uploadStartAt: trackedFile.uploadStartAt || new Date(),
+                                    });
+                                this._onTrackFileChange.next(newTrackedFile);
+                            }
+                                break;
+                            case 'uploaded': {
+                                const newTrackedFile = this._trackedFiles[uploadToken] = Object.assign({},
+                                    trackedFile,
+                                    {
+                                        status: "uploaded",
+                                        progress: 1,
+                                        uploadCompleteAt: new Date()
+                                    });
+                                this._onTrackFileChange.next(newTrackedFile);
+                            }
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 },
                 (error) => {
-                    const trackData = this._trackedFiles.getValue();
-                    const failureReason = error && error.message ? error.message : '';
-                    trackData[uploadToken] = {status: 'uploadFailure', failureReason };
-                    this._trackedFiles.next(trackData);
+                    const trackedFile = this._trackedFiles[uploadToken];
+
+                    if (trackedFile) {
+                        const failureReason = error && error.message ? error.message : '';
+
+                        const newTrackedFile = this._trackedFiles[uploadToken] = Object.assign({},
+                            trackedFile,
+                            {
+                                status: "uploadFailure",
+                                failureReason
+                            });
+                        this._onTrackFileChange.next(newTrackedFile);
+                    }
+
                 }
             );
-
     }
 
-    private _getUploadAdapter(fileData: UploadFile): UploadFileAdapterBase {
+    private _getUploadAdapter(fileData: UploadFile): UploadFileAdapter<any> {
 
         if (this._uploadFileAdapter) {
             return this._uploadFileAdapter.find(uploadFileAdapter => {
@@ -94,5 +143,6 @@ export class UploadManagement {
             return null;
         }
     }
+
 
 }
