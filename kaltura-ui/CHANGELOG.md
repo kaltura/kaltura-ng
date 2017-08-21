@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.0.1...@kaltura-ng/kaltura-ui@1.1.0) (2017-08-21)
+
+
+### Bug Fixes
+
+* allow overflow from popup widget component. Preventing overflow logic should be content specific ([8f53ae7](https://github.com/kaltura/kaltura-ng/commit/8f53ae7))
+* resolve symlink issues for workspace development ([feee028](https://github.com/kaltura/kaltura-ng/commit/feee028))
+
+
+### Features
+
+* add line-break pipe to convert Adobe Flex line breaks (\r) to HTML supported lined breaks (\r
+) ([387c82a](https://github.com/kaltura/kaltura-ng/commit/387c82a))
+* **upload-menu:** extend popup widget component ([3668d43](https://github.com/kaltura/kaltura-ng/commit/3668d43))
+* support HTML rendering inside tooltips ([14e2fdf](https://github.com/kaltura/kaltura-ng/commit/14e2fdf))
+* support HTML rendering inside tooltips by setting the escape parameter to false ([6a66df1](https://github.com/kaltura/kaltura-ng/commit/6a66df1))
+
+
+
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.0.0...@kaltura-ng/kaltura-ui@1.0.1) (2017-07-26)
 

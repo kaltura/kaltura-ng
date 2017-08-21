@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.1"></a>
+## [0.3.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.3.0...@kaltura-ng/kaltura-primeng-ui@0.3.1) (2017-08-21)
+
+
+### Bug Fixes
+
+* resolve symlink issues for workspace development ([feee028](https://github.com/kaltura/kaltura-ng/commit/feee028))
+
+
+### Performance Improvements
+
+* upgrade PrimeNG version to 4.1.3 to gain datagrid performances enhancements. Update auto-complete component constructor signature to match the signature of the PrimeNG component in 4.1.3 ([1135de6](https://github.com/kaltura/kaltura-ng/commit/1135de6))
+
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.2.1...@kaltura-ng/kaltura-primeng-ui@0.3.0) (2017-07-26)
 
