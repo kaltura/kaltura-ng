@@ -1,9 +1,9 @@
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import '../rxjs/add/operators';
 import { UploadFileAdapter, UploadFile } from './upload-file';
 import { Subject } from 'rxjs/Subject';
+import { ISubscription, Subscription } from 'rxjs/Subscription';
 
 export interface TrackedFile
 {
@@ -22,11 +22,16 @@ export interface TrackedFiles
     [uploadToken : string] : TrackedFile
 };
 
+export interface UploadingFileSubscriptions {
+    [uploadToken: string]: ISubscription
+}
+
 export const UploadFileAdapterToken = new InjectionToken<string>('upload-file-adapter');
 
 @Injectable()
 export class UploadManagement {
     private _trackedFiles : TrackedFiles = {};
+    private _uploadingFileSubscriptions: UploadingFileSubscriptions = {};
     private _onTrackFileChange = new Subject<TrackedFile>();
     public onTrackFileChange$ = this._onTrackFileChange.asObservable().monitor('tracked file state change');
 
@@ -63,7 +68,16 @@ export class UploadManagement {
         });
     }
 
+    public cancelUpload(uploadToken: string): Observable<boolean> {
+        const uploadSubscription = this._uploadingFileSubscriptions[uploadToken];
+        const isSubscription = uploadSubscription instanceof Subscription;
 
+        if (isSubscription) {
+            uploadSubscription.unsubscribe();
+        }
+
+        return Observable.of(isSubscription);
+    }
 
     private _initiateNewUpload(uploadAdapter : UploadFileAdapter<any>, uploadToken : string, fileData : UploadFile) : void {
         if (this._trackedFiles[uploadToken]) {
@@ -80,7 +94,7 @@ export class UploadManagement {
 
         this._onTrackFileChange.next(newTrackedFile);
 
-        uploadAdapter.newUpload(uploadToken, fileData)
+        this._uploadingFileSubscriptions[uploadToken] = uploadAdapter.newUpload(uploadToken, fileData)
             .subscribe(
                 (uploadProgress) => {
                     const trackedFile = this._trackedFiles[uploadToken];
