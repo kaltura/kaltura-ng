@@ -14,13 +14,15 @@ Player plugins can be configured as well.
 * **entryid**: Required. The entry ID of the video to play. (string)
 * **flahvars**: A Kaltura player flashvars object listing player configuration and plugins.
 * **lazy**: When set the true the player doesn't load automatically but waits for a call to the Embed function. (boolean, false by default)
-* **id**: (optional) A unique ID for the player object. Should be used when displaying more than one player on page.
+* **id**: (optional) A unique ID for the player object. Should be used when displaying more than one player on page. (string)
 
 #### Events
-* **kalturaPlayerReady**: Dispatched by the component when the Kaltura player is ready to play and passes the player reference for API control:
+* **kalturaPlayerReady**: Dispatched by the component when the Kaltura player is ready to play and passes the player reference for API control.
 
 #### Methods
-* **Embed()**: Call this method to load a player which lazy attribute is set to true. Useful when you cannot provide all required parameters when the player loads.
+* **Embed()**: Call this method to load a player in which the lazy attribute is set to true.
+Useful when you cannot provide all required parameters when the player page loads.
+**Note -** Use Angular [ViewChild](https://angular.io/api/core/ViewChild) to get reference to the player component. Use this reference to call the Embed method.
 
 
 ## Examples
