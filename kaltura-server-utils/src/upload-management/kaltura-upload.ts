@@ -61,7 +61,7 @@ export class KalturaUploadAdapter<T extends KalturaUploadFile>  extends UploadFi
         if (uploadToken && uploadFile && uploadFile instanceof KalturaUploadFile) {
             return Observable.create((observer) => {
 
-            this._serverClient.request(
+            let requestSubscription = this._serverClient.request(
                 new UploadTokenUploadAction(
                     {
                         uploadTokenId: uploadToken,
@@ -77,14 +77,25 @@ export class KalturaUploadAdapter<T extends KalturaUploadFile>  extends UploadFi
             ).subscribe(
                 () =>
                 {
+                    requestSubscription = null;
                     observer.next({ uploadToken, status: 'uploaded'});
                     observer._complete();
                 },
                 (error) =>
                 {
+                    requestSubscription = null;
                     observer.error(error);
                 }
             );
+
+            return () =>
+            {
+                if (requestSubscription)
+                {
+                    requestSubscription.unsubscribe();
+                    requestSubscription = null;
+                }
+            };
 
             }).monitor(`upload with token ${uploadToken}`);
         }else {
