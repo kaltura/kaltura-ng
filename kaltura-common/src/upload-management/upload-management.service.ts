@@ -33,15 +33,18 @@ export class UploadManagement {
     private _trackedFiles : TrackedFiles = {};
     private _uploadingFileSubscriptions: UploadingFileSubscriptions = {};
     private _onTrackFileChange = new Subject<TrackedFile>();
+    private _maxUploadRequests : number = null;
     public onTrackFileChange$ = this._onTrackFileChange.asObservable().monitor('tracked file state change');
 
     constructor(@Inject(UploadFileAdapterToken) @Optional()  private _uploadFileAdapter: UploadFileAdapter<any>[]) {
 
     }
 
-    public getTrackedFiles() : TrackedFiles
-    {
-        return Object.assign({}, this._trackedFiles);
+    public setMaxUploadRequests(maxUploads? : number) : void {
+        if (maxUploads === null || maxUploads > 0)
+        {
+            this._maxUploadRequests = maxUploads;
+        }
     }
 
     public newUpload(fileData: UploadFile): Observable<{ uploadToken: string}> {
@@ -53,7 +56,10 @@ export class UploadManagement {
                     .subscribe(
                         (response) => {
 
-                            this._initiateNewUpload(uploadAdapter, response.uploadToken, fileData);
+                            const activeUpload = 0;
+                            if (this.maxUploadRequests > 0 && activeUpload < this.maxUploadRequests) {
+                                this._initiateNewUpload(uploadAdapter, response.uploadToken, fileData);
+                            }
 
                             observer.next(response);
                             observer.complete();
@@ -77,6 +83,19 @@ export class UploadManagement {
         }
 
         return Observable.of(isSubscription);
+    }
+
+    private _onUploadCompleted(uploadToken : string) : void{
+        delete this._uploadingFileSubscriptions[uploadToken];
+        delete this._trackedFiles[uploadToken];
+
+
+
+
+    }
+
+    private _getActiveUploadCount() : number {
+        return this._trackedFiles.keys().filter(trackedFile => trackedFile.status === 'uploading').length;
     }
 
     private _initiateNewUpload(uploadAdapter : UploadFileAdapter<any>, uploadToken : string, fileData : UploadFile) : void {
@@ -113,6 +132,7 @@ export class UploadManagement {
                             }
                                 break;
                             case 'uploaded': {
+
                                 const newTrackedFile = this._trackedFiles[uploadToken] = Object.assign({},
                                     trackedFile,
                                     {
@@ -121,6 +141,8 @@ export class UploadManagement {
                                         uploadCompleteAt: new Date()
                                     });
                                 this._onTrackFileChange.next(newTrackedFile);
+
+                                this._onUploadCompleted();
                             }
                                 break;
                             default:
@@ -142,6 +164,8 @@ export class UploadManagement {
                             });
                         this._onTrackFileChange.next(newTrackedFile);
                     }
+
+                    this._onUploadCompleted();
 
                 }
             );
