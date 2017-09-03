@@ -1,6 +1,6 @@
 {
 	"name": "@kaltura-ng/kaltura-ui",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"private": true,
 	"description": "Angular - Kaltura UI directives, pipes and services",
 	"keywords": [
@@ -46,7 +46,7 @@
 		"@angular/common": "^4.0.0",
 		"@angular/core": "^4.0.0",
 		"@angular/forms": "^4.0.0",
-		"@kaltura-ng/kaltura-common": "1.x",
+		"@kaltura-ng/kaltura-common": "^1.1.0",
 		"jquery": "~3.1.0",
 		"moment": "^2.14.1",
 		"ramda": "~0.22.1",

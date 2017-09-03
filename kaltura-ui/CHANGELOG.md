@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.1.0...@kaltura-ng/kaltura-ui@1.2.0) (2017-09-03)
+
+
+### Bug Fixes
+
+* pass player size correctly ([2b478d9](https://github.com/kaltura/kaltura-ng/commit/2b478d9))
+
+
+### Features
+
+* player component supporting dynamic embed and API ([b0f1b96](https://github.com/kaltura/kaltura-ng/commit/b0f1b96))
+
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.0.1...@kaltura-ng/kaltura-ui@1.1.0) (2017-08-21)
 
