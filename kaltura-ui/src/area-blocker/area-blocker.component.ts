@@ -15,6 +15,7 @@ export class AreaBlockerComponent implements OnInit  {
   public _message : AreaBlockerMessage;
 
   @Input() showLoader : boolean;
+  @Input() errorMessageTitle = 'Uh oh!';
 
   @Input()
   set message(value : AreaBlockerMessage | string)
