@@ -6,11 +6,13 @@ export interface AreaBlockerMessageButton
 
 export class AreaBlockerMessage
 {
+    title   : string;
     message : string;
     buttons : AreaBlockerMessageButton[];
 
-    constructor(content : { message : string, buttons : AreaBlockerMessageButton[]})
+    constructor(content : { title? : string, message : string, buttons : AreaBlockerMessageButton[]})
     {
+        this.title = content.title || 'Uh oh!';
         this.message = content.message;
         this.buttons = content.buttons;
     }
