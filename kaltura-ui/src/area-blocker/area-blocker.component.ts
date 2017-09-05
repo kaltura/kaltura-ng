@@ -15,14 +15,13 @@ export class AreaBlockerComponent implements OnInit  {
   public _message : AreaBlockerMessage;
 
   @Input() showLoader : boolean;
-  @Input() errorMessageTitle = 'Uh oh!';
 
   @Input()
   set message(value : AreaBlockerMessage | string)
   {
     if (typeof value === 'string')
     {
-      this._message = { message : value, buttons : [{ label :'Dismiss', action : () => { this._message = null;}}]};
+      this._message = { title : 'Uh oh!', message : value, buttons : [{ label :'Dismiss', action : () => { this._message = null;}}]};
     }else if (value instanceof AreaBlockerMessage)
     {
       this._message = value;
