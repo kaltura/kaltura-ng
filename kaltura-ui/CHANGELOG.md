@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.2.0...@kaltura-ng/kaltura-ui@1.3.0) (2017-09-06)
+
+
+### Features
+
+* allow custom title in area blocker message ([a5049c4](https://github.com/kaltura/kaltura-ng/commit/a5049c4))
+
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.1.0...@kaltura-ng/kaltura-ui@1.2.0) (2017-09-03)
 
