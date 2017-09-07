@@ -19,7 +19,8 @@ export enum MetadataProfileCreateModes {
 }
 
 export enum MetadataProfileTypes {
-    Entry
+    Entry = 1,
+    Category
 }
 
 export interface GetFilters
@@ -127,14 +128,28 @@ export class MetadataProfileStore extends PartnerProfileStore
         return result;
     }
 
-    private _buildGetRequest(filters : GetFilters): Observable<KalturaMetadataProfileListResponse> {
+     private _buildGetRequest(filters: GetFilters): Observable<KalturaMetadataProfileListResponse> {
         const metadataProfilesFilter = new KalturaMetadataProfileFilter();
         metadataProfilesFilter.createModeNotEqual = this._getAPICreateMode(filters.ignoredCreateMode);
         metadataProfilesFilter.orderBy = '-createdAt';
-        metadataProfilesFilter.metadataObjectTypeEqual = KalturaMetadataObjectType.entry;
+
+        if (filters && filters.type && typeof filters.type !== 'undefined') {
+
+            const filterType = filters.type;
+
+            switch (filterType) {
+                case MetadataProfileTypes.Entry:
+                    metadataProfilesFilter.metadataObjectTypeEqual = KalturaMetadataObjectType.entry;
+                    break;
+                case MetadataProfileTypes.Category:
+                    metadataProfilesFilter.metadataObjectTypeEqual = KalturaMetadataObjectType.category;
+                    break;
+                
+            }
+        }
 
         return <any>this._kalturaServerClient.request(new MetadataProfileListAction({
-            filter : metadataProfilesFilter
+            filter: metadataProfilesFilter
         }));
     }
 }
