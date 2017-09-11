@@ -4,11 +4,12 @@ import '../rxjs/add/operators';
 import { UploadFileAdapter, UploadFile } from './upload-file';
 import { Subject } from 'rxjs/Subject';
 import { ISubscription, Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/groupBy';
 
 export interface TrackedFile
 {
     uploadToken: string,
-    status : "uploading" | "uploaded" | "uploadFailure" | "pending",
+    status : "uploading" | "uploaded" | "uploadFailure" | "pending" | "cancelled" | "removed",
     uploadStartAt? : Date,
     progress?: number,
     fileName : string;
@@ -56,10 +57,15 @@ export class UploadManagement {
                     .subscribe(
                         (response) => {
 
-                            const activeUpload = 0;
-                            if (this.maxUploadRequests > 0 && activeUpload < this.maxUploadRequests) {
-                                this._initiateNewUpload(uploadAdapter, response.uploadToken, fileData);
-                            }
+                            // create new track file
+                            this._updateTrackedFile(response, {
+                                response,
+                                fileName : fileData.getFileName(),
+                                fileSize : fileData.getFileSize(),
+                                status: "pending"
+                            });
+
+                            this._syncPendingQueue();
 
                             observer.next(response);
                             observer.complete();
@@ -74,44 +80,106 @@ export class UploadManagement {
         });
     }
 
-    public cancelUpload(uploadToken: string): Observable<boolean> {
+    public cancelUpload(uploadToken: string): void {
         const uploadSubscription = this._uploadingFileSubscriptions[uploadToken];
+        const trackedFile = this._trackedFiles[uploadToken];
         const isSubscription = uploadSubscription instanceof Subscription;
+
+        if (trackedFile && trackedFile.status === 'uploading')
+        {
+            this._updateTrackedFile(trackedFile,{
+                status : 'cancelled'
+            });
+        }
 
         if (isSubscription) {
             uploadSubscription.unsubscribe();
+            delete this._uploadingFileSubscriptions[uploadToken];
         }
+    }
 
-        return Observable.of(isSubscription);
+    public purgeUpload(uploadToken : string): void {
+        this.cancelUpload(uploadToken);
+
+        this._updateTrackedFile(uploadToken,{ status: 'removed'});
+
+        delete this._trackedFiles[uploadToken];
     }
 
     private _onUploadCompleted(uploadToken : string) : void{
-        delete this._uploadingFileSubscriptions[uploadToken];
-        delete this._trackedFiles[uploadToken];
-
-
 
 
     }
 
+    private _syncPendingQueue() : void{
+        debugger;
+        Observable.of(this._trackedFiles)
+            .groupBy(trackedFile => trackedFile.status)
+            .map(
+                trackedFilesByStatus =>
+                {
+                    let result : TrackedFile[] = [];
+                    const activeUploadsCount = (trackedFilesByStatus['uploading'] || []).length;
+                    const pendingFiles = (trackedFilesByStatus['pending'] || []);
+                    const pendingFilesCount = pendingFiles.length;
+                    if (pendingFilesCount > 0)
+                    {
+                        const availableUploadSlots = (this._maxUploadRequests && this._maxUploadRequests > 0) ? this._maxUploadRequests - activeUploadsCount : pendingFilesCount;
+
+                        if (availableUploadSlots > 0)
+                        {
+                            result = pendingFiles.sort(pendingFile => pendingFile.uploadOrder).slice(0,availableUploadSlots);
+                        }
+                    }
+
+                    return result;
+                }
+            )
+            .subscribe(
+                pendingFilesData =>
+                {
+                    // TODO
+                    const activeUpload = 0;
+                    if (!this._maxUploadRequests || (this._maxUploadRequests > 0 && activeUpload < this._maxUploadRequests)) {
+                        this._initiateNewUpload(uploadAdapter, response.uploadToken, fileData);
+                    }
+                    pendingFilesData.forEach(pendingFile =>
+                    {
+                        this._initiateNewUpload(uploadAdapter, response.uploadToken, fileData);
+                    });
+                }
+            )
+    }
+
     private _getActiveUploadCount() : number {
-        return this._trackedFiles.keys().filter(trackedFile => trackedFile.status === 'uploading').length;
+        return Object.keys(this._trackedFiles).filter(trackedFile => trackedFile.status === 'uploading').length;
+    }
+
+    private _updateTrackedFile(trackedFile : TrackedFile, changes : Partial<TrackedFile>) : void;
+    private _updateTrackedFile(uploadToken : string, changes : Partial<TrackedFile>) : void;
+    private _updateTrackedFile(target : TrackedFile | string, changes : Partial<TrackedFile>) : void{
+
+        let trackedFile: TrackedFile;
+        if (typeof target === 'string')
+        {
+            trackedFile = this._trackedFiles[target];
+        }else
+        {
+            trackedFile = target;
+        }
+
+        const newTrackedFile = Object.assign({},
+            trackedFile,
+            changes);
+
+        this._trackedFiles[trackedFile.uploadToken] = newTrackedFile;
+        this._onTrackFileChange.next(newTrackedFile);
     }
 
     private _initiateNewUpload(uploadAdapter : UploadFileAdapter<any>, uploadToken : string, fileData : UploadFile) : void {
         if (this._trackedFiles[uploadToken]) {
             throw new Error(`cannot initiate new upload token '${uploadToken}', token is already in use`);
         }
-
-        // create new track file
-        const newTrackedFile = this._trackedFiles[uploadToken] = {
-            uploadToken,
-            fileName : fileData.getFileName(),
-            fileSize : fileData.getFileSize(),
-            status: "pending"
-        };
-
-        this._onTrackFileChange.next(newTrackedFile);
 
         this._uploadingFileSubscriptions[uploadToken] = uploadAdapter.newUpload(uploadToken, fileData)
             .subscribe(
@@ -142,7 +210,7 @@ export class UploadManagement {
                                     });
                                 this._onTrackFileChange.next(newTrackedFile);
 
-                                this._onUploadCompleted();
+                                this._onUploadCompleted(uploadToken);
                             }
                                 break;
                             default:
@@ -165,7 +233,7 @@ export class UploadManagement {
                         this._onTrackFileChange.next(newTrackedFile);
                     }
 
-                    this._onUploadCompleted();
+                    this._onUploadCompleted(uploadToken);
 
                 }
             );
