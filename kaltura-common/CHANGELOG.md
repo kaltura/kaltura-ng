@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@1.0.0...@kaltura-ng/kaltura-common@1.1.0) (2017-09-03)
+
+
+### Features
+
+* remove Ramda dependency from package ([ca48b66](https://github.com/kaltura/kaltura-ng/commit/ca48b66))
+
+
+
+
 <a name="1.0.0"></a>
 # 1.0.0 (2017-07-12)
 

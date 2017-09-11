@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { TranslateService } from 'ng2-translate/ng2-translate';
-import * as R from 'ramda';
 
 import { AppStorage } from '../app-storage.service';
 
@@ -62,7 +61,7 @@ export class AppLocalization {
     }
 
     private getLanguageById(langId : any) : any {
-        return R.find(R.propEq('id', langId))(this.supportedLocales);
+        return this.supportedLocales.find((locale)=> {return locale.id === langId});
     }
 
     public get(query: string, interpolateParams?: Object): string {
