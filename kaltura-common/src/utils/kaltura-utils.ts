@@ -2,7 +2,31 @@ import { Download } from './download';
 
 export class KalturaUtils
 {
-	static removeEmptyProperties(value : {})
+    static getStartDateValue(value : Date) : Date
+    {
+        if (value) {
+            value.setHours(0);
+            value.setMinutes(0);
+            value.setSeconds(0);
+            return value;
+        }else{
+            return null;
+        }
+    }
+
+    static getEndDateValue(value : Date) : Date
+    {
+        if (value) {
+            value.setHours(23);
+            value.setMinutes(59);
+            value.setSeconds(59);
+            return value;
+        }else{
+            return null;
+        }
+    }
+
+    static removeEmptyProperties(value : {})
 	{
 		Object.keys(value).forEach(function(key) {
 			if (value[key] && typeof value[key] === 'object') {
