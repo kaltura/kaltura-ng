@@ -77,8 +77,7 @@ export class UploadManagement {
         }
     }
 
-    // TODO [kmcng] should return {uploadToken: string} instead of observable of that structure
-    public newUpload(fileData: UploadFile): Observable<{uploadToken : string}> {
+    public newUpload(fileData: UploadFile): {uploadToken : string} {
 
         this._log('info', `add new file to upload named '${fileData.getFileName()}'`);
         const newUploadToken = this._tokenGenerator.generateUnique(Object.keys(this._trackedFiles));
@@ -88,7 +87,7 @@ export class UploadManagement {
 
         this._syncPendingQueue();
 
-        return Observable.of({ uploadToken : newUploadToken });
+        return { uploadToken : newUploadToken };
     }
 
     public cancelUpload(uploadToken: string): void {
