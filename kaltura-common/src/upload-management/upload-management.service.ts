@@ -59,7 +59,8 @@ export class UploadManagement {
     // TODO [kmcng] replace this function with log library
     private _log(level: 'silly'|'debug'|'info'|'warn'|'error', message: string,context?: string): void {
         const messageContext = context || 'general';
-        const formattedMessage = `[${level}] [${messageContext}]: ${message}`;
+        const origin = 'upload manager';
+        const formattedMessage = `log: [${level}] [${origin}] ${messageContext}: ${message}`;
         switch(level)
         {
             case 'silly':
@@ -76,16 +77,18 @@ export class UploadManagement {
         }
     }
 
-    public newUpload(fileData: UploadFile): {uploadToken : string} {
+    // TODO [kmcng] should return {uploadToken: string} instead of observable of that structure
+    public newUpload(fileData: UploadFile): Observable<{uploadToken : string}> {
 
         this._log('info', `add new file to upload named '${fileData.getFileName()}'`);
         const newUploadToken = this._tokenGenerator.generateUnique(Object.keys(this._trackedFiles));
 
         this._log('info', `generated unique upload token '${newUploadToken}'. adding file to queue`);
+        this._createTrackedFile(newUploadToken,fileData);
 
         this._syncPendingQueue();
 
-        return { uploadToken : newUploadToken };
+        return Observable.of({ uploadToken : newUploadToken });
     }
 
     public cancelUpload(uploadToken: string): void {
@@ -251,7 +254,7 @@ export class UploadManagement {
                 uploadStartAt: new Date(),
             });
 
-            this._uploadingFileSubscriptions[uploadToken] = uploadAdapter.newUpload(uploadToken, uploadFileData)
+            this._uploadingFileSubscriptions[uploadToken] = uploadAdapter.upload(uploadToken, uploadFileData)
                 .subscribe(
                     (uploadProgress) => {
                         const trackedFile = this._trackedFiles[uploadToken];
