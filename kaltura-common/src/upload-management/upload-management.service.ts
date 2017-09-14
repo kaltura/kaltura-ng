@@ -104,7 +104,7 @@ export class UploadManagement {
             delete this._uploadingFileSubscriptions[uploadToken];
         }
 
-        if (trackedFile && trackedFile.status === 'uploading')
+        if (trackedFile && ['uploaded','uploadFailure'].indexOf(trackedFile.status) === -1)
         {
             this._updateTrackedFile(trackedFile,{
                 status : 'cancelled'
