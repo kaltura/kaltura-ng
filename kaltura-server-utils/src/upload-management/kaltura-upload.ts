@@ -34,6 +34,10 @@ export class KalturaUploadAdapter<T extends KalturaUploadFile>  extends UploadFi
         super();
     }
 
+    get label() : string{
+        return 'Kaltura OVP server'
+    }
+
     getUploadToken(uploadFile : T) : Observable<{ uploadToken : string}>
     {
         return this._serverClient.request(
