@@ -11,7 +11,6 @@ export interface UploadFile
 
 export abstract class UploadFileAdapter<T extends UploadFile>{
     abstract get label() : string;
-    abstract getUploadToken(uploadFile : T) : Observable<{ uploadToken : string}>;
-    abstract newUpload(uploadToken : string, uploadFile : T) : Observable<{ uploadToken : string, status : UploadStatus,  progress? : number}>;
+    abstract upload(uploadToken: string, uploadFile : T) : Observable<{ uploadToken : string, status : UploadStatus,  progress? : number}>;
     abstract canHandle(uploadFile : UploadFile) : boolean;
 }

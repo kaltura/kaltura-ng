@@ -5,6 +5,7 @@ import { UploadFileAdapter, UploadFile } from './upload-file';
 import { Subject } from 'rxjs/Subject';
 import { ISubscription, Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/groupBy';
+import { FriendlyHashId } from '../friendly-hash-id';
 
 export interface TrackedFile
 {
@@ -15,6 +16,7 @@ export interface TrackedFile
     fileName : string;
     fileSize : number;
     uploadCompleteAt? : Date,
+    failureType? : string,
     failureReason? : string,
     uploadFileData : UploadFile
 }
@@ -37,6 +39,7 @@ export class UploadManagement {
     private _onTrackFileChange = new Subject<TrackedFile>();
     private _maxUploadRequests : number = null;
     public onTrackFileChange$ = this._onTrackFileChange.asObservable().monitor('tracked file state change');
+    private _tokenGenerator = new FriendlyHashId();
 
     constructor(@Inject(UploadFileAdapterToken) @Optional()  private _uploadFileAdapter: UploadFileAdapter<any>[]) {
 
@@ -73,37 +76,16 @@ export class UploadManagement {
         }
     }
 
-    public newUpload(fileData: UploadFile): Observable<{ uploadToken: string}> {
-        return Observable.create((observer) => {
-            this._log('info',`uploading new file '${fileData.getFileName()}'`);
+    public newUpload(fileData: UploadFile): {uploadToken : string} {
 
-            const uploadAdapter = this._getUploadAdapter(fileData);
+        this._log('info', `add new file to upload named '${fileData.getFileName()}'`);
+        const newUploadToken = this._tokenGenerator.generateUnique(Object.keys(this._trackedFiles));
 
-            if (uploadAdapter) {
-                this._log('debug',`found adapter for data file with id '${uploadAdapter.label}', getting upload token from server`);
-                this._log('info',`requesting for upload token from server`);
+        this._log('info', `generated unique upload token '${newUploadToken}'. adding file to queue`);
 
-                uploadAdapter.getUploadToken(fileData)
-                    .subscribe(
-                        (response) => {
-                            this._log('info',`got upload token '${response.uploadToken}' for file '${fileData.getFileName()}'`);
-                            // create new track file
-                            this._createTrackedFile(response.uploadToken,fileData);
+        this._syncPendingQueue();
 
-                            this._syncPendingQueue();
-
-                            observer.next(response);
-                            observer.complete();
-                        },
-                        (error) => {
-                            observer.error(new Error(error.message));
-                        }
-                    );
-            } else {
-                this._log('error',`failed to find adapter for file data of type '${typeof fileData}'`);
-                observer.error(new Error(`cannot upload file, requested file type is not supported (did you remember to register a relevant adapter?)`));
-            }
-        });
+        return { uploadToken : newUploadToken };
     }
 
     public cancelUpload(uploadToken: string): void {
@@ -127,6 +109,7 @@ export class UploadManagement {
         }
 
         this._syncPendingQueue();
+
     }
 
     public purgeUpload(uploadToken : string): void {
@@ -185,7 +168,7 @@ export class UploadManagement {
 
             nextUploadFiles.forEach(pendingFile =>
             {
-                this._initiateNewUpload(pendingFile);
+                this._initiateUpload(pendingFile);
             });
 
         },200);
@@ -233,7 +216,7 @@ export class UploadManagement {
 
     }
 
-    private _initiateNewUpload(trackedFile : TrackedFile) : void {
+    private _initiateUpload(trackedFile : TrackedFile) : void {
 
         const { uploadFileData, uploadToken } = trackedFile;
         const uploadAdapter : UploadFileAdapter<any> = this._getUploadAdapter(uploadFileData);
@@ -242,10 +225,11 @@ export class UploadManagement {
 
         if (!uploadAdapter)
         {
-            this._log('warn',`cannot find adapter for requested file, failing upload request`);
+            this._log('warn',`cannot find destination adapter for requested file, failing upload request`);
             this._updateTrackedFile(trackedFile,{
                 status : 'uploadFailure',
-                failureReason : 'upload destination is not supported'
+                failureReason : 'upload destination is not supported',
+                failureType: 'unknown_destination'
             });
 
             this._syncPendingQueue();
@@ -309,7 +293,8 @@ export class UploadManagement {
 
                             this._updateTrackedFile(trackedFile,{
                                 status: "uploadFailure",
-                                failureReason
+                                failureReason,
+                                failureType: 'general_error'
                             });
                         }
 
