@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.2"></a>
+## [0.4.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.4.1...@kaltura-ng/kaltura-primeng-ui@0.4.2) (2017-09-17)
+
+
+### Bug Fixes
+
+* auto-complete now works when building to production ([16370cc](https://github.com/kaltura/kaltura-ng/commit/16370cc))
+
+
+
+
 <a name="0.4.1"></a>
 ## [0.4.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.4.0...@kaltura-ng/kaltura-primeng-ui@0.4.1) (2017-09-06)
 
