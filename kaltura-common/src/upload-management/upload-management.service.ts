@@ -9,19 +9,21 @@ import 'rxjs/add/operator/groupBy';
 import { FriendlyHashId } from '../friendly-hash-id';
 
 export enum TrackedFileStatuses {
-    uploading,
-    uploadCompleted,
-    uploadFailed,
-    added,
-    waitingUpload,
-    cancelled,
-    purged,
-    preparing
+    added = 'added',
+    preparing = 'preparing',
+    waitingUpload = 'waitingUpload',
+    mediaCreated = 'mediaCreated',
+    uploading = 'uploading',
+    uploadCompleted = 'uploadCompleted',
+    uploadFailed = 'uploadFailed',
+    cancelled = 'cancelled',
+    purged = 'purged'
 }
 
 export interface TrackedFile {
     id: string,
     status: TrackedFileStatuses,
+    entryId?: string;
     uploadStartAt?: Date,
     progress?: number,
     uploadCompleteAt?: Date,
@@ -191,13 +193,17 @@ export class UploadManagement implements OnDestroy {
         }
     }
 
+    public setMediaEntryId(trackedFile: TrackedFile, entryId: string): void {
+      this._updateTrackedFile(trackedFile, { entryId, status: TrackedFileStatuses.mediaCreated });
+    }
+
     private _removeTrackedFile(id: string) {
         this._log('info', `removed tracking for file '${id}`);
 
         // Developer notice - This function should be used only once upload complete or purged so usually the uploadSubscription
         // should be null, so this is a cleanup function just in case.
         const trackedFileUploadData = this._trackedFilesUploadData[id];
-        if (trackedFileUploadData.uploadSubscription) {
+        if (trackedFileUploadData && trackedFileUploadData.uploadSubscription) {
             trackedFileUploadData.uploadSubscription.unsubscribe();
             trackedFileUploadData.uploadSubscription = null;
         }
@@ -379,7 +385,8 @@ export class UploadManagement implements OnDestroy {
         const newTrackedFile = this._trackedFiles[id] = {
             id: id,
             data: fileData,
-            status: TrackedFileStatuses.added
+            status: TrackedFileStatuses.added,
+            uploadStartAt: new Date()
         };
 
          this._trackedFilesUploadData[id] = {uploadSubscription: null, preparing: false};
@@ -515,6 +522,7 @@ export class UploadManagement implements OnDestroy {
     }
 
     ngOnDestroy(): void {
+        console.warn('ngOnDestroy', this._trackedFilesUploadData);
         Object.keys(this._trackedFilesUploadData).forEach(id =>
         {
             this.purgeUpload(id);
