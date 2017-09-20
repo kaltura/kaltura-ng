@@ -10,7 +10,7 @@ import { FriendlyHashId } from '../friendly-hash-id';
 
 export enum TrackedFileStatuses {
     uploading,
-    uploadComleted,
+    uploadCompleted,
     uploadFailed,
     added,
     waitingUpload,
@@ -433,7 +433,7 @@ export class UploadManagement implements OnDestroy {
 
             this._syncUploadQueue();
 
-        } else if ([TrackedFileStatuses.uploading, TrackedFileStatuses.uploadComleted].includes(trackedFile.status)) {
+        } else if ([TrackedFileStatuses.uploading, TrackedFileStatuses.uploadCompleted].includes(trackedFile.status)) {
             this._log('debug', `upload already in progress or file was already uploaded successfully. ignoring request`);
         } else {
             const activeUploadSubscription = this._trackedFilesUploadData[id].uploadSubscription;
@@ -487,7 +487,7 @@ export class UploadManagement implements OnDestroy {
                         if (trackedFile) {
                             this._updateTrackedFile(trackedFile,
                                 {
-                                    status: TrackedFileStatuses.uploadComleted,
+                                    status: TrackedFileStatuses.uploadCompleted,
                                     progress: 1,
                                     uploadCompleteAt: new Date()
                                 });
