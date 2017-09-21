@@ -8,21 +8,23 @@ import { ISubscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/groupBy';
 import { FriendlyHashId } from '../friendly-hash-id';
 
-export enum TrackedFileStatuses {
-    added = 'added',
-    preparing = 'preparing',
-    waitingUpload = 'waitingUpload',
-    mediaCreated = 'mediaCreated',
-    uploading = 'uploading',
-    uploadCompleted = 'uploadCompleted',
-    uploadFailed = 'uploadFailed',
-    cancelled = 'cancelled',
-    purged = 'purged'
+export type TrackedFileStatus = string
+
+export class TrackedFileStatuses {
+  public static readonly added: TrackedFileStatus = 'added';
+  public static readonly preparing: TrackedFileStatus = 'preparing';
+  public static readonly waitingUpload: TrackedFileStatus = 'waitingUpload';
+  public static readonly mediaCreated: TrackedFileStatus = 'mediaCreated';
+  public static readonly uploading: TrackedFileStatus = 'uploading';
+  public static readonly uploadCompleted: TrackedFileStatus = 'uploadCompleted';
+  public static readonly uploadFailed: TrackedFileStatus = 'uploadFailed';
+  public static readonly cancelled: TrackedFileStatus = 'cancelled';
+  public static readonly purged: TrackedFileStatus = 'purged';
 }
 
 export interface TrackedFile {
     id: string,
-    status: TrackedFileStatuses,
+    status: TrackedFileStatus,
     entryId?: string;
     uploadStartAt?: Date,
     progress?: number,
@@ -194,7 +196,14 @@ export class UploadManagement implements OnDestroy {
     }
 
     public setMediaEntryId(trackedFile: TrackedFile, entryId: string): void {
-      this._updateTrackedFile(trackedFile, { entryId, status: TrackedFileStatuses.mediaCreated });
+        const originalStatus = trackedFile.status;
+
+        this._updateTrackedFile(trackedFile, { entryId, status: TrackedFileStatuses.mediaCreated });
+
+        setTimeout(() => {
+            this._updateTrackedFile(trackedFile, { entryId, status: originalStatus }), 0
+        });
+
     }
 
     private _removeTrackedFile(id: string) {
@@ -443,70 +452,72 @@ export class UploadManagement implements OnDestroy {
         } else if ([TrackedFileStatuses.uploading, TrackedFileStatuses.uploadCompleted].includes(trackedFile.status)) {
             this._log('debug', `upload already in progress or file was already uploaded successfully. ignoring request`);
         } else {
-            const activeUploadSubscription = this._trackedFilesUploadData[id].uploadSubscription;
+            if (this._trackedFilesUploadData[id]) {
+              const activeUploadSubscription = this._trackedFilesUploadData[id].uploadSubscription;
 
-            if (activeUploadSubscription) {
+              if (activeUploadSubscription) {
                 this._log('warn', `an active upload was found while the status indicated no upload currently in progress. cancel previous upload`);
                 activeUploadSubscription.unsubscribe();
                 this._trackedFilesUploadData[id].uploadSubscription = null;
-            }
+              }
 
-            this._updateTrackedFile(trackedFile, {
+              this._updateTrackedFile(trackedFile, {
                 status: TrackedFileStatuses.uploading,
                 progress: 0,
                 uploadStartAt: new Date(),
-            });
+              });
 
-            this._trackedFilesUploadData[id].uploadSubscription = uploadAdapter.upload(id, data)
+              this._trackedFilesUploadData[id].uploadSubscription = uploadAdapter.upload(id, data)
                 .subscribe(
-                    (uploadChanges) => {
-                        const trackedFile = this._trackedFiles[id];
+                  (uploadChanges) => {
+                    const trackedFile = this._trackedFiles[id];
 
-                        if (trackedFile) {
-                            this._updateTrackedFile(trackedFile,
-                                {
-                                    status: TrackedFileStatuses.uploading,
-                                    progress: uploadChanges.progress
-                                });
-                        } else {
-                            this._log('warn', `got status update for file '${id}', but this file seems to be purged`);
-                        }
-                    },
-                    (error) => {
-                        const trackedFile = this._trackedFiles[id];
-
-                        if (trackedFile) {
-                            const failureReason = error && error.message ? error.message : '';
-
-                            this._updateTrackedFile(trackedFile,
-                                {
-                                    status: TrackedFileStatuses.uploadFailed,
-                                    failureReason,
-                                    failureType: 'general_error'
-                                });
-                        }
-
-                        this._syncUploadQueue();
-                    },
-                    () => {
-                        const trackedFile = this._trackedFiles[id];
-
-                        if (trackedFile) {
-                            this._updateTrackedFile(trackedFile,
-                                {
-                                    status: TrackedFileStatuses.uploadCompleted,
-                                    progress: 1,
-                                    uploadCompleteAt: new Date()
-                                });
-
-                            this._trackedFilesUploadData[id].uploadSubscription = null;
-                            this._removeTrackedFile(trackedFile.id);
-                            this._syncUploadQueue();
-                        } else {
-                            this._log('warn', `got status update for file '${id}', but this file seems to be purged`);
-                        }
+                    if (trackedFile) {
+                      this._updateTrackedFile(trackedFile,
+                        {
+                          status: TrackedFileStatuses.uploading,
+                          progress: uploadChanges.progress
+                        });
+                    } else {
+                      this._log('warn', `got status update for file '${id}', but this file seems to be purged`);
                     }
+                  },
+                  (error) => {
+                    const trackedFile = this._trackedFiles[id];
+
+                    if (trackedFile) {
+                      const failureReason = error && error.message ? error.message : '';
+
+                      this._updateTrackedFile(trackedFile,
+                        {
+                          status: TrackedFileStatuses.uploadFailed,
+                          failureReason,
+                          failureType: 'general_error'
+                        });
+                    }
+
+                    this._syncUploadQueue();
+                  },
+                  () => {
+                    const trackedFile = this._trackedFiles[id];
+
+                    if (trackedFile) {
+                      this._updateTrackedFile(trackedFile,
+                        {
+                          status: TrackedFileStatuses.uploadCompleted,
+                          progress: 1,
+                          uploadCompleteAt: new Date()
+                        });
+
+                      this._trackedFilesUploadData[id].uploadSubscription = null;
+                      this._removeTrackedFile(trackedFile.id);
+                      this._syncUploadQueue();
+                    } else {
+                      this._log('warn', `got status update for file '${id}', but this file seems to be purged`);
+                    }
+                  }
                 );
+            }
         }
     }
 
