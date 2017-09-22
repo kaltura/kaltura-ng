@@ -4,6 +4,7 @@ import { ISubscription } from 'rxjs/Subscription';
 import { AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR } from "primeng/components/autocomplete/autocomplete";
 import { DomHandler } from "primeng/components/dom/domhandler";
 import { ObjectUtils } from 'primeng/components/utils/objectutils';
+import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 // [kmcng] upon upgrade: Be patient and bring a big cup of coffee.... good luck!
 
@@ -14,8 +15,12 @@ export interface SuggestionsProviderData{
 }
 
 /* tslint:disable */
-// [kmcng] upon upgrade: make sure this accessor is still in use in the original component
-const MODIFIED_AUTOCOMPLETE_VALUE_ACCESSOR = Object.assign({},AUTOCOMPLETE_VALUE_ACCESSOR,{useExisting : forwardRef(() => AutoComplete)});
+export const KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => AutoComplete),
+    multi: true
+};
+
 /* tslint:enable */
 
 @Component({
@@ -25,7 +30,7 @@ const MODIFIED_AUTOCOMPLETE_VALUE_ACCESSOR = Object.assign({},AUTOCOMPLETE_VALUE
     // [kmcng] upon upgrade: sync with original component
     styleUrls: [ './auto-complete.component.scss' ],
     templateUrl: './auto-complete.component.html',
-    providers: [DomHandler,ObjectUtils,MODIFIED_AUTOCOMPLETE_VALUE_ACCESSOR],
+    providers: [DomHandler,ObjectUtils,KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR],
     host: {
         '[class.ui-inputwrapper-filled]': 'filled',
         '[class.ui-inputwrapper-focus]': 'focus'
