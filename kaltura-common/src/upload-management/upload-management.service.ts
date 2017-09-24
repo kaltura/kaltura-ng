@@ -533,7 +533,6 @@ export class UploadManagement implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        console.warn('ngOnDestroy', this._trackedFilesUploadData);
         Object.keys(this._trackedFilesUploadData).forEach(id =>
         {
             this.purgeUpload(id);
