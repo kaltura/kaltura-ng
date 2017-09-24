@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
 import { KalturaClient } from '@kaltura-ng/kaltura-client';
 import { ConversionProfileListAction } from 'kaltura-typescript-client/types/ConversionProfileListAction';
 import { KalturaConversionProfileFilter } from 'kaltura-typescript-client/types/KalturaConversionProfileFilter';
@@ -11,7 +10,7 @@ import { KalturaConversionProfile } from 'kaltura-typescript-client/types/Kaltur
 
 @Injectable()
 export class TranscodingProfileManagement {
-  private _trancodingProfileCachedResponse: KalturaConversionProfile[];
+  private _transcodingProfileCache$;
 
   constructor(private _serverClient: KalturaClient) {
 
@@ -29,39 +28,22 @@ export class TranscodingProfileManagement {
   }
 
   public get(): Observable<KalturaConversionProfile[]> {
-    return Observable.create(observer => {
-      let requestSubscription;
-      if (this._trancodingProfileCachedResponse) {
-        observer.next(this._trancodingProfileCachedResponse);
-        observer.complete();
-      } else {
-        requestSubscription = this._loadTranscodingProfiles()
-          .subscribe(
-            res => {
-              requestSubscription = null;
-              this._trancodingProfileCachedResponse = res;
-              observer.next(this._trancodingProfileCachedResponse);
-              observer.complete();
-            },
-            err => {
-              observer.error(err);
-              requestSubscription = null;
-              this._trancodingProfileCachedResponse = null;
-            }
-          );
-      }
+    if (!this._transcodingProfileCache$) {
+      this._transcodingProfileCache$ = this._loadTranscodingProfiles()
+        .catch((err, caught) => {
+          console.log(`log: [warn] [transcodingProfile-management] Error during load transcoding profiles: ${err}`);
+          this._transcodingProfileCache$ = null;
+          return caught;
+        })
+        .publishReplay(1)
+        .refCount();
+    }
 
-      return () => {
-        if (requestSubscription) {
-          requestSubscription.unsubscribe();
-          requestSubscription = null;
-        }
-      };
-    });
+    return this._transcodingProfileCache$;
   }
 
   public clearCache(): void {
-    this._trancodingProfileCachedResponse = null;
+    this._transcodingProfileCache$ = null;
   }
 
 }
