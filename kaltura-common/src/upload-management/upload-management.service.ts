@@ -14,7 +14,6 @@ export class TrackedFileStatuses {
   public static readonly added: TrackedFileStatus = 'added';
   public static readonly preparing: TrackedFileStatus = 'preparing';
   public static readonly waitingUpload: TrackedFileStatus = 'waitingUpload';
-  public static readonly mediaCreated: TrackedFileStatus = 'mediaCreated';
   public static readonly uploading: TrackedFileStatus = 'uploading';
   public static readonly uploadCompleted: TrackedFileStatus = 'uploadCompleted';
   public static readonly uploadFailed: TrackedFileStatus = 'uploadFailed';
@@ -25,7 +24,6 @@ export class TrackedFileStatuses {
 export interface TrackedFile {
     id: string,
     status: TrackedFileStatus,
-    entryId?: string;
     uploadStartAt?: Date,
     progress?: number,
     uploadCompleteAt?: Date,
@@ -193,17 +191,6 @@ export class UploadManagement implements OnDestroy {
             this._log('warn', `cannot find file '${id}', ignoring purge request`);
 
         }
-    }
-
-    public setMediaEntryId(trackedFile: TrackedFile, entryId: string): void {
-        const originalStatus = trackedFile.status;
-
-        this._updateTrackedFile(trackedFile, { entryId, status: TrackedFileStatuses.mediaCreated });
-
-        setTimeout(() => {
-            this._updateTrackedFile(trackedFile, { entryId, status: originalStatus }), 0
-        });
-
     }
 
     private _removeTrackedFile(id: string) {
