@@ -1,1 +1,9 @@
-details-bar
+<div class="kDetailsBar" *ngIf="data?.length">
+    <div class="kDetailsWrapper">
+        <kDetailInfo *ngFor="let detail of data; let i = index" 
+        [data]="detail"
+         [separator]="separatorField" 
+         [caption]="captionField ? detail[captionField] : detail"    
+             [isLastItem]="i == data.length-1? true:false"></kDetailInfo>
+    </div>
+</div>

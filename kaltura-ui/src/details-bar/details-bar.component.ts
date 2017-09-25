@@ -1,4 +1,4 @@
-import { Output, EventEmitter, Component, ElementRef, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Output, EventEmitter, Component, ElementRef, Input,  ViewEncapsulation } from '@angular/core';
 import { DetailInfoComponent } from './detail-info.component';
 
 
@@ -10,11 +10,12 @@ import { DetailInfoComponent } from './detail-info.component';
   styleUrls: ['./details-bar.component.scss'],
   encapsulation : ViewEncapsulation.None
 })
-export class DetailsBarComponent implements OnInit  {
+export class DetailsBarComponent{
 
-  ngOnInit()
-  {
-
-  }
+  @Input() data: any[] = [];
+  @Input() captionField: string;
+  @Input() separatorField:string;
+  
+	//@ViewChildren(DetailInfoComponent)
 }
 

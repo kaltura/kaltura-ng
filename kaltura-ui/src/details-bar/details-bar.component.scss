@@ -1,0 +1,17 @@
+:host {
+    width: 100%;
+}
+
+.kDetailsBar {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.kDetailsWrapper {
+    display: table;
+    white-space: nowrap;
+    border-collapse: separate;
+    border-spacing: 4px;
+}

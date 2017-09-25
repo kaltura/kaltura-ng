@@ -1,5 +1,8 @@
 <div class="kDetailInfo" *ngIf="caption">
-    <div class="kDetail">
-        <span class="kDetailCaption">{{caption}}</span>
+    <div class="kDetail"  *ngIf="isLastItem" >
+        <span class="kDetailCaption">{{caption}} </span>
+    </div>
+    <div class="kDetail"  *ngIf="!isLastItem" >
+        <span class="kDetailCaption">{{caption}} {{separator}}</span>
     </div>
 </div>

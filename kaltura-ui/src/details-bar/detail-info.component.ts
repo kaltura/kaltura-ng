@@ -13,6 +13,8 @@ export class DetailInfoComponent {
     @Input() toolTipAsHTML: boolean;
     @Input() iconStyle: string;
     @Input() itemStyle: string;
+    @Input() separator: string;
+    @Input() isLastItem: boolean;
     //     type* 
     @Input() data: any;
     @Input() template: TemplateRef<any>;
