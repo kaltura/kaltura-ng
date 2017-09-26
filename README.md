@@ -19,7 +19,6 @@ Kaltura-ng is a [monorepo](https://developer.atlassian.com/blog/2015/10/monorepo
 ## Technology stack and conventions
 Kaltura Angular libraries use the following technologies and conventions:
 * [TypeScript](http://www.typescriptlang.org/) language (superset of Javascript).
-* [Yarn](https://yarnpkg.com/en/) as our dependency management.
 * Stylesheets with [SASS](http://sass-lang.com/) (not required, it supports regular css too).
 * Error reported with [TSLint](http://palantir.github.io/tslint/) and [Codelyzer](https://github.com/mgechev/codelyzer).
 * [Lerna](https://github.com/lerna/lerna) - a tool that optimizes the workflow around managing multi-package repositories with git and npm.
@@ -37,7 +36,7 @@ Kaltura Angular libraries use the following technologies and conventions:
 
 - [x] Ensure you have [node.js installed](https://nodejs.org/en/download/current/), version 7.0.0 or above. 
 - [x] Ensure you have [git installed](https://git-for-windows.github.io/) 
-- [x] Ensure you have [yarn installed](https://yarnpkg.com/lang/en/docs/install/) (we use it for node package management) 
+- [x] Ensure you have npm installed, version 5.0.0 or above.
 
 ### Get the sources
 Clone the repository and load project dependencies
@@ -49,7 +48,7 @@ $ git clone https://github.com/kaltura/kaltura-ng.git
 $ cd kaltura-ng
 
 # install the dependencies with npm
-$ yarn
+$ npm install
 ```
 
 
@@ -59,7 +58,7 @@ As this monorepo holds independent packages that depends on each other, you will
 
 You need to run the following command to link everything together
 ```
-$ yarn run setup
+$ npm run setup
 ```
 
 this command will run 'lerna' behind the scenes to fetch node_modules for each package and, if needed, create a symlink to dependent packages in this repo.
@@ -68,14 +67,6 @@ this command will run 'lerna' behind the scenes to fetch node_modules for each p
 
 
 # FAQ
-
-#### When I update any package dependency using `yarn add|upgrade`, the symlink between dependent packages are being removed. Why does it happen and how to overcome it?
-There is a known issue with `yarn` (github issue [#1213](https://github.com/yarnpkg/yarn/issues/1214)): once you run `yarn` it will overwrite linked modules. 
-
-Until this issue is resolved by the `yarn` team, you can re-bootstrap everything together without re-fetching node_modules. For each package use the following command:
-```bash
-$ yarn run setup:lite
-```
 
 ## Want to help?
 Want to contribute some code?
