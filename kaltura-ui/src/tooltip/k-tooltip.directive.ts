@@ -12,6 +12,7 @@ export class KTooltipDirective implements OnDestroy{
 
 	private _tooltip: any = null;
 
+	@Input() escape: boolean = true;
 	@Input() tooltipOffset: number = 8;
 	@Input() kTooltip : number | string = "";
 	@Input() placement: TooltipPositions = "top";
@@ -37,9 +38,14 @@ export class KTooltipDirective implements OnDestroy{
 		this._tooltip.className += "ng-tooltip ng-tooltip-" + this.placement;
 		if (this.maxWidth > 0){
 			this._tooltip.style.maxWidth = this.maxWidth + "px";
-			this._tooltip.style.textAlign = "left";
 		}
-		this._tooltip.textContent = this.kTooltip;
+		if (this.escape) {
+			this._tooltip.innerHTM = '';
+			this._tooltip.textContent = this.kTooltip;
+		}else{
+			this._tooltip.innerHTML = this.kTooltip;
+		}
+
 		setTimeout(() => {
 			if (this._tooltip) {
 				this._tooltip.className += " ng-tooltip-show";

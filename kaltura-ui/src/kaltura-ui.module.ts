@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FileDialogComponent } from './components/file-dialog/file-dialog.component';
+import { KalturaPlayerComponent } from './player/player.component';
 import { DatePipe } from './date.pipe';
 import { SafePipe } from './safe.pipe';
 import { TimePipe } from './time.pipe';
@@ -15,6 +16,7 @@ import { LineBreakPipe } from './line-break.pipe';
         SafePipe,
         TimePipe,
 	    FileDialogComponent,
+        KalturaPlayerComponent,
         DatePipe,
         FileSizePipe,
         LineBreakPipe
@@ -23,6 +25,7 @@ import { LineBreakPipe } from './line-break.pipe';
         TimePipe,
         SafePipe,
 	    FileDialogComponent,
+        KalturaPlayerComponent,
         DatePipe,
         FileSizePipe,
         LineBreakPipe
