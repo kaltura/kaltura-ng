@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.2"></a>
+## [1.3.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.3.0...@kaltura-ng/kaltura-ui@1.3.2) (2017-09-26)
+
+
+### Bug Fixes
+
+* remove inline style for align left ([5153362](https://github.com/kaltura/kaltura-ng/commit/5153362))
+
+
+
+
 <a name="1.3.1"></a>
 ## [1.3.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.3.0...@kaltura-ng/kaltura-ui@1.3.1) (2017-09-17)
 
