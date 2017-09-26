@@ -182,7 +182,7 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
 
 
         if (!widget) {
-            console.warn(`[kaltura] Cannot find registered widget with key '${widget.key}' (did you register a widget with that key?)`);
+            console.warn(`[kaltura] Cannot find requested widget in registered widgets list (did you register a widget with that key?)`);
         } else if (!(widget instanceof widgetType)) {
             console.warn(`[kaltura] Cannot find widget with key '${widget.key}' (did you register a widget with that key?)`);
         }else {
