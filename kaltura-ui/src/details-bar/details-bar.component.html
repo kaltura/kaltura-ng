@@ -1,9 +1,12 @@
 <div class="kDetailsBar" *ngIf="data?.length">
+    <button>More</button>
     <div class="kDetailsWrapper">
         <kDetailInfo *ngFor="let detail of data; let i = index" 
-        [data]="detail"
-         [separator]="separatorField" 
-         [caption]="captionField ? detail[captionField] : detail"    
-             [isLastItem]="i == data.length-1? true:false"></kDetailInfo>
+        [data]="detail" 
+        [separator]="separatorField" 
+        [maxItemWidth]="maxItemWidthField" 
+        [caption]="captionField ? detail[captionField] : ''"
+        [value]="valueField ? detail[valueField] : ''"        
+        [isLastItem]="i == data.length-1? true:false"></kDetailInfo>
     </div>
 </div>

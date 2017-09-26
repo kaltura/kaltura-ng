@@ -4,14 +4,15 @@
 
 .kDetailsBar {
     width: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
+    height: 30px;
+    overflow-y: hidden;
 }
 
 .kDetailsWrapper {
-    display: table;
-    white-space: nowrap;
-    border-collapse: separate;
-    border-spacing: 4px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.kScroller{
+    width: 100%;
+    overflow: hidden;
 }

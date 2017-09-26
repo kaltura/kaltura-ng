@@ -1,8 +1,5 @@
-<div class="kDetailInfo" *ngIf="caption">
-    <div class="kDetail"  *ngIf="isLastItem" >
-        <span class="kDetailCaption">{{caption}} </span>
-    </div>
-    <div class="kDetail"  *ngIf="!isLastItem" >
-        <span class="kDetailCaption">{{caption}} {{separator}}</span>
+<div class="kDetailInfo" *ngIf="_info">
+    <div class="kDetail">
+        <span class="kDetailCaption" [style.maxWidth]="maxItemWidth+'px'">{{_info}}</span>
     </div>
 </div>
