@@ -52,12 +52,6 @@
       ],
       "tslib/*": [
         "../node_modules/tslib/*"
-      ],
-      "typescript": [
-        "../node_modules/typescript"
-      ],
-      "typescript/*": [
-        "../node_modules/typescript/*"
       ]
     }
   },
