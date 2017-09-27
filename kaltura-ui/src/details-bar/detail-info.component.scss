@@ -5,13 +5,14 @@
 .kDetailInfo {
     display: table-cell;
     height: 24px;
-    // font-size: 14px;
-    // padding-left: 8px;
-    // padding-right: 2px;
 }
 
 .kDetail {
     display: flex;
     align-items: center;
     overflow: hidden;
+}
+.kSeparator{
+    padding-right: 4px;
+    padding-left: 4px;    
 }

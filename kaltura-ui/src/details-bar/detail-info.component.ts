@@ -21,26 +21,9 @@ export class DetailInfoComponent implements OnInit {
     @Input() data: any;
     @Input() template: TemplateRef<any>;
 
-    _info: string = "";
-
     constructor() {
     }
     ngOnInit() {
-        if (this.caption) {
-            this._info = this.caption;
-        }
-        if (this._info && this._info.length > 0 && this.value && this.value.length > 0) {
-            this._info = this._info + ": " + this.value;
-        }
-
-        if ((!this._info || this._info.length === 0) && this.value && this.value.length > 0) {
-            this._info = this.value;
-        }
-
-        if (!this.isLastItem && this._info && this._info.length > 0) {
-            this._info = this._info + " " + this.separator;
-        }
-
         if (this.link && this.link.length > 0 && !this.value) {
             this.value = this.link;
         }
