@@ -1,12 +1,12 @@
-<div class="kDetailsBar" *ngIf="data?.length">
-    <button>More</button>
-    <div class="kDetailsWrapper">
-        <kDetailInfo *ngFor="let detail of data; let i = index" 
-        [data]="detail" 
-        [separator]="separatorField" 
-        [maxItemWidth]="maxItemWidthField" 
-        [caption]="captionField ? detail[captionField] : ''"
-        [value]="valueField ? detail[valueField] : ''"        
-        [isLastItem]="i == data.length-1? true:false"></kDetailInfo>
+<div class="kDetailsBar" *ngIf="data?.length" #dataWrapper>
+    <div class="kMoreDetails kMoreLessBtn">
+        <div class="kMoreArrows" [style.visibility]="_showMore ? 'visible' : 'hidden'">
+            <i class="kIcondropdown_arrow_left kScrollArrow" [class.disable]="!_showLessEnabled" (click)="show('less')"></i>
+            <i class="kIcondropdown_arrow_right kScrollArrow" [class.disable]="!_showMoreEnabled" (click)="show('more')"></i>
+        </div>
+    </div>
+    <div class="kDetailsWrapper" #dataPanel>
+        <kDetailInfo *ngFor="let detail of data; let i = index" [data]="detail" [separator]="separatorField" [maxItemWidth]="maxItemWidthField"
+            [caption]="captionField ? detail[captionField] : ''" [value]="valueField ? detail[valueField] : ''" [isLastItem]="i == data.length-1? true:false"></kDetailInfo>
     </div>
 </div>
