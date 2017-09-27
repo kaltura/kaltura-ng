@@ -9,6 +9,7 @@ export class DetailInfoComponent implements OnInit {
 
     @Input() caption?: string;
     @Input() value?: string;
+    @Input() link?: string;
     @Input() tooltip: string;
     @Input() toolTipAsHTML: boolean;
     @Input() iconStyle: string;

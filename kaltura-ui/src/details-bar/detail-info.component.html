@@ -1,5 +1,13 @@
 <div class="kDetailInfo" *ngIf="_info">
-    <div class="kDetail">
+    <div class="kDetail" *ngIf="link === UNDFIEND">
         <span class="kDetailCaption" [style.maxWidth]="maxItemWidth+'px'">{{_info}}</span>
+    </div>
+    <div class="kDetail" *ngIf="link">
+        <div class="kDetail" *ngIf="caption">
+            <span class="kDetailCaption" [style.maxWidth]="maxItemWidth+'px'">{{caption}}: &nbsp; </span>
+            <div class="kDetail" *ngIf="value">
+                <a [href]="link">{{value}}</a>
+            </div>
+        </div>
     </div>
 </div>

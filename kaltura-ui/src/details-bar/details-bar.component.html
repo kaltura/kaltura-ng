@@ -6,7 +6,13 @@
         </div>
     </div>
     <div class="kDetailsWrapper" #dataPanel>
-        <kDetailInfo *ngFor="let detail of data; let i = index" [data]="detail" [separator]="separatorField" [maxItemWidth]="maxItemWidthField"
-            [caption]="captionField ? detail[captionField] : ''" [value]="valueField ? detail[valueField] : ''" [isLastItem]="i == data.length-1? true:false"></kDetailInfo>
-    </div>
+        <kDetailInfo *ngFor="let detail of data; let i = index" 
+        [data]="detail" 
+        [separator]="separatorField" 
+        [maxItemWidth]="maxItemWidthField"
+        [caption]="captionField ? detail[captionField] : ''" 
+        [value]="valueField ? detail[valueField] : ''" 
+        [link]="linkField ? detail[linkField] : ''" 
+        [isLastItem]="i == data.length-1? true:false"></kDetailInfo>
+    </div>    
 </div>

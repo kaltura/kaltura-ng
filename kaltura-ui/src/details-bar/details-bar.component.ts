@@ -22,6 +22,7 @@ export class DetailsBarComponent implements AfterViewInit {
   @Input() data: DetailInfo[] = [];
   @Input() captionField: string;
   @Input() valueField: string;
+  @Input() linkField: string;
   @Input() iconStyleField: string;
   @Input() separatorField: string = "|";
   @Input() maxItemWidthField: number = 100;
