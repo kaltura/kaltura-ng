@@ -1,8 +1,15 @@
 import { Output, EventEmitter, Component, ElementRef, Input, ViewEncapsulation, AfterViewInit, ViewChild, HostListener } from '@angular/core';
 import { DetailInfoComponent } from './detail-info.component';
 
-
-
+export interface DetailInfo {
+  caption?: string;
+  value?: string;
+  link?: string;
+  tooltip?: string;
+  toolTipAsHTML?: boolean;
+  iconStyle?: string;
+  itemStyle?: string;
+}
 
 @Component({
   selector: 'k-details-bar',
@@ -12,7 +19,7 @@ import { DetailInfoComponent } from './detail-info.component';
 })
 export class DetailsBarComponent implements AfterViewInit {
 
-  @Input() data: any[] = [];
+  @Input() data: DetailInfo[] = [];
   @Input() captionField: string;
   @Input() valueField: string;
   @Input() iconStyleField: string;
