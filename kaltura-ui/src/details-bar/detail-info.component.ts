@@ -38,7 +38,11 @@ export class DetailInfoComponent implements OnInit {
         }
 
         if (!this.isLastItem && this._info && this._info.length > 0) {
-            this._info = this._info + " "+ this.separator;
+            this._info = this._info + " " + this.separator;
+        }
+
+        if (this.link && this.link.length > 0 && !this.value) {
+            this.value = this.link;
         }
     }
 }

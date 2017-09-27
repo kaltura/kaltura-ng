@@ -5,9 +5,9 @@
     <div class="kDetail" *ngIf="link">
         <div class="kDetail" *ngIf="caption">
             <span class="kDetailCaption" [style.maxWidth]="maxItemWidth+'px'">{{caption}}: &nbsp; </span>
-            <div class="kDetail" *ngIf="value">
-                <a [href]="link">{{value}}</a>
+            <div class="kDetail"> <a [href]="link">{{value}}</a>
             </div>
+            <div *ngIf=!isLastItem>{{separator}}</div>
         </div>
     </div>
 </div>
