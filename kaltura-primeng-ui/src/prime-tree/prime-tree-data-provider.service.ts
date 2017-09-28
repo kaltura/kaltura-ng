@@ -1,14 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PrimeTreeNode } from './prime-tree-node';
-
-export enum NodeChildrenStatuses
-{
-	missing,
-	loading,
-	error,
-	loaded
-}
-
+import { PrimeTreeNode, NodeChildrenStatuses } from './prime-tree-node';
 
 
 @Injectable()

@@ -1,5 +1,12 @@
 import { TreeNode } from "primeng/components/common/api";
-import { NodeChildrenStatuses } from './prime-tree-data-provider.service';
+
+export enum NodeChildrenStatuses
+{
+    missing,
+    loading,
+    error,
+    loaded
+}
 
 export class PrimeTreeNode implements TreeNode{
 
