@@ -1,8 +1,8 @@
 <div class="kDetailsBar" *ngIf="data?.length" #dataWrapper>
     <div class="kMoreDetails kMoreLessBtn">
         <div class="kMoreArrows" [style.visibility]="_showMore ? 'visible' : 'hidden'">
-            <i class="kIcondropdown_arrow_left kScrollArrow" [class.disable]="!_showLessEnabled" (click)="show('less')"></i>
-            <i class="kIcondropdown_arrow_right kScrollArrow" [class.disable]="!_showMoreEnabled" (click)="show('more')"></i>
+            <a [style.display]="!_showMoreEnabled? 'inline': 'none'" (click)="show('less')">Basic Details</a>
+            <a [style.display]="_showMoreEnabled? 'inline': 'none'" (click)="show('more')">More Details</a>
         </div>
     </div>
     <div class="kDetailsWrapper" #dataPanel>
@@ -14,6 +14,7 @@
         [value]="valueField ? detail[valueField] : ''" 
         [link]="linkField ? detail[linkField] : ''" 
         [iconStyle]="iconStyleField ? detail[iconStyleField] : ''" 
+        [tooltip]="tooltipField ? detail[tooltipField] : ''" 
         [isLastItem]="i == data.length-1? true:false"></kDetailInfo>
     </div>    
 </div>

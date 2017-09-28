@@ -6,7 +6,7 @@ export interface DetailInfo {
   value?: string;
   link?: string;
   tooltip?: string;
-  toolTipAsHTML?: boolean;
+  tooltipAsHTML?: boolean;
   iconStyle?: string;
   itemStyle?: string;
 }
@@ -24,6 +24,7 @@ export class DetailsBarComponent implements AfterViewInit {
   @Input() valueField: string;
   @Input() linkField: string;
   @Input() iconStyleField: string;
+  @Input() tooltipField: string;
   @Input() separatorField: string = "|";
   @Input() maxItemWidthField: number = 100;
 
@@ -31,7 +32,6 @@ export class DetailsBarComponent implements AfterViewInit {
   @ViewChild('dataWrapper') dataWrapper: ElementRef;
   public _showMore: boolean = false;
   private showMoreCheckIntervalID: number;
-  public _showLessEnabled: boolean = false;
   public _showMoreEnabled: boolean = true;
 
   public text: string;
@@ -53,10 +53,12 @@ export class DetailsBarComponent implements AfterViewInit {
     }
     this.showMoreCheckIntervalID = setTimeout(() => {
       if (this.data && this.data.length && this.dataPanel) {
-        this._showMore = this.dataWrapper.nativeElement.clientHeight < (this.dataPanel.nativeElement.getBoundingClientRect().height);
+        this._showMore = this.dataWrapper.nativeElement.clientHeight < (this.dataPanel.nativeElement.getBoundingClientRect().height);        
       }
-      else
+      else {
         this._showMore = false;
+      }
+      this._showMoreEnabled = this._showMore;
       this.showMoreCheckIntervalID = null;
     }, 100);
   }
@@ -64,12 +66,10 @@ export class DetailsBarComponent implements AfterViewInit {
   show(direction: string) {
     if (direction === "more") {
       this.dataPanel.nativeElement.style.marginTop = this.dataPanel.nativeElement.children[0].clientHeight * (-1) + "px";
-      this._showLessEnabled = true;
       this._showMoreEnabled = false;
     }
     else {
       this.dataPanel.nativeElement.style.marginTop = "0px";
-      this._showLessEnabled = false;
       this._showMoreEnabled = true;
     }
   }

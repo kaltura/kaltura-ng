@@ -4,7 +4,7 @@
         <div *ngIf="caption">
             <span>{{caption}}: &nbsp; </span>
         </div>
-        <span>{{value}}</span>
+        <span [kTooltip]="tooltip">{{value}}</span>        
         <div *ngIf=!isLastItem class="kSeparator">{{separator}}</div>
     </div>
     <div class="kDetail" *ngIf="link" [style.maxWidth]="maxItemWidth+'px'">
@@ -15,4 +15,4 @@
         <a [href]="link">{{value}}</a>
         <div *ngIf=!isLastItem class="kSeparator">{{separator}}</div>
     </div>
-</div>
+</div> 
