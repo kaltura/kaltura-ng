@@ -4,4 +4,7 @@ export { FileDialogComponent } from './components/file-dialog/file-dialog.compon
 export { KalturaPlayerComponent } from './player/player.component';
 export { AreaBlockerModule, AreaBlockerMessage, AreaBlockerMessageButton } from './area-blocker';
 export { DetailsBarComponent } from "./details-bar/details-bar.component";
+export { TimePipe } from './time.pipe';
+export { DatePipe } from './date.pipe';
+
 export * from './form';
