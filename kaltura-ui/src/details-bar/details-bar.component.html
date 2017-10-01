@@ -1,0 +1,20 @@
+<div class="kDetailsBar" *ngIf="data?.length" #dataWrapper>
+    <div class="kMoreDetails kMoreLessBtn">
+        <div class="kMoreArrows" [style.visibility]="_showMore ? 'visible' : 'hidden'">
+            <a [style.display]="!_showMoreEnabled? 'inline': 'none'" (click)="show('less')">Basic Details</a>
+            <a [style.display]="_showMoreEnabled? 'inline': 'none'" (click)="show('more')">More Details</a>
+        </div>
+    </div>
+    <div class="kDetailsWrapper" #dataPanel>
+        <kDetailInfo *ngFor="let detail of data; let i = index" 
+        [data]="detail" 
+        [separator]="separatorField" 
+        [maxItemWidth]="maxItemWidthField"
+        [caption]="captionField ? detail[captionField] : ''" 
+        [value]="valueField ? detail[valueField] : ''" 
+        [link]="linkField ? detail[linkField] : ''" 
+        [iconStyle]="iconStyleField ? detail[iconStyleField] : ''" 
+        [tooltip]="tooltipField ? detail[tooltipField] : ''" 
+        [isLastItem]="i == data.length-1? true:false"></kDetailInfo>
+    </div>    
+</div>
