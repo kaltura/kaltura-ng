@@ -1,18 +1,18 @@
 <div class="kDetailInfo">
     <div class="kDetail" [style.maxWidth]="maxItemWidth+'px'" *ngIf="link === UNDFIEND">
         <div *ngIf="iconStyle" class="kIconimage"></div>
-        <div *ngIf="caption">
+        <div class="kCaption" *ngIf="caption">
             <span>{{caption}}: &nbsp; </span>
         </div>
-        <span [kTooltip]="tooltip">{{value}}</span>        
+        <span class="kValue" [kTooltip]="tooltip">{{value}}</span>        
         <div *ngIf=!isLastItem class="kSeparator">{{separator}}</div>
     </div>
     <div class="kDetail" *ngIf="link" [style.maxWidth]="maxItemWidth+'px'">
         <div *ngIf="iconStyle" class="kIconimage"></div>
-        <div *ngIf="caption">
+        <div class="kCaption"  *ngIf="caption">
             <span>{{caption}}: &nbsp; </span>
         </div>
-        <a [href]="link">{{value}}</a>
+        <a class="kValue" [href]="link">{{value}}</a>
         <div *ngIf=!isLastItem class="kSeparator">{{separator}}</div>
     </div>
 </div> 

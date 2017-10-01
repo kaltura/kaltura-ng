@@ -1,3 +1,4 @@
+import { DetailInfo } from './details-bar.component';
 import { Component, EventEmitter, Input, Output, TemplateRef, OnInit } from '@angular/core';
 
 @Component({
@@ -18,7 +19,7 @@ export class DetailInfoComponent implements OnInit {
     @Input() maxItemWidth: number;
     @Input() isLastItem: boolean;
     //     type* 
-    @Input() data: any;
+    @Input() data: DetailInfo;
     @Input() template: TemplateRef<any>;
 
     constructor() {

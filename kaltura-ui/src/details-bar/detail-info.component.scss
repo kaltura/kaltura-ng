@@ -11,11 +11,22 @@
     display: flex;
     align-items: center;
     overflow: hidden;
+    .kCaption {
+        flex: 0 0 auto;
+    }
+    .kValue {
+        overflow: hidden;
+        white-space: nowrap;
+        flex: 1 1 auto;
+    }
 }
-.kSeparator{
+
+.kSeparator {
     padding-right: 8px;
-    padding-left: 8px;    
+    padding-left: 8px;
+    flex: 0 0 auto;
 }
-.kIconimage{
-    padding-right: 4px;    
+
+.kIconimage {
+    padding-right: 4px;
 }
