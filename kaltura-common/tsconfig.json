@@ -19,8 +19,7 @@
       "node_modules/@types"
     ],
     "lib": [
-      "es2015",
-      "ES2017",
+      "es2017",
       "dom"
     ],
     "paths": {
@@ -29,12 +28,6 @@
       ],
       "@angular/common/*": [
         "../node_modules/@angular/common/*"
-      ],
-      "@angular/compiler": [
-        "../node_modules/@angular/compiler"
-      ],
-      "@angular/compiler/*": [
-        "../node_modules/@angular/compiler/*"
       ],
       "@angular/core": [
         "../node_modules/@angular/core"

@@ -44,14 +44,19 @@
 	"main": "index.js",
 	"typings": "index.d.ts",
 	"dependencies": {
-		"@angular/core": "^4.0.0",
-		"@angular/http": "^4.0.0",
+		"@angular/core": "^4.4.4",
+		"@angular/http": "^4.4.4",
 		"kaltura-ott-typescript-client": "^1.0.0",
-		"rxjs": "^5.1.0",
-		"tslib": "^1.5.0"
+		"rxjs": "^5.4.3",
+		"tslib": "^1.7.1"
 	},
 	"engines": {
 		"node": ">= 7.0.0",
 		"npm": ">= 5.0.0"
+	},
+	"devDependencies": {
+		"@angular/common": "^4.4.4",
+		"@angular/platform-browser": "^4.4.4",
+		"zone.js": "^0.8.18"
 	}
 }

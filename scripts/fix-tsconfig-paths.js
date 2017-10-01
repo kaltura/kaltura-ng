@@ -48,6 +48,8 @@ if (fs.existsSync(tsConfigFilePath) && fs.existsSync(packageJsonFilePath)) {
 		}
 	}
 
-	fs.writeFileSync(tsConfigFilePath,JSON.stringify(tsConfig,null,tsConfigIndent));
-	console.log('updated tsconfig.file to include path mapping for all dependencies (essential to support npm link of packages)');
+  console.warn('"fix-tsconfig-paths.js": this workaround has a permanent fix in typescript >= 2.5 (not currently supported by angular-cli 1.4.4). Please revise again when upgrading the application libraries.');
+
+  fs.writeFileSync(tsConfigFilePath,JSON.stringify(tsConfig,null,tsConfigIndent));
+	console.log('"fix-tsconfig-paths.js": updated tsconfig.file to include path mapping for all dependencies (essential to support npm link of packages)');
 }

@@ -19,39 +19,21 @@
       "node_modules/@types"
     ],
     "lib": [
-      "es2015",
+      "es2017",
       "dom"
     ],
     "paths": {
-      "@angular/common": [
-        "../node_modules/@angular/common"
-      ],
-      "@angular/common/*": [
-        "../node_modules/@angular/common/*"
-      ],
       "@angular/compiler": [
         "../node_modules/@angular/compiler"
       ],
       "@angular/compiler/*": [
         "../node_modules/@angular/compiler/*"
       ],
-      "@angular/core": [
-        "../node_modules/@angular/core"
-      ],
-      "@angular/core/*": [
-        "../node_modules/@angular/core/*"
-      ],
       "@angular/forms": [
         "../node_modules/@angular/forms"
       ],
       "@angular/forms/*": [
         "../node_modules/@angular/forms/*"
-      ],
-      "@angular/http": [
-        "../node_modules/@angular/http"
-      ],
-      "@angular/http/*": [
-        "../node_modules/@angular/http/*"
       ],
       "@angular/router": [
         "../node_modules/@angular/router"

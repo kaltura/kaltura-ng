@@ -45,16 +45,10 @@
     "npm": ">= 5.0.0"
   },
   "devDependencies": {
-    "@angular/common": "^4.0.0",
-    "@angular/compiler": "^4.0.0",
-    "@angular/compiler-cli": "^4.0.0",
-    "@angular/core": "^4.0.0",
-    "@angular/platform-browser": "^4.0.0",
-    "@angular/platform-browser-dynamic": "^4.0.0",
+    "@angular/compiler": "^4.4.4",
+    "@angular/core": "^4.4.4",
+    "@angular/platform-browser": "^4.4.4",
     "@kaltura-ng/dev-workspace": "^2.0.2",
-    "@types/core-js": "^0.9.37",
-    "@types/jquery": "^2.0.40",
-    "@types/ramda": "0.0.3",
     "del": "^2.2.2",
     "glob": "^7.1.2",
     "gulp": "^3.9.1",
@@ -74,7 +68,6 @@
     "rxjs": "~5.1.0",
     "through2": "^2.0.3",
     "tslint": "4.3.1",
-    "typescript": "^2.4.2",
-    "zone.js": "^0.8.4"
+    "typescript": "^2.3.4"
   }
 }
