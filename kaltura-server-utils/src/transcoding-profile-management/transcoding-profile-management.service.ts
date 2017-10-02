@@ -30,10 +30,10 @@ export class TranscodingProfileManagement {
   public get(): Observable<KalturaConversionProfile[]> {
     if (!this._transcodingProfileCache$) {
       this._transcodingProfileCache$ = this._loadTranscodingProfiles()
-        .catch((err, caught) => {
+        .catch(err => {
           console.log(`log: [warn] [transcodingProfile-management] Error during load transcoding profiles: ${err}`);
           this._transcodingProfileCache$ = null;
-          return caught;
+          return Observable.throw(err);
         })
         .publishReplay(1)
         .refCount();
