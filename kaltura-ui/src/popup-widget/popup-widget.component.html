@@ -1,6 +1,7 @@
 <div #container
      class="kPopupWidget"
      [class.transparent]="transparent"
+     [class.slider]="slider"
      [style.display]="(state$ | async)?.state !== 'close' ? 'block' : 'none'"
      [style.width]="popupWidth+'px'"
      [style.height]="_popupWidgetHeight">
