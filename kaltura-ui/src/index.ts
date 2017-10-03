@@ -6,5 +6,6 @@ export { AreaBlockerModule, AreaBlockerMessage, AreaBlockerMessageButton } from 
 export { DetailsBarComponent } from "./details-bar/details-bar.component";
 export { TimePipe } from './time.pipe';
 export { DatePipe } from './date.pipe';
+export * from './validators';
 
 export * from './form';
