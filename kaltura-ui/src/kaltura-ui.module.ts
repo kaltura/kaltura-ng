@@ -7,6 +7,7 @@ import { SafePipe } from './safe.pipe';
 import { TimePipe } from './time.pipe';
 import { FileSizePipe } from './file-size.pipe';
 import { LineBreakPipe } from './line-break.pipe';
+import { AutofocusDirective } from './input-autofocus';
 
 @NgModule({
     imports: <any[]>[
@@ -19,7 +20,8 @@ import { LineBreakPipe } from './line-break.pipe';
         KalturaPlayerComponent,
         DatePipe,
         FileSizePipe,
-        LineBreakPipe
+        LineBreakPipe,
+        AutofocusDirective
     ],
     exports: <any[]>[
         TimePipe,
@@ -28,7 +30,8 @@ import { LineBreakPipe } from './line-break.pipe';
         KalturaPlayerComponent,
         DatePipe,
         FileSizePipe,
-        LineBreakPipe
+        LineBreakPipe,
+        AutofocusDirective
     ],
     providers: <any[]>[
     ]

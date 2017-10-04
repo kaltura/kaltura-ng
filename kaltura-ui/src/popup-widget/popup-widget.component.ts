@@ -27,6 +27,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
     @Input() popupHeight: number | 'auto' = 'auto';
 	@Input() showTooltip: boolean = false;
 	@Input() modal: boolean = false;
+	@Input() slider: boolean = false;
 	@Input() closeBtn: boolean = true;
 	@Input() closeBtnInside: boolean = false;
 	@Input() closeOnClickOutside: boolean = true;
@@ -100,8 +101,17 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 	        // center on screen if no targetRef was defined
 	        if (!this._targetRef){
 		        this.popup.nativeElement.style.marginLeft = window.innerWidth/2 - this.popupWidth/2 + 'px';
-		        const marginTop = this.popupHeight !== 'auto' ? (window.innerHeight/2 - this.popupHeight/2) : 100;
-		        this.popup.nativeElement.style.marginTop = marginTop + 'px';
+		        if (this.slider) {
+			        this.popup.nativeElement.style.top = "auto";
+			        this.closeBtn = false;
+			        this.popup.nativeElement.style.bottom = this.popupHeight!== 'auto' ?  this.popupHeight * -1 +"px" :  "-1000px";
+			        setTimeout(()=>{
+				        this.popup.nativeElement.style.bottom = 0 +"px"; // use timeout to invoke animation
+			        },0);
+		        }else{
+			        const marginTop = this.popupHeight !== 'auto' ? (window.innerHeight / 2 - this.popupHeight / 2) : 100;
+			        this.popup.nativeElement.style.marginTop = marginTop + 'px';
+		        }
 	        }else{
 		        this.popup.nativeElement.style.marginLeft = this._targetRef.getBoundingClientRect().left - parentLeft + this.targetOffset['x'] + 'px';
 		        this.popup.nativeElement.style.marginTop = this._targetRef.getBoundingClientRect().top - parentTop + this.targetOffset['y'] + 'px';
@@ -120,7 +130,12 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
                 this._modalOverlay = document.createElement('div');
                 this._modalOverlay.className = "kPopupWidgetModalOverlay";
                 this._modalOverlay.style.zIndex = this.popup.nativeElement.style.zIndex - 1;
-		        this._modalOverlay.addEventListener("mousedown", (event : any) => {event.stopPropagation();this.close();});
+                if (!this.slider) {
+	                this._modalOverlay.addEventListener("mousedown", (event: any) => {
+		                event.stopPropagation();
+		                this.close();
+	                });
+                }
                 document.body.appendChild(this._modalOverlay);
             }
             setTimeout(()=>{
@@ -144,16 +159,22 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 				        popup.close();
 			        });
 		        }
-		        // remove modal
-		        if (this.modal && this._modalOverlay) {
-			        document.body.removeChild(this._modalOverlay);
-			        this._modalOverlay = null;
-		        }
+
 		        this.removeClickOutsideSupport();
 		        this.onClose.emit(); // dispatch onClose event (API)
+		        let timeout = 0;
+		        if (this.slider){
+			        this.popup.nativeElement.style.bottom = this.popupHeight!== 'auto' ?  this.popupHeight * -1 +"px" :  "-1000px";
+			        timeout = 300;
+		        }
 		        setTimeout(()=>{
-			        this._statechange.next({state: PopupWidgetStates.Close, context: context, reason: reason}); // use timeout to prever valueChangeAfterChecked error
-		        },0);
+			        // remove modal
+			        if (this.modal && this._modalOverlay) {
+				        document.body.removeChild(this._modalOverlay);
+				        this._modalOverlay = null;
+			        }
+			        this._statechange.next({state: PopupWidgetStates.Close, context: context, reason: reason}); // use timeout to prevent valueChangeAfterChecked error
+		        },timeout);
 	        }
         }
 

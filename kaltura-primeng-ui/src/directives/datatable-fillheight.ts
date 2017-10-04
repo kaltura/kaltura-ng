@@ -1,26 +1,40 @@
-import { Directive, ElementRef, NgZone, OnDestroy, AfterViewInit, ChangeDetectorRef, ContentChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  ContentChild,
+  Directive,
+  ElementRef,
+  Input,
+  NgZone,
+  OnDestroy
+} from '@angular/core';
 import { DataTable } from 'primeng/primeng';
 
-function isDataTable(x : DataTable) : x is DataTable
-{
+function isDataTable(x: DataTable): x is DataTable {
   return x ? !!x.onEdit : false;
 }
 
 @Directive({
   selector: '[kFillHeight]',
 })
-export class FillHeightDirective implements AfterViewInit, OnDestroy{
+export class FillHeightDirective implements AfterViewInit, OnDestroy {
+  @Input() set kFillHeight(value) {
+    if (value !== '') { // default value is empty string
+      this.fillHeightOn = value;
+    }
+  };
 
   @ContentChild('dataTable') public dataTable: DataTable;
 
   intervalID: any = null;
   currentHeight: number;
+  fillHeightOn = true;
 
-  constructor(private zone: NgZone,  private el: ElementRef, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private zone: NgZone, private el: ElementRef, private changeDetectorRef: ChangeDetectorRef) {
   }
 
-  ngAfterViewInit(){
-    if (!isDataTable(this.dataTable)){
+  ngAfterViewInit() {
+    if (!isDataTable(this.dataTable) || !this.fillHeightOn) {
       return;
     }
     const scrollBodyArr = this.dataTable.el.nativeElement.getElementsByClassName("ui-datatable-scrollable-body");
@@ -44,8 +58,8 @@ export class FillHeightDirective implements AfterViewInit, OnDestroy{
     }
   }
 
-  ngOnDestroy(){
-    if (this.intervalID){
+  ngOnDestroy() {
+    if (this.intervalID) {
       clearInterval(this.intervalID);
       this.intervalID = null;
     }
