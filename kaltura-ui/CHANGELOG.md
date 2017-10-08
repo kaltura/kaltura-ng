@@ -3,6 +3,87 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.2"></a>
+## [1.3.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.3.0...@kaltura-ng/kaltura-ui@1.3.2) (2017-09-26)
+
+
+### Bug Fixes
+
+* remove inline style for align left ([5153362](https://github.com/kaltura/kaltura-ng/commit/5153362))
+
+
+
+
+<a name="1.3.1"></a>
+## [1.3.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.3.0...@kaltura-ng/kaltura-ui@1.3.1) (2017-09-17)
+
+
+### Bug Fixes
+
+* remove inline style for align left ([5153362](https://github.com/kaltura/kaltura-ng/commit/5153362))
+
+
+
+
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.2.0...@kaltura-ng/kaltura-ui@1.3.0) (2017-09-06)
+
+
+### Features
+
+* allow custom title in area blocker message ([a5049c4](https://github.com/kaltura/kaltura-ng/commit/a5049c4))
+
+
+
+
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.1.0...@kaltura-ng/kaltura-ui@1.2.0) (2017-09-03)
+
+
+### Bug Fixes
+
+* pass player size correctly ([2b478d9](https://github.com/kaltura/kaltura-ng/commit/2b478d9))
+
+
+### Features
+
+* player component supporting dynamic embed and API ([b0f1b96](https://github.com/kaltura/kaltura-ng/commit/b0f1b96))
+
+
+
+
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.0.1...@kaltura-ng/kaltura-ui@1.1.0) (2017-08-21)
+
+
+### Bug Fixes
+
+* allow overflow from popup widget component. Preventing overflow logic should be content specific ([8f53ae7](https://github.com/kaltura/kaltura-ng/commit/8f53ae7))
+* resolve symlink issues for workspace development ([feee028](https://github.com/kaltura/kaltura-ng/commit/feee028))
+
+
+### Features
+
+* add line-break pipe to convert Adobe Flex line breaks (\r) to HTML supported lined breaks (\r
+) ([387c82a](https://github.com/kaltura/kaltura-ng/commit/387c82a))
+* **upload-menu:** extend popup widget component ([3668d43](https://github.com/kaltura/kaltura-ng/commit/3668d43))
+* support HTML rendering inside tooltips ([14e2fdf](https://github.com/kaltura/kaltura-ng/commit/14e2fdf))
+* support HTML rendering inside tooltips by setting the escape parameter to false ([6a66df1](https://github.com/kaltura/kaltura-ng/commit/6a66df1))
+
+
+
+
+<a name="1.0.1"></a>
+## [1.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.0.0...@kaltura-ng/kaltura-ui@1.0.1) (2017-07-26)
+
+
+### Bug Fixes
+
+* allow tooltip value to be number 0. previously ignored 0 as a valid value to show in tooltip ([23cb69c](https://github.com/kaltura/kaltura-ng/commit/23cb69c))
+
+
+
+
 <a name="1.0.0"></a>
 # 1.0.0 (2017-07-12)
 

@@ -7,7 +7,7 @@
   </div>
   <div  class="kErrorMessageContainer" *ngIf="_message" [class.centerOnScreen]="centerOnScreen" [style.marginTop]="spinnerMarginTop+'px'">
     <div class="kErrorMessage">
-      <div class="kErrorMessageTitle">Uh oh!</div>
+      <div class="kErrorMessageTitle">{{ _message.title }}</div>
       <div class="kErrorMessageText">{{ _message.message }}</div>
       <div class="kErrorButtons">
         <button *ngFor="let button of _message.buttons" (click)="handleAction(button)">{{button.label}}</button>

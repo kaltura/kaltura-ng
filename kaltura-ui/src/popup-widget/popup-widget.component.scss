@@ -2,12 +2,20 @@
     position: absolute;
     left: 0px;
     top: 0px;
+    transition: bottom 0.3s ease-in-out;
 }
 .kPopupWidget{
     background-color: #ffffff;
     border-radius: 4px;
-    overflow: hidden;
     box-shadow: 0 16px 20px 0 rgba(0,0,0,0.3);
+    &.slider{
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
+    &.transparent {
+        box-shadow: none;
+        background: 0;
+    }
     .kCloseBtn:not(.closeBtnInside) {
         position: absolute;
         right: -118px;

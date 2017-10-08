@@ -1,6 +1,6 @@
 {
 	"name": "@kaltura-ng/kaltura-ott-client",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"private": true,
 	"description": "Kaltura Angular wrapper for 'kaltura-ott-typescript-client' library",
 	"keywords": [
@@ -48,11 +48,10 @@
 		"@angular/http": "^4.0.0",
 		"kaltura-ott-typescript-client": "^1.0.0",
 		"rxjs": "^5.1.0",
-		"tslib": "^1.5.0",
-		"typescript": "^2.3.3"
+		"tslib": "^1.5.0"
 	},
 	"engines": {
 		"node": ">= 7.0.0",
-		"yarn": ">= 0.24.6"
+		"npm": ">= 5.0.0"
 	}
 }

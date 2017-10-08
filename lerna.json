@@ -8,6 +8,6 @@
     "kaltura-ott-client",
     "kaltura-server-utils"
   ],
- "npmClient": "yarn",
+ "npmClient": "npm",
   "version": "independent"
 }

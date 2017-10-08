@@ -20,6 +20,7 @@
     ],
     "lib": [
       "es2015",
+      "ES2017",
       "dom"
     ],
     "paths": {
@@ -58,12 +59,6 @@
       ],
       "ng2-translate/*": [
         "../node_modules/ng2-translate/*"
-      ],
-      "ramda": [
-        "../node_modules/ramda"
-      ],
-      "ramda/*": [
-        "../node_modules/ramda/*"
       ],
       "rxjs": [
         "../node_modules/rxjs"

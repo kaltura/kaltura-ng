@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, EventEmitter, OnDestroy, Input, Output, ElementRef, HostListener, OnInit, TemplateRef, ContentChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs';
-import { ISubscription } from "rxjs/Subscription";
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from "rxjs/Subscription";
 import { PopupWidgetLayout } from './popup-widget-layout';
 
 export const PopupWidgetStates = {
@@ -21,13 +21,14 @@ export type popupStatus = {
     styleUrls: ['./popup-widget.component.scss']
 })
 export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
-
+	@Input() transparent = false;
 	@Input() appendTo: any;
 	@Input() popupWidth: number;
     @Input() popupHeight: number | 'auto' = 'auto';
 	@Input() showTooltip: boolean = false;
 	@Input() preventPageScroll: boolean = false;
 	@Input() modal: boolean = false;
+	@Input() slider: boolean = false;
 	@Input() closeBtn: boolean = true;
 	@Input() closeBtnInside: boolean = false;
 	@Input() closeOnClickOutside: boolean = true;
@@ -104,9 +105,18 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 	        // center on screen if no targetRef was defined
 	        if (!this._targetRef){
 		        this.popup.nativeElement.style.marginLeft = window.innerWidth/2 - this.popupWidth/2 + 'px';
-		        const marginTop = this.popupHeight !== 'auto' ? (window.innerHeight/2 - this.popupHeight/2) : 100;
-		        this.popup.nativeElement.style.marginTop = marginTop + 'px';
-		        this.popup.nativeElement.style.position = "fixed";
+		        if (this.slider) {
+			        this.popup.nativeElement.style.top = "auto";
+			        this.closeBtn = false;
+			        this.popup.nativeElement.style.bottom = this.popupHeight!== 'auto' ?  this.popupHeight * -1 +"px" :  "-1000px";
+			        setTimeout(()=>{
+				        this.popup.nativeElement.style.bottom = 0 +"px"; // use timeout to invoke animation
+			        },0);
+		        }else{
+			        const marginTop = this.popupHeight !== 'auto' ? (window.innerHeight / 2 - this.popupHeight / 2) : 100;
+			        this.popup.nativeElement.style.marginTop = marginTop + 'px';
+			        this.popup.nativeElement.style.position = "fixed";
+		        }
 	        }else{
 		        this.popup.nativeElement.style.marginLeft = this._targetRef.getBoundingClientRect().left - parentLeft + this.targetOffset['x'] + 'px';
 		        this.popup.nativeElement.style.marginTop = this._targetRef.getBoundingClientRect().top - parentTop + this.targetOffset['y'] + 'px';
@@ -126,7 +136,12 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
                 this._modalOverlay = document.createElement('div');
                 this._modalOverlay.className = "kPopupWidgetModalOverlay";
                 this._modalOverlay.style.zIndex = this.popup.nativeElement.style.zIndex - 1;
-		        this._modalOverlay.addEventListener("mousedown", (event : any) => {event.stopPropagation();this.close();});
+                if (!this.slider) {
+	                this._modalOverlay.addEventListener("mousedown", (event: any) => {
+		                event.stopPropagation();
+		                this.close();
+	                });
+                }
                 document.body.appendChild(this._modalOverlay);
             }
 
@@ -157,20 +172,24 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 				        popup.close();
 			        });
 		        }
-		        // remove modal
-		        if (this.modal && this._modalOverlay) {
-			        document.body.removeChild(this._modalOverlay);
-			        this._modalOverlay = null;
-		        }
-		        // prevent page scroll
 		        if (this.preventPageScroll){
 			        document.body.style.overflowY = this._saveOriginalScroll;
 		        }
 		        this.removeClickOutsideSupport();
 		        this.onClose.emit(); // dispatch onClose event (API)
+		        let timeout = 0;
+		        if (this.slider){
+			        this.popup.nativeElement.style.bottom = this.popupHeight!== 'auto' ?  this.popupHeight * -1 +"px" :  "-1000px";
+			        timeout = 300;
+		        }
 		        setTimeout(()=>{
-			        this._statechange.next({state: PopupWidgetStates.Close, context: context, reason: reason}); // use timeout to prever valueChangeAfterChecked error
-		        },0);
+			        // remove modal
+			        if (this.modal && this._modalOverlay) {
+				        document.body.removeChild(this._modalOverlay);
+				        this._modalOverlay = null;
+			        }
+			        this._statechange.next({state: PopupWidgetStates.Close, context: context, reason: reason}); // use timeout to prevent valueChangeAfterChecked error
+		        },timeout);
 	        }
         }
 
