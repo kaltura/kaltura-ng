@@ -21,7 +21,7 @@ import { AutofocusDirective } from './input-autofocus';
         KalturaPlayerComponent,
         DatePipe,
         FileSizePipe,
-        StickyNavDirective
+        StickyNavDirective,
         LineBreakPipe,
         AutofocusDirective
     ],
@@ -32,7 +32,7 @@ import { AutofocusDirective } from './input-autofocus';
         KalturaPlayerComponent,
         DatePipe,
         FileSizePipe,
-        StickyNavDirective
+        StickyNavDirective,
         LineBreakPipe,
         AutofocusDirective
     ],
