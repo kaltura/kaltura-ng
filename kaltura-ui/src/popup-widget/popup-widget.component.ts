@@ -128,7 +128,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 	        const viewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 	        const diff = viewPortWidth - this.popup.nativeElement.getBoundingClientRect().left - this.popupWidth;
 	        if (diff < 0){
-		        this.popup.nativeElement.style.marginLeft = parseInt(this.popup.nativeElement.style.marginLeft) + diff - 2 + "px";
+		        this.popup.nativeElement.style.marginLeft = parseInt(this.popup.nativeElement.style.marginLeft) + diff - 18 + "px"; // 18 pixels due to vertical scroll bar
 	        }
 
             // handle modal
@@ -143,6 +143,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 	                });
                 }
                 document.body.appendChild(this._modalOverlay);
+		        document.body.classList.add("kModal");
             }
 
             // prevent page scroll
@@ -186,6 +187,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 			        // remove modal
 			        if (this.modal && this._modalOverlay) {
 				        document.body.removeChild(this._modalOverlay);
+				        document.body.classList.remove("kModal");
 				        this._modalOverlay = null;
 			        }
 			        this._statechange.next({state: PopupWidgetStates.Close, context: context, reason: reason}); // use timeout to prevent valueChangeAfterChecked error
