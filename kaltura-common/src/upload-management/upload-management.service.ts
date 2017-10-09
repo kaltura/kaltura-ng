@@ -142,6 +142,17 @@ export class UploadManagement implements OnDestroy {
         }
     }
 
+    public retryUpload(id: string): void {
+      this._log('info', `retry upload for file '${id}'`);
+      const trackedFile = this._trackedFiles[id];
+
+      if (trackedFile) {
+        this._initiateUpload(trackedFile);
+      } else {
+        this._log('warn', `cannot find file '${id}', ignoring retry`);
+      }
+    }
+
     public cancelUpload(id: string, purge: boolean= true): void {
         this._log('info', `cancel upload for file '${id}'`);
 
