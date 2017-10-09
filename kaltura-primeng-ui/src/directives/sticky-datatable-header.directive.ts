@@ -10,6 +10,7 @@ export class StickyDatatableHeaderDirective implements AfterContentInit, OnDestr
     private windowScrollSubscription: ISubscription = null;
     private windowResizeSubscription: ISubscription = null;
     private header: any = null;
+    private body: any = null;
     private offsetTop: number;
     private lastScroll: number = 0;
     private isSticky: boolean = false;
@@ -33,6 +34,10 @@ export class StickyDatatableHeaderDirective implements AfterContentInit, OnDestr
                 this.header = headers[0];
                 this.headerTop = this.header.getBoundingClientRect()['top'];
                 this._calcPosition();
+            }
+            const tableBody = this.elementRef.nativeElement.getElementsByClassName('ui-datatable-scrollable-body');
+            if (tableBody.length){
+                this.body = tableBody[0];
             }
         }, 0);
     }
@@ -80,6 +85,7 @@ export class StickyDatatableHeaderDirective implements AfterContentInit, OnDestr
         this.isSticky = true;
         this.header.style.position = 'fixed';
         this.header.style.top =  this.stickyTop + 'px';
+        this.body.style.marginTop =  (this.stickyTop - 12) + 'px';
         this.updateHeaderSize();
         this.setClass(true);
     }
@@ -95,6 +101,7 @@ export class StickyDatatableHeaderDirective implements AfterContentInit, OnDestr
         this.isSticky = false;
         this.header.style.position = 'static';
         this.header.style.width = 'auto';
+        this.body.style.marginTop =  0 + 'px';
         this.setClass(false);
     }
 

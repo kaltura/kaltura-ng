@@ -106,6 +106,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 	        if (!this._targetRef){
 		        this.popup.nativeElement.style.marginLeft = window.innerWidth/2 - this.popupWidth/2 + 'px';
 		        if (this.slider) {
+			        window.scrollTo(0,0);
 			        this.popup.nativeElement.style.top = "auto";
 			        this.closeBtn = false;
 			        this.popup.nativeElement.style.bottom = this.popupHeight!== 'auto' ?  this.popupHeight * -1 +"px" :  "-1000px";
