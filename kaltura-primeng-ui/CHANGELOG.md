@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.4.3...@kaltura-ng/kaltura-primeng-ui@0.5.0) (2017-10-10)
+
+
+### Features
+
+* allow disable of dynamic height of data table ([68066ed](https://github.com/kaltura/kaltura-ng/commit/68066ed))
+
+
+
+
 <a name="0.4.3"></a>
 ## [0.4.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.4.1...@kaltura-ng/kaltura-primeng-ui@0.4.3) (2017-09-26)
 
