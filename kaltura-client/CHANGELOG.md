@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.4"></a>
+## [0.1.4](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-client@0.1.3...@kaltura-ng/kaltura-client@0.1.4) (2017-10-10)
+
+
+
+
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-client@0.1.2...@kaltura-ng/kaltura-client@0.1.3) (2017-08-21)
 
