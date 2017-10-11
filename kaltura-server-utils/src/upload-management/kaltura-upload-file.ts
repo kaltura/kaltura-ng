@@ -2,23 +2,20 @@ import { UploadFileData } from '@kaltura-ng/kaltura-common';
 import 'rxjs/add/observable/throw';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 
-export class KalturaUploadFile implements UploadFileData
-{
-    serverUploadToken : string;
+export class KalturaUploadFile implements UploadFileData {
+  serverUploadToken: string;
+  uploadedFileSize: number;
 
-    constructor(public file : File)
-    {
-    }
+  constructor(public file: File) {
+  }
 
-    getFileName() : string
-    {
-        return (this.file.name || '').trim();
-    }
+  getFileName(): string {
+    return (this.file.name || '').trim();
+  }
 
-    getFileSize() : number
-    {
-        return this.file.size;
-    }
+  getFileSize(): number {
+    return this.file.size;
+  }
 }
 
 

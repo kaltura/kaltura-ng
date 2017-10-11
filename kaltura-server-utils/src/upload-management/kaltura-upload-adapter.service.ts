@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UploadFileData, UploadFileAdapter } from '@kaltura-ng/kaltura-common';
+import { UploadFileAdapter, UploadFileData } from '@kaltura-ng/kaltura-common';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import { KalturaClient } from '@kaltura-ng/kaltura-client';
@@ -9,6 +9,9 @@ import { KalturaUploadToken } from 'kaltura-typescript-client/types/KalturaUploa
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import { KalturaUploadFile } from './kaltura-upload-file';
 import { KalturaRequest } from 'kaltura-typescript-client';
+import { UploadTokenListAction } from '../../../kaltura-client/node_modules/kaltura-typescript-client/types/UploadTokenListAction';
+import { KalturaUploadTokenFilter } from '../../../kaltura-client/node_modules/kaltura-typescript-client/types/KalturaUploadTokenFilter';
+import { KalturaUploadTokenListResponse } from "../../../kaltura-client/node_modules/kaltura-typescript-client/types/KalturaUploadTokenListResponse";
 
 @Injectable()
 export class KalturaUploadAdapter extends UploadFileAdapter<KalturaUploadFile> {
@@ -64,7 +67,7 @@ export class KalturaUploadAdapter extends UploadFileAdapter<KalturaUploadFile> {
                     uploadToken: new KalturaUploadToken()
                 })
             );
-        })
+        });
         return this._serverClient.multiRequest(multiRequest)
             .map(responses => {
                 return files.map((file, index) => {
@@ -87,17 +90,36 @@ export class KalturaUploadAdapter extends UploadFileAdapter<KalturaUploadFile> {
         return uploadFile instanceof KalturaUploadFile;
     }
 
+    resume(id: string, fileData: KalturaUploadFile): Observable<{ id: string, progress?: number }> {
+      if (!fileData || !(fileData instanceof KalturaUploadFile) || !fileData.serverUploadToken) {
+        return Observable.throw('missing upload token')
+      }
+
+      return this._serverClient.request(
+        <any>new UploadTokenListAction({
+          filter: new KalturaUploadTokenFilter({ idIn: fileData.serverUploadToken })
+        })
+      ).switchMap((response: KalturaUploadTokenListResponse) => {
+        if (response && response.objects && response.objects.length) {
+          fileData.uploadedFileSize = Number(response.objects[0].uploadedFileSize);
+          return this.upload(id, fileData);
+        }
+
+        return Observable.throw('upload not found');
+      });
+    }
+
     upload(id: string, fileData: KalturaUploadFile): Observable<{ id: string, progress?: number }> {
         return Observable.create((observer) => {
             if (fileData && fileData instanceof KalturaUploadFile) {
                 this._log('info', `starting upload for file '${id}'`);
+                const payload = {
+                  uploadTokenId: fileData.serverUploadToken,
+                  fileData: fileData.file,
+                  uploadedFileSize: fileData.uploadedFileSize || 0
+                };
                 let requestSubscription = this._serverClient.request(
-                    new UploadTokenUploadAction(
-                        {
-                            uploadTokenId: fileData.serverUploadToken,
-                            fileData: fileData.file
-                        }
-                    ).setProgress(
+                    new UploadTokenUploadAction(payload).setProgress(
                         (uploaded, total) => {
                             const progress = total && total !== 0 ? uploaded / total : null;
                             observer.next({id: id, progress});

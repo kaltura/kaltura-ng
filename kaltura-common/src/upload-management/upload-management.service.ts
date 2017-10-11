@@ -7,6 +7,7 @@ import { Subject } from 'rxjs/Subject';
 import { ISubscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/groupBy';
 import { FriendlyHashId } from '../friendly-hash-id';
+import { FileUpload } from '../../../kaltura-primeng-ui/node_modules/primeng/components/fileupload/fileupload';
 
 export type TrackedFileStatus = string
 
@@ -14,6 +15,7 @@ export class TrackedFileStatuses {
   public static readonly added: TrackedFileStatus = 'added';
   public static readonly preparing: TrackedFileStatus = 'preparing';
   public static readonly waitingUpload: TrackedFileStatus = 'waitingUpload';
+  public static readonly resuming: TrackedFileStatus = 'resuming';
   public static readonly uploading: TrackedFileStatus = 'uploading';
   public static readonly uploadCompleted: TrackedFileStatus = 'uploadCompleted';
   public static readonly uploadFailed: TrackedFileStatus = 'uploadFailed';
@@ -35,7 +37,7 @@ export interface TrackedFile {
 
 export interface TrackedFiles {
     [id: string]: TrackedFile
-};
+}
 
 interface TrackedFileUploadData {
     [id: string]: {
@@ -142,14 +144,31 @@ export class UploadManagement implements OnDestroy {
         }
     }
 
-    public retryUpload(id: string): void {
-      this._log('info', `retry upload for file '${id}'`);
-      const trackedFile = this._trackedFiles[id];
+    public resumeUpload(id: string): void {
+      this.resumeUploads([id]);
+    }
 
-      if (trackedFile) {
-        this._initiateUpload(trackedFile);
-      } else {
-        this._log('warn', `cannot find file '${id}', ignoring retry`);
+    public resumeUploads(files: string[]): void {
+      let syncUploadQueue = false;
+
+      files.forEach(id => {
+        this._log('info', `retry upload for file '${id}'`);
+        const trackedFile = this._trackedFiles[id];
+
+        if (trackedFile) {
+          this._updateTrackedFile(trackedFile, {
+            status: TrackedFileStatuses.resuming
+          });
+
+          syncUploadQueue = true;
+
+        } else {
+          this._log('warn', `cannot find file '${id}', ignoring retry`);
+        }
+      });
+
+      if (syncUploadQueue) {
+        this._syncUploadQueue();
       }
     }
 
@@ -236,7 +255,10 @@ export class UploadManagement implements OnDestroy {
 
             // group relevant files by status
             const trackedFilesByStatus = Object.values(this._trackedFiles).reduce((acc, curr) => {
-                if ([TrackedFileStatuses.uploading, TrackedFileStatuses.waitingUpload, TrackedFileStatuses.added].includes(curr.status)) {
+                if ([TrackedFileStatuses.uploading,
+                    TrackedFileStatuses.waitingUpload,
+                    TrackedFileStatuses.added,
+                    TrackedFileStatuses.resuming].includes(curr.status)) {
                     const statusItems = acc[curr.status];
 
                     if (statusItems) {
@@ -252,14 +274,15 @@ export class UploadManagement implements OnDestroy {
 
             const activeUploads = (trackedFilesByStatus[TrackedFileStatuses.uploading] || []);
             const pendingFiles = (trackedFilesByStatus[TrackedFileStatuses.waitingUpload] || []);
+            const resumingFiles = (trackedFilesByStatus[TrackedFileStatuses.resuming] || []);
             const addedFiles = (trackedFilesByStatus[TrackedFileStatuses.added] || []);
 
             if (addedFiles.length > 0) {
                 this._handlePendingPrepareFiles(addedFiles);
             }
 
-            if (pendingFiles.length > 0) {
-                this._handleWaitingFiles(activeUploads, pendingFiles);
+            if (pendingFiles.length > 0 || resumingFiles.length > 0) {
+                this._handleWaitingFiles(activeUploads, pendingFiles, resumingFiles);
             }
         }, 200);
     }
@@ -367,7 +390,7 @@ export class UploadManagement implements OnDestroy {
 
     }
 
-    private _handleWaitingFiles(activeUploadFiles: TrackedFile[], waitingFiles: TrackedFile[]): void {
+    private _handleWaitingFiles(activeUploadFiles: TrackedFile[], waitingFiles: TrackedFile[], resumingFiles: TrackedFile[]): void {
         let nextUploadFiles: TrackedFile[] = [];
         const activeUploadsCount = activeUploadFiles.length;
         const waitingFilesCount = waitingFiles.length;
@@ -377,7 +400,10 @@ export class UploadManagement implements OnDestroy {
         const availableUploadSlots = (this._maxUploadRequests && this._maxUploadRequests > 0) ? this._maxUploadRequests - activeUploadsCount : waitingFilesCount;
 
         if (availableUploadSlots > 0) {
-            nextUploadFiles = waitingFiles.sort(pendingFile => pendingFile.uploadOrder || 1000).slice(0, availableUploadSlots);
+            nextUploadFiles = [
+              ...resumingFiles,
+              ...waitingFiles.sort(pendingFile => pendingFile.uploadOrder || 1000)
+            ].slice(0, availableUploadSlots);
         }
 
         this._log('debug', `available upload slots to be used ${availableUploadSlots}`);
@@ -459,13 +485,23 @@ export class UploadManagement implements OnDestroy {
                 this._trackedFilesUploadData[id].uploadSubscription = null;
               }
 
+              const getActionByFileStatus = (status) => {
+                if (status === TrackedFileStatuses.resuming) {
+                  return (id, data) => uploadAdapter.resume(id, data)
+                }
+
+                return (id, data) => uploadAdapter.upload(id, data)
+              };
+
+              const upload = getActionByFileStatus(trackedFile.status);
+
               this._updateTrackedFile(trackedFile, {
                 status: TrackedFileStatuses.uploading,
                 progress: 0,
                 uploadStartAt: new Date(),
               });
 
-              this._trackedFilesUploadData[id].uploadSubscription = uploadAdapter.upload(id, data)
+              this._trackedFilesUploadData[id].uploadSubscription = upload(id, data)
                 .subscribe(
                   (uploadChanges) => {
                     const trackedFile = this._trackedFiles[id];
