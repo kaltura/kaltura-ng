@@ -10,11 +10,8 @@
       <div class="kErrorMessageTitle">{{ _message.title }}</div>
       <div class="kErrorMessageText">{{ _message.message }}</div>
       <div class="kErrorButtons">
-        <button *ngFor="let button of _message.buttons" (click)="handleAction(button)">{{button.label}}</button>
+        <button *ngFor="let button of _message.buttons" (click)="handleAction(button)" [ngClass]="button.classes">{{button.label}}</button>
       </div>
     </div>
   </div>
 </div>
-
-
-

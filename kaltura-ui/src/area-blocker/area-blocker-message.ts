@@ -1,7 +1,8 @@
 export interface AreaBlockerMessageButton
 {
     label : string;
-    action : () => void
+    action : () => void;
+    classes?: string;
 }
 
 export class AreaBlockerMessage
