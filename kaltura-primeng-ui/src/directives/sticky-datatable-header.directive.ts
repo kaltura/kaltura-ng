@@ -1,24 +1,30 @@
-import { Directive, Input, Renderer, ElementRef, AfterContentInit, OnDestroy, OnChanges } from '@angular/core';
+import { Directive, Input, Renderer, ElementRef, AfterContentInit, OnChanges, HostListener } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ISubscription } from 'rxjs/Subscription';
 
 @Directive({
     selector: '[stickyHeader]'
 })
 
-export class StickyDatatableHeaderDirective implements AfterContentInit, OnDestroy, OnChanges {
-    private windowScrollSubscription: ISubscription = null;
-    private windowResizeSubscription: ISubscription = null;
+export class StickyDatatableHeaderDirective implements AfterContentInit, OnChanges {
     private header: any = null;
-    private body: any = null;
     private offsetTop: number;
     private lastScroll: number = 0;
     private isSticky: boolean = false;
     private hasHeader: boolean = false;
     private headerTop = 0;
+
+
     @Input('stickyClass') stickyClass: string = "";
     @Input('stickyTop') stickyTop: number = 0;
     @Input('stickyOffsetTop') stickyOffsetTop: number = 0;
+    @HostListener('window:scroll')
+    private onScroll() {
+        this.manageScrollEvent();
+    }
+    @HostListener('window:resize')
+    private onResize() {
+        this.updateHeaderSize();
+    }
 
     constructor(private elementRef: ElementRef, private renderer: Renderer) {
 
@@ -26,31 +32,14 @@ export class StickyDatatableHeaderDirective implements AfterContentInit, OnDestr
 
     ngAfterContentInit(): void {
         setTimeout(()=>{
-            this.windowScrollSubscription = Observable.fromEvent(window, 'scroll').subscribe(() => this.manageScrollEvent());
-            this.windowResizeSubscription = Observable.fromEvent(window, 'resize').subscribe(() => this.updateHeaderSize());
-            const headers = this.elementRef.nativeElement.getElementsByClassName('ui-datatable-scrollable-header');
+            const headers = this.elementRef.nativeElement.getElementsByClassName('ui-datatable-scrollable-header-box');
             this.hasHeader = headers.length > 0;
             if (this.hasHeader) {
                 this.header = headers[0];
                 this.headerTop = this.header.getBoundingClientRect()['top'];
                 this._calcPosition();
             }
-            const tableBody = this.elementRef.nativeElement.getElementsByClassName('ui-datatable-scrollable-body');
-            if (tableBody.length){
-                this.body = tableBody[0];
-            }
         }, 0);
-    }
-
-    ngOnDestroy(): void {
-        if (this.windowScrollSubscription){
-            this.windowScrollSubscription.unsubscribe();
-            this.windowScrollSubscription = null;
-        }
-        if (this.windowResizeSubscription){
-            this.windowResizeSubscription.unsubscribe();
-            this.windowResizeSubscription = null;
-        }
     }
 
     ngOnChanges(changes)
@@ -85,7 +74,6 @@ export class StickyDatatableHeaderDirective implements AfterContentInit, OnDestr
         this.isSticky = true;
         this.header.style.position = 'fixed';
         this.header.style.top =  this.stickyTop + 'px';
-        this.body.style.marginTop =  (this.stickyTop - 12) + 'px';
         this.updateHeaderSize();
         this.setClass(true);
     }
@@ -101,7 +89,6 @@ export class StickyDatatableHeaderDirective implements AfterContentInit, OnDestr
         this.isSticky = false;
         this.header.style.position = 'static';
         this.header.style.width = 'auto';
-        this.body.style.marginTop =  0 + 'px';
         this.setClass(false);
     }
 
