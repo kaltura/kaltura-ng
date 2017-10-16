@@ -4,7 +4,7 @@ import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 
 export class KalturaUploadFile implements UploadFileData {
   serverUploadToken: string;
-  uploadedFileSize: number;
+
 
   constructor(public file: File) {
   }
