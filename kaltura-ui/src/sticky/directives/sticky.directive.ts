@@ -1,11 +1,11 @@
-import { Directive, Input, Renderer, ElementRef, AfterContentInit, HostListener } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Directive, Input, Renderer, ElementRef, AfterContentInit, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { StickyScrollService } from '../services/sticky-scroll.service';
 
 @Directive({
     selector: '[sticky]'
 })
 
-export class StickyNavDirective implements AfterContentInit {
+export class StickyDirective implements OnInit, OnDestroy, AfterContentInit {
     private offsetTop: number;
     private lastScroll: number = 0;
     private isSticky: boolean = false;
@@ -18,12 +18,19 @@ export class StickyNavDirective implements AfterContentInit {
     @Input('stickyOffsetTop') stickyOffsetTop: number = 0;
     @Input('container') container: any;
 
-    @HostListener('window:scroll')
-    private onScroll() {
-        this.manageScrollEvent();
+    constructor(private elementRef: ElementRef, private renderer: Renderer, private _stickyScrollService: StickyScrollService) {
+
     }
 
-    constructor(private elementRef: ElementRef, private renderer: Renderer) {
+    ngOnInit(){
+        this._stickyScrollService.scrollStatus$.cancelOnDestroy(this).subscribe(
+            event => {
+                this.manageScrollEvent();
+            }
+        );
+    }
+
+    ngOnDestroy(){
 
     }
 

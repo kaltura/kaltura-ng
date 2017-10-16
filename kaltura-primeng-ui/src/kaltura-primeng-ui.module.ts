@@ -5,13 +5,14 @@ import { FillHeightDirective } from './directives/datatable-fillheight';
 import { DropdownCloseOnScroll } from './directives/dropdown-close-on-scroll';
 import { MenuCloseOnScroll } from './directives/menu-close-on-scroll';
 import { StickyDatatableHeaderDirective } from './directives/sticky-datatable-header.directive';
+import { KalturaCommonModule } from '@kaltura-ng/kaltura-common';
 
 /**
  * @deprecated use separated module for each component
  */
 @NgModule({
     imports: <any[]>[
-        CommonModule, InputTextModule, MenuModule
+        CommonModule, InputTextModule, MenuModule, KalturaCommonModule
     ],
     declarations: <any[]>[
         FillHeightDirective,

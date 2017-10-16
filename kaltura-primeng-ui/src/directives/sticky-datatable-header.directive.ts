@@ -1,11 +1,12 @@
-import { Directive, Input, Renderer, ElementRef, AfterContentInit, OnChanges, HostListener } from '@angular/core';
+import { Directive, Input, Renderer, ElementRef, OnInit, AfterContentInit, OnDestroy, OnChanges, HostListener } from '@angular/core';
+import { StickyScrollService } from '@kaltura-ng/kaltura-ui/sticky';
 import { Observable } from 'rxjs';
 
 @Directive({
     selector: '[stickyHeader]'
 })
 
-export class StickyDatatableHeaderDirective implements AfterContentInit, OnChanges {
+export class StickyDatatableHeaderDirective implements OnInit, AfterContentInit, OnChanges, OnDestroy {
     private header: any = null;
     private offsetTop: number;
     private lastScroll: number = 0;
@@ -17,17 +18,22 @@ export class StickyDatatableHeaderDirective implements AfterContentInit, OnChang
     @Input('stickyClass') stickyClass: string = "";
     @Input('stickyTop') stickyTop: number = 0;
     @Input('stickyOffsetTop') stickyOffsetTop: number = 0;
-    @HostListener('window:scroll')
-    private onScroll() {
-        this.manageScrollEvent();
-    }
+
     @HostListener('window:resize')
     private onResize() {
         this.updateHeaderSize();
     }
 
-    constructor(private elementRef: ElementRef, private renderer: Renderer) {
+    constructor(private elementRef: ElementRef, private renderer: Renderer, private _stickyScrollService: StickyScrollService) {
 
+    }
+
+    ngOnInit(){
+        this._stickyScrollService.scrollStatus$.cancelOnDestroy(this).subscribe(
+            event => {
+                this.manageScrollEvent();
+            }
+        );
     }
 
     ngAfterContentInit(): void {
@@ -47,6 +53,10 @@ export class StickyDatatableHeaderDirective implements AfterContentInit, OnChang
         if (changes.stickyTop || changes.stickyOffsetTop) {
             this._calcPosition();
         }
+    }
+
+    ngOnDestroy(){
+
     }
 
     private _calcPosition(){
