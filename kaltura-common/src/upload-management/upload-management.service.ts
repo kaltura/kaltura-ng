@@ -11,15 +11,15 @@ import { FriendlyHashId } from '../friendly-hash-id';
 export type TrackedFileStatus = string
 
 export class TrackedFileStatuses {
-  public static readonly added: TrackedFileStatus = 'added';
+  public static readonly added: TrackedFileStatus = 'added'; // short-term status
   public static readonly preparing: TrackedFileStatus = 'preparing';
-  public static readonly prepared: TrackedFileStatus = 'prepared';
+  public static readonly prepared: TrackedFileStatus = 'prepared'; // short-term status
   public static readonly waitingUpload: TrackedFileStatus = 'waitingUpload';
   public static readonly uploading: TrackedFileStatus = 'uploading';
   public static readonly uploadCompleted: TrackedFileStatus = 'uploadCompleted';
   public static readonly uploadFailed: TrackedFileStatus = 'uploadFailed';
   public static readonly cancelled: TrackedFileStatus = 'cancelled';
-  public static readonly purged: TrackedFileStatus = 'purged';
+  public static readonly purged: TrackedFileStatus = 'purged';  // short-term status
 }
 
 export interface TrackedFile {
@@ -132,12 +132,12 @@ export class UploadManagement implements OnDestroy {
     public cancelUploadWithError(id: string, reason: string) : void {
         this._log('info', `cancel upload for file '${id}' with reason '${reason}'`);
 
-        this.cancelUpload(id, false);
-
         const trackedFile = this._trackedFiles[id];
 
-        if ([TrackedFileStatuses.cancelled, TrackedFileStatuses.uploadFailed].indexOf(trackedFile.status) !== -1) {
+        if (this._canTransitionTo(trackedFile, TrackedFileStatuses.cancelled)) {
             {
+                this.cancelUpload(id, false);
+
                 this._updateTrackedFile(trackedFile,
                     {
                         status: TrackedFileStatuses.cancelled,
@@ -147,6 +147,48 @@ export class UploadManagement implements OnDestroy {
                 );
             }
         }
+    }
+
+    private _canTransitionTo(trackedFile: TrackedFile, toStatus: string) : boolean;
+    private _canTransitionTo(trackedFileId: string, toStatus: string) : boolean;
+    private _canTransitionTo(source: TrackedFile | string, toStatus: string) : boolean {
+        let result: boolean = false;
+        const trackedFile = typeof source === 'string' ? this._trackedFiles[source] : source;
+        const fromStatus = trackedFile ? trackedFile.status : null;
+
+        if (trackedFile && fromStatus && toStatus) {
+            switch (toStatus) {
+                case TrackedFileStatuses.added:
+                    break;
+                case TrackedFileStatuses.prepared:
+                    break;
+                case TrackedFileStatuses.preparing:
+                    break;
+                case TrackedFileStatuses.purged:
+                    break;
+                case TrackedFileStatuses.uploadCompleted:
+                    break;
+                case TrackedFileStatuses.uploadFailed:
+                    break;
+                case TrackedFileStatuses.uploading:
+                    break;
+                case TrackedFileStatuses.waitingUpload:
+                    break;
+                case TrackedFileStatuses.cancelled:
+                    result = !([TrackedFileStatuses.cancelled, TrackedFileStatuses.uploadCompleted, TrackedFileStatuses.purged].includes(fromStatus));
+                    break;
+                default:
+                    result = false;
+                    break;
+            }
+        }
+
+        if (!result) {
+            const trackedFileId = trackedFile ? trackedFile.id : (typeof source === 'string') ? source : '{unknown}';
+            this._log('warn', `file ${trackedFileId}: cannot transition from status '${fromStatus}' to status '${toStatus}'`);
+        }
+
+        return result;
     }
 
     public resumeUpload(id: string): void {
@@ -161,25 +203,26 @@ export class UploadManagement implements OnDestroy {
         const trackedFile = this._trackedFiles[id];
         const trackedFileData = this._trackedFilesUploadData[id];
 
-        if (trackedFile && trackedFileData && [TrackedFileStatuses.cancelled, TrackedFileStatuses.uploadFailed].indexOf(trackedFile.status) !== -1) {
-
-            switch (trackedFileData.prepareMode)
-            {
+        if (trackedFile && trackedFileData) {
+            switch (trackedFileData.prepareMode) {
                 case PrepareModes.pending:
-                    this._updateTrackedFile(trackedFile, {
-                        status:  TrackedFileStatuses.preparing
-                    });
-                    syncUploadQueue = true;
+                    if (this._canTransitionTo(trackedFile, TrackedFileStatuses.preparing)) {
+                        this._updateTrackedFile(trackedFile, {
+                            status: TrackedFileStatuses.preparing
+                        });
+                        syncUploadQueue = true;
+                    }
                     break;
                 case PrepareModes.prepared:
-                    this._updateTrackedFile(trackedFile, {
-                        status:  TrackedFileStatuses.waitingUpload
-                    });
-                    syncUploadQueue = true;
+                    if (this._canTransitionTo(trackedFile, TrackedFileStatuses.waitingUpload)) {
+                        this._updateTrackedFile(trackedFile, {
+                            status: TrackedFileStatuses.waitingUpload
+                        });
+                        syncUploadQueue = true;
+                    }
                     break;
                 default:
-                    // cannot resume upload at this point. ignore request
-                    break
+                    this._log('warn', `cannot resume upload at this point. ignore request`);
             }
         } else {
           this._log('warn', `cannot find file '${id}', ignoring retry`);
@@ -196,29 +239,23 @@ export class UploadManagement implements OnDestroy {
 
         const trackedFile = this._trackedFiles[id];
 
-        if (trackedFile) {
+        if (this._canTransitionTo(trackedFile, TrackedFileStatuses.cancelled)) {
             if (this._trackedFilesUploadData[id].uploadSubscription) {
                 this._trackedFilesUploadData[id].uploadSubscription.unsubscribe();
                 this._trackedFilesUploadData[id].uploadSubscription = null;
             }
 
-            if ([TrackedFileStatuses.preparing, TrackedFileStatuses.waitingUpload, TrackedFileStatuses.uploading].includes(trackedFile.status)) {
-                this._updateTrackedFile(trackedFile,
-                    {
-                        status: TrackedFileStatuses.cancelled
-                    });
-            }
+            this._updateTrackedFile(trackedFile,
+                {
+                    status: TrackedFileStatuses.cancelled
+                });
 
             if (purge) {
                 this.purgeUpload(id);
             }
 
             this._syncUploadQueue();
-        }else
-        {
-            this._log('warn', `cannot find file '${id}', ignoring cancel request`);
         }
-
     }
 
     public purgeUpload(id: string): void {
