@@ -24,6 +24,7 @@ export class TagsComponent implements AfterViewInit, OnDestroy{
 
     @Output() onTagRemove = new EventEmitter<any>();
     @Output() onRemoveAll = new EventEmitter<any>();
+	@Output() onTagsChange = new EventEmitter<{tagsCount: number}>();
 
 	@HostListener('window:resize')
 	private onResize() {
@@ -47,6 +48,7 @@ export class TagsComponent implements AfterViewInit, OnDestroy{
 	ngAfterViewInit(){
 		this.tagsListObserver = this.tagsList.changes.subscribe((comps: QueryList <any>) =>
 		{
+			this.onTagsChange.emit({tagsCount: (this.data ? this.data.length : 0) });
 			this.checkShowMore();
 		});
 	}
