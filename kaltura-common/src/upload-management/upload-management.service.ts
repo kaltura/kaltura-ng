@@ -13,6 +13,7 @@ export type TrackedFileStatus = string
 export class TrackedFileStatuses {
   public static readonly added: TrackedFileStatus = 'added';
   public static readonly preparing: TrackedFileStatus = 'preparing';
+  public static readonly prepared: TrackedFileStatus = 'prepared';
   public static readonly waitingUpload: TrackedFileStatus = 'waitingUpload';
   public static readonly uploading: TrackedFileStatus = 'uploading';
   public static readonly uploadCompleted: TrackedFileStatus = 'uploadCompleted';
@@ -35,12 +36,18 @@ export interface TrackedFile {
 
 export interface TrackedFiles {
     [id: string]: TrackedFile
-};
+}
+
+enum PrepareModes{
+    pending,
+    inProgress,
+    prepared
+}
 
 interface TrackedFileUploadData {
     [id: string]: {
         uploadSubscription: ISubscription,
-        preparing: boolean
+        prepareMode: PrepareModes
     }
 }
 
@@ -142,6 +149,48 @@ export class UploadManagement implements OnDestroy {
         }
     }
 
+    public resumeUpload(id: string): void {
+      this.resumeUploads([id]);
+    }
+
+    public resumeUploads(files: string[]): void {
+      let syncUploadQueue = false;
+
+      files.forEach(id => {
+        this._log('info', `retry upload for file '${id}'`);
+        const trackedFile = this._trackedFiles[id];
+        const trackedFileData = this._trackedFilesUploadData[id];
+
+        if (trackedFile && trackedFileData && [TrackedFileStatuses.cancelled, TrackedFileStatuses.uploadFailed].indexOf(trackedFile.status) !== -1) {
+
+            switch (trackedFileData.prepareMode)
+            {
+                case PrepareModes.pending:
+                    this._updateTrackedFile(trackedFile, {
+                        status:  TrackedFileStatuses.preparing
+                    });
+                    syncUploadQueue = true;
+                    break;
+                case PrepareModes.prepared:
+                    this._updateTrackedFile(trackedFile, {
+                        status:  TrackedFileStatuses.waitingUpload
+                    });
+                    syncUploadQueue = true;
+                    break;
+                default:
+                    // cannot resume upload at this point. ignore request
+                    break
+            }
+        } else {
+          this._log('warn', `cannot find file '${id}', ignoring retry`);
+        }
+      });
+
+      if (syncUploadQueue) {
+        this._syncUploadQueue();
+      }
+    }
+
     public cancelUpload(id: string, purge: boolean= true): void {
         this._log('info', `cancel upload for file '${id}'`);
 
@@ -225,7 +274,9 @@ export class UploadManagement implements OnDestroy {
 
             // group relevant files by status
             const trackedFilesByStatus = Object.values(this._trackedFiles).reduce((acc, curr) => {
-                if ([TrackedFileStatuses.uploading, TrackedFileStatuses.waitingUpload, TrackedFileStatuses.added].includes(curr.status)) {
+                if ([TrackedFileStatuses.uploading,
+                    TrackedFileStatuses.waitingUpload,
+                    TrackedFileStatuses.added].includes(curr.status)) {
                     const statusItems = acc[curr.status];
 
                     if (statusItems) {
@@ -257,7 +308,7 @@ export class UploadManagement implements OnDestroy {
         this._log('silly', '_handlePendingPrepareFiles()');
 
         const addedFilesWaitingForPrepare = Object.values(addedFiles)
-            .filter(addedFile => (!this._trackedFilesUploadData[addedFile.id].preparing));
+            .filter(addedFile => (this._trackedFilesUploadData[addedFile.id].prepareMode === PrepareModes.pending));
 
         if (addedFilesWaitingForPrepare.length)
         {
@@ -284,7 +335,7 @@ export class UploadManagement implements OnDestroy {
                     item.adapter.prepare(item.files.map(file => {
                         // Developer notice: although doing side effect in map function is not recommended, this is done here
                         // to improve performance
-                        this._trackedFilesUploadData[file.id].preparing = true;
+                        this._trackedFilesUploadData[file.id].prepareMode = PrepareModes.inProgress;
 
                         return {id: file.id, data: file.data};
                     }))
@@ -325,22 +376,38 @@ export class UploadManagement implements OnDestroy {
                 const trackedFile = this._trackedFiles[modifiedFile.id];
                 const trackedFileUploadData = this._trackedFilesUploadData[modifiedFile.id];
 
-                if (trackedFileUploadData) {
-                    trackedFileUploadData.preparing = false;
-                }
-
                 if (trackedFile) {
                     if (modifiedFile.status) {
+                        // file prepare completed successfully
                         if (trackedFile.status === TrackedFileStatuses.added) {
-                            // if upload status is not preparing, don't change status to prevent wierd scenarios
+                            // track file status is correct - update status
+                            if (trackedFileUploadData) {
+                                trackedFileUploadData.prepareMode = PrepareModes.prepared;
+                            }
+
+                            this._updateTrackedFile(trackedFile,
+                                {
+                                    status: TrackedFileStatuses.prepared
+                                });
+
                             this._updateTrackedFile(trackedFile,
                                 {
                                     status: TrackedFileStatuses.waitingUpload
                                 });
                         } else {
-                            this._log('warn', `ignoring prepare response for file '${modifiedFile.id}' since the file status not equal 'added' (did the user cancel the file upload during the prepare execution?)`);
+                            this._log('warn', `ignoring prepare response for file '${modifiedFile.id}' the file status must be 'added' (did the user cancel the file upload during the prepare execution?)`);
+
+                            if (trackedFileUploadData) {
+                                trackedFileUploadData.prepareMode = PrepareModes.pending;
+                            }
                         }
                     } else {
+
+                        // file prepare failed - reset prepare mode to 'pending' for the user to be able to resume.
+                        if (trackedFileUploadData) {
+                            trackedFileUploadData.prepareMode = PrepareModes.pending;
+                        }
+
                         this._updateTrackedFile(trackedFile,
                             {
                                 status: TrackedFileStatuses.uploadFailed,
@@ -366,7 +433,9 @@ export class UploadManagement implements OnDestroy {
         const availableUploadSlots = (this._maxUploadRequests && this._maxUploadRequests > 0) ? this._maxUploadRequests - activeUploadsCount : waitingFilesCount;
 
         if (availableUploadSlots > 0) {
-            nextUploadFiles = waitingFiles.sort(pendingFile => pendingFile.uploadOrder || 1000).slice(0, availableUploadSlots);
+            nextUploadFiles = [
+              ...waitingFiles.sort(pendingFile => pendingFile.uploadOrder || 1000)
+            ].slice(0, availableUploadSlots);
         }
 
         this._log('debug', `available upload slots to be used ${availableUploadSlots}`);
@@ -385,7 +454,7 @@ export class UploadManagement implements OnDestroy {
             uploadStartAt: new Date()
         };
 
-         this._trackedFilesUploadData[id] = {uploadSubscription: null, preparing: false};
+         this._trackedFilesUploadData[id] = {uploadSubscription: null, prepareMode: PrepareModes.pending};
 
         this._onFileStatusChanged.next(newTrackedFile);
     }
@@ -483,6 +552,7 @@ export class UploadManagement implements OnDestroy {
                         });
                     }
 
+                    this._trackedFilesUploadData[id].uploadSubscription = null;
                     this._syncUploadQueue();
                   },
                   () => {
