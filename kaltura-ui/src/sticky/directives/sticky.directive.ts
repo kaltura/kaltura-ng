@@ -1,4 +1,4 @@
-import { Directive, Input, Renderer, ElementRef, AfterContentInit, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Directive, Input, Renderer, ElementRef, AfterContentInit, OnInit, OnDestroy } from '@angular/core';
 import { StickyScrollService } from '../services/sticky-scroll.service';
 
 @Directive({
@@ -9,10 +9,8 @@ export class StickyDirective implements OnInit, OnDestroy, AfterContentInit {
     private offsetTop: number;
     private lastScroll: number = 0;
     private isSticky: boolean = false;
-    private originalPosition: string = "static";
-    private originalTop: number = 0;
-    private originalMarginTop: string = "0px";
-    private originalLeft: number = 0;
+    private originalCss: any;
+
     @Input('stickyClass') stickyClass: string;
     @Input('stickyTop') stickyTop: number = 0;
     @Input('stickyOffsetTop') stickyOffsetTop: number = 0;
@@ -54,13 +52,15 @@ export class StickyDirective implements OnInit, OnDestroy, AfterContentInit {
     private setSticky(): void {
         if (!this.isSticky) {
             this.isSticky = true;
-            this.originalPosition = this.elementRef.nativeElement.style.position;
+            this.originalCss = {
+                position: this.elementRef.nativeElement.style.position,
+                top: this.elementRef.nativeElement.clientTop,
+                marginTop: this.elementRef.nativeElement.style.marginTop,
+                left: this.elementRef.nativeElement.clientLeft
+            };
             this.setStyle('position', 'fixed');
-            this.originalTop = this.elementRef.nativeElement.clientTop;
-            this.originalMarginTop = this.elementRef.nativeElement.style.marginTop;
             this.setStyle('top', this.stickyTop + 'px');
             if (this.container) {
-                this.originalLeft = this.elementRef.nativeElement.clientLeft;
                 this.setStyle('left', this.container.getBoundingClientRect()['left'] + 'px');
             }
             this.setClass(true);
@@ -70,11 +70,11 @@ export class StickyDirective implements OnInit, OnDestroy, AfterContentInit {
     private unsetSticky(): void {
         if (this.isSticky) {
             this.isSticky = false;
-            this.setStyle('position', this.originalPosition);
-            this.setStyle('marginTop', this.originalMarginTop);
-            this.setStyle('top', this.originalTop + 'px');
+            this.setStyle('position', this.originalCss.position);
+            this.setStyle('marginTop', this.originalCss.marginTop);
+            this.setStyle('top', this.originalCss.top + 'px');
             if (this.container) {
-                this.setStyle('left', this.originalLeft + 'px');
+                this.setStyle('left', this.originalCss.left + 'px');
             }
             this.setClass(false);
         }
