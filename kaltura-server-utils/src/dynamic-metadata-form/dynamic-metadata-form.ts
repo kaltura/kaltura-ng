@@ -8,6 +8,13 @@ import { FormGroup } from '@angular/forms';
 export class DynamicMetadataForm
 {
     private _formGroup : FormGroup;
+    private _xmlCharMap = {
+        '<': '&lt;',
+        '>': '&gt;',
+        '&': '&amp;',
+        '"': '&quot;',
+        "'": '&apos;'
+    };
 
     public get isReady() : boolean
     {
@@ -80,6 +87,10 @@ export class DynamicMetadataForm
         }
     }
 
+    private _escapeXml (string: string) {
+        return string.replace(/[&<>"']/g, char => this._xmlCharMap[char]);
+    }
+
     private _toServerValue(formValue : {}, fields : MetadataItem[]) : {} {
         let result = {};
 
@@ -127,10 +138,10 @@ export class DynamicMetadataForm
                     if (fieldValue) {
                         if (field.allowMultiple && fieldValue instanceof Array) {
                             value = fieldValue.map(fieldItem => {
-                                return fieldItem[fieldKey];
+                                return this._escapeXml(fieldItem[fieldKey]);
                             });
                         } else if (!field.allowMultiple && fieldValue) {
-                            value = fieldValue;
+                            value = this._escapeXml(fieldValue);
                         }
                     }
 
