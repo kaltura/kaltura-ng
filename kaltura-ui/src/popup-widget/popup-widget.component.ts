@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 import { PopupWidgetLayout } from './popup-widget-layout';
 import 'rxjs/add/observable/fromEvent';
+import { StickyScrollService } from '../sticky/services/sticky-scroll.service';
 
 export const PopupWidgetStates = {
     "Open": "open",
@@ -81,12 +82,11 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
     private _modalOverlay: any;
 	private _parentPopup: PopupWidgetComponent;
 	private _stateChangeSubscription: ISubscription = null;
-	private _windowResizeSubscription: ISubscription = null;
 	private _statechange: BehaviorSubject<popupStatus> = new BehaviorSubject<popupStatus>({state: ''});
 
 	public state$: Observable<popupStatus> = this._statechange.asObservable();
 
-    constructor(public popup: ElementRef) {
+    constructor(public popup: ElementRef, private _stickyScrollService: StickyScrollService) {
 	    this._statechange.next({state: PopupWidgetStates.Close});
     }
 
@@ -216,6 +216,13 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
     // component lifecycle events
 	ngOnInit()
 	{
+		if (this.closeOnResize) {
+			this._stickyScrollService.resizeStatus$.cancelOnDestroy(this).subscribe(
+				event => {
+					this.close();
+				}
+			);
+		}
 	}
 
     ngAfterViewInit() {
@@ -229,16 +236,9 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 		        }
 	        }
         }
-        if (this.closeOnResize){
-	        this._windowResizeSubscription = Observable.fromEvent(window, 'resize').subscribe(() => this.close());
-        }
     }
 
     ngOnDestroy(){
-	    if (this.closeOnResize && this._windowResizeSubscription){
-		    this._windowResizeSubscription.unsubscribe();
-		    this._windowResizeSubscription = null;
-	    }
     	if (this._targetRef) {
 		    this._targetRef.removeEventListener('click', (e: any) => this.toggle());
 	    }

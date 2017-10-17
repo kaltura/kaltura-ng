@@ -19,11 +19,6 @@ export class StickyDatatableHeaderDirective implements OnInit, AfterContentInit,
     @Input('stickyTop') stickyTop: number = 0;
     @Input('stickyOffsetTop') stickyOffsetTop: number = 0;
 
-    @HostListener('window:resize')
-    private onResize() {
-        this.updateHeaderSize();
-    }
-
     constructor(private elementRef: ElementRef, private renderer: Renderer, private _stickyScrollService: StickyScrollService) {
 
     }
@@ -32,6 +27,11 @@ export class StickyDatatableHeaderDirective implements OnInit, AfterContentInit,
         this._stickyScrollService.scrollStatus$.cancelOnDestroy(this).subscribe(
             event => {
                 this.manageScrollEvent();
+            }
+        );
+        this._stickyScrollService.resizeStatus$.cancelOnDestroy(this).subscribe(
+            event => {
+                this.updateHeaderSize();
             }
         );
     }

@@ -1,13 +1,14 @@
-import { Component, ElementRef, Input, QueryList, ContentChildren, AfterContentInit, ViewChild, HostListener, OnDestroy, AfterViewChecked } from '@angular/core';
+import { Component, ElementRef, Input, QueryList, ContentChildren, OnInit, AfterContentInit, ViewChild, HostListener, OnDestroy, AfterViewChecked } from '@angular/core';
 import { DetailInfoComponent } from './detail-info.component';
 import { ISubscription } from 'rxjs/Subscription';
+import { StickyScrollService } from '../sticky/services/sticky-scroll.service';
 
 @Component({
   selector: 'k-details-bar',
   templateUrl: './details-bar.component.html',
   styleUrls: ['./details-bar.component.scss']
 })
-export class DetailsBarComponent implements AfterContentInit,AfterViewChecked,  OnDestroy {
+export class DetailsBarComponent implements OnInit, AfterContentInit,AfterViewChecked, OnDestroy {
 
   @ContentChildren(DetailInfoComponent) items: QueryList<DetailInfoComponent>;
 
@@ -32,6 +33,17 @@ export class DetailsBarComponent implements AfterContentInit,AfterViewChecked,  
   private disableScroll: boolean = false;
   private _itemsChangesSubscription: ISubscription;
 
+  constructor(private _stickyScrollService: StickyScrollService) {
+  }
+
+  ngOnInit(){
+    this._stickyScrollService.resizeStatus$.cancelOnDestroy(this).subscribe(
+        event => {
+          this.updateLayout();
+        }
+    );
+  }
+
   ngAfterViewChecked(){
     if (this._shouldUpdateItems)
     {
@@ -41,7 +53,6 @@ export class DetailsBarComponent implements AfterContentInit,AfterViewChecked,  
           item._setData(this._data);
         })
       },0);
-
     }
   }
 
@@ -53,11 +64,6 @@ export class DetailsBarComponent implements AfterContentInit,AfterViewChecked,  
           this._shouldUpdateItems = true;
         }
     );
-  }
-
-  @HostListener('window:resize')
-  private onResize() {
-    this.updateLayout();
   }
 
   private _updateItems(): void{
