@@ -21,11 +21,11 @@ export class StickyScrollService implements OnDestroy
 		window.removeEventListener('resize', this.manageResizeEvent.bind(this));
 	}
 
-	manageScrollEvent(event){
+	manageScrollEvent(){
 		this._scrollSubject.next({});
 	}
 
-	manageResizeEvent(event){
+	manageResizeEvent(){
 		this._resizeSubject.next({});
 	}
 }

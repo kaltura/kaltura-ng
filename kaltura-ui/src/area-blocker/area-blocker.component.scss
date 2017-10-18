@@ -94,7 +94,8 @@ k-area-blocker {
 			align-items: center;
 			justify-content: center;
 			flex-direction: column;
-			position: absolute;
+			position: fixed;
+			top: calc(50vh - 90px);
 		}
 		.kErrorMessage {
 			width: 420px;

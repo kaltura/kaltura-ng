@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputTextModule, MenuModule } from 'primeng/primeng';
-import { FillHeightDirective } from './directives/datatable-fillheight';
-import { DropdownCloseOnScroll } from './directives/dropdown-close-on-scroll';
-import { MenuCloseOnScroll } from './directives/menu-close-on-scroll';
 import { StickyDatatableHeaderDirective } from './directives/sticky-datatable-header.directive';
 import { KalturaCommonModule } from '@kaltura-ng/kaltura-common';
 
@@ -15,16 +12,10 @@ import { KalturaCommonModule } from '@kaltura-ng/kaltura-common';
         CommonModule, InputTextModule, MenuModule, KalturaCommonModule
     ],
     declarations: <any[]>[
-        FillHeightDirective,
-	    StickyDatatableHeaderDirective,
-	    DropdownCloseOnScroll,
-	    MenuCloseOnScroll
+	    StickyDatatableHeaderDirective
     ],
     exports: <any[]>[
-        FillHeightDirective,
-	    StickyDatatableHeaderDirective,
-	    DropdownCloseOnScroll,
-	    MenuCloseOnScroll
+	    StickyDatatableHeaderDirective
     ],
     providers: <any[]>[
     ]
