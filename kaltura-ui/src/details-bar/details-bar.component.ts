@@ -1,14 +1,13 @@
-import { Component, ElementRef, Input, QueryList, ContentChildren, OnInit, AfterContentInit, ViewChild, HostListener, OnDestroy, AfterViewChecked } from '@angular/core';
+import { Component, ElementRef, Input, QueryList, ContentChildren, AfterContentInit, ViewChild, HostListener, OnDestroy, AfterViewChecked } from '@angular/core';
 import { DetailInfoComponent } from './detail-info.component';
 import { ISubscription } from 'rxjs/Subscription';
-import { StickyScrollService } from '../sticky/services/sticky-scroll.service';
 
 @Component({
   selector: 'k-details-bar',
   templateUrl: './details-bar.component.html',
   styleUrls: ['./details-bar.component.scss']
 })
-export class DetailsBarComponent implements OnInit, AfterContentInit,AfterViewChecked, OnDestroy {
+export class DetailsBarComponent implements AfterContentInit,AfterViewChecked, OnDestroy {
 
   @ContentChildren(DetailInfoComponent) items: QueryList<DetailInfoComponent>;
 
@@ -33,15 +32,12 @@ export class DetailsBarComponent implements OnInit, AfterContentInit,AfterViewCh
   private disableScroll: boolean = false;
   private _itemsChangesSubscription: ISubscription;
 
-  constructor(private _stickyScrollService: StickyScrollService) {
+  constructor() {
   }
 
-  ngOnInit(){
-    this._stickyScrollService.resizeStatus$.cancelOnDestroy(this).subscribe(
-        event => {
-          this.updateLayout();
-        }
-    );
+  @HostListener("window:resize", [])
+  onWindowResize() {
+    this.updateLayout();
   }
 
   ngAfterViewChecked(){
