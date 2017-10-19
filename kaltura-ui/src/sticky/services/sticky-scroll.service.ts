@@ -36,9 +36,9 @@ export class StickyScrollService implements OnDestroy
 
 	attach(id: string){
 		if (!id){
-			console.warn("sticky service::missing id on attach!");
+			throw new Error("sticky service::missing id on attach!");
 		}else if (typeof this.stickyElements[id] !== "undefined") {
-			console.warn("sticky service::id already exists! ("+id+")");
+			throw new Error("sticky service::id already exists! ("+id+")");
 		}else{
 			this.stickyElements[id] = null;
 		}
@@ -54,12 +54,16 @@ export class StickyScrollService implements OnDestroy
 
 	update(id: string, height: number, offset: number){
 		if (!id){
-			console.warn("sticky service::missing id on attach!");
+			console.warn("sticky service::missing id!");
 		}else {
 			const currentValue = this.stickyElements[id];
-			if (!currentValue || (currentValue.height !== height || currentValue.offset !== offset)) {
-				this.stickyElements[id] = {height, offset};
-				this._layoutSubject.next(this.stickyElements);
+			if (currentValue) {
+				if (currentValue.height !== height || currentValue.offset !== offset) {
+					this.stickyElements[id] = {height, offset};
+					this._layoutSubject.next(this.stickyElements);
+				}
+			} else {
+				throw new Error(`unknown sticky element '${id}' (did you attach it before updating?)`);
 			}
 		}
 	}

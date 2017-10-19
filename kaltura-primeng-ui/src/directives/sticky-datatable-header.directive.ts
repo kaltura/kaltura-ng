@@ -1,113 +1,38 @@
 import { Directive, Input, Renderer, ElementRef, OnInit, AfterContentInit, OnDestroy, OnChanges, HostListener } from '@angular/core';
 import { StickyScrollService } from '@kaltura-ng/kaltura-ui/sticky';
-import { Observable } from 'rxjs';
+import { StickyDirective } from '@kaltura-ng/kaltura-ui';
 
 @Directive({
     selector: '[stickyHeader]'
 })
 
-export class StickyDatatableHeaderDirective implements OnInit, AfterContentInit, OnChanges, OnDestroy {
-    private header: any = null;
-    private offsetTop: number;
-    private lastScroll: number = 0;
-    private isSticky: boolean = false;
-    private hasHeader: boolean = false;
-    private headerTop = 0;
+export class StickyDatatableHeaderDirective extends StickyDirective {
 
-
-    @Input('stickyClass') stickyClass: string = "";
-    @Input('stickyTop') stickyTop: number = 0;
-    @Input('stickyOffsetTop') stickyOffsetTop: number = 0;
-
-    constructor(private elementRef: ElementRef, private renderer: Renderer, private _stickyScrollService: StickyScrollService) {
-
+    private _dataTableRef: ElementRef;
+    constructor(elementRef: ElementRef, renderer: Renderer, _stickyScrollService: StickyScrollService) {
+        super(elementRef, renderer, _stickyScrollService);
+        this._dataTableRef = elementRef;
     }
 
-    ngOnInit(){
-        this._stickyScrollService.scrollStatus$.cancelOnDestroy(this).subscribe(
-            event => {
-                this.manageScrollEvent();
-            }
-        );
-        this._stickyScrollService.resizeStatus$.cancelOnDestroy(this).subscribe(
-            event => {
-                this.updateHeaderSize();
-            }
-        );
-    }
+    protected _getStickyElement(elementRef: ElementRef) :any{
+        const headers = elementRef.nativeElement.getElementsByClassName('ui-datatable-scrollable-header-box');
 
-    ngAfterContentInit(): void {
-        setTimeout(()=>{
-            const headers = this.elementRef.nativeElement.getElementsByClassName('ui-datatable-scrollable-header-box');
-            this.hasHeader = headers.length > 0;
-            if (this.hasHeader) {
-                this.header = headers[0];
-                this.headerTop = this.header.getBoundingClientRect()['top'];
-                this._calcPosition();
-            }
-        }, 0);
-    }
-
-    ngOnChanges(changes)
-    {
-        if (changes.stickyTop || changes.stickyOffsetTop) {
-            this._calcPosition();
+        if (headers && headers.length > 0) {
+            console.log("got primeng table header!");
+            return headers[0];
+        } else {
+            throw new Error("failed to extract table header (did you set the prime table with header?)");
         }
     }
 
-    ngOnDestroy(){
-
+    protected _onSticky():void{
+        const tableWidth = this._dataTableRef.nativeElement.getBoundingClientRect()['right'] - this._dataTableRef.nativeElement.getBoundingClientRect()['left'];
+        this._stickyElement.style.width = tableWidth + 'px';
     }
 
-    private _calcPosition(){
-        if (this.hasHeader) {
-            this.offsetTop = this.headerTop - this.stickyOffsetTop;
-            const scroll = window.pageYOffset;
-            if (this.isSticky && scroll >= this.offsetTop) {
-                this.header.style.top =  this.stickyTop + 'px';
-            }
-        }
-    }
-
-    private manageScrollEvent(): void {
-        const scroll = window.pageYOffset;
-
-        if (scroll > this.lastScroll && !this.isSticky && scroll >= this.offsetTop) {
-            this.setSticky();
-        } else if (scroll < this.lastScroll && this.isSticky && scroll <= this.offsetTop) {
-            this.unsetSticky();
-        }
-        this.lastScroll = scroll;
-    }
-
-    private setSticky(): void {
-        this.isSticky = true;
-        this.header.style.position = 'fixed';
-        this.header.style.top =  this.stickyTop + 'px';
-        this.updateHeaderSize();
-        this.setClass(true);
-    }
-
-    private updateHeaderSize(){
-        if (this.isSticky) {
-            const tableWidth = this.elementRef.nativeElement.getBoundingClientRect()['right'] - this.elementRef.nativeElement.getBoundingClientRect()['left'];
-            this.header.style.width = tableWidth + 'px';
-        }
-    }
-
-    private unsetSticky(): void {
-        this.isSticky = false;
-        this.header.style.position = 'static';
-        this.header.style.width = 'auto';
-        this.setClass(false);
-    }
-
-    private setStyle(key: string, value: string): void {
-        this.renderer.setElementStyle(this.header, key, value);
-    }
-
-    private setClass(add: boolean): void {
-        this.renderer.setElementClass(this.header, this.stickyClass, add);
+    protected _onUnsetSticky():void{
+        this._stickyElement.style.position = 'static';
+        this._stickyElement.style.width = 'auto';
     }
 
 }

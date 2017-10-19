@@ -9,7 +9,7 @@ import { StickyDirective } from '../directives/sticky.directive';
 })
 export class StickyComponent implements AfterViewInit {
 
-	public wrapperHeight:number = null;
+	public wrapperHeight:number = 0;
 
 	@Input() scrollOffset = 0;
 	@Input('stickyClass') stickyClass: string;
@@ -25,19 +25,24 @@ export class StickyComponent implements AfterViewInit {
 	constructor(private _stickyScrollService: StickyScrollService) {}
 
 	ngAfterViewInit(): void {
-		this.UpdateLayout();
+		setTimeout(()=>{
+			this._updateLayout();
+		},0);
 	}
 
-	public UpdateLayout(){
-		setTimeout(()=>{
-			if (this.content.nativeElement.children.length > 0) {
-				this.wrapperHeight = this.content.nativeElement.children[0].clientHeight;
-			}else{
-				console.warn("Sticky component::could not access content.");
-			}
-		},0);
+	private _updateLayout() {
+		if (this.content.nativeElement.children.length > 0) {
+			this.wrapperHeight = this.content.nativeElement.children[0].clientHeight;
+		} else {
+			console.warn("Sticky component::could not access content.");
+		}
+	}
 
-		this._sticky.update();
+	public updateLayout(manual: boolean = true){
+		setTimeout(()=>{
+			this._updateLayout();
+			this._sticky.update();
+		},0);
 	}
 
 }
