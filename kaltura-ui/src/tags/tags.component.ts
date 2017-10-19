@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, Output, OnInit, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList, HostListener, ElementRef, ContentChildren, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList, HostListener, ElementRef, ContentChildren, TemplateRef } from '@angular/core';
 import { TagComponent } from './tag.component';
 import { Subscription } from "rxjs/Subscription";
-import { StickyScrollService } from '../sticky/services/sticky-scroll.service';
 
 import * as $ from 'jquery';
 
@@ -10,7 +9,7 @@ import * as $ from 'jquery';
     templateUrl: './tags.component.html',
     styleUrls: ['./tags.component.scss']
 })
-export class TagsComponent implements OnInit, AfterViewInit, OnDestroy{
+export class TagsComponent implements AfterViewInit, OnDestroy{
 
 	@Input() data: any[] = [];
 	@Input() disabled: boolean = false;
@@ -38,15 +37,12 @@ export class TagsComponent implements OnInit, AfterViewInit, OnDestroy{
 	public _scrollLeftEnabled: boolean = false;
 	public _scrollRightEnabled: boolean = true;
 
-    constructor(private _stickyScrollService: StickyScrollService) {
+    constructor() {
     }
 
-    ngOnInit(){
-		this._stickyScrollService.resizeStatus$.cancelOnDestroy(this).subscribe(
-			event => {
-				this.checkShowMore();
-			}
-		);
+	@HostListener("window:resize", [])
+	onWindowResize() {
+		this.checkShowMore();
 	}
 
 	ngAfterViewInit(){

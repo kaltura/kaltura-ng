@@ -1,10 +1,9 @@
-import { Component, AfterViewInit, EventEmitter, OnDestroy, Input, Output, ElementRef, HostListener, OnInit, TemplateRef, ContentChild } from '@angular/core';
+import { Component, AfterViewInit, EventEmitter, OnDestroy, Input, Output, ElementRef, HostListener, TemplateRef, ContentChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 import { PopupWidgetLayout } from './popup-widget-layout';
 import 'rxjs/add/observable/fromEvent';
-import { StickyScrollService } from '../sticky/services/sticky-scroll.service';
 
 export const PopupWidgetStates = {
     "Open": "open",
@@ -22,7 +21,7 @@ export type popupStatus = {
     templateUrl: './popup-widget.component.html',
     styleUrls: ['./popup-widget.component.scss']
 })
-export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
+export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() transparent = false;
 	@Input() appendTo: any;
 	@Input() popupWidth: number;
@@ -86,7 +85,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 
 	public state$: Observable<popupStatus> = this._statechange.asObservable();
 
-    constructor(public popup: ElementRef, private _stickyScrollService: StickyScrollService) {
+    constructor(public popup: ElementRef) {
 	    this._statechange.next({state: PopupWidgetStates.Close});
     }
 
@@ -213,18 +212,15 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
     	return this._statechange.getValue().state !== PopupWidgetStates.Disabled;
     }
 
-    // component lifecycle events
-	ngOnInit()
-	{
+
+	@HostListener("window:resize", [])
+	onWindowResize() {
 		if (this.closeOnResize) {
-			this._stickyScrollService.resizeStatus$.cancelOnDestroy(this).subscribe(
-				event => {
-					this.close();
-				}
-			);
+			this.close();
 		}
 	}
 
+    // component lifecycle events
     ngAfterViewInit() {
         if (this.validate()) {
 	        if (this.appendTo && !this.modal){
