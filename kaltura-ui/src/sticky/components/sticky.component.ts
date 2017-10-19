@@ -1,4 +1,6 @@
-import { Component, ElementRef, Input, AfterViewInit, Renderer, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, AfterViewInit, OnDestroy, ViewChild, OnChanges } from '@angular/core';
+import { StickyScrollService } from '../services/sticky-scroll.service';
+import { StickyDirective } from '../directives/sticky.directive';
 
 @Component({
 	selector: 'kSticky',
@@ -7,17 +9,20 @@ import { Component, ElementRef, Input, AfterViewInit, Renderer, ViewChild } from
 })
 export class StickyComponent implements AfterViewInit {
 
-	public wrapperHeight = 0;
-	private elementRef: any;
+	public wrapperHeight:number = null;
 
+	@Input() scrollOffset = 0;
 	@Input('stickyClass') stickyClass: string;
-	@Input('stickyTop') stickyTop: number = 0;
-	@Input('stickyOffsetTop') stickyOffsetTop: number = 0;
+
 	@Input('container') container: any;
 
-	@ViewChild('contentWrapper') content: ElementRef;
+	@Input() stickyId: string;
+	@Input() sticksTo: string;
 
-	constructor() {}
+	@ViewChild('contentWrapper') content: ElementRef;
+	@ViewChild(StickyDirective) _sticky: StickyDirective;
+
+	constructor(private _stickyScrollService: StickyScrollService) {}
 
 	ngAfterViewInit(): void {
 		this.UpdateLayout();
@@ -31,6 +36,8 @@ export class StickyComponent implements AfterViewInit {
 				console.warn("Sticky component::could not access content.");
 			}
 		},0);
+
+		this._sticky.update();
 	}
 
 }
