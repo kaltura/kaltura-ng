@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@1.3.0...@kaltura-ng/kaltura-common@2.0.0) (2017-10-10)
+
+
+### Features
+
+* extend upload management to support upload process workflow ([254d652](https://github.com/kaltura/kaltura-ng/commit/254d652))
+
+
+### BREAKING CHANGES
+
+* The public api of upload management and the ovp upload adapter were modified to support the new process.
+
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@1.1.0...@kaltura-ng/kaltura-common@1.3.0) (2017-09-26)
 

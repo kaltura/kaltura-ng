@@ -9,3 +9,4 @@ export { DatePipe } from './date.pipe';
 export * from './validators';
 
 export * from './form';
+export * from './sticky';
