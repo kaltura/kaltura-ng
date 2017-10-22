@@ -2,7 +2,7 @@ import { Directive, Input, Renderer, ElementRef, AfterViewInit, OnInit, OnDestro
 import { StickyScrollService } from '../services/sticky-scroll.service';
 
 @Directive({
-    selector: '[sticky]'
+    selector: '[kSticky]'
 })
 
 export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {

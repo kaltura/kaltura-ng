@@ -3,7 +3,7 @@ import { StickyScrollService } from '@kaltura-ng/kaltura-ui/sticky';
 import { StickyDirective } from '@kaltura-ng/kaltura-ui';
 
 @Directive({
-    selector: '[stickyHeader]'
+    selector: '[kStickyHeader]'
 })
 
 export class StickyDatatableHeaderDirective extends StickyDirective {
@@ -26,7 +26,8 @@ export class StickyDatatableHeaderDirective extends StickyDirective {
     }
 
     protected _onSticky():void{
-        const tableWidth = this._dataTableRef.nativeElement.getBoundingClientRect()['right'] - this._dataTableRef.nativeElement.getBoundingClientRect()['left'];
+        const boundingClientRect: any = this._dataTableRef.nativeElement.getBoundingClientRect();
+        const tableWidth = boundingClientRect['right'] - boundingClientRect['left'];
         this._stickyElement.style.width = tableWidth + 'px';
     }
 

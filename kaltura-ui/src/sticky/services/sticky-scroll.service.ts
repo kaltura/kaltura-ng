@@ -14,16 +14,18 @@ export class StickyScrollService implements OnDestroy
 	public layoutSubject$ = this._layoutSubject.asObservable();
 
 	private stickyElements: any = {};
+	private manageScrollFunc = this.manageScrollEvent.bind(this);
+	private manageResizeFunc = this.manageResizeEvent.bind(this);
 
 	constructor()
 	{
-		window.addEventListener('scroll', this.manageScrollEvent.bind(this));
-		window.addEventListener('resize', this.manageResizeEvent.bind(this));
+		window.addEventListener('scroll', this.manageScrollFunc);
+		window.addEventListener('resize', this.manageResizeFunc);
 	}
 
 	ngOnDestroy(){
-		window.removeEventListener('scroll', this.manageScrollEvent.bind(this));
-		window.removeEventListener('resize', this.manageResizeEvent.bind(this));
+		window.removeEventListener('scroll', this.manageScrollFunc);
+		window.removeEventListener('resize', this.manageResizeFunc);
 	}
 
 	manageScrollEvent(){
@@ -57,8 +59,8 @@ export class StickyScrollService implements OnDestroy
 			console.warn("sticky service::missing id!");
 		}else {
 			const currentValue = this.stickyElements[id];
-			if (currentValue) {
-				if (currentValue.height !== height || currentValue.offset !== offset) {
+			if (typeof currentValue !== "undefined") {
+				if (currentValue === null || currentValue.height !== height || currentValue.offset !== offset) {
 					this.stickyElements[id] = {height, offset};
 					this._layoutSubject.next(this.stickyElements);
 				}
