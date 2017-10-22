@@ -1,8 +1,9 @@
-import { Component, AfterViewInit, EventEmitter, OnDestroy, Input, Output, ElementRef, HostListener, OnInit, TemplateRef, ContentChild } from '@angular/core';
+import { Component, AfterViewInit, EventEmitter, OnDestroy, Input, Output, ElementRef, HostListener, TemplateRef, ContentChild } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
-import { Subscription } from "rxjs/Subscription";
+import { ISubscription } from 'rxjs/Subscription';
 import { PopupWidgetLayout } from './popup-widget-layout';
+import 'rxjs/add/observable/fromEvent';
 
 export const PopupWidgetStates = {
     "Open": "open",
@@ -20,17 +21,19 @@ export type popupStatus = {
     templateUrl: './popup-widget.component.html',
     styleUrls: ['./popup-widget.component.scss']
 })
-export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
+export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() transparent = false;
 	@Input() appendTo: any;
 	@Input() popupWidth: number;
     @Input() popupHeight: number | 'auto' = 'auto';
 	@Input() showTooltip: boolean = false;
+	@Input() preventPageScroll: boolean = false;
 	@Input() modal: boolean = false;
 	@Input() slider: boolean = false;
 	@Input() closeBtn: boolean = true;
 	@Input() closeBtnInside: boolean = false;
 	@Input() closeOnClickOutside: boolean = true;
+	@Input() closeOnResize: boolean = false;
 	@Input() targetOffset: any = {'x':0, 'y': 0};
 	@Input() childrenPopups: PopupWidgetComponent[] = [];
 	@ContentChild(TemplateRef) public _template: TemplateRef<any>;
@@ -73,10 +76,11 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
     }
 
 	private _targetRef: any;
+    private _saveOriginalScroll: string = "";
 	public _popupWidgetHeight: string;
     private _modalOverlay: any;
 	private _parentPopup: PopupWidgetComponent;
-	private _stateChangeSubscription: Subscription = null;
+	private _stateChangeSubscription: ISubscription = null;
 	private _statechange: BehaviorSubject<popupStatus> = new BehaviorSubject<popupStatus>({state: ''});
 
 	public state$: Observable<popupStatus> = this._statechange.asObservable();
@@ -102,6 +106,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 	        if (!this._targetRef){
 		        this.popup.nativeElement.style.marginLeft = window.innerWidth/2 - this.popupWidth/2 + 'px';
 		        if (this.slider) {
+			        window.scrollTo(0,0);
 			        this.popup.nativeElement.style.top = "auto";
 			        this.closeBtn = false;
 			        this.popup.nativeElement.style.bottom = this.popupHeight!== 'auto' ?  this.popupHeight * -1 +"px" :  "-1000px";
@@ -111,10 +116,12 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 		        }else{
 			        const marginTop = this.popupHeight !== 'auto' ? (window.innerHeight / 2 - this.popupHeight / 2) : 100;
 			        this.popup.nativeElement.style.marginTop = marginTop + 'px';
+			        this.popup.nativeElement.style.position = "fixed";
 		        }
 	        }else{
 		        this.popup.nativeElement.style.marginLeft = this._targetRef.getBoundingClientRect().left - parentLeft + this.targetOffset['x'] + 'px';
 		        this.popup.nativeElement.style.marginTop = this._targetRef.getBoundingClientRect().top - parentTop + this.targetOffset['y'] + 'px';
+		        this.popup.nativeElement.style.position = "absolute";
 	        }
             this.popup.nativeElement.style.zIndex = PopupWidgetLayout.getPopupZindex();
 
@@ -122,7 +129,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 	        const viewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 	        const diff = viewPortWidth - this.popup.nativeElement.getBoundingClientRect().left - this.popupWidth;
 	        if (diff < 0){
-		        this.popup.nativeElement.style.marginLeft = parseInt(this.popup.nativeElement.style.marginLeft) + diff - 2 + "px";
+		        this.popup.nativeElement.style.marginLeft = parseInt(this.popup.nativeElement.style.marginLeft) + diff - 18 + "px"; // 18 pixels due to vertical scroll bar
 	        }
 
             // handle modal
@@ -137,7 +144,15 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 	                });
                 }
                 document.body.appendChild(this._modalOverlay);
+		        document.body.classList.add("kModal");
             }
+
+            // prevent page scroll
+	        if (this.preventPageScroll){
+	        	this._saveOriginalScroll = window.getComputedStyle(document.body)["overflow-y"];
+	        	document.body.style.overflowY = 'hidden';
+	        }
+
             setTimeout(()=>{
 	            this.addClickOutsideSupport();
             },0);
@@ -159,7 +174,9 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 				        popup.close();
 			        });
 		        }
-
+		        if (this.preventPageScroll){
+			        document.body.style.overflowY = this._saveOriginalScroll;
+		        }
 		        this.removeClickOutsideSupport();
 		        this.onClose.emit(); // dispatch onClose event (API)
 		        let timeout = 0;
@@ -171,6 +188,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
 			        // remove modal
 			        if (this.modal && this._modalOverlay) {
 				        document.body.removeChild(this._modalOverlay);
+				        document.body.classList.remove("kModal");
 				        this._modalOverlay = null;
 			        }
 			        this._statechange.next({state: PopupWidgetStates.Close, context: context, reason: reason}); // use timeout to prevent valueChangeAfterChecked error
@@ -194,11 +212,15 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy, OnInit{
     	return this._statechange.getValue().state !== PopupWidgetStates.Disabled;
     }
 
-    // component lifecycle events
-	ngOnInit()
-	{
+
+	@HostListener("window:resize", [])
+	onWindowResize() {
+		if (this.closeOnResize) {
+			this.close();
+		}
 	}
 
+    // component lifecycle events
     ngAfterViewInit() {
         if (this.validate()) {
 	        if (this.appendTo && !this.modal){

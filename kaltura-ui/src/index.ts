@@ -8,3 +8,4 @@ export { TimePipe } from './time.pipe';
 export { DatePipe } from './date.pipe';
 
 export * from './form';
+export * from './sticky';
