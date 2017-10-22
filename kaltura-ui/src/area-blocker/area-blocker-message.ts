@@ -13,7 +13,7 @@ export class AreaBlockerMessage
 
     constructor(content : { title? : string, message : string, buttons : AreaBlockerMessageButton[]})
     {
-        this.title = content.title || 'Uh oh!';
+        this.title = content.title || 'Error';
         this.message = content.message;
         this.buttons = content.buttons;
     }

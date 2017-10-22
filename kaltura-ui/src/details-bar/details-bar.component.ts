@@ -7,7 +7,7 @@ import { ISubscription } from 'rxjs/Subscription';
   templateUrl: './details-bar.component.html',
   styleUrls: ['./details-bar.component.scss']
 })
-export class DetailsBarComponent implements AfterContentInit,AfterViewChecked,  OnDestroy {
+export class DetailsBarComponent implements AfterContentInit,AfterViewChecked, OnDestroy {
 
   @ContentChildren(DetailInfoComponent) items: QueryList<DetailInfoComponent>;
 
@@ -32,6 +32,14 @@ export class DetailsBarComponent implements AfterContentInit,AfterViewChecked,  
   private disableScroll: boolean = false;
   private _itemsChangesSubscription: ISubscription;
 
+  constructor() {
+  }
+
+  @HostListener("window:resize", [])
+  onWindowResize() {
+    this.updateLayout();
+  }
+
   ngAfterViewChecked(){
     if (this._shouldUpdateItems)
     {
@@ -41,7 +49,6 @@ export class DetailsBarComponent implements AfterContentInit,AfterViewChecked,  
           item._setData(this._data);
         })
       },0);
-
     }
   }
 
@@ -53,11 +60,6 @@ export class DetailsBarComponent implements AfterContentInit,AfterViewChecked,  
           this._shouldUpdateItems = true;
         }
     );
-  }
-
-  @HostListener('window:resize')
-  private onResize() {
-    this.updateLayout();
   }
 
   private _updateItems(): void{
