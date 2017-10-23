@@ -150,7 +150,7 @@ export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
     }
 
     protected _onSticky():void{
-
+        setTimeout(()=> {this.update()},0);
     }
 
     private unsetSticky(): void {
@@ -168,7 +168,7 @@ export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
     }
 
     protected _onUnsetSticky():void{
-
+        setTimeout(()=> {this.update()},0);
     }
 
     private setStyle(key: string, value: string): void {
