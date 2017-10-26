@@ -1,4 +1,3 @@
-import { OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import 'rxjs/add/observable/of';
@@ -8,14 +7,23 @@ import 'rxjs/add/observable/of';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import 'rxjs/add/operator/catch';
 import { FormManager } from './form-manager';
+import { ISubscription } from 'rxjs/Subscription';
+import { OnDestroy } from '@angular/core';
 
 export declare type FormWidgetState = { key : string, isActive : boolean,  isValid : boolean, isDirty : boolean, isBusy : boolean, isAttached : boolean, wasActivated : boolean };
+
 
 export abstract class FormWidget<TData, TRequest> implements OnDestroy
 {
     public get data(): TData {
         return this._data;
     }
+
+    // DEVELOPER NOTE: this class cannot use 'cancelOnDestroy' operation
+    // because it must assume the inheriter will override it
+    private _activateSubscription: ISubscription = null;
+
+
 
     public set data(value: TData) {
         this._data = value;
@@ -77,7 +85,7 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
         return Observable.of({isValid: true});
     }
 
-    protected _updateWidgetState(stateUpdate : Partial<FormWidgetState>) : void {
+    protected updateState(stateUpdate : Partial<FormWidgetState>) : void {
         const stateHasChanges = Object.keys(stateUpdate).reduce((result, propertyName) => result || this._widgetState[propertyName] !== stateUpdate[propertyName], false);
 
         if (stateHasChanges) {
@@ -85,7 +93,7 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
 
             if (this._manager) {
                 const newWidgetState = Object.assign({}, this._widgetState);
-                this._manager.updateWidgetState(newWidgetState);
+                this._manager._updateWidgetState(newWidgetState);
             }
         }
     }
@@ -106,16 +114,24 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
     }
 
     public onDataLoading(dataId: string): void {
+        this._verifyRegistered();
+
         this.data = null;
         this._onDataLoading(dataId);
     }
 
     public onDataLoaded(data: TData): void {
+
+        this._verifyRegistered();
+
         this.data = data;
         this._onDataLoaded(data);
     }
 
     public validate(): Observable<{isValid: boolean}> {
+
+        this._verifyRegistered();
+
         if (this.wasActivated) {
             return this._onValidate();
         }else {
@@ -124,19 +140,40 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
     }
 
     public onDataSaving(newData: TData, request: TRequest, originalData: TData): void {
+
+        this._verifyRegistered();
+
         if (this.wasActivated) {
             this._onDataSaving(newData, request, originalData);
         }
     }
 
     public reset(): void {
-        console.log(`widget ${this.key}: reset widget`);
+        this._verifyRegistered();
+
+        console.log(`[form widget] widget ${this.key}: reset widget`);
+
+        if (this._activateSubscription)
+        {
+            this._activateSubscription.unsubscribe();
+            this._activateSubscription = null;
+        }
+
         this._widgetReset.next('');
-        this._updateWidgetState({ isValid: true, isDirty: false, isActive : false});
+        this.updateState({ isValid: true, isDirty: false, isActive : false});
         this._onReset();
     }
 
+    private _verifyRegistered(): void{
+        if(!this._manager)
+        {
+            throw new Error('This widget ')
+        }
+    }
+
     public activate(): void {
+
+        this._verifyRegistered();
 
         if (this.data && this.isAttached && !this.isActive) {
 
@@ -148,43 +185,67 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
             const activate$ = this._onActivate(!this.wasActivated);
 
             // update status
-            this._updateWidgetState({ isActive : true, isBusy : true, wasActivated : true});
+            console.log(`[form widget] widget ${this.key}: activated widget (first time = ${!previousStatus.wasActivated})`);
+            this.updateState({ isActive : true, isBusy : true, wasActivated : true});
 
             if (activate$ instanceof Observable) {
-                activate$
-                    .cancelOnDestroy(this, this._widgetReset)
-                    .monitor(`widget ${this.key}: activated widget (first time = ${!previousStatus.wasActivated})`)
+                console.log(`[form widget] widget ${this.key}: widget provided async activation operation. executing async activation.`);
+                this._activateSubscription = activate$
+                    .monitor(`[form widget] widget ${this.key}: activate widget (first time = ${!previousStatus.wasActivated})`)
                     .catch((error, caught) => Observable.of({failed: true, error}))
                     .subscribe(
                         response => {
                             if (response && response.failed) {
-                                console.log(`widget ${this.key}: widget activation failed. revert status to ${JSON.stringify(previousStatus)})`);
-                                this._updateWidgetState({ isActive : false, isBusy : false, wasActivated : previousStatus.wasActivated});
+                                console.log(`[form widget] widget ${this.key}: async widget activation failed. revert status to ${JSON.stringify(previousStatus)})`);
+                                this.updateState({ isActive : false, isBusy : false, wasActivated : previousStatus.wasActivated});
                             }else {
-                                this._updateWidgetState({ isBusy : false });
+                                console.log(`[form widget] widget ${this.key}: async widget activation completed`);
+                                this.updateState({ isBusy : false });
                             }
                         },
-                        null);
+                        () => {
+                            this._activateSubscription = null;
+                        },
+                        () => {
+                            this._activateSubscription = null;
+                        });
             } else {
-                console.log(`widget ${this.key}: activated widget (first time = ${!previousStatus.wasActivated})`);
-                this._updateWidgetState({ isBusy : false });
+                console.log(`[form widget] widget ${this.key}: activated widget (first time = ${!previousStatus.wasActivated})`);
+                this.updateState({ isBusy : false });
             }
         }
     }
 
 
-    public attach() : void{
-        this._updateWidgetState({ isAttached : true});
+    public attachForm() : void{
+        this._verifyRegistered();
 
-        this.activate();
+        if (this.isAttached) {
+            console.warn(`[form widget] widget with key '${this.key}' is already attached (did you attached two components to the same widget? did you forgot to detach the widget upon ngOnDestroy?)`);
+        }else {
+            this.updateState({isAttached: true});
+            this.activate();
+        }
     }
 
-    public detach() : void{
-        this._updateWidgetState({ isAttached : false});
+    ngOnDestroy()
+    {
+        // DEVELOPER NOTE: Don't add logic here - it would probably the inheritor will
+        // probably override this without calling super()
     }
 
+    public detachForm() : void{
 
-    ngOnDestroy() {
+        this._verifyRegistered();
+
+        if (!this.isAttached) {
+            console.warn(`[form widget] widget with key '${this.key}' is already detached (did you attached two components to the same widget? did you forgot to attach the widget upon ngOnInit?)`);
+        }else {
+            this.updateState({isAttached: false});
+        }
+    }
+
+    destory() {
         this.reset();
         this._widgetReset.complete();
     }
