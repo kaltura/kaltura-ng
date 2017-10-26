@@ -42,7 +42,7 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
     protected onDataSaving(newData: TData, request: TRequest, originalData?: TData): void {
     }
 
-    protected manager : FormManager<TData, TRequest>;
+    protected form : FormManager<TData, TRequest>;
 
     private _widgetReset : Subject<any> = new Subject<any>();
     public widgetReset$ = this._widgetReset.asObservable();
@@ -86,9 +86,9 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
         if (stateHasChanges) {
             Object.assign(this._widgetState, stateUpdate);
 
-            if (this.manager) {
+            if (this.form) {
                 const newWidgetState = Object.assign({}, this._widgetState);
-                this.manager._updateWidgetState(newWidgetState);
+                this.form._updateWidgetState(newWidgetState);
             }
         }
     }
@@ -105,7 +105,7 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
     }
 
     public _setManager(manager : FormManager<TData,TRequest>) :void {
-        this.manager = manager;
+        this.form = manager;
     }
 
     public _handleDataLoading(dataId: string): void {
@@ -162,7 +162,7 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
     }
 
     private _verifyRegistered(): void{
-        if(!this.manager)
+        if(!this.form)
         {
             throw new Error('This widget ')
         }
