@@ -103,9 +103,9 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
     protected onDataLoading(dataId: any): void {
     }
 
-    protected abstract _onReset();
+    protected abstract onReset();
 
-    protected _onActivate(firstTimeActivating: boolean): Observable<{failed: boolean, error?: Error}> | void {
+    protected onActivate(firstTimeActivating: boolean): Observable<{failed: boolean, error?: Error}> | void {
     }
 
     public _setForm(manager : TForm) :void {
@@ -162,7 +162,7 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
 
         this._widgetReset.next('');
         this.updateState({ isValid: true, isDirty: false, isActive : false});
-        this._onReset();
+        this.onReset();
     }
 
     private _verifyRegistered(): void{
@@ -186,7 +186,7 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
             };
 
             console.log(`[widget] widget '${this.key}': activating widget (first time = ${!previousStatus.wasActivated})`);
-            const activate$ = this._onActivate(!this.wasActivated);
+            const activate$ = this.onActivate(!this.wasActivated);
             this.updateState({ isActive : true, wasActivated : true});
 
             if (activate$ instanceof Observable) {
