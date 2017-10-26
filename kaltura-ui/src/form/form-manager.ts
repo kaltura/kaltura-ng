@@ -55,7 +55,7 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
                     throw new Error(`a widget with key '${widget.key}' is already registered (did you registered the same widget twice?)`);
                 }else {
                     console.log(`[form manager] widget '${widget.key}': registered to a form manager`);
-                    widget.setManager(this);
+                    widget._setManager(this);
                     this._widgets.push(widget);
                 }
             })
@@ -63,26 +63,26 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
         }
     }
 
-    public onDataLoading(dataId: any): void {
+    public notifyDataLoading(dataId: any): void {
 
         this._widgets.filter(widget => widget.isActive).forEach(widget => {
             console.log(`[form manager] widget '${widget.key}': reset widget (previous state ${widget.wasActivated ? 'active' : 'inactive'})`);
-            widget.reset();
+            widget._reset();
         });
 
         this._widgets.forEach(widget => {
-            widget.onDataLoading(dataId);
+            widget._handleDataLoading(dataId);
         });
     }
 
-    public onDataLoaded(data: TData) : { errors?: Error[] } {
+    public notifyDataLoaded(data: TData) : { errors?: Error[] } {
 
         const errors : Error[] = [];
         this._widgets.forEach(widget => {
 
             try {
-                widget.onDataLoaded(data);
-                widget.activate();
+                widget._handleDataLoaded(data);
+                widget._activate();
             }catch(e)
             {
                 errors.push(e);
@@ -98,7 +98,7 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
         this._widgets.filter(widget => widget.isActive).forEach(widget => {
             try {
                 console.log(`[form manager] widget '${widget.key}': build save request content`);
-                widget.onDataSaving(newData, request, originalData);
+                widget._handleDataSaving(newData, request, originalData);
             } catch (err) {
                 console.error(`[form manager] widget '${widget.key}': failed to prepare data for save. Save operation aborted.`, err); // keep error
                 errors.push(err);
@@ -108,7 +108,7 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
         return {errors};
     }
 
-    public onDataSaving(newData: TData, request: TRequest, originalData: TData): Observable<{ ready: boolean, reason?: OnDataSavingReasons, errors?: Error[] }> {
+    public notifyDataSaving(newData: TData, request: TRequest, originalData: TData): Observable<{ ready: boolean, reason?: OnDataSavingReasons, errors?: Error[] }> {
 
         const isAttachedWidgetBusy = !!this._widgets.find(widget => widget.isAttached && widget.isBusy);
 
@@ -152,7 +152,7 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
 
     private _validateWidgets(): Observable<{ isValid: boolean }> {
         const widgetsResults = this._widgets.filter(widget => widget.isActive).map(widget => {
-            return widget.validate()
+            return widget._validate()
                 .cancelOnDestroy(this)
                 .monitor(`[form manager] widget '${widget.key}': is valid?`)
                 .catch((err, caught) => Observable.of({isValid: false}));
@@ -165,11 +165,6 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
         } else {
             return Observable.of({isValid: true});
         }
-    }
-
-
-    public findWidgetByKey(widgetKey: string): FormWidget<TData,TRequest> {
-        return <FormWidget<TData,TRequest>>this._widgets.find(widget => widget.key === widgetKey);
     }
 
     ngOnDestroy() {

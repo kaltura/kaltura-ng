@@ -23,12 +23,6 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
     // because it must assume the inheriter will override it
     private _activateSubscription: ISubscription = null;
 
-
-
-    public set data(value: TData) {
-        this._data = value;
-        this._dataSource.next(value);
-    }
     private _data: TData;
     private _dataSource: ReplaySubject<TData> = new ReplaySubject<TData>(1);
     public data$ = this._dataSource.asObservable();
@@ -43,11 +37,12 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
 
     private _widgetState : FormWidgetState = {key: this.key, isValid: true, isDirty: false, isAttached: false, isBusy : false, isActive : false,  wasActivated : false};
 
-    protected _onDataSaving(newData: TData, request: TRequest, originalData: TData): void;
-    protected _onDataSaving(newData: TData, request: TRequest): void;
-    protected _onDataSaving(newData: TData, request: TRequest, originalData?: TData): void {
+    protected onDataSaving(newData: TData, request: TRequest, originalData: TData): void;
+    protected onDataSaving(newData: TData, request: TRequest): void;
+    protected onDataSaving(newData: TData, request: TRequest, originalData?: TData): void {
     }
-    protected _manager : FormManager<TData, TRequest>;
+
+    protected manager : FormManager<TData, TRequest>;
 
     private _widgetReset : Subject<any> = new Subject<any>();
     public widgetReset$ = this._widgetReset.asObservable();
@@ -81,7 +76,7 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
         return this._key;
     }
 
-    protected _onValidate(): Observable<{isValid: boolean}> {
+    protected onValidate(): Observable<{isValid: boolean}> {
         return Observable.of({isValid: true});
     }
 
@@ -91,17 +86,17 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
         if (stateHasChanges) {
             Object.assign(this._widgetState, stateUpdate);
 
-            if (this._manager) {
+            if (this.manager) {
                 const newWidgetState = Object.assign({}, this._widgetState);
-                this._manager._updateWidgetState(newWidgetState);
+                this.manager._updateWidgetState(newWidgetState);
             }
         }
     }
 
-    protected _onDataLoaded(data: TData): void {
+    protected onDataLoaded(data: TData): void {
     }
 
-    protected _onDataLoading(dataId: any): void {
+    protected onDataLoading(dataId: any): void {
     }
 
     protected abstract _onReset();
@@ -109,46 +104,48 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
     protected _onActivate(firstTimeActivating: boolean): Observable<{failed: boolean, error?: Error}> | void {
     }
 
-    public setManager(manager : FormManager<TData,TRequest>) :void {
-        this._manager = manager;
+    public _setManager(manager : FormManager<TData,TRequest>) :void {
+        this.manager = manager;
     }
 
-    public onDataLoading(dataId: string): void {
+    public _handleDataLoading(dataId: string): void {
         this._verifyRegistered();
-
-        this.data = null;
-        this._onDataLoading(dataId);
+        this._setData(null);
+        this.onDataLoading(dataId);
     }
 
-    public onDataLoaded(data: TData): void {
+    private _setData(data: TData): void{
+        this._data = data;
+        this._dataSource.next(data);
+    }
 
+    public _handleDataLoaded(data: TData): void {
         this._verifyRegistered();
-
-        this.data = data;
-        this._onDataLoaded(data);
+        this._setData(data);
+        this.onDataLoaded(data);
     }
 
-    public validate(): Observable<{isValid: boolean}> {
+    public _validate(): Observable<{isValid: boolean}> {
 
         this._verifyRegistered();
 
         if (this.wasActivated) {
-            return this._onValidate();
+            return this.onValidate();
         }else {
             return Observable.of({isValid : true});
         }
     }
 
-    public onDataSaving(newData: TData, request: TRequest, originalData: TData): void {
+    public _handleDataSaving(newData: TData, request: TRequest, originalData: TData): void {
 
         this._verifyRegistered();
 
         if (this.wasActivated) {
-            this._onDataSaving(newData, request, originalData);
+            this.onDataSaving(newData, request, originalData);
         }
     }
 
-    public reset(): void {
+    public _reset(): void {
         this._verifyRegistered();
 
         console.log(`[form widget] widget ${this.key}: reset widget`);
@@ -165,19 +162,19 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
     }
 
     private _verifyRegistered(): void{
-        if(!this._manager)
+        if(!this.manager)
         {
             throw new Error('This widget ')
         }
     }
 
-    public activate(): void {
+    public _activate(): void {
 
         this._verifyRegistered();
 
         if (this.data && this.isAttached && !this.isActive) {
 
-            this.reset();
+            this._reset();
 
             const previousStatus = {
               wasActivated : this.wasActivated
@@ -224,7 +221,7 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
             console.warn(`[form widget] widget with key '${this.key}' is already attached (did you attached two components to the same widget? did you forgot to detach the widget upon ngOnDestroy?)`);
         }else {
             this.updateState({isAttached: true});
-            this.activate();
+            this._activate();
         }
     }
 
@@ -246,7 +243,7 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
     }
 
     destory() {
-        this.reset();
+        this._reset();
         this._widgetReset.complete();
     }
 
