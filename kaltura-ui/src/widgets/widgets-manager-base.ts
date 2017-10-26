@@ -64,7 +64,7 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
     }
 
     public notifyDataLoading(dataId: any): void {
-        console.log(`[widgets manager] notify data loading. data identifier '${dataId}`);
+        console.log(`[widgets manager] notify data loading. data identifier '${dataId}'`);
 
         this._widgets.filter(widget => widget.isActive).forEach(widget => {
             widget._reset();
@@ -179,58 +179,7 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
         console.warn('[widgets manager] form widgets manager ngOnDestroy');
         this._widgetsState.complete();
     }
+s
 
-    /**
-     *
-     * @param {{new(...args) => TWidget}} widgetType
-     * @returns {TWidget}
-     * @deprecated
-     */
-    public attachWidget<TWidget extends WidgetBase<this,TData,TRequest>>(widgetType : { new(...args) : TWidget}) : TWidget {
-        const widget = this._widgets.find(widget => widget instanceof widgetType);
-
-
-        if (!widget) {
-            console.warn(`[widgets manager] Cannot find requested widget in registered widgets list (did you register a widget with that key?)`);
-        } else if (!(widget instanceof widgetType)) {
-            console.warn(`[widgets manager] Cannot find widget with key '${widget.key}' (did you register a widget with that key?)`);
-        }else {
-            const widgetState = this.widgetsState[widget.key];
-            if (widgetState && widgetState.isAttached) {
-                console.warn(`[widgets manager] widget with key '${widget.key}' is already attached (did you attached two components to the same widget? or did you forgot to detach the widget upon ngOnDestroy?)`);
-            }
-
-            console.log(`[widgets manager] widget '${widget.key}': widget is now attached`);
-            widget.attachForm();
-
-            return widget;
-        }
-
-        return null;
-    }
-
-    /**
-     *
-     * @param {WidgetBase<this, TData, TRequest>} widget
-     * @returns {WidgetBase<this, TData, TRequest>}
-     * @deprecated
-     */
-    public detachWidget(widget : WidgetBase<this, TData, TRequest>) : WidgetBase<this, TData, TRequest>{
-        const isWidgetOfForm = this._widgets.indexOf(widget) !== -1;
-
-        if (!isWidgetOfForm) {
-            console.warn(`[widgets manager] Cannot find registered widget with key '${widget.key}' (did you register a widget with that key?)`);
-        } else {
-            const widgetState = this.widgetsState[widget.key];
-            if (widgetState && !widgetState.isAttached) {
-                console.warn(`[widgets manager] widget with key '${widget.key}' is already detached`);
-            }
-
-            console.log(`[widgets manager] widget '${widget.key}': widget is now detached`);
-            widget.detachForm();
-        }
-
-        return widget;
-    }
 
 }
