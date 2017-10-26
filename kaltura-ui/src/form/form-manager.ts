@@ -21,7 +21,7 @@ export enum OnDataSavingReasons
 }
 
 export abstract class FormManager<TData, TRequest> implements OnDestroy {
-    private _widgets: FormWidget<TData, TRequest>[] = [];
+    private _widgets: FormWidget<this, TData, TRequest>[] = [];
     private _widgetsState: BehaviorSubject<FormWidgetsState> = new BehaviorSubject<FormWidgetsState>({});
     public widgetsState$ = this._widgetsState.asObservable();
 
@@ -42,7 +42,7 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
         }
     }
 
-    public registerWidgets(widgets : FormWidget<TData,TRequest>[])
+    public registerWidgets(widgets : FormWidget<this, TData,TRequest>[])
     {
         if (widgets)
         {
@@ -55,7 +55,7 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
                     throw new Error(`a widget with key '${widget.key}' is already registered (did you registered the same widget twice?)`);
                 }else {
                     console.log(`[form manager] widget '${widget.key}': registered to a form manager`);
-                    widget._setManager(this);
+                    widget._setForm(this);
                     this._widgets.push(widget);
                 }
             })
@@ -64,9 +64,9 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
     }
 
     public notifyDataLoading(dataId: any): void {
+        console.log(`[form manager] notify data loading. data identifier '${dataId}`);
 
         this._widgets.filter(widget => widget.isActive).forEach(widget => {
-            console.log(`[form manager] widget '${widget.key}': reset widget (previous state ${widget.wasActivated ? 'active' : 'inactive'})`);
             widget._reset();
         });
 
@@ -77,12 +77,13 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
 
     public notifyDataLoaded(data: TData) : { errors?: Error[] } {
 
+        console.log(`[form manager] notify data loaded.`);
         const errors : Error[] = [];
         this._widgets.forEach(widget => {
 
             try {
                 widget._handleDataLoaded(data);
-                widget._activate();
+                widget.activate();
             }catch(e)
             {
                 errors.push(e);
@@ -109,6 +110,8 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
     }
 
     public notifyDataSaving(newData: TData, request: TRequest, originalData: TData): Observable<{ ready: boolean, reason?: OnDataSavingReasons, errors?: Error[] }> {
+
+        console.log(`[form manager] notify data saving.`);
 
         const isAttachedWidgetBusy = !!this._widgets.find(widget => widget.isAttached && widget.isBusy);
 
@@ -183,7 +186,7 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
      * @returns {TWidget}
      * @deprecated
      */
-    public attachWidget<TWidget extends FormWidget<TData,TRequest>>(widgetType : { new(...args) : TWidget}) : TWidget {
+    public attachWidget<TWidget extends FormWidget<this,TData,TRequest>>(widgetType : { new(...args) : TWidget}) : TWidget {
         const widget = this._widgets.find(widget => widget instanceof widgetType);
 
 
@@ -208,11 +211,11 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
 
     /**
      *
-     * @param {FormWidget<TData, TRequest>} widget
-     * @returns {FormWidget<TData, TRequest>}
+     * @param {FormWidget<this, TData, TRequest>} widget
+     * @returns {FormWidget<this, TData, TRequest>}
      * @deprecated
      */
-    public detachWidget(widget : FormWidget<TData,TRequest>) : FormWidget<TData,TRequest>{
+    public detachWidget(widget : FormWidget<this, TData, TRequest>) : FormWidget<this, TData, TRequest>{
         const isWidgetOfForm = this._widgets.indexOf(widget) !== -1;
 
         if (!isWidgetOfForm) {

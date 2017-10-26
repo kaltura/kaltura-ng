@@ -13,7 +13,7 @@ import { OnDestroy } from '@angular/core';
 export declare type FormWidgetState = { key : string, isActive : boolean,  isValid : boolean, isDirty : boolean, isBusy : boolean, isAttached : boolean, wasActivated : boolean };
 
 
-export abstract class FormWidget<TData, TRequest> implements OnDestroy
+export abstract class FormWidget<TForm extends FormManager<TData,TRequest>, TData, TRequest> implements OnDestroy
 {
     public get data(): TData {
         return this._data;
@@ -42,7 +42,7 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
     protected onDataSaving(newData: TData, request: TRequest, originalData?: TData): void {
     }
 
-    protected form : FormManager<TData, TRequest>;
+    protected form : TForm;
 
     private _widgetReset : Subject<any> = new Subject<any>();
     public widgetReset$ = this._widgetReset.asObservable();
@@ -104,7 +104,7 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
     protected _onActivate(firstTimeActivating: boolean): Observable<{failed: boolean, error?: Error}> | void {
     }
 
-    public _setManager(manager : FormManager<TData,TRequest>) :void {
+    public _setForm(manager : TForm) :void {
         this.form = manager;
     }
 
@@ -168,7 +168,7 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
         }
     }
 
-    public _activate(): void {
+    public activate(): void {
 
         this._verifyRegistered();
 
@@ -186,7 +186,7 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
             this.updateState({ isActive : true, isBusy : true, wasActivated : true});
 
             if (activate$ instanceof Observable) {
-                console.log(`[form widget] widget ${this.key}: widget provided async activation operation. executing async activation.`);
+                console.log(`[form widget] widget ${this.key}: widget requested for async activation operation. executing async operation.`);
                 this._activateSubscription = activate$
                     .monitor(`[form widget] widget ${this.key}: activate widget (first time = ${!previousStatus.wasActivated})`)
                     .catch((error, caught) => Observable.of({failed: true, error}))
@@ -213,7 +213,6 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
         }
     }
 
-
     public attachForm() : void{
         this._verifyRegistered();
 
@@ -221,7 +220,7 @@ export abstract class FormWidget<TData, TRequest> implements OnDestroy
             console.warn(`[form widget] widget with key '${this.key}' is already attached (did you attached two components to the same widget? did you forgot to detach the widget upon ngOnDestroy?)`);
         }else {
             this.updateState({isAttached: true});
-            this._activate();
+            this.activate();
         }
     }
 
