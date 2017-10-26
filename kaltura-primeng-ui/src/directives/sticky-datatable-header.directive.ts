@@ -26,14 +26,24 @@ export class StickyDatatableHeaderDirective extends StickyDirective {
     }
 
     protected _onSticky():void{
-        const boundingClientRect: any = this._dataTableRef.nativeElement.getBoundingClientRect();
-        const tableWidth = boundingClientRect['right'] - boundingClientRect['left'];
-        this._stickyElement.style.width = tableWidth + 'px';
+        this.updateHeaderSize();
     }
 
     protected _onUnsetSticky():void{
         this._stickyElement.style.position = 'static';
         this._stickyElement.style.width = 'auto';
+    }
+
+    protected onResize():void{
+        this.updateHeaderSize();
+    };
+
+    private updateHeaderSize(){
+        if (this.isSticky) {
+            const boundingClientRect: any = this._dataTableRef.nativeElement.getBoundingClientRect();
+            const tableWidth = boundingClientRect['right'] - boundingClientRect['left'];
+            this._stickyElement.style.width = tableWidth + 'px';
+        }
     }
 
 }

@@ -1,7 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { KalturaCommonModule } from '@kaltura-ng/kaltura-common';
 import { StickyComponent } from './components/sticky.component';
-import { ScrollToTopComponent } from './components/scroll-to-top.component';
 import { StickyDirective} from './directives/sticky.directive';
 import { StickyScrollService } from './services/sticky-scroll.service';
 
@@ -11,13 +10,11 @@ import { StickyScrollService } from './services/sticky-scroll.service';
     ],
     declarations: <any[]>[
         StickyComponent,
-        StickyDirective,
-        ScrollToTopComponent
+        StickyDirective
     ],
     exports: <any[]>[
         StickyComponent,
-        StickyDirective,
-        ScrollToTopComponent
+        StickyDirective
     ],
     providers: <any[]>[
     ]
