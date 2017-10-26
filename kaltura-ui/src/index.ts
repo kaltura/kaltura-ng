@@ -7,5 +7,5 @@ export { DetailsBarComponent } from "./details-bar/details-bar.component";
 export { TimePipe } from './time.pipe';
 export { DatePipe } from './date.pipe';
 
-export * from './form';
+export * from './widgets';
 export * from './sticky';

@@ -6,14 +6,14 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/observable/of';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import 'rxjs/add/operator/catch';
-import { FormManager } from './form-manager';
+import { WidgetsManagerBase } from './widgets-manager-base';
 import { ISubscription } from 'rxjs/Subscription';
 import { OnDestroy } from '@angular/core';
 
-export declare type FormWidgetState = { key : string, isActive : boolean,  isValid : boolean, isDirty : boolean, isBusy : boolean, isAttached : boolean, wasActivated : boolean };
+export declare type WidgetState = { key : string, isActive : boolean,  isValid : boolean, isDirty : boolean, isBusy : boolean, isAttached : boolean, wasActivated : boolean };
 
 
-export abstract class FormWidget<TForm extends FormManager<TData,TRequest>, TData, TRequest> implements OnDestroy
+export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest>, TData, TRequest> implements OnDestroy
 {
     public get data(): TData {
         return this._data;
@@ -35,7 +35,7 @@ export abstract class FormWidget<TForm extends FormManager<TData,TRequest>, TDat
         }
     }
 
-    private _widgetState : FormWidgetState = {key: this.key, isValid: true, isDirty: false, isAttached: false, isBusy : false, isActive : false,  wasActivated : false};
+    private _widgetState : WidgetState = {key: this.key, isValid: true, isDirty: false, isAttached: false, isBusy : false, isActive : false,  wasActivated : false};
 
     protected onDataSaving(newData: TData, request: TRequest, originalData: TData): void;
     protected onDataSaving(newData: TData, request: TRequest): void;
@@ -80,7 +80,10 @@ export abstract class FormWidget<TForm extends FormManager<TData,TRequest>, TDat
         return Observable.of({isValid: true});
     }
 
-    protected updateState(stateUpdate : Partial<FormWidgetState>) : void {
+    protected updateState(stateUpdate : Partial<WidgetState>) : void {
+
+        this._verifyRegistered();
+
         const stateHasChanges = Object.keys(stateUpdate).reduce((result, propertyName) => result || this._widgetState[propertyName] !== stateUpdate[propertyName], false);
 
         if (stateHasChanges) {
@@ -148,7 +151,7 @@ export abstract class FormWidget<TForm extends FormManager<TData,TRequest>, TDat
     public _reset(): void {
         this._verifyRegistered();
 
-        console.log(`[form widget] widget ${this.key}: reset widget`);
+        console.log(`[widget] widget ${this.key}: reset widget`);
 
         if (this._activateSubscription)
         {
@@ -182,21 +185,21 @@ export abstract class FormWidget<TForm extends FormManager<TData,TRequest>, TDat
             const activate$ = this._onActivate(!this.wasActivated);
 
             // update status
-            console.log(`[form widget] widget ${this.key}: activated widget (first time = ${!previousStatus.wasActivated})`);
+            console.log(`[widget] widget ${this.key}: activated widget (first time = ${!previousStatus.wasActivated})`);
             this.updateState({ isActive : true, isBusy : true, wasActivated : true});
 
             if (activate$ instanceof Observable) {
-                console.log(`[form widget] widget ${this.key}: widget requested for async activation operation. executing async operation.`);
+                console.log(`[widget] widget ${this.key}: widget requested for async activation operation. executing async operation.`);
                 this._activateSubscription = activate$
-                    .monitor(`[form widget] widget ${this.key}: activate widget (first time = ${!previousStatus.wasActivated})`)
+                    .monitor(`[widget] widget ${this.key}: activate widget (first time = ${!previousStatus.wasActivated})`)
                     .catch((error, caught) => Observable.of({failed: true, error}))
                     .subscribe(
                         response => {
                             if (response && response.failed) {
-                                console.log(`[form widget] widget ${this.key}: async widget activation failed. revert status to ${JSON.stringify(previousStatus)})`);
+                                console.log(`[widget] widget ${this.key}: async widget activation failed. revert status to ${JSON.stringify(previousStatus)})`);
                                 this.updateState({ isActive : false, isBusy : false, wasActivated : previousStatus.wasActivated});
                             }else {
-                                console.log(`[form widget] widget ${this.key}: async widget activation completed`);
+                                console.log(`[widget] widget ${this.key}: async widget activation completed`);
                                 this.updateState({ isBusy : false });
                             }
                         },
@@ -207,7 +210,7 @@ export abstract class FormWidget<TForm extends FormManager<TData,TRequest>, TDat
                             this._activateSubscription = null;
                         });
             } else {
-                console.log(`[form widget] widget ${this.key}: activated widget (first time = ${!previousStatus.wasActivated})`);
+                console.log(`[widget] widget ${this.key}: activated widget (first time = ${!previousStatus.wasActivated})`);
                 this.updateState({ isBusy : false });
             }
         }
@@ -217,7 +220,7 @@ export abstract class FormWidget<TForm extends FormManager<TData,TRequest>, TDat
         this._verifyRegistered();
 
         if (this.isAttached) {
-            console.warn(`[form widget] widget with key '${this.key}' is already attached (did you attached two components to the same widget? did you forgot to detach the widget upon ngOnDestroy?)`);
+            console.warn(`[widget] widget with key '${this.key}' is already attached (did you attached two components to the same widget? did you forgot to detach the widget upon ngOnDestroy?)`);
         }else {
             this.updateState({isAttached: true});
             this.activate();
@@ -235,7 +238,7 @@ export abstract class FormWidget<TForm extends FormManager<TData,TRequest>, TDat
         this._verifyRegistered();
 
         if (!this.isAttached) {
-            console.warn(`[form widget] widget with key '${this.key}' is already detached (did you attached two components to the same widget? did you forgot to attach the widget upon ngOnInit?)`);
+            console.warn(`[widget] widget with key '${this.key}' is already detached (did you attached two components to the same widget? did you forgot to attach the widget upon ngOnInit?)`);
         }else {
             this.updateState({isAttached: false});
         }
