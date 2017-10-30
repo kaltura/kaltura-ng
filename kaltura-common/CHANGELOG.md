@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@2.0.0...@kaltura-ng/kaltura-common@2.1.0) (2017-10-30)
+
+
+### Features
+
+* resume file upload action ([9ef9d4a](https://github.com/kaltura/kaltura-ng/commit/9ef9d4a))
+
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@1.3.0...@kaltura-ng/kaltura-common@2.0.0) (2017-10-10)
 
