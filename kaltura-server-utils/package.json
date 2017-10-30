@@ -52,7 +52,7 @@
 		"@kaltura-ng/kaltura-client": "^0.1.4",
 		"@kaltura-ng/kaltura-common": "^2.0.0",
 		"@kaltura-ng/kaltura-ui": "^2.0.0",
-		"kaltura-typescript-client": "^5.1.0",
+		"kaltura-typescript-client": "^5.1.2",
 		"ng2-translate": "~5.0.0",
 		"ramda": "~0.22.1",
 		"rxjs": "~5.1.0",
