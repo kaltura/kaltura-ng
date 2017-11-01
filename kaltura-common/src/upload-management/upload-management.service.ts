@@ -7,48 +7,11 @@ import { Subject } from 'rxjs/Subject';
 import { ISubscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/groupBy';
 import { FriendlyHashId } from '../friendly-hash-id';
+import { TrackedFile, TrackedFileChanges, TrackedFileData, TrackedFileStatuses } from './tracked-file';
 
-export type TrackedFileStatus = string
-
-export class TrackedFileStatuses {
-  public static readonly added: TrackedFileStatus = 'added';
-  public static readonly preparing: TrackedFileStatus = 'preparing';
-  public static readonly prepared: TrackedFileStatus = 'prepared';
-  public static readonly waitingUpload: TrackedFileStatus = 'waitingUpload';
-  public static readonly uploading: TrackedFileStatus = 'uploading';
-  public static readonly uploadCompleted: TrackedFileStatus = 'uploadCompleted';
-  public static readonly uploadFailed: TrackedFileStatus = 'uploadFailed';
-  public static readonly cancelled: TrackedFileStatus = 'cancelled';
-  public static readonly purged: TrackedFileStatus = 'purged';
-}
-
-export interface TrackedFile {
-    id: string,
-    status: TrackedFileStatus,
-    uploadStartAt?: Date,
-    progress?: number,
-    uploadCompleteAt?: Date,
-    uploadOrder?: number;
-    failureType?: string,
-    failureReason?: string,
-    data: UploadFileData
-}
 
 export interface TrackedFiles {
     [id: string]: TrackedFile
-}
-
-enum PrepareModes{
-    pending,
-    inProgress,
-    prepared
-}
-
-interface TrackedFileUploadData {
-    [id: string]: {
-        uploadSubscription: ISubscription,
-        prepareMode: PrepareModes
-    }
 }
 
 export const UploadFileAdapterToken = new InjectionToken<string>('upload-file-adapter');
@@ -56,11 +19,11 @@ export const UploadFileAdapterToken = new InjectionToken<string>('upload-file-ad
 @Injectable()
 export class UploadManagement implements OnDestroy {
     private _trackedFiles: TrackedFiles = {};
-    private _trackedFilesUploadData: TrackedFileUploadData = {};
-    private _onFileStatusChanged = new Subject<TrackedFile>();
+    private _onTrackedFileChanged = new Subject<TrackedFileData>();
     private _maxUploadRequests: number = null;
-    public onFileStatusChanged$ = this._onFileStatusChanged.asObservable();
+    public onTrackedFileChanged$ = this._onTrackedFileChanged.asObservable();
     private _tokenGenerator = new FriendlyHashId();
+    syncUploadQueueTimeoutId : number;
 
     constructor(@Inject(UploadFileAdapterToken) @Optional() private _uploadFileAdapter: UploadFileAdapter<any>[]) {
 
@@ -77,8 +40,8 @@ export class UploadManagement implements OnDestroy {
     }
 
     // TODO [kmcng] replace this function with log library
-    private _log(level: 'silly' | 'debug' | 'info' | 'warn' | 'error', message: string, context?: string): void {
-        const messageContext = context || 'general';
+    private _log(level: 'silly' | 'debug' | 'info' | 'warn' | 'error', message: string, fileId?: string): void {
+        const messageContext = fileId ? `file '${fileId}'` : '';
         const origin = 'upload manager';
         const formattedMessage = `log: [${level}] [${origin}] ${messageContext}: ${message}`;
         switch (level) {
@@ -96,9 +59,9 @@ export class UploadManagement implements OnDestroy {
         }
     }
 
-    public getTrackedFiles(): TrackedFile[]
+    public getTrackedFiles(): TrackedFileData[]
     {
-        return Object.values(this._trackedFiles);
+        return Object.values(this._trackedFiles).map(file => file.asData());
     }
 
     public addFile(file: UploadFileData): { id: string } {
@@ -111,10 +74,10 @@ export class UploadManagement implements OnDestroy {
         const result: { id: string, data: UploadFileData }[] = [];
 
         files.forEach((fileData) => {
-            this._log('info', `add new file to upload named '${fileData.getFileName()}'`);
+
             const newUploadId = this._tokenGenerator.generateUnique(Object.keys(this._trackedFiles));
 
-            this._log('info', `generated unique upload id '${newUploadId}'. adding file to queue`);
+            this._log('info', `add new file '${fileData.getFileName()}' to queue with unique file id`,newUploadId);
             this._createTrackedFile(newUploadId, fileData);
 
             result.push({id: newUploadId, data: fileData});
@@ -130,137 +93,126 @@ export class UploadManagement implements OnDestroy {
     }
 
     public cancelUploadWithError(id: string, reason: string) : void {
-        this._log('info', `cancel upload for file '${id}' with reason '${reason}'`);
-
-        this.cancelUpload(id, false);
+        this._log('info', `cancel file upload with custom reason '${reason}'`,id);
 
         const trackedFile = this._trackedFiles[id];
 
-        if ([TrackedFileStatuses.cancelled, TrackedFileStatuses.uploadFailed].indexOf(trackedFile.status) !== -1) {
+        if (trackedFile) {
             {
-                this._updateTrackedFile(trackedFile,
-                    {
-                        status: TrackedFileStatuses.cancelled,
-                        failureReason: reason || 'unknown error',
-                        failureType: 'manual_error'
-                    }
-                );
+                if (trackedFile.canTransitionTo(TrackedFileStatuses.cancelled)) {
+                    this.cancelUpload(id, false);
+
+                    this._updateTrackedFile(trackedFile,
+                        {
+                            status: TrackedFileStatuses.cancelled,
+                            failureReason: reason || 'unknown error',
+                            failureType: 'manual_error'
+                        }
+                    );
+                }
             }
+        }else
+        {
+            this._log('warn','cannot cancel upload, failed to find file with provided id',id);
         }
     }
+
 
     public resumeUpload(id: string): void {
       this.resumeUploads([id]);
     }
 
     public resumeUploads(files: string[]): void {
-      let syncUploadQueue = false;
+        let syncUploadQueue = false;
 
-      files.forEach(id => {
-        this._log('info', `retry upload for file '${id}'`);
-        const trackedFile = this._trackedFiles[id];
-        const trackedFileData = this._trackedFilesUploadData[id];
+        files.forEach(id => {
+            this._log('info', `resume file upload.`, id);
+            const trackedFile = this._trackedFiles[id];
 
-        if (trackedFile && trackedFileData && [TrackedFileStatuses.cancelled, TrackedFileStatuses.uploadFailed].indexOf(trackedFile.status) !== -1) {
-
-            switch (trackedFileData.prepareMode)
-            {
-                case PrepareModes.pending:
+            if (trackedFile) {
+                if (trackedFile.wasInStatus(TrackedFileStatuses.prepared)) {
                     this._updateTrackedFile(trackedFile, {
-                        status:  TrackedFileStatuses.preparing
+                        status: TrackedFileStatuses.pendingUpload
                     });
-                    syncUploadQueue = true;
-                    break;
-                case PrepareModes.prepared:
+                } else {
                     this._updateTrackedFile(trackedFile, {
-                        status:  TrackedFileStatuses.waitingUpload
+                        status: TrackedFileStatuses.pendingPrepare
                     });
-                    syncUploadQueue = true;
-                    break;
-                default:
-                    // cannot resume upload at this point. ignore request
-                    break
+                }
+            } else {
+                this._log('warn', 'cannot resume upload, failed to find file with provided id', id);
             }
-        } else {
-          this._log('warn', `cannot find file '${id}', ignoring retry`);
-        }
-      });
+        });
 
-      if (syncUploadQueue) {
         this._syncUploadQueue();
-      }
     }
 
     public cancelUpload(id: string, purge: boolean= true): void {
-        this._log('info', `cancel upload for file '${id}'`);
+        this._log('info', `cancel file upload.`, id);
 
         const trackedFile = this._trackedFiles[id];
 
         if (trackedFile) {
-            if (this._trackedFilesUploadData[id].uploadSubscription) {
-                this._trackedFilesUploadData[id].uploadSubscription.unsubscribe();
-                this._trackedFilesUploadData[id].uploadSubscription = null;
-            }
+            if (trackedFile.status !== TrackedFileStatuses.cancelled
+                && trackedFile.canTransitionTo(TrackedFileStatuses.cancelled))
+            {
+                if (trackedFile.uploadSubscription) {
+                    trackedFile.uploadSubscription.unsubscribe();
+                    trackedFile.uploadSubscription = null;
+                }
 
-            if ([TrackedFileStatuses.preparing, TrackedFileStatuses.waitingUpload, TrackedFileStatuses.uploading].includes(trackedFile.status)) {
                 this._updateTrackedFile(trackedFile,
                     {
                         status: TrackedFileStatuses.cancelled
                     });
-            }
 
-            if (purge) {
-                this.purgeUpload(id);
-            }
+                if (purge) {
+                    this.purgeUpload(id);
+                }
 
-            this._syncUploadQueue();
+                this._syncUploadQueue();
+            }
         }else
         {
-            this._log('warn', `cannot find file '${id}', ignoring cancel request`);
+            this._log('warn', 'cannot cancel upload, failed to find file with provided id', id);
         }
-
     }
 
     public purgeUpload(id: string): void {
 
-        this._log('info', `purging upload for file '${id}'`);
+        this._log('info', `purge file from queue.`, id);
 
         const trackedFile = this._trackedFiles[id];
 
-        if (trackedFile) {
-            if (trackedFile.status !== TrackedFileStatuses.cancelled) {
+        if (trackedFile)
+        {
+            if (trackedFile.canTransitionTo(TrackedFileStatuses.purged)) {
+
                 this.cancelUpload(id, false);
+
+                this._updateTrackedFile(trackedFile, {status: TrackedFileStatuses.purged});
+
+                this._removeTrackedFile(trackedFile);
             }
-
-            this._updateTrackedFile(id, {status: TrackedFileStatuses.purged});
-
-            this._removeTrackedFile(id);
         }else
         {
-            this._log('warn', `cannot find file '${id}', ignoring purge request`);
-
+            this._log('warn', 'cannot purge upload, failed to find file with provided id', id);
         }
     }
 
-    private _removeTrackedFile(id: string) {
-        this._log('info', `removed tracking for file '${id}`);
+    private _removeTrackedFile(trackedFile: TrackedFile) {
+        this._log('info', `remove tracked file from queue`, trackedFile.id);
 
-        // Developer notice - This function should be used only once upload complete or purged so usually the uploadSubscription
-        // should be null, so this is a cleanup function just in case.
-        const trackedFileUploadData = this._trackedFilesUploadData[id];
-        if (trackedFileUploadData && trackedFileUploadData.uploadSubscription) {
-            trackedFileUploadData.uploadSubscription.unsubscribe();
-            trackedFileUploadData.uploadSubscription = null;
+        // Developer notice - this is a cleanup function just in case.
+        if (trackedFile.uploadSubscription) {
+            trackedFile.uploadSubscription.unsubscribe();
+            trackedFile.uploadSubscription = null;
         }
-        delete this._trackedFiles[id];
-        delete this._trackedFilesUploadData[id];
-    }
 
-    syncUploadQueueTimeoutId : number;
+        delete this._trackedFiles[trackedFile.id];
+    }
 
     private _syncUploadQueue(): void {
-        this._log('info', `request to sync upload queue`);
-
         if (this.syncUploadQueueTimeoutId) {
             clearTimeout(this.syncUploadQueueTimeoutId);
             this.syncUploadQueueTimeoutId = null;
@@ -269,52 +221,25 @@ export class UploadManagement implements OnDestroy {
         // DEVELOPER NOTICE: This logic is delayed to the next event loop on purpose to prevent
         // collision between two sync requests
         this.syncUploadQueueTimeoutId = setTimeout(() => {
-            this._log('info', `checking for pending upload files`);
+            this._log('info', `syncing upload queue`);
             this.syncUploadQueueTimeoutId = null;
-
-            // group relevant files by status
-            const trackedFilesByStatus = Object.values(this._trackedFiles).reduce((acc, curr) => {
-                if ([TrackedFileStatuses.uploading,
-                    TrackedFileStatuses.waitingUpload,
-                    TrackedFileStatuses.added].includes(curr.status)) {
-                    const statusItems = acc[curr.status];
-
-                    if (statusItems) {
-                        statusItems.push(curr);
-                    } else {
-                        acc[curr.status] = [curr];
-                    }
-                }
-
-                return acc;
-            }, {});
-
-
-            const activeUploads = (trackedFilesByStatus[TrackedFileStatuses.uploading] || []);
-            const pendingFiles = (trackedFilesByStatus[TrackedFileStatuses.waitingUpload] || []);
-            const addedFiles = (trackedFilesByStatus[TrackedFileStatuses.added] || []);
-
-            if (addedFiles.length > 0) {
-                this._handlePendingPrepareFiles(addedFiles);
-            }
-
-            if (pendingFiles.length > 0) {
-                this._handleWaitingFiles(activeUploads, pendingFiles);
-            }
+            this._executePreparePhase();
+            this._executeUploadPhase();
         }, 200);
     }
 
-    private _handlePendingPrepareFiles(addedFiles: TrackedFile[]): void {
-        this._log('silly', '_handlePendingPrepareFiles()');
+    private _executePreparePhase(): void {
 
-        const addedFilesWaitingForPrepare = Object.values(addedFiles)
-            .filter(addedFile => (this._trackedFilesUploadData[addedFile.id].prepareMode === PrepareModes.pending));
+        let filesAlreadyInProcess = 0;
+        const files = Object.values(this._trackedFiles).filter(trackedFile =>
+            trackedFile.status === TrackedFileStatuses.pendingPrepare
+        && trackedFile.canTransitionTo(TrackedFileStatuses.preparing));
 
-        if (addedFilesWaitingForPrepare.length)
+        if (files.length)
         {
-            this._log('debug', `files with 'preparing status ${addedFiles.length} | waiting execution '${addedFilesWaitingForPrepare.length} `);
+            this._log('info',`handling ${files.length} files, waiting to be prepared`);
 
-            const groupedFiles = addedFilesWaitingForPrepare.reduce((acc: { adapter: UploadFileAdapter<any>, files: TrackedFile[] }[], curr : TrackedFile) => {
+            const groupedFiles = files.reduce((acc: { adapter: UploadFileAdapter<any>, files: TrackedFile[] }[], curr : TrackedFile) => {
                 const uploadAdapter = this._getUploadAdapter(curr.data) || null;
 
                 const matchedItem = acc.find(item => item.adapter ? item.adapter.constructor === uploadAdapter.constructor : item.adapter === null);
@@ -332,25 +257,27 @@ export class UploadManagement implements OnDestroy {
                 if (item.adapter) {
                     this._log('debug', `executing prepare phase for ${item.files.length} files with adapter '${item.adapter.label}'`);
 
-                    item.adapter.prepare(item.files.map(file => {
-                        // Developer notice: although doing side effect in map function is not recommended, this is done here
-                        // to improve performance
-                        this._trackedFilesUploadData[file.id].prepareMode = PrepareModes.inProgress;
+                    item.files.forEach(file =>
+                    {
+                        this._updateTrackedFile(file,{ status : TrackedFileStatuses.preparing});
+                    });
 
-                        return {id: file.id, data: file.data};
-                    }))
+                    item.adapter.prepare(item.files)
                         .cancelOnDestroy(this)
                         .subscribe(
-                            modifiedFiles => {
-
-                                this._handlePrepareAdapterResponse(modifiedFiles);
+                            preparedFiles => {
+                                this._log('debug', `executing prepare phase succeeded for ${item.files.length} files with adapter '${item.adapter.label}'.`);
+                                this._handlePrepareAdapterResponse(preparedFiles);
 
                                 this._syncUploadQueue();
                             },
                             reason => {
 
-                                this._handlePrepareAdapterResponse(item.files.map(file =>
-                                    ({ id: file.id, status:false})));
+                                this._log('error', `executing prepare phase failed for ${item.files.length} files with adapter '${item.adapter.label}'. error: ${reason.message}`);
+
+                                this._handlePrepareAdapterResponse(
+                                    item.files.map(file =>({ id: file.id, status:false}))
+                                );
 
                                 this._syncUploadQueue();
                             });
@@ -360,7 +287,7 @@ export class UploadManagement implements OnDestroy {
                     item.files.forEach(file => {
                         this._updateTrackedFile(file,
                             {
-                                status: TrackedFileStatuses.uploadFailed,
+                                status: TrackedFileStatuses.failure,
                                 failureReason: 'upload destination is not supported',
                                 failureType: 'unknown_destination'
                             })
@@ -370,121 +297,122 @@ export class UploadManagement implements OnDestroy {
         }
     }
 
-    private _handlePrepareAdapterResponse(modifiedFiles : { id: string, status:boolean}[]) : void{
-        modifiedFiles.forEach(
-            modifiedFile => {
-                const trackedFile = this._trackedFiles[modifiedFile.id];
-                const trackedFileUploadData = this._trackedFilesUploadData[modifiedFile.id];
+    private _handlePrepareAdapterResponse(responseFiles : { id: string, status:boolean}[]) : void {
+        responseFiles.forEach(
+            responseFile => {
+                const trackedFile = this._trackedFiles[responseFile.id];
 
-                if (trackedFile) {
-                    if (modifiedFile.status) {
-                        // file prepare completed successfully
-                        if (trackedFile.status === TrackedFileStatuses.added) {
-                            // track file status is correct - update status
-                            if (trackedFileUploadData) {
-                                trackedFileUploadData.prepareMode = PrepareModes.prepared;
-                            }
+                if (!trackedFile) {
+                    this._log('warn', `cannot handle prepare response for file '${responseFile.id}' since there is no tracking information for that file (did the user purge the file during the prepare execution?)`);
+                }
+                else if (trackedFile.status !== TrackedFileStatuses.preparing) {
+                    this._log('warn', `cannot handle file result from prepare action (did the user cancel the file upload during the prepare execution?)`, trackedFile.id);
+                } else if (responseFile.status) {
+                    const changedStatusToPrepared = this._updateTrackedFile(trackedFile,
+                        {
+                            status: TrackedFileStatuses.prepared
+                        });
 
-                            this._updateTrackedFile(trackedFile,
-                                {
-                                    status: TrackedFileStatuses.prepared
-                                });
-
-                            this._updateTrackedFile(trackedFile,
-                                {
-                                    status: TrackedFileStatuses.waitingUpload
-                                });
-                        } else {
-                            this._log('warn', `ignoring prepare response for file '${modifiedFile.id}' the file status must be 'added' (did the user cancel the file upload during the prepare execution?)`);
-
-                            if (trackedFileUploadData) {
-                                trackedFileUploadData.prepareMode = PrepareModes.pending;
-                            }
-                        }
-                    } else {
-
-                        // file prepare failed - reset prepare mode to 'pending' for the user to be able to resume.
-                        if (trackedFileUploadData) {
-                            trackedFileUploadData.prepareMode = PrepareModes.pending;
-                        }
-
+                    if (changedStatusToPrepared) {
                         this._updateTrackedFile(trackedFile,
                             {
-                                status: TrackedFileStatuses.uploadFailed,
-                                failureReason: 'failed to prepare upload',
-                                failureType: 'preparation_failed'
+                                status: TrackedFileStatuses.pendingUpload
                             });
                     }
                 } else {
-                    this._log('warn', `cannot handle prepare response for file '${modifiedFile.id}' since there is no tracking information for that file (did the user purge the file during the prepare execution?)`);
+                    this._updateTrackedFile(trackedFile,
+                        {
+                            status: TrackedFileStatuses.failure,
+                            failureReason: 'failed to prepare upload',
+                            failureType: 'preparation_failed'
+                        });
                 }
+            });
+    }
+
+    private _executeUploadPhase(): void {
+        const waitingForUploadsFiles = [];
+        const activeUploadFiles = [];
+
+        Object.values(this._trackedFiles).forEach(trackedFile =>
+        {
+            if (trackedFile.status === TrackedFileStatuses.uploading)
+            {
+                activeUploadFiles.push(trackedFile);
+            }else if (trackedFile.status === TrackedFileStatuses.pendingUpload
+                && trackedFile.canTransitionTo(TrackedFileStatuses.uploading))
+            {
+                waitingForUploadsFiles.push(trackedFile);
             }
-        );
-
-    }
-
-    private _handleWaitingFiles(activeUploadFiles: TrackedFile[], waitingFiles: TrackedFile[]): void {
-        let nextUploadFiles: TrackedFile[] = [];
-        const activeUploadsCount = activeUploadFiles.length;
-        const waitingFilesCount = waitingFiles.length;
-
-        this._log('silly', `active uploads: ${activeUploadsCount} | pending files: ${waitingFilesCount}`);
-
-        const availableUploadSlots = (this._maxUploadRequests && this._maxUploadRequests > 0) ? this._maxUploadRequests - activeUploadsCount : waitingFilesCount;
-
-        if (availableUploadSlots > 0) {
-            nextUploadFiles = [
-              ...waitingFiles.sort(pendingFile => pendingFile.uploadOrder || 1000)
-            ].slice(0, availableUploadSlots);
-        }
-
-        this._log('debug', `available upload slots to be used ${availableUploadSlots}`);
-
-        nextUploadFiles.forEach(pendingFile => {
-            this._initiateUpload(pendingFile);
         });
-    }
 
+        const activeUploadsCount = activeUploadFiles.length;
+        const waitingFilesCount = waitingForUploadsFiles.length;
+
+        if (waitingFilesCount > 0) {
+            let nextUploadFiles: TrackedFile[] = [];
+
+            this._log('silly', `active uploads: ${activeUploadsCount} | pending files: ${waitingFilesCount}`);
+
+            const availableUploadSlots = (this._maxUploadRequests && this._maxUploadRequests > 0) ? this._maxUploadRequests - activeUploadsCount : waitingFilesCount;
+
+            if (availableUploadSlots > 0) {
+                nextUploadFiles = [
+                    ...waitingForUploadsFiles.sort(pendingFile => pendingFile.uploadOrder || 1000)
+                ].slice(0, availableUploadSlots);
+            }
+
+            this._log('debug', `available upload slots to be used ${availableUploadSlots}`);
+
+
+            nextUploadFiles.forEach(pendingFile => {
+                this._initiateUpload(pendingFile);
+            });
+        }
+    }
 
     private _createTrackedFile(id: string, fileData: UploadFileData): void {
-        const newTrackedFile = this._trackedFiles[id] = {
-            id: id,
-            data: fileData,
-            status: TrackedFileStatuses.added,
-            uploadStartAt: new Date()
-        };
+        const newTrackedFile = this._trackedFiles[id] = new TrackedFile(id, fileData);
 
-         this._trackedFilesUploadData[id] = {uploadSubscription: null, prepareMode: PrepareModes.pending};
+        this._onTrackedFileChanged.next(newTrackedFile.asData());
 
-        this._onFileStatusChanged.next(newTrackedFile);
+        this._updateTrackedFile(newTrackedFile,
+            {status: TrackedFileStatuses.pendingPrepare}
+        );
     }
 
-    private _updateTrackedFile(trackedFile: TrackedFile, changes: Partial<TrackedFile>): void;
-    private _updateTrackedFile(id: string, changes: Partial<TrackedFile>): void;
-    private _updateTrackedFile(target: TrackedFile | string, changes: Partial<TrackedFile>): void {
+    private _updateTrackedFile(trackedFile: TrackedFile, changes: TrackedFileChanges): boolean {
 
-        let trackedFile: TrackedFile;
-        if (typeof target === 'string') {
-            trackedFile = this._trackedFiles[target];
-
-            if (!trackedFile) {
-                throw new Error(`missing tracked file  '${target}'. did you remember to create one before trying to update it?`);
-            }
-        } else {
-            trackedFile = target;
-        }
+        let result = true;
 
         if (changes.status && changes.status !== trackedFile.status) {
-            this._log('info', `change upload status for file '${trackedFile.id}' to '${changes.status}'`);
+
+
+            if (trackedFile.canTransitionTo(changes.status))
+            {
+                this._log('info', `notify file status changes from '${trackedFile.status}' to '${changes.status}'`,trackedFile.id);
+                trackedFile.update(changes);
+            }else
+            {
+                this._log('error', `cannot update file data from '${trackedFile.status}' to '${changes.status}. target status is not allowed. update to status 'failure' instead.`,trackedFile.id);
+
+                trackedFile.update({
+                    status: TrackedFileStatuses.failure,
+                    failureReason: 'cannot change status',
+                    failureType: 'change_not_allowed'
+                });
+
+                result = false;
+            }
+        }else
+        {
+            //this._log('info', `notify file data changes`,trackedFile.id);
+            trackedFile.update(changes)
         }
 
-        const newTrackedFile = Object.assign({},
-            trackedFile,
-            changes);
+        this._onTrackedFileChanged.next(trackedFile.asData());
 
-        this._trackedFiles[trackedFile.id] = newTrackedFile;
-        this._onFileStatusChanged.next(newTrackedFile);
-
+        return result;
     }
 
     private _initiateUpload(trackedFile: TrackedFile): void {
@@ -498,83 +426,85 @@ export class UploadManagement implements OnDestroy {
             this._log('warn', `cannot find destination adapter for requested file, failing upload request`);
             this._updateTrackedFile(trackedFile,
                 {
-                    status: TrackedFileStatuses.uploadFailed,
+                    status: TrackedFileStatuses.failure,
                     failureReason: 'upload destination is not supported',
                     failureType: 'unknown_destination'
                 });
 
             this._syncUploadQueue();
 
-        } else if ([TrackedFileStatuses.uploading, TrackedFileStatuses.uploadCompleted].includes(trackedFile.status)) {
-            this._log('debug', `upload already in progress or file was already uploaded successfully. ignoring request`);
-        } else {
-            if (this._trackedFilesUploadData[id]) {
-              const activeUploadSubscription = this._trackedFilesUploadData[id].uploadSubscription;
-
-              if (activeUploadSubscription) {
+        } else if (trackedFile.canTransitionTo(TrackedFileStatuses.uploading)) {
+            if (trackedFile.uploadSubscription) {
                 this._log('warn', `an active upload was found while the status indicated no upload currently in progress. cancel previous upload`);
-                activeUploadSubscription.unsubscribe();
-                this._trackedFilesUploadData[id].uploadSubscription = null;
-              }
+                trackedFile.uploadSubscription.unsubscribe();
+                trackedFile.uploadSubscription = null;
+            }
 
-              this._updateTrackedFile(trackedFile, {
+            this._updateTrackedFile(trackedFile, {
                 status: TrackedFileStatuses.uploading,
                 progress: 0,
                 uploadStartAt: new Date(),
-              });
+            });
 
-              this._trackedFilesUploadData[id].uploadSubscription = uploadAdapter.upload(id, data)
+            const canHandleResponse = (id: string, actionDescription: string) : boolean =>
+            {
+                let result = false;
+                const trackedFileStillExists = !!this._trackedFiles[id];
+
+                if (!trackedFileStillExists) {
+                    this._log('warn', `cannot handle file upload ${actionDescription}. There is no tracking file with the provided id (was the file purged?)`, id);
+                } else if (trackedFile.status !== TrackedFileStatuses.uploading) {
+                    this._log('warn', `cannot handle file upload ${actionDescription}. The file status it not 'uploading' (was the file upload cancelled?)`, id);
+                }else {
+                    result = true;
+                }
+
+                return result;
+            };
+
+            trackedFile.uploadSubscription = uploadAdapter.upload(id, data)
                 .subscribe(
-                  (uploadChanges) => {
-                    const trackedFile = this._trackedFiles[id];
-
-                    if (trackedFile) {
-                      this._updateTrackedFile(trackedFile,
+                    (uploadChanges) => {
+                        if (canHandleResponse(id, 'progress'))
                         {
-                          status: TrackedFileStatuses.uploading,
-                          progress: uploadChanges.progress
-                        });
-                    } else {
-                      this._log('warn', `got status update for file '${id}', but this file seems to be purged`);
+                            this._updateTrackedFile(trackedFile,
+                                {
+                                    progress: uploadChanges.progress
+                                });
+                        }
+                    },
+                    (error) => {
+                        trackedFile.uploadSubscription = null;
+
+                        if (canHandleResponse(id, 'failure')) {
+                            const failureReason = error && error.message ? error.message : '';
+
+                            this._updateTrackedFile(trackedFile,
+                                {
+                                    status: TrackedFileStatuses.failure,
+                                    failureReason,
+                                    failureType: 'general_error'
+                                });
+                        }
+
+                        this._syncUploadQueue();
+                    },
+                    () => {
+                        trackedFile.uploadSubscription = null;
+
+                        if (canHandleResponse(id, 'completion')) {
+                            this._updateTrackedFile(trackedFile,
+                                {
+                                    status: TrackedFileStatuses.uploadCompleted,
+                                    progress: 1,
+                                    uploadCompleteAt: new Date()
+                                });
+
+                            this._removeTrackedFile(trackedFile);
+                            this._syncUploadQueue();
+                        }
                     }
-                  },
-                  (error) => {
-                    const trackedFile = this._trackedFiles[id];
-
-                    if (trackedFile) {
-                      const failureReason = error && error.message ? error.message : '';
-
-                      this._updateTrackedFile(trackedFile,
-                        {
-                          status: TrackedFileStatuses.uploadFailed,
-                          failureReason,
-                          failureType: 'general_error'
-                        });
-                    }
-
-                    this._trackedFilesUploadData[id].uploadSubscription = null;
-                    this._syncUploadQueue();
-                  },
-                  () => {
-                    const trackedFile = this._trackedFiles[id];
-
-                    if (trackedFile) {
-                      this._updateTrackedFile(trackedFile,
-                        {
-                          status: TrackedFileStatuses.uploadCompleted,
-                          progress: 1,
-                          uploadCompleteAt: new Date()
-                        });
-
-                      this._trackedFilesUploadData[id].uploadSubscription = null;
-                      this._removeTrackedFile(trackedFile.id);
-                      this._syncUploadQueue();
-                    } else {
-                      this._log('warn', `got status update for file '${id}', but this file seems to be purged`);
-                    }
-                  }
                 );
-            }
         }
     }
 
@@ -590,11 +520,9 @@ export class UploadManagement implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        Object.keys(this._trackedFilesUploadData).forEach(id =>
+        Object.keys(this._trackedFiles).forEach(id =>
         {
             this.purgeUpload(id);
         });
     }
-
-
 }
