@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.1"></a>
+## [2.1.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-server-utils@2.1.0...@kaltura-ng/kaltura-server-utils@2.1.1) (2017-10-31)
+
+
+
+
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-server-utils@2.0.0...@kaltura-ng/kaltura-server-utils@2.1.0) (2017-10-30)
+
+
+### Bug Fixes
+
+* allow to show new lines in areablocker message ([d1be72c](https://github.com/kaltura/kaltura-ng/commit/d1be72c))
+* escape form value when preparing xml string ([2ff26af](https://github.com/kaltura/kaltura-ng/commit/2ff26af))
+
+
+### Features
+
+* resume file upload action ([9ef9d4a](https://github.com/kaltura/kaltura-ng/commit/9ef9d4a))
+
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-server-utils@1.0.6...@kaltura-ng/kaltura-server-utils@2.0.0) (2017-10-10)
 
