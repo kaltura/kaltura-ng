@@ -62,7 +62,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     suggestionLabelField : string = '';
 
     @Input()
-    tooltip: boolean = false;
+    showTooltip: boolean = false;
 
     get multiple() : boolean
     {
