@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.0.0...@kaltura-ng/kaltura-ui@3.0.1) (2017-10-31)
+
+
+
+
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@2.0.0...@kaltura-ng/kaltura-ui@3.0.0) (2017-10-30)
+
+
+### Bug Fixes
+
+* remark logs ([952e6fe](https://github.com/kaltura/kaltura-ng/commit/952e6fe))
+* resize data table sticky header upon window resize ([4b57b6a](https://github.com/kaltura/kaltura-ng/commit/4b57b6a))
+* update layout when entering and exiting sticky mode as adding and removing the sticky class might cause a height change for the sticky elements ([f9f01cf](https://github.com/kaltura/kaltura-ng/commit/f9f01cf))
+
+
+### Features
+
+* add scroll to top button ([e469b1e](https://github.com/kaltura/kaltura-ng/commit/e469b1e))
+* simplify api for widgets infrastructure (previously named form manager) ([dd09f1f](https://github.com/kaltura/kaltura-ng/commit/dd09f1f))
+
+
+### BREAKING CHANGES
+
+* - `Form Manager` name was changes to `Widgets Manager` 
+- Changes in public API of `Widget` and `Widgets Manager`
+- Better logging messages
+
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.3.2...@kaltura-ng/kaltura-ui@2.0.0) (2017-10-10)
 

@@ -11,7 +11,7 @@ import { AppLocalization, LocalizationPipe } from './localization/index';
 @NgModule({
     imports: <any[]>[
         CommonModule,
-        TranslateModule.forRoot()
+        TranslateModule
     ],
     declarations: <any[]>[
         LocalizationPipe
