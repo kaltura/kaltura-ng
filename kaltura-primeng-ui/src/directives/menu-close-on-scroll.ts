@@ -1,28 +1,19 @@
-import { Directive, OnDestroy, AfterViewInit, ContentChild, Input } from '@angular/core';
+import { Directive, ContentChild, HostListener } from '@angular/core';
 import { Menu } from 'primeng/primeng';
 
 @Directive({
 	selector: '[kMenuCloseOnScroll]',
 })
-export class MenuCloseOnScroll implements AfterViewInit, OnDestroy {
+export class MenuCloseOnScroll {
 
-	@Input() scrollTarget: any;
 	@ContentChild(Menu) public menu: Menu;
 
 	constructor() {
 	}
 
-	ngAfterViewInit() {
-		if (this.scrollTarget) {
-			this.scrollTarget.addEventListener('scroll', this.closeMenu.bind(this));
-		}
-
-	}
-
-	ngOnDestroy() {
-		if (this.scrollTarget) {
-			this.scrollTarget.removeEventListener('scroll', this.closeMenu.bind(this));
-		}
+	@HostListener("window:scroll", [])
+	onWindowScroll() {
+		this.closeMenu();
 	}
 
 	private closeMenu():void{
