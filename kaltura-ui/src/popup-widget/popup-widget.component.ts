@@ -184,11 +184,11 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 			        this.popup.nativeElement.style.bottom = this.popupHeight!== 'auto' ?  this.popupHeight * -1 +"px" :  "-1000px";
 			        timeout = 300;
 		        }
+		        document.body.classList.remove("kModal");
 		        setTimeout(()=>{
 			        // remove modal
 			        if (this.modal && this._modalOverlay) {
 				        document.body.removeChild(this._modalOverlay);
-				        document.body.classList.remove("kModal");
 				        this._modalOverlay = null;
 			        }
 			        this._statechange.next({state: PopupWidgetStates.Close, context: context, reason: reason}); // use timeout to prevent valueChangeAfterChecked error
