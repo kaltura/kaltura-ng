@@ -37,7 +37,7 @@ export class DetailsBarComponent implements AfterContentInit,AfterViewChecked, O
 
   @HostListener("window:resize", [])
   onWindowResize() {
-    this.updateLayout();
+    this.reset();
   }
 
   ngAfterViewChecked(){
