@@ -7,7 +7,7 @@ import { StickyScrollService } from '../services/sticky-scroll.service';
 
 export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
     private lastScroll: number = 0;
-    private isSticky: boolean = false;
+    public isSticky: boolean = false;
     private originalCss: any;
     private _destroyed = false;
 
@@ -56,6 +56,12 @@ export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
             }
         );
 
+        this._stickyScrollService.resizeStatus$.cancelOnDestroy(this).subscribe(
+                event => {
+                    this.onResize();
+                }
+            );
+
         this._stickyScrollService.layoutSubject$.cancelOnDestroy(this).subscribe(
             elements =>{
                 const data = this.sticksTo ? elements[this.sticksTo] : {height: 0, offset: 0};
@@ -68,7 +74,6 @@ export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
                     this._parentOffset = data.offset;
                     this.update();
                 }
-
             }
         );
     }
@@ -170,6 +175,8 @@ export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
     protected _onUnsetSticky():void{
         setTimeout(()=> {this.update()},0);
     }
+
+    protected onResize():void{}; // used by primeng directive to update table layout
 
     private setStyle(key: string, value: string): void {
         this.renderer.setElementStyle(this._stickyElement, key, value);
