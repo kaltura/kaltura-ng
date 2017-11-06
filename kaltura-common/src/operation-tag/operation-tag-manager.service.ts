@@ -27,9 +27,13 @@ export class OperationTagManagerService implements OperationTagManagerProxy {
 
     decrease(tag: string): void {
         const tagsData = this._tagStatus.getValue();
-        if (tagsData[tag]) {
+        if (tagsData[tag] > 0) {
             tagsData[tag]--;
             this._tagStatus.next(tagsData);
+        } else {
+            tagsData[tag] = 0;
+            this._tagStatus.next(tagsData);
+
         }
     }
 }

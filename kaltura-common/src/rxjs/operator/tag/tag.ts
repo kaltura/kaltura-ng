@@ -28,7 +28,7 @@ class TagSubscriber<T> extends Subscriber<T> {
                 private tag : string) {
         super(destination);
 
-        console.log(`(tag: '${tag}'): subscribe()`);
+        // console.log(`(tag: '${tag}'): subscribe()`);
 
         OperationTagStoreMediator.increase(this.tag);
     }
@@ -37,7 +37,7 @@ class TagSubscriber<T> extends Subscriber<T> {
     protected _error(err: any) {
         if (this.tag && !this.isDecreased)
         {
-            console.log(`(tag: '${this.tag}'): error()`);
+            // console.log(`(tag: '${this.tag}'): error()`);
 
             this.isDecreased =true;
             OperationTagStoreMediator.decrease(this.tag);
@@ -48,7 +48,7 @@ class TagSubscriber<T> extends Subscriber<T> {
     protected _complete() {
         if (this.tag && !this.isDecreased)
         {
-            console.log(`(tag: '${this.tag}'): complete()`);
+            // console.log(`(tag: '${this.tag}'): complete()`);
 
             this.isDecreased =true;
             OperationTagStoreMediator.decrease(this.tag);
@@ -59,7 +59,7 @@ class TagSubscriber<T> extends Subscriber<T> {
     unsubscribe()
     {
         if (!this.closed && this.tag && !this.isDecreased) {
-            console.log(`(tag: '${this.tag}'): unsubscribe()`);
+            // console.log(`(tag: '${this.tag}'): unsubscribe()`);
             this.isDecreased =true;
             OperationTagStoreMediator.decrease(this.tag);
         }
