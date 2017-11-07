@@ -68,13 +68,6 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
     @Output() onOpen = new EventEmitter<any>();
     @Output() onClose = new EventEmitter<any>();
 
-    @HostListener('document:mousedown')
-    private onMousedown() {
-    	if (this.closeOnClickOutside && !this.modal) {
-		    this.close();
-	    }
-    }
-
 	private _targetRef: any;
     private _saveOriginalScroll: string = "";
 	public _popupWidgetHeight: string;
@@ -133,9 +126,13 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	        }
 
             // handle modal
-	        if (this.modal && !this._modalOverlay) {
+	        if (!this._modalOverlay) {
                 this._modalOverlay = document.createElement('div');
-                this._modalOverlay.className = "kPopupWidgetModalOverlay";
+                if (this.modal) {
+	                this._modalOverlay.className = "kPopupWidgetModalOverlay";
+                }else{
+	                this._modalOverlay.className = "kPopupWidgetModalOverlay kTransparent";
+                }
                 this._modalOverlay.style.zIndex = this.popup.nativeElement.style.zIndex - 1;
                 if (!this.slider) {
 	                this._modalOverlay.addEventListener("mousedown", (event: any) => {
@@ -144,7 +141,9 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	                });
                 }
                 document.body.appendChild(this._modalOverlay);
-		        document.body.classList.add("kModal");
+                if (this.modal) {
+	                document.body.classList.add("kModal");
+                }
             }
 
             // prevent page scroll
@@ -184,12 +183,17 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 			        this.popup.nativeElement.style.bottom = this.popupHeight!== 'auto' ?  this.popupHeight * -1 +"px" :  "-1000px";
 			        timeout = 300;
 		        }
-		        document.body.classList.remove("kModal");
+		        if (this.modal && !this.slider) {
+			        document.body.classList.remove("kModal");
+		        }
 		        setTimeout(()=>{
 			        // remove modal
-			        if (this.modal && this._modalOverlay) {
+			        if (this._modalOverlay) {
 				        document.body.removeChild(this._modalOverlay);
 				        this._modalOverlay = null;
+			        }
+			        if (this.slider) {
+				        document.body.classList.remove("kModal");
 			        }
 			        this._statechange.next({state: PopupWidgetStates.Close, context: context, reason: reason}); // use timeout to prevent valueChangeAfterChecked error
 		        },timeout);
