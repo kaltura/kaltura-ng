@@ -217,7 +217,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
 
         if (!this.limitToSuggestions && rawInputValue && !this.highlightOption && this.focus)
         {
-            if ( rawInputValue.length >= this.minLength && !this._isItemSelected(rawInputValue)) {
+            if ( rawInputValue.length >= 1 && !this._isItemSelected(rawInputValue)) {
 
                 let newValue = this.onItemAdding ? this.onItemAdding.call(null,rawInputValue) : rawInputValue;
 
@@ -428,5 +428,13 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
                 super.selectItem(selectedItemValue);
             }
         }
+    }
+
+    public focusInput() {
+        setTimeout(() => {
+                if (this.input && this.input.focus && !this.input.disabled) {
+                    this.input.focus();
+                }
+        }, 0);
     }
 }
