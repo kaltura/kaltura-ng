@@ -38,6 +38,8 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() childrenPopups: PopupWidgetComponent[] = [];
 	@ContentChild(TemplateRef) public _template: TemplateRef<any>;
 
+  private _viewInitialize = false;
+
 	@Input() set targetRef(targetRef: any) {
 		if (this._targetRef) {
 			this._targetRef.removeEventListener('click', this.toggle.bind(this));
@@ -226,6 +228,8 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
     // component lifecycle events
     ngAfterViewInit() {
+      	this._viewInitialize = true;
+
         if (this.validate()) {
 	        if (this.appendTo && !this.modal){
 	            this.appendChild(this.popup.nativeElement, this.appendTo);
@@ -254,7 +258,9 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	    if (this.appendTo && !this.modal){
 		    this.removeChild(this.popup.nativeElement, this.appendTo);
 	    }else {
-		    document.body.removeChild(this.popup.nativeElement);
+	    	if (this._viewInitialize) {
+          document.body.removeChild(this.popup.nativeElement);
+				}
 	    }
     }
 
