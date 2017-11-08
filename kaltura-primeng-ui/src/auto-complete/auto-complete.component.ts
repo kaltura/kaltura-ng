@@ -429,4 +429,12 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
             }
         }
     }
+
+    public focusInput() {
+        setTimeout(() => {
+                if (this.input && this.input.focus && !this.input.disabled) {
+                    this.input.focus();
+                }
+        }, 0);
+    }
 }
