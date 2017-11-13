@@ -33,4 +33,11 @@ export class KalturaValidators {
         return URL_REGEX.test(control.value) ? null : {'url': true};
     }
 
+    /**
+     * Url validation
+     */
+    static isUrlValid(url: string): boolean {
+        return URL_REGEX.test(url);
+    }
+
 }
