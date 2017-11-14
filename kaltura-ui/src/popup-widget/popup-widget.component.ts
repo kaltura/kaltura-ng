@@ -36,6 +36,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() closeOnResize: boolean = false;
 	@Input() targetOffset: any = {'x':0, 'y': 0};
 	@Input() childrenPopups: PopupWidgetComponent[] = [];
+	@Input() closeOnScroll: boolean = false;
 	@ContentChild(TemplateRef) public _template: TemplateRef<any>;
 
 	@Input() set targetRef(targetRef: any) {
@@ -220,6 +221,13 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@HostListener("window:resize", [])
 	onWindowResize() {
 		if (this.closeOnResize) {
+			this.close();
+		}
+	}
+
+	@HostListener("window:scroll", [])
+	onWindowScroll() {
+		if (this.closeOnScroll && this.isShow) {
 			this.close();
 		}
 	}
