@@ -21,7 +21,8 @@ export class StickyDatatableHeaderDirective extends StickyDirective {
             // console.log("got primeng table header!");
             return headers[0];
         } else {
-            throw new Error("failed to extract table header (did you set the prime table with header?)");
+            console.warn("failed to extract table header (did you set the prime table with header and set it to scrollable?)");
+            return null;
         }
     }
 
