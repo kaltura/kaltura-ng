@@ -7,7 +7,8 @@ import 'rxjs/add/operator/map';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
-import { WidgetBase, WidgetState } from './widget-base';
+import { WidgetBase } from './widget-base';
+import { WidgetState } from './widget-state';
 
 export declare type FormWidgetsState = {
     [key : number] : WidgetState
@@ -23,6 +24,7 @@ export enum OnDataSavingReasons
 export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsManagerBase<TData, TRequest>, OnDestroy {
     private _widgets: WidgetBase<this, TData, TRequest>[] = [];
     private _widgetsState: BehaviorSubject<FormWidgetsState> = new BehaviorSubject<FormWidgetsState>({});
+    private _isNewData = false;
     public widgetsState$ = this._widgetsState.asObservable();
 
     public get widgetsState(): FormWidgetsState {
@@ -75,10 +77,12 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
         });
     }
 
-    public notifyDataLoaded(data: TData) : { errors?: Error[] } {
+    public notifyDataLoaded(data: TData, settings: { isNewData: boolean }) : { errors?: Error[] } {
 
         console.log(`[widgets manager] notify data loaded.`);
         const errors : Error[] = [];
+        this._isNewData = settings.isNewData;
+        console.log(`[widgets manager] treat data as '${this._isNewData ? 'new' : 'existing'} data'.`);
         this._widgets.forEach(widget => {
 
             try {
@@ -95,8 +99,8 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
 
     private _widgetsOnDataSaving(newData: TData, request: TRequest, originalData: TData): { errors?: Error[] } {
         const errors: Error[] = [];
-
-        this._widgets.filter(widget => widget.isActive).forEach(widget => {
+        const widgets = this._isNewData ? this._widgets : this._widgets.filter(widget => widget.isActive);
+        widgets.forEach(widget => {
             try {
                 console.log(`[widgets manager] widget '${widget.key}': build save request content`);
                 widget._handleDataSaving(newData, request, originalData);
@@ -154,7 +158,8 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
     }
 
     private _validateWidgets(): Observable<{ isValid: boolean }> {
-        const widgetsResults = this._widgets.filter(widget => widget.isActive).map(widget => {
+        const widgets = this._isNewData ? this._widgets : this._widgets.filter(widget => widget.isActive);
+        const widgetsResults = widgets.map(widget => {
             return widget._validate()
                 .cancelOnDestroy(this)
                 .monitor(`[widgets manager] widget '${widget.key}': is valid?`)
