@@ -29,6 +29,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() showTooltip: boolean = false;
 	@Input() preventPageScroll: boolean = false;
 	@Input() modal: boolean = false;
+	@Input() editModal: boolean = false;
 	@Input() slider: boolean = false;
 	@Input() closeBtn: boolean = true;
 	@Input() closeBtnInside: boolean = false;
@@ -87,9 +88,11 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
     open(){
         if (this.isEnabled && this.validate()) {
 	        // handle auto height
-	        if (!this.popupHeight  || this.popupHeight === 'auto'){
+			if (this.editModal) {
+				this._popupWidgetHeight = 'calc(100vh - 80px)';
+			} else if (!this.popupHeight  || this.popupHeight === 'auto'){
 		        this._popupWidgetHeight = 'auto';
-	        }else
+	        } else
 	        {
 		        this._popupWidgetHeight = this.popupHeight + "px";
 	        }
