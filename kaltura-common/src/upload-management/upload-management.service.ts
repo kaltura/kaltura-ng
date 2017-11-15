@@ -64,6 +64,12 @@ export class UploadManagement implements OnDestroy {
         return Object.values(this._trackedFiles).map(file => file.asData());
     }
 
+    public getTrackedFile(fileId: string): TrackedFileData
+    {
+        const relevantFile = this._trackedFiles[fileId];
+        return relevantFile? relevantFile.asData() : null;
+    }
+
     public addFile(file: UploadFileData): { id: string } {
         const [newFileId] = this.addFiles([file]);
         return newFileId;
@@ -413,6 +419,11 @@ export class UploadManagement implements OnDestroy {
         this._onTrackedFileChanged.next(trackedFile.asData());
 
         return result;
+    }
+
+    public supportChunkUpload(uploadFileData: UploadFileData) : boolean {
+        const uploadAdapter: UploadFileAdapter<any> = this._getUploadAdapter(uploadFileData);
+        return uploadAdapter ? uploadAdapter.supportChunkUpload() : false;
     }
 
     private _initiateUpload(trackedFile: TrackedFile): void {
