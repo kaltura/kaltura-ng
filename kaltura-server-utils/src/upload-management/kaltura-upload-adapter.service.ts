@@ -58,6 +58,13 @@ export class KalturaUploadAdapter extends UploadFileAdapter<KalturaUploadFile> {
             );
     }
 
+    supportChunkUpload(): boolean{
+        return new UploadTokenUploadAction({
+            uploadTokenId : 'uploadTokenId',
+            fileData : <File>({})
+        }).supportChunkUpload();
+    }
+
     prepare(files: { id: string, data: KalturaUploadFile }[]): Observable<{ id: string, status: boolean }[]> {
         const multiRequest: KalturaRequest<any>[] = [];
 
