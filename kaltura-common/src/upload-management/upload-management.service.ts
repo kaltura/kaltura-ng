@@ -59,6 +59,11 @@ export class UploadManagement implements OnDestroy {
         }
     }
 
+    public getTrackedFile(fileId: string): TrackedFileData {
+        const relevantFile = this._trackedFiles[fileId];
+        return relevantFile ? relevantFile.asData() : null;
+    }
+
     public getTrackedFiles(): TrackedFileData[]
     {
         return Object.values(this._trackedFiles).map(file => file.asData());
