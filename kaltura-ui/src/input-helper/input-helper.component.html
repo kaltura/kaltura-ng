@@ -1,0 +1,25 @@
+<div class="kInputHelper" #inputHelperContainer>
+    <a class="kIconhelpLink" [class.kActive]="helperPopup.isShow" #helperLink><i class="kIconhelp_full"></i></a>
+
+    <kPopupWidget
+        #helperPopup
+        class="kInputHelperPopup"
+        [appendTo]="inputHelperContainer"
+        [targetOffset]="{x: 0, y: 20}"
+        [popupWidth]="width"
+        [closeBtn]="false"
+        [trigger]="'hover'"
+        [placement]="{x: 'right', y: 'top'}"
+        [targetRef]="helperLink">
+        
+        <div class="kInputHelperContainer kAverageElevation">
+            <div class="kInputHelperPopupHeader">
+                <i class="kIcon {{icon}}"></i>
+                {{title}}
+            </div>
+            <div class="kInputHelperPopupContent">
+                <ng-content></ng-content>
+            </div>
+        </div>
+    </kPopupWidget>
+</div>
