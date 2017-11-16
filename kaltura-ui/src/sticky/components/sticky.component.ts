@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, AfterViewInit, OnDestroy, ViewChild, OnChanges } from '@angular/core';
+import { Component, ElementRef, Input, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
 import { StickyScrollService } from '../services/sticky-scroll.service';
 import { StickyDirective } from '../directives/sticky.directive';
 
@@ -7,7 +7,7 @@ import { StickyDirective } from '../directives/sticky.directive';
 	templateUrl: './sticky.component.html',
 	styleUrls: ['./sticky.component.scss']
 })
-export class StickyComponent implements AfterViewInit {
+export class StickyComponent implements AfterViewInit, OnDestroy {
 
 	public wrapperHeight:number = 0;
 
@@ -20,6 +20,7 @@ export class StickyComponent implements AfterViewInit {
 	@Input() sticksTo: string;
 
 	@ViewChild('contentWrapper') content: ElementRef;
+	@ViewChild('stickyDiv') stickyDiv: ElementRef;
 	@ViewChild(StickyDirective) _sticky: StickyDirective;
 
 	constructor(private _stickyScrollService: StickyScrollService) {}
@@ -28,6 +29,11 @@ export class StickyComponent implements AfterViewInit {
 		setTimeout(()=>{
 			this._updateLayout();
 		},0);
+		this._stickyScrollService.resizeStatus$.cancelOnDestroy(this).subscribe(
+			event => {
+				this.updateDimensions();
+			}
+		);
 	}
 
 	private _updateLayout() {
@@ -43,6 +49,14 @@ export class StickyComponent implements AfterViewInit {
 			this._updateLayout();
 			this._sticky.update();
 		},0);
+	}
+
+	public updateDimensions(){
+		this.stickyDiv.nativeElement.style.width = this.content.nativeElement.offsetWidth + "px";
+	}
+
+	ngOnDestroy(){
+
 	}
 
 }
