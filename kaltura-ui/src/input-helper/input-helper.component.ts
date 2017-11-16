@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { PopupWidgetXPositions, PopupWidgetYPositions } from '../popup-widget/popup-widget.component';
 
 @Component({
     selector: 'kInputHelper',
@@ -9,10 +10,9 @@ export class InputHelperComponent implements OnInit {
     @Input() title: string;
     @Input() icon: string = 'kIconhelp';
     @Input() width: number = 300;
+    @Input() placement: {x: PopupWidgetXPositions, y: PopupWidgetYPositions} = {x: 'right', y: 'top'};
 
-    constructor() {
-	    
-    }
+    constructor() {}
 
     ngOnInit() {}
 }
