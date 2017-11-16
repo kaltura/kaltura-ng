@@ -150,13 +150,6 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	        }
             this.popup.nativeElement.style.zIndex = PopupWidgetLayout.getPopupZindex();
 
-	        // verify the widget is not cut off by the browser window right hand side
-	        const viewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-	        const diff = viewPortWidth - this.popup.nativeElement.getBoundingClientRect().left - this.popupWidth;
-	        if (diff < 0){
-		        this.popup.nativeElement.style.marginLeft = parseInt(this.popup.nativeElement.style.marginLeft) + diff - 18 + "px"; // 18 pixels due to vertical scroll bar
-			}
-
             // handle modal
 	        if (!this._modalOverlay) {
 				if (this.trigger !== 'hover') {
@@ -365,6 +358,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	private setPosition() {
 		// placement and repositioning is not relevent to modals.
 		if (this.modal) return;
+		if (!this._targetRef) return;
 		
 		const popupHeight = this.popup.nativeElement.clientHeight;
 		const popupWidth = this.popup.nativeElement.clientWidth;
@@ -405,6 +399,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 			targetRefBox.left 
 			- parentLeft 
 			- popupWidth
+			+ this.targetRef.clientWidth
 			- this.targetOffset['x']
 		);
 
@@ -462,23 +457,11 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 			}
 		}
 
-		if (this.placement.x === 'left') {
-			if (popupBox.left < WINDOW_GUTTER) {
-				popupMarginLeft = popupLeftMargins.right;
-			}
+		if (popupBox.left + popupWidth > clientWidth + WINDOW_GUTTER) {
+			popupMarginLeft = popupLeftMargins.left;
 		}
-		else if (this.placement.x === 'right') {
-			if (popupBox.left + popupWidth > clientWidth + WINDOW_GUTTER) {
-				popupMarginLeft = popupLeftMargins.left;
-			}
-		}
-		else if (this.placement.x === 'center') {
-			if (popupBox.left < WINDOW_GUTTER) {
-				popupMarginLeft = popupLeftMargins.right;
-			} 
-			else if (popupBox.left + popupWidth > clientWidth + WINDOW_GUTTER) {
-				popupMarginLeft = popupLeftMargins.left;
-			}
+		else if (popupBox.left < WINDOW_GUTTER) {
+			popupMarginLeft = popupLeftMargins.right;
 		}
 
 		this.popup.nativeElement.style.marginTop = Math.round(popupMarginTop) + 'px';

@@ -21,7 +21,7 @@
   .kInputHelperPopup {
     border-radius: 3px;
     
-    /deep/ .kPopupWidget {
+    ::ng-deep .kPopupWidget {
       box-shadow: none;
     }
   
