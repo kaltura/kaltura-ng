@@ -17,6 +17,7 @@ export class AreaBlockerComponent implements OnInit  {
   @Input() showLoader : boolean;
   @Input() centerOnScreen : boolean = false;
   @Input() spinnerMarginTop : number = 0;
+  @Input() classes : string;
 
   @Input()
   set message(value : AreaBlockerMessage | string)

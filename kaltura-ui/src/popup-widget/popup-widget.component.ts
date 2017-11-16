@@ -36,6 +36,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() closeOnResize: boolean = false;
 	@Input() targetOffset: any = {'x':0, 'y': 0};
 	@Input() childrenPopups: PopupWidgetComponent[] = [];
+	@Input() closeOnScroll: boolean = false;
 	@ContentChild(TemplateRef) public _template: TemplateRef<any>;
 
   private _viewInitialize = false;
@@ -88,9 +89,13 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
     open(){
         if (this.isEnabled && this.validate()) {
 	        // handle auto height
-	        if (!this.popupHeight  || this.popupHeight === 'auto'){
-		        this._popupWidgetHeight = 'auto';
-	        }else
+			if (!this.popupHeight  || this.popupHeight === 'auto'){
+				if (this.slider) {
+					this._popupWidgetHeight = 'calc(100vh - 80px)';
+				}else {
+					this._popupWidgetHeight = 'auto';
+				}
+	        } else
 	        {
 		        this._popupWidgetHeight = this.popupHeight + "px";
 	        }
@@ -104,6 +109,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 			        window.scrollTo(0,0);
 			        this.popup.nativeElement.style.top = "auto";
 			        this.closeBtn = false;
+			        this.preventPageScroll = true;
 			        this.popup.nativeElement.style.bottom = this.popupHeight!== 'auto' ?  this.popupHeight * -1 +"px" :  "-1000px";
 			        setTimeout(()=>{
 				        this.popup.nativeElement.style.bottom = 0 +"px"; // use timeout to invoke animation
@@ -130,7 +136,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
             // handle modal
 	        if (!this._modalOverlay) {
                 this._modalOverlay = document.createElement('div');
-                if (this.modal) {
+                if (this.modal || this.slider) {
 	                this._modalOverlay.className = "kPopupWidgetModalOverlay";
                 }else{
 	                this._modalOverlay.className = "kPopupWidgetModalOverlay kTransparent";
@@ -143,7 +149,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	                });
                 }
                 document.body.appendChild(this._modalOverlay);
-                if (this.modal) {
+                if (this.modal || this.slider) {
 	                document.body.classList.add("kModal");
                 }
             }
@@ -222,6 +228,13 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@HostListener("window:resize", [])
 	onWindowResize() {
 		if (this.closeOnResize) {
+			this.close();
+		}
+	}
+
+	@HostListener("window:scroll", [])
+	onWindowScroll() {
+		if (this.closeOnScroll && this.isShow) {
 			this.close();
 		}
 	}
