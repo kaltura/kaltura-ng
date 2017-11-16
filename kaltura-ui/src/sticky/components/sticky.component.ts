@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, AfterViewInit, OnDestroy, ViewChild, Renderer2 } from '@angular/core';
 import { StickyScrollService } from '../services/sticky-scroll.service';
 import { StickyDirective } from '../directives/sticky.directive';
 
@@ -23,7 +23,7 @@ export class StickyComponent implements AfterViewInit, OnDestroy {
 	@ViewChild('stickyDiv') stickyDiv: ElementRef;
 	@ViewChild(StickyDirective) _sticky: StickyDirective;
 
-	constructor(private _stickyScrollService: StickyScrollService) {}
+	constructor(private _stickyScrollService: StickyScrollService, private _renderer: Renderer2) {}
 
 	ngAfterViewInit(): void {
 		setTimeout(()=>{
@@ -52,7 +52,7 @@ export class StickyComponent implements AfterViewInit, OnDestroy {
 	}
 
 	public updateDimensions(){
-		this.stickyDiv.nativeElement.style.width = this.content.nativeElement.offsetWidth + "px";
+    this._renderer.setStyle(this.stickyDiv.nativeElement, 'width', `${this.content.nativeElement.offsetWidth}px`);
 	}
 
 	ngOnDestroy(){
