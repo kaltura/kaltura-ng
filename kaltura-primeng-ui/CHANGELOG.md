@@ -3,6 +3,81 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.5.2...@kaltura-ng/kaltura-primeng-ui@0.6.0) (2017-11-16)
+
+
+### Bug Fixes
+
+* detach input length check from search minLength definitions in auto-complete component ([abb89f7](https://github.com/kaltura/kaltura-ng/commit/abb89f7))
+* KMCNG-846 - close menu on page scroll, remove scrollTarget property ([c8e66b4](https://github.com/kaltura/kaltura-ng/commit/c8e66b4))
+* prevent runtime error and application crash when a data table do not have a scrollable header div (non scrollable tables) ([c4d0e2f](https://github.com/kaltura/kaltura-ng/commit/c4d0e2f))
+
+
+### Features
+
+* add auto focus api to auto complete component ([1551abd](https://github.com/kaltura/kaltura-ng/commit/1551abd))
+
+
+
+
+<a name="0.5.2"></a>
+## [0.5.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.5.1...@kaltura-ng/kaltura-primeng-ui@0.5.2) (2017-10-31)
+
+
+
+
+<a name="0.5.1"></a>
+## [0.5.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.5.0...@kaltura-ng/kaltura-primeng-ui@0.5.1) (2017-10-30)
+
+
+### Bug Fixes
+
+* remark logs ([4fc4338](https://github.com/kaltura/kaltura-ng/commit/4fc4338))
+* resize data table sticky header upon window resize ([4b57b6a](https://github.com/kaltura/kaltura-ng/commit/4b57b6a))
+
+
+
+
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.4.3...@kaltura-ng/kaltura-primeng-ui@0.5.0) (2017-10-10)
+
+
+### Features
+
+* allow disable of dynamic height of data table ([68066ed](https://github.com/kaltura/kaltura-ng/commit/68066ed))
+
+
+
+
+<a name="0.4.3"></a>
+## [0.4.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.4.1...@kaltura-ng/kaltura-primeng-ui@0.4.3) (2017-09-26)
+
+
+### Bug Fixes
+
+* auto-complete now works when building to production ([16370cc](https://github.com/kaltura/kaltura-ng/commit/16370cc))
+
+
+
+
+<a name="0.4.2"></a>
+## [0.4.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.4.1...@kaltura-ng/kaltura-primeng-ui@0.4.2) (2017-09-17)
+
+
+### Bug Fixes
+
+* auto-complete now works when building to production ([16370cc](https://github.com/kaltura/kaltura-ng/commit/16370cc))
+
+
+
+
+<a name="0.4.1"></a>
+## [0.4.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.4.0...@kaltura-ng/kaltura-primeng-ui@0.4.1) (2017-09-06)
+
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.3.1...@kaltura-ng/kaltura-primeng-ui@0.4.0) (2017-09-03)
 

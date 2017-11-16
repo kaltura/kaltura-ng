@@ -24,11 +24,7 @@ export class TagsComponent implements AfterViewInit, OnDestroy{
 
     @Output() onTagRemove = new EventEmitter<any>();
     @Output() onRemoveAll = new EventEmitter<any>();
-
-	@HostListener('window:resize')
-	private onResize() {
-		this.checkShowMore();
-	}
+	@Output() onTagsChange = new EventEmitter<{tagsCount: number}>();
 
 	@ViewChild('scroller') scroller: ElementRef;
 
@@ -44,9 +40,15 @@ export class TagsComponent implements AfterViewInit, OnDestroy{
     constructor() {
     }
 
+	@HostListener("window:resize", [])
+	onWindowResize() {
+		this.checkShowMore();
+	}
+
 	ngAfterViewInit(){
 		this.tagsListObserver = this.tagsList.changes.subscribe((comps: QueryList <any>) =>
 		{
+			this.onTagsChange.emit({tagsCount: (this.data ? this.data.length : 0) });
 			this.checkShowMore();
 		});
 	}

@@ -7,10 +7,11 @@ import 'rxjs/add/operator/map';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
-import { FormWidget, FormWidgetState } from './form-widget';
+import { WidgetBase } from './widget-base';
+import { WidgetState } from './widget-state';
 
 export declare type FormWidgetsState = {
-    [key : number] : FormWidgetState
+    [key : number] : WidgetState
 }
 
 export enum OnDataSavingReasons
@@ -20,29 +21,30 @@ export enum OnDataSavingReasons
     buildRequestFailure
 }
 
-export abstract class FormManager<TData, TRequest> implements OnDestroy {
-    private _widgets: FormWidget<TData, TRequest>[] = [];
+export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsManagerBase<TData, TRequest>, OnDestroy {
+    private _widgets: WidgetBase<this, TData, TRequest>[] = [];
     private _widgetsState: BehaviorSubject<FormWidgetsState> = new BehaviorSubject<FormWidgetsState>({});
+    private _isNewData = false;
     public widgetsState$ = this._widgetsState.asObservable();
 
     public get widgetsState(): FormWidgetsState {
         return this._widgetsState.getValue();
     }
 
-    public updateWidgetState(newWidgetState : FormWidgetState): void {
+    public _updateWidgetState(newWidgetState : WidgetState): void {
         const currentWidgetsState = this._widgetsState.getValue();
 
         if (!newWidgetState || !newWidgetState.key) {
-            console.warn('form manager: cannot update widget state, missing widget key');
+            console.warn('[widgets manager] cannot update widget state, missing widget key');
         } else {
-            console.log(`widget '${newWidgetState.key}': update widget state`, newWidgetState);
+            console.log(`[widgets manager] widget '${newWidgetState.key}': update widget state`, newWidgetState);
             currentWidgetsState[newWidgetState.key] = newWidgetState;
             this._widgetsState.next(currentWidgetsState);
 
         }
     }
 
-    public registerWidgets(widgets : FormWidget<TData,TRequest>[])
+    public registerWidgets(widgets : WidgetBase<this, TData,TRequest>[])
     {
         if (widgets)
         {
@@ -54,8 +56,8 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
                 {
                     throw new Error(`a widget with key '${widget.key}' is already registered (did you registered the same widget twice?)`);
                 }else {
-                    console.log(`widget '${widget.key}': registered to a form manager`);
-                    widget.setManager(this);
+                    console.log(`[widgets manager] widget '${widget.key}': registered to a form widgets manager`);
+                    widget._setForm(this);
                     this._widgets.push(widget);
                 }
             })
@@ -63,25 +65,28 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
         }
     }
 
-    public onDataLoading(dataId: any): void {
+    public notifyDataLoading(dataId: any): void {
+        console.log(`[widgets manager] notify data loading. data identifier '${dataId}'`);
 
         this._widgets.filter(widget => widget.isActive).forEach(widget => {
-            console.log(`widget '${widget.key}': reset widget (previous state ${widget.wasActivated ? 'active' : 'inactive'})`);
-            widget.reset();
+            widget._reset();
         });
 
         this._widgets.forEach(widget => {
-            widget.onDataLoading(dataId);
+            widget._handleDataLoading(dataId);
         });
     }
 
-    public onDataLoaded(data: TData) : { errors?: Error[] } {
+    public notifyDataLoaded(data: TData, settings: { isNewData: boolean }) : { errors?: Error[] } {
 
+        console.log(`[widgets manager] notify data loaded.`);
         const errors : Error[] = [];
+        this._isNewData = settings.isNewData;
+        console.log(`[widgets manager] treat data as '${this._isNewData ? 'new' : 'existing'} data'.`);
         this._widgets.forEach(widget => {
 
             try {
-                widget.onDataLoaded(data);
+                widget._handleDataLoaded(data);
                 widget.activate();
             }catch(e)
             {
@@ -94,13 +99,13 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
 
     private _widgetsOnDataSaving(newData: TData, request: TRequest, originalData: TData): { errors?: Error[] } {
         const errors: Error[] = [];
-
-        this._widgets.filter(widget => widget.isActive).forEach(widget => {
+        const widgets = this._isNewData ? this._widgets : this._widgets.filter(widget => widget.isActive);
+        widgets.forEach(widget => {
             try {
-                console.log(`widget '${widget.key}': build save request content`);
-                widget.onDataSaving(newData, request, originalData);
+                console.log(`[widgets manager] widget '${widget.key}': build save request content`);
+                widget._handleDataSaving(newData, request, originalData);
             } catch (err) {
-                console.error(`widget '${widget.key}': failed to prepare data for save. Save operation aborted.`, err); // keep error
+                console.error(`[widgets manager] widget '${widget.key}': failed to prepare data for save. Save operation aborted.`, err); // keep error
                 errors.push(err);
             }
         });
@@ -108,8 +113,9 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
         return {errors};
     }
 
+    public notifyDataSaving(newData: TData, request: TRequest, originalData: TData): Observable<{ ready: boolean, reason?: OnDataSavingReasons, errors?: Error[] }> {
 
-    public onDataSaving(newData: TData, request: TRequest, originalData: TData): Observable<{ ready: boolean, reason?: OnDataSavingReasons, errors?: Error[] }> {
+        console.log(`[widgets manager] notify data saving.`);
 
         const isAttachedWidgetBusy = !!this._widgets.find(widget => widget.isAttached && widget.isBusy);
 
@@ -152,10 +158,11 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
     }
 
     private _validateWidgets(): Observable<{ isValid: boolean }> {
-        const widgetsResults = this._widgets.filter(widget => widget.isActive).map(widget => {
-            return widget.validate()
+        const widgets = this._isNewData ? this._widgets : this._widgets.filter(widget => widget.isActive);
+        const widgetsResults = widgets.map(widget => {
+            return widget._validate()
                 .cancelOnDestroy(this)
-                .monitor(`widget '${widget.key}': is valid?`)
+                .monitor(`[widgets manager] widget '${widget.key}': is valid?`)
                 .catch((err, caught) => Observable.of({isValid: false}));
         });
 
@@ -168,54 +175,16 @@ export abstract class FormManager<TData, TRequest> implements OnDestroy {
         }
     }
 
-
-    public findWidgetByKey(widgetKey: string): FormWidget<TData,TRequest> {
-        return <FormWidget<TData,TRequest>>this._widgets.find(widget => widget.key === widgetKey);
-    }
-
     ngOnDestroy() {
+        this._widgets.forEach(widget =>
+        {
+            widget.destory();
+        });
+
+        console.warn('[widgets manager] form widgets manager ngOnDestroy');
         this._widgetsState.complete();
     }
+s
 
-    public attachWidget<TWidget extends FormWidget<TData,TRequest>>(widgetType : { new(...args) : TWidget}) : TWidget {
-        const widget = this._widgets.find(widget => widget instanceof widgetType);
-
-
-        if (!widget) {
-            console.warn(`[kaltura] Cannot find registered widget with key '${widget.key}' (did you register a widget with that key?)`);
-        } else if (!(widget instanceof widgetType)) {
-            console.warn(`[kaltura] Cannot find widget with key '${widget.key}' (did you register a widget with that key?)`);
-        }else {
-            const widgetState = this.widgetsState[widget.key];
-            if (widgetState && widgetState.isAttached) {
-                console.warn(`[kaltura] widget with key '${widget.key}' is already attached (did you attached two components to the same widget? or did you forgot to detach the widget upon ngOnDestroy?)`);
-            }
-
-            console.log(`widget '${widget.key}': widget is now attached`);
-            widget.attach();
-
-            return widget;
-        }
-
-        return null;
-    }
-
-    public detachWidget(widget : FormWidget<TData,TRequest>) : FormWidget<TData,TRequest>{
-        const isWidgetOfForm = this._widgets.indexOf(widget) !== -1;
-
-        if (!isWidgetOfForm) {
-            console.warn(`[kaltura] Cannot find registered widget with key '${widget.key}' (did you register a widget with that key?)`);
-        } else {
-            const widgetState = this.widgetsState[widget.key];
-            if (widgetState && !widgetState.isAttached) {
-                console.warn(`[kaltura] widget with key '${widget.key}' is already detached`);
-            }
-
-            console.log(`widget '${widget.key}': widget is now detached`);
-            widget.detach();
-        }
-
-        return widget;
-    }
 
 }

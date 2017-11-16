@@ -3,6 +3,120 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.0.1...@kaltura-ng/kaltura-ui@3.1.0) (2017-11-16)
+
+
+### Bug Fixes
+
+* add tooltip to icon ([fef5780](https://github.com/kaltura/kaltura-ng/commit/fef5780))
+* fix icon style ([00a999d](https://github.com/kaltura/kaltura-ng/commit/00a999d))
+* reset details bar on screen resize ([4b1e2ec](https://github.com/kaltura/kaltura-ng/commit/4b1e2ec))
+* remove kModal class when closing the popup without timeout ([432c8fb](https://github.com/kaltura/kaltura-ng/commit/432c8fb))
+
+
+### Features
+
+* add `closeOnScroll` option to popup widget ([982ee4c](https://github.com/kaltura/kaltura-ng/commit/982ee4c))
+* add edit mode modal to popup widget ([06cd48b](https://github.com/kaltura/kaltura-ng/commit/06cd48b))
+* add ip and url validators ([1cef9a7](https://github.com/kaltura/kaltura-ng/commit/1cef9a7))
+* add scroll to top container component ([#30](https://github.com/kaltura/kaltura-ng/issues/30)) ([f2fbb85](https://github.com/kaltura/kaltura-ng/commit/f2fbb85))
+* add tag rxjs operator  ([fa9a9fb](https://github.com/kaltura/kaltura-ng/commit/fa9a9fb))
+* expose a url validation ([#31](https://github.com/kaltura/kaltura-ng/issues/31)) ([67c5f6d](https://github.com/kaltura/kaltura-ng/commit/67c5f6d))
+* support widgets form lifecycle when working on new data ([88a5d4f](https://github.com/kaltura/kaltura-ng/commit/88a5d4f))
+* allow passing class names to area blocker component
+
+
+
+
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.0.0...@kaltura-ng/kaltura-ui@3.0.1) (2017-10-31)
+
+
+
+
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@2.0.0...@kaltura-ng/kaltura-ui@3.0.0) (2017-10-30)
+
+
+### Bug Fixes
+
+* remark logs ([952e6fe](https://github.com/kaltura/kaltura-ng/commit/952e6fe))
+* resize data table sticky header upon window resize ([4b57b6a](https://github.com/kaltura/kaltura-ng/commit/4b57b6a))
+* update layout when entering and exiting sticky mode as adding and removing the sticky class might cause a height change for the sticky elements ([f9f01cf](https://github.com/kaltura/kaltura-ng/commit/f9f01cf))
+
+
+### Features
+
+* add scroll to top button ([e469b1e](https://github.com/kaltura/kaltura-ng/commit/e469b1e))
+* simplify api for widgets infrastructure (previously named form manager) ([dd09f1f](https://github.com/kaltura/kaltura-ng/commit/dd09f1f))
+
+
+### BREAKING CHANGES
+
+* - `Form Manager` name was changes to `Widgets Manager` 
+- Changes in public API of `Widget` and `Widgets Manager`
+- Better logging messages
+
+
+
+
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.3.2...@kaltura-ng/kaltura-ui@2.0.0) (2017-10-10)
+
+
+### Bug Fixes
+
+* allow to show new lines in areablocker message ([123206c](https://github.com/kaltura/kaltura-ng/commit/123206c))
+
+
+### Features
+
+* add "slider" option to poupWidget to support slider mode ([66753da](https://github.com/kaltura/kaltura-ng/commit/66753da))
+* add custom class support for area blocker message buttons ([2e00c0f](https://github.com/kaltura/kaltura-ng/commit/2e00c0f))
+* extend upload management to support upload process workflow ([254d652](https://github.com/kaltura/kaltura-ng/commit/254d652))
+
+
+### BREAKING CHANGES
+
+* The public api of upload management and the ovp upload adapter were modified to support the new process.
+
+
+
+
+<a name="1.3.2"></a>
+## [1.3.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.3.0...@kaltura-ng/kaltura-ui@1.3.2) (2017-09-26)
+
+
+### Bug Fixes
+
+* remove inline style for align left ([5153362](https://github.com/kaltura/kaltura-ng/commit/5153362))
+
+
+
+
+<a name="1.3.1"></a>
+## [1.3.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.3.0...@kaltura-ng/kaltura-ui@1.3.1) (2017-09-17)
+
+
+### Bug Fixes
+
+* remove inline style for align left ([5153362](https://github.com/kaltura/kaltura-ng/commit/5153362))
+
+
+
+
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.2.0...@kaltura-ng/kaltura-ui@1.3.0) (2017-09-06)
+
+
+### Features
+
+* allow custom title in area blocker message ([a5049c4](https://github.com/kaltura/kaltura-ng/commit/a5049c4))
+
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@1.1.0...@kaltura-ng/kaltura-ui@1.2.0) (2017-09-03)
 

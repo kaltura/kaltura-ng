@@ -1,6 +1,6 @@
 {
 	"name": "@kaltura-ng/kaltura-common",
-	"version": "1.1.0",
+	"version": "2.2.0",
 	"private": true,
 	"description": "Angular - commonly needed services within Kaltura projects",
 	"keywords": [
@@ -54,6 +54,6 @@
 	},
 	"engines": {
 		"node": ">= 7.0.0",
-		"yarn": ">= 0.24.6"
+		"npm": ">= 5.0.0"
 	}
 }
