@@ -11,7 +11,7 @@ See [standard-version](https://github.com/conventional-changelog/standard-versio
 
 * add tooltip to icon ([fef5780](https://github.com/kaltura/kaltura-ng/commit/fef5780))
 * fix icon style ([00a999d](https://github.com/kaltura/kaltura-ng/commit/00a999d))
-* KMCNG-852 - reset details bar on screen resize ([4b1e2ec](https://github.com/kaltura/kaltura-ng/commit/4b1e2ec))
+* reset details bar on screen resize ([4b1e2ec](https://github.com/kaltura/kaltura-ng/commit/4b1e2ec))
 * remove kModal class when closing the popup without timeout ([432c8fb](https://github.com/kaltura/kaltura-ng/commit/432c8fb))
 
 
@@ -24,6 +24,7 @@ See [standard-version](https://github.com/conventional-changelog/standard-versio
 * add tag rxjs operator  ([fa9a9fb](https://github.com/kaltura/kaltura-ng/commit/fa9a9fb))
 * expose a url validation ([#31](https://github.com/kaltura/kaltura-ng/issues/31)) ([67c5f6d](https://github.com/kaltura/kaltura-ng/commit/67c5f6d))
 * support widgets form lifecycle when working on new data ([88a5d4f](https://github.com/kaltura/kaltura-ng/commit/88a5d4f))
+* allow passing class names to area blocker component
 
 
 

@@ -9,7 +9,7 @@ See [standard-version](https://github.com/conventional-changelog/standard-versio
 
 ### Bug Fixes
 
-* KMCNG-705 detach input length check from search minLength definitions in auto-complete component ([abb89f7](https://github.com/kaltura/kaltura-ng/commit/abb89f7))
+* detach input length check from search minLength definitions in auto-complete component ([abb89f7](https://github.com/kaltura/kaltura-ng/commit/abb89f7))
 * KMCNG-846 - close menu on page scroll, remove scrollTarget property ([c8e66b4](https://github.com/kaltura/kaltura-ng/commit/c8e66b4))
 * prevent runtime error and application crash when a data table do not have a scrollable header div (non scrollable tables) ([c4d0e2f](https://github.com/kaltura/kaltura-ng/commit/c4d0e2f))
 
