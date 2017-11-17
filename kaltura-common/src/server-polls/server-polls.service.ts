@@ -17,30 +17,12 @@ interface PollItem<TRequest> {
   observer: Subscriber<any>
 }
 
-// export class BlaRequestPoll extends KalturaRequest<BaseEntryGetAction> {
-//
-// }
-//
-// // applciation
-// export class bla {
-//
-//   ngOnInit() {
-//     this.ServerPolls.register(10, new BlaRequestPoll())
-//       .cancelOnDestroy(this)
-//       .subscribe(response => {
-//         if (response.error) {
-//
-//         } else if (response.result instanceof BaseEntryGetActionResult) {
-//
-//         }
-//       })
-//   }
-// }
-
 export abstract class ServerPolls<TRequest, TError> {
-  private _pollQueue: { [key: string]: PollItem<TRequest> };
+  private _pollQueue: { [key: string]: PollItem<TRequest> } = {};
   private _tokenGenerator = new FriendlyHashId();
   private _queueTimeout: number;
+  private _maxErrorCount = 10;
+  private _currentErrorCount = 0;
 
   protected _onDestroy = new Subject<void>();
 
@@ -50,8 +32,12 @@ export abstract class ServerPolls<TRequest, TError> {
 
   constructor() {
     this._onDestroy.subscribe(() => {
-      clearTimeout(this._queueTimeout);
+      this._cancelCurrentInterval();
     });
+  }
+
+  private _cancelCurrentInterval(): void {
+    clearTimeout(this._queueTimeout);
   }
 
   private _getPollQueueList(): PollItem<TRequest>[] {
@@ -85,39 +71,60 @@ export abstract class ServerPolls<TRequest, TError> {
       return;
     }
 
+    this._cancelCurrentInterval();
+
     const interval = Math.min(...pollQueueList.map(({ interval }) => interval));
 
     this._queueTimeout = setTimeout(() => {
       this._onTick(() => {
         this._runQueue();
       });
-    }, interval);
+    }, interval / 2 * 1000);
   }
 
   private _onTick(runNextTick: () => void): void {
-    const queue = this._getPollQueueList().filter(item => Number(item.lastExecution) + item.interval >= Number(new Date()));
+    this._log('info', 'Running next tick');
+    const queue = this._getPollQueueList()
+      .filter(item => Number(item.lastExecution) + (item.interval * 1000) <= Number(new Date()));
     const requests = queue.map(item => item.requestFactory.create());
-    const queue$ = Observable.from(queue);
-    const responses$ = this._executeRequests(requests);
 
-    Observable.zip(responses$, queue$)
-      .subscribe(
-        ([response, item]) => {
-          if (this._pollQueue[item.id]) {
-            item.observer.next(response);
-            item.lastExecution = new Date();
-          }
-          runNextTick();
-        },
-        () => {
-          const error = this._createGlobalError();
-          queue.forEach((item) => {
+    if (!queue.length) {
+      this._log('info', 'Nothing to run. Waiting next tick...');
+      return runNextTick();
+    }
+
+    this._log('info', 'Ask server for data');
+
+    this._executeRequests(requests)
+      .subscribe(response => {
+          this._currentErrorCount = 0;
+
+          queue.forEach((item, index) => {
             if (this._pollQueue[item.id]) {
-              item.observer.next({ error, result: null });
+              this._log('info', `Received data for: ${item.id}`);
+              item.observer.next(response[index]);
               item.lastExecution = new Date();
             }
           });
           runNextTick();
+        },
+        (error) => {
+          const globalError = this._createGlobalError();
+          queue.forEach((item) => {
+            if (this._pollQueue[item.id]) {
+              item.observer.next({ error: globalError, result: null });
+              item.lastExecution = new Date();
+            }
+          });
+          this._currentErrorCount += 1;
+          this._log('error', `Error happened (${this._currentErrorCount}). ${error.message}`);
+
+          if (this._currentErrorCount <= this._maxErrorCount) {
+            runNextTick();
+          } else {
+            this._log('error', 'Server keeps failing responses. Stop interval!');
+            this._cancelCurrentInterval();
+          }
         }
       );
   }
@@ -134,12 +141,12 @@ export abstract class ServerPolls<TRequest, TError> {
         observer: observer
       };
 
-      if (this._getPollQueueList().length === 1) {
-        this._log('info', 'Starting the new interval');
-        this._runQueue();
-      }
+      this._log('info', `Registering new poll request: ${newPollId}`);
+      this._log('info', 'Starting new interval');
+      this._runQueue();
 
       return () => {
+        this._log('info', `Stop polling for ${newPollId}`);
         delete this._pollQueue[newPollId];
       }
     });
