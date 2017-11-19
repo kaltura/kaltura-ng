@@ -14,9 +14,10 @@ export class AreaBlockerComponent implements OnInit  {
 
   public _message : AreaBlockerMessage;
 
+  private _showLoader: boolean;
+
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
 
-  @Input() showLoader : boolean;
   @Input() centerOnScreen : boolean = false;
   @Input() spinnerMarginTop : number = 0;
   @Input() classes : string;
@@ -26,14 +27,26 @@ export class AreaBlockerComponent implements OnInit  {
   {
     if (typeof value === 'string') {
       this._message = this.stringToMessage(value);
-      this.renderer.addClass(this.elementRef.nativeElement, "visible");
+      this.renderer.addClass(this.elementRef.nativeElement, "kVisible");
     } else if (value instanceof AreaBlockerMessage) {
-      this.renderer.addClass(this.elementRef.nativeElement, "visible");
+      this.renderer.addClass(this.elementRef.nativeElement, "kVisible");
       this._message = value;
     } else {
-        this.renderer.removeClass(this.elementRef.nativeElement, "visible");
+        this.renderer.removeClass(this.elementRef.nativeElement, "kVisible");
       this._message = null;
     }
+  }
+  @Input()
+  set showLoader(value: boolean) {
+      this._showLoader = value;
+      if (value) {
+          this.renderer.addClass(this.elementRef.nativeElement, 'kLoading');
+          return;
+      }
+      this.renderer.removeClass(this.elementRef.nativeElement, 'kLoading');
+  }
+  get showLoader() {
+      return this._showLoader;
   }
 
   private stringToMessage = (value : string) => new AreaBlockerMessage({
