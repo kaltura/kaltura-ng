@@ -45,7 +45,7 @@ export class KalturaServerPolls extends ServerPolls<KalturaRequestBase, KalturaA
     return this._kalturaClient.multiRequest(multiRequest)
       .map(responses => {
         return requestsMapping.reduce((aggregatedResponses, requestSize) => {
-          return [...aggregatedResponses, ...responses.splice(0, requestSize)];
+          return [...aggregatedResponses, responses.splice(0, requestSize)];
         }, []);
       });
   }
