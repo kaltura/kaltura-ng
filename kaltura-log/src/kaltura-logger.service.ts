@@ -40,6 +40,30 @@ export class KalturaLogger implements OnDestroy{
         delete this._logger;
 
     }
+
+    public debug(message: string, context? : any) : void{
+        const content = context ? Object.assign({message},context) : message;
+        this._logger.debug(content);
+    }
+
+    public trace(message: string, context? : any) : void{
+        const content = context ? Object.assign({message},context) : message;
+        this._logger.trace(content);
+    }
+
+    public fatal(message: string, error? : Error) : void{
+        if (error) {
+            this._logger.fatalException(message, error);
+        }else {
+            this._logger.fatal(message);
+        }
+    }
+
+    public error(message: string, context? : any) : void{
+        const content = context ? Object.assign({message},context) : message;
+        this._logger.error(content);
+    }
+
     public warn(message: string, context? : any) : void{
         const content = context ? Object.assign({message},context) : message;
         this._logger.warn(content);
