@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, EventEmitter, OnDestroy, Input, Output, ElementRef, HostListener, TemplateRef, ContentChild } from '@angular/core';
+import { Component, AfterViewInit, EventEmitter, OnDestroy, Input, Output, ElementRef, HostListener, TemplateRef, ContentChild, Renderer2 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
@@ -30,6 +30,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() preventPageScroll: boolean = false;
 	@Input() modal: boolean = false;
 	@Input() slider: boolean = false;
+	@Input() fullScreen: boolean = false;
 	@Input() closeBtn: boolean = true;
 	@Input() closeBtnInside: boolean = false;
 	@Input() closeOnClickOutside: boolean = true;
@@ -73,6 +74,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
 	private _targetRef: any;
     private _saveOriginalScroll: string = "";
+    private _saveScrollPosition: number;
 	public _popupWidgetHeight: string;
     private _modalOverlay: any;
 	private _parentPopup: PopupWidgetComponent;
@@ -81,7 +83,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
 	public state$: Observable<popupStatus> = this._statechange.asObservable();
 
-    constructor(public popup: ElementRef) {
+    constructor(public popup: ElementRef, private renderer: Renderer2) {
 	    this._statechange.next({state: PopupWidgetStates.Close});
     }
 
@@ -104,27 +106,33 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	        const parentTop = this.appendTo && !this.modal ? this.appendTo.getBoundingClientRect().top : 0;
 	        // center on screen if no targetRef was defined
 	        if (!this._targetRef){
-		        this.popup.nativeElement.style.marginLeft = window.innerWidth/2 - this.popupWidth/2 + 'px';
-		        if (this.slider) {
-			        window.scrollTo(0,0);
-			        this.popup.nativeElement.style.top = "auto";
-			        this.closeBtn = false;
-			        this.preventPageScroll = true;
-			        this.popup.nativeElement.style.bottom = this.popupHeight!== 'auto' ?  this.popupHeight * -1 +"px" :  "-1000px";
-			        setTimeout(()=>{
-				        this.popup.nativeElement.style.bottom = 0 +"px"; // use timeout to invoke animation
-			        },0);
-		        }else{
-			        const marginTop = this.popupHeight !== 'auto' ? (window.innerHeight / 2 - this.popupHeight / 2) : 100;
-			        this.popup.nativeElement.style.marginTop = marginTop + 'px';
-			        this.popup.nativeElement.style.position = "fixed";
+	        	if (this.fullScreen){
+	        		this.modal = false;
+	        		this.preventPageScroll = true;
+			        this.renderer.addClass(this.popup.nativeElement, 'fullScreen');
+		        }else {
+			        this.popup.nativeElement.style.marginLeft = window.innerWidth / 2 - this.popupWidth / 2 + 'px';
+			        if (this.slider) {
+				        window.scrollTo(0, 0);
+				        this.popup.nativeElement.style.top = "auto";
+				        this.closeBtn = false;
+				        this.preventPageScroll = true;
+				        this.popup.nativeElement.style.bottom = this.popupHeight !== 'auto' ? this.popupHeight * -1 + "px" : "-1000px";
+				        setTimeout(() => {
+					        this.popup.nativeElement.style.bottom = 0 + "px"; // use timeout to invoke animation
+				        }, 0);
+			        } else {
+				        const marginTop = this.popupHeight !== 'auto' ? (window.innerHeight / 2 - this.popupHeight / 2) : 100;
+				        this.popup.nativeElement.style.marginTop = marginTop + 'px';
+				        this.popup.nativeElement.style.position = "fixed";
+			        }
 		        }
 	        }else{
 		        this.popup.nativeElement.style.marginLeft = this._targetRef.getBoundingClientRect().left - parentLeft + this.targetOffset['x'] + 'px';
 		        this.popup.nativeElement.style.marginTop = this._targetRef.getBoundingClientRect().top - parentTop + this.targetOffset['y'] + 'px';
 		        this.popup.nativeElement.style.position = "absolute";
 	        }
-            this.popup.nativeElement.style.zIndex = PopupWidgetLayout.getPopupZindex();
+            this.popup.nativeElement.style.zIndex = PopupWidgetLayout.getPopupZindex(this.fullScreen);
 
 	        // verify the widget is not cut off by the browser window right hand side
 	        const viewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -157,6 +165,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
             // prevent page scroll
 	        if (this.preventPageScroll){
 	        	this._saveOriginalScroll = window.getComputedStyle(document.body)["overflow-y"];
+	        	this._saveScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 	        	document.body.style.overflowY = 'hidden';
 	        	document.body.style.position = 'fixed';
 	        }
@@ -172,6 +181,9 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
     close(context: any = null, reason: string = null){
         if (this.isEnabled && this.isShow) {
+	        if (this.fullScreen){
+		        this.renderer.removeClass(this.popup.nativeElement, 'fullScreen');
+	        }
 			// allow cancelling the close operation
 	        let beforeCloseContext = {"allowClose": true};
 	        this._statechange.next({state: PopupWidgetStates.BeforeClose, context: beforeCloseContext});
@@ -185,6 +197,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		        if (this.preventPageScroll){
 			        document.body.style.overflowY = this._saveOriginalScroll;
 			        document.body.style.position = '';
+			        window.scrollTo(0, this._saveScrollPosition);
 		        }
 		        this.removeClickOutsideSupport();
 		        this.onClose.emit(); // dispatch onClose event (API)
@@ -254,6 +267,10 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		        	console.warn("[kaltura] -> Ignoring append to " + this.appendTo + " since popup is set to modal=true."); // keep warning
 		        }
 	        }
+	        if (this.fullScreen){
+		        this.popup.nativeElement.style.width = '0px';
+		        this.popup.nativeElement.style.height = '0px';
+	        }
         }
     }
 
@@ -304,7 +321,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
     }
 
     private validate(){
-        let valid: boolean = typeof this.popupWidth !== 'undefined';
+        let valid: boolean = typeof this.popupWidth !== 'undefined' || this.fullScreen;
         if (!valid){
 	        this._statechange.next({state: PopupWidgetStates.Disabled});
 	        throw "Popup widget error: missing required parameters. Verify popupWidth is defined.";

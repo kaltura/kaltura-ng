@@ -3,6 +3,11 @@
     left: 0px;
     top: 0px;
     transition: bottom 0.3s ease-in-out;
+    &.fullScreen{
+        width: 100% !important;
+        height: 100% !important;
+        position: fixed;
+    }
 }
 .kPopupWidget{
     background-color: #ffffff;
