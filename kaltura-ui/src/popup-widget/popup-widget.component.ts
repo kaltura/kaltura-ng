@@ -158,6 +158,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	        if (this.preventPageScroll){
 	        	this._saveOriginalScroll = window.getComputedStyle(document.body)["overflow-y"];
 	        	document.body.style.overflowY = 'hidden';
+	        	document.body.style.position = 'fixed';
 	        }
 
             setTimeout(()=>{
@@ -183,6 +184,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		        }
 		        if (this.preventPageScroll){
 			        document.body.style.overflowY = this._saveOriginalScroll;
+			        document.body.style.position = '';
 		        }
 		        this.removeClickOutsideSupport();
 		        this.onClose.emit(); // dispatch onClose event (API)
