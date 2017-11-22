@@ -15,6 +15,49 @@ export class KalturaUtils
 		return value;
 	}
 
+    static moveUpItems<T>(list: T[], selectedItems : T[]): boolean {
+        if (list && list.length && selectedItems && selectedItems.length) {
+            const relevantItems = selectedItems.map(item => ({ selectedItem: item, index: list.indexOf(item) }))
+                .filter(item => item.index !== -1)
+                .sort((a, b) => a.index - b.index);
+            if (relevantItems.length) {
+                const minIndexInSelected = relevantItems[0].index;
+                const nextIndex = Math.max(0, minIndexInSelected - 1);
+                relevantItems.forEach((item, i) => {
+                    list.splice(item.index - i, 1);
+                });
+
+                list.splice(nextIndex, 0, ...relevantItems.map(item => item.selectedItem));
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    static moveDownItems<T>(list: T[], selectedItems : T[]): boolean {
+        if (selectedItems && selectedItems.length && list && list.length) {
+            const relevantItems = selectedItems.map(item => ({ selectedItem: item, index: list.indexOf(item) }))
+                .filter(item => item.index !== -1)
+                .sort((a, b) => a.index - b.index);
+            if (relevantItems.length) {
+                const maxIndexInSelected = relevantItems[relevantItems.length - 1].index;
+                const nextIndex = Math.min(list.length - 1, maxIndexInSelected + 1);
+                relevantItems.forEach((item, i) => {
+                    list.splice(item.index - i, 1);
+                });
+                const correctedIndex = nextIndex - relevantItems.length;
+
+                list.splice(correctedIndex + 1, 0, ...relevantItems.map(item => item.selectedItem));
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     static formatTime(value: number, addTimeChars: boolean = false): string {
 
 		let hours: number = Math.floor( Math.round( value ) / 3600 ) % 24;
