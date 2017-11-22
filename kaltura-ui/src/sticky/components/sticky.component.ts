@@ -31,7 +31,7 @@ export class StickyComponent implements AfterViewInit, OnDestroy {
 		},0);
 		this._stickyScrollService.resizeStatus$.cancelOnDestroy(this).subscribe(
 			event => {
-				this.updateDimensions();
+				this._updateDimensions();
 			}
 		);
 	}
@@ -51,7 +51,7 @@ export class StickyComponent implements AfterViewInit, OnDestroy {
 		},0);
 	}
 
-	public updateDimensions(){
+	private _updateDimensions(){
     this._renderer.setStyle(this.stickyDiv.nativeElement, 'width', `${this.content.nativeElement.offsetWidth}px`);
 	}
 

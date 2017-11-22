@@ -1,5 +1,5 @@
 <div class="kStickyWrapper" [style.height]="wrapperHeight + 'px'" #contentWrapper>
-    <div #stickyDiv class="kSticky" kSticky [scrollOffset]="scrollOffset" [sticksTo]="sticksTo" [stickyClass]="stickyClass" [stickyId]="stickyId" (onStickyEvent)="updateDimensions()" (onUnStickyEvent)="updateDimensions()">
+    <div #stickyDiv class="kSticky" kSticky [scrollOffset]="scrollOffset" [sticksTo]="sticksTo" [stickyClass]="stickyClass" [stickyId]="stickyId" (onStickyEvent)="_updateDimensions()" (onUnStickyEvent)="_updateDimensions()">
         <ng-content></ng-content>
     </div>
 </div>
