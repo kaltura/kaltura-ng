@@ -51,7 +51,7 @@ export class StickyComponent implements AfterViewInit, OnDestroy {
 		},0);
 	}
 
-	private _updateDimensions(){
+	public _updateDimensions(){
     this._renderer.setStyle(this.stickyDiv.nativeElement, 'width', `${this.content.nativeElement.offsetWidth}px`);
 	}
 
