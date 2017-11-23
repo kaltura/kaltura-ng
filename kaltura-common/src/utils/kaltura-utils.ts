@@ -5,10 +5,11 @@ export class KalturaUtils
 	static getStartDateValue(value : Date) : Date
     {
         if (value) {
-            value.setHours(0);
-            value.setMinutes(0);
-            value.setSeconds(0);
-            return value;
+            const newValue = new Date(value.getTime());
+            newValue.setHours(0);
+            newValue.setMinutes(0);
+            newValue.setSeconds(0);
+            return newValue;
         }else{
             return null;
         }
@@ -17,10 +18,11 @@ export class KalturaUtils
     static getEndDateValue(value : Date) : Date
     {
         if (value) {
-            value.setHours(23);
-            value.setMinutes(59);
-            value.setSeconds(59);
-            return value;
+            const newValue = new Date(value.getTime());
+            newValue.setHours(23);
+            newValue.setMinutes(59);
+            newValue.setSeconds(59);
+            return newValue;
         }else{
             return null;
         }
