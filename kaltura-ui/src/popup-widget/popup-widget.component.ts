@@ -156,7 +156,11 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		                this.close();
 	                });
                 }
-                document.body.appendChild(this._modalOverlay);
+		        if (this.appendTo){
+			        this.appendChild(this._modalOverlay, this.appendTo);
+		        }else {
+			        document.body.appendChild(this._modalOverlay);
+		        }
                 if (this.modal || this.slider) {
 	                document.body.classList.add("kModal");
                 }
@@ -212,7 +216,11 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		        setTimeout(()=>{
 			        // remove modal
 			        if (this._modalOverlay) {
-				        document.body.removeChild(this._modalOverlay);
+				        if (this.appendTo){
+					        this.removeChild(this._modalOverlay, this.appendTo);
+				        }else {
+					        document.body.removeChild(this._modalOverlay);
+				        }
 				        this._modalOverlay = null;
 			        }
 			        if (this.slider) {
