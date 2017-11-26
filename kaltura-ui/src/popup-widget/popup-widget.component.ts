@@ -29,7 +29,6 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() showTooltip: boolean = false;
 	@Input() preventPageScroll: boolean = false;
 	@Input() modal: boolean = false;
-	@Input() editModal: boolean = false;
 	@Input() slider: boolean = false;
 	@Input() closeBtn: boolean = true;
 	@Input() closeBtnInside: boolean = false;
@@ -39,6 +38,8 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() childrenPopups: PopupWidgetComponent[] = [];
 	@Input() closeOnScroll: boolean = false;
 	@ContentChild(TemplateRef) public _template: TemplateRef<any>;
+
+  private _viewInitialize = false;
 
 	@Input() set targetRef(targetRef: any) {
 		if (this._targetRef) {
@@ -88,10 +89,12 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
     open(){
         if (this.isEnabled && this.validate()) {
 	        // handle auto height
-			if (this.editModal) {
-				this._popupWidgetHeight = 'calc(100vh - 80px)';
-			} else if (!this.popupHeight  || this.popupHeight === 'auto'){
-		        this._popupWidgetHeight = 'auto';
+			if (!this.popupHeight  || this.popupHeight === 'auto'){
+				if (this.slider) {
+					this._popupWidgetHeight = 'calc(100vh - 80px)';
+				}else {
+					this._popupWidgetHeight = 'auto';
+				}
 	        } else
 	        {
 		        this._popupWidgetHeight = this.popupHeight + "px";
@@ -106,6 +109,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 			        window.scrollTo(0,0);
 			        this.popup.nativeElement.style.top = "auto";
 			        this.closeBtn = false;
+			        this.preventPageScroll = true;
 			        this.popup.nativeElement.style.bottom = this.popupHeight!== 'auto' ?  this.popupHeight * -1 +"px" :  "-1000px";
 			        setTimeout(()=>{
 				        this.popup.nativeElement.style.bottom = 0 +"px"; // use timeout to invoke animation
@@ -132,20 +136,20 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
             // handle modal
 	        if (!this._modalOverlay) {
                 this._modalOverlay = document.createElement('div');
-                if (this.modal) {
+                if (this.modal || this.slider) {
 	                this._modalOverlay.className = "kPopupWidgetModalOverlay";
                 }else{
 	                this._modalOverlay.className = "kPopupWidgetModalOverlay kTransparent";
                 }
                 this._modalOverlay.style.zIndex = this.popup.nativeElement.style.zIndex - 1;
-                if (!this.slider) {
+                if (!this.slider && this.closeOnClickOutside) {
 	                this._modalOverlay.addEventListener("mousedown", (event: any) => {
 		                event.stopPropagation();
 		                this.close();
 	                });
                 }
                 document.body.appendChild(this._modalOverlay);
-                if (this.modal) {
+                if (this.modal || this.slider) {
 	                document.body.classList.add("kModal");
                 }
             }
@@ -154,6 +158,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	        if (this.preventPageScroll){
 	        	this._saveOriginalScroll = window.getComputedStyle(document.body)["overflow-y"];
 	        	document.body.style.overflowY = 'hidden';
+	        	document.body.style.position = 'fixed';
 	        }
 
             setTimeout(()=>{
@@ -179,6 +184,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		        }
 		        if (this.preventPageScroll){
 			        document.body.style.overflowY = this._saveOriginalScroll;
+			        document.body.style.position = '';
 		        }
 		        this.removeClickOutsideSupport();
 		        this.onClose.emit(); // dispatch onClose event (API)
@@ -237,6 +243,8 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
     // component lifecycle events
     ngAfterViewInit() {
+      	this._viewInitialize = true;
+
         if (this.validate()) {
 	        if (this.appendTo && !this.modal){
 	            this.appendChild(this.popup.nativeElement, this.appendTo);
@@ -265,7 +273,9 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	    if (this.appendTo && !this.modal){
 		    this.removeChild(this.popup.nativeElement, this.appendTo);
 	    }else {
-		    document.body.removeChild(this.popup.nativeElement);
+	    	if (this._viewInitialize) {
+          document.body.removeChild(this.popup.nativeElement);
+				}
 	    }
     }
 

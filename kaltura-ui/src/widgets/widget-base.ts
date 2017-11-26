@@ -6,11 +6,12 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/observable/of';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/do';
 import { WidgetsManagerBase } from './widgets-manager-base';
 import { ISubscription } from 'rxjs/Subscription';
 import { OnDestroy } from '@angular/core';
+import { WidgetState, WidgetStateData } from './widget-state';
 
-export declare type WidgetState = { key : string, isActive : boolean,  isValid : boolean, isDirty : boolean, isBusy : boolean, isAttached : boolean, wasActivated : boolean };
 
 
 // DEVELOPER NOTE: Don't implement ngOnDestroy - the inheritor will probably override this without calling super()
@@ -77,11 +78,15 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
         return this._key;
     }
 
-    protected onValidate(): Observable<{isValid: boolean}> {
+    protected onValidate(wasActivated: boolean): Observable<{isValid: boolean}> {
         return Observable.of({isValid: true});
     }
 
-    protected updateState(stateUpdate : Partial<WidgetState>) : void {
+    protected updateState(stateUpdate : {isValid? : boolean, isDirty? : boolean, isBusy? : boolean}) : void {
+        this._updateState(stateUpdate);
+    }
+
+    private _updateState(stateUpdate : Partial<WidgetStateData>) : void {
 
         this._verifyRegistered();
 
@@ -133,20 +138,23 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
 
         this._verifyRegistered();
 
-        if (this.wasActivated) {
-            return this.onValidate();
-        }else {
-            return Observable.of({isValid : true});
-        }
+        return this.onValidate(this.wasActivated)
+            .do(
+                response => {
+                    const updateState = (response.isValid !== this._widgetState.isValid);
+
+                    if (updateState) {
+                        console.log(`[widget] widget '${this.key}': widget 'isValid' state doesn't match result of 'onValidate'. updating status to '${response.isValid ? 'valid' : 'invalid'}'`);
+                        this.updateState({isValid: response.isValid});
+                    }
+                }
+            );
     }
 
     public _handleDataSaving(newData: TData, request: TRequest, originalData: TData): void {
 
         this._verifyRegistered();
-
-        if (this.wasActivated) {
-            this.onDataSaving(newData, request, originalData);
-        }
+        this.onDataSaving(newData, request, originalData);
     }
 
     public _reset(): void {
@@ -161,7 +169,7 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
         }
 
         this._widgetReset.next('');
-        this.updateState({ isValid: true, isDirty: false, isActive : false});
+        this._updateState({ isValid: true, isDirty: false, isActive : false, isBusy: false});
         this.onReset();
     }
 
@@ -187,11 +195,10 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
 
             console.log(`[widget] widget '${this.key}': activating widget (first time = ${!previousStatus.wasActivated})`);
             const activate$ = this.onActivate(!this.wasActivated);
-            this.updateState({ isActive : true, wasActivated : true});
+            this._updateState({ isActive : true, wasActivated : true});
 
             if (activate$ instanceof Observable) {
                 console.log(`[widget] widget '${this.key}': widget requested for async activation operation. executing async operation.`);
-                this.updateState({ isBusy : true });
                 this._activateSubscription = activate$
                     .monitor(`[widget] widget '${this.key}': activate widget (first time = ${!previousStatus.wasActivated})`)
                     .catch((error, caught) => Observable.of({failed: true, error}))
@@ -199,10 +206,9 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
                         response => {
                             if (response && response.failed) {
                                 console.log(`[widget] widget '${this.key}': async widget activation failed. revert state to ${JSON.stringify(previousStatus)})`);
-                                this.updateState({ isActive : false, isBusy : false, wasActivated : previousStatus.wasActivated});
+                                this._updateState({ isActive : false, wasActivated : previousStatus.wasActivated});
                             }else {
                                 console.log(`[widget] widget '${this.key}': async widget activation completed`);
-                                this.updateState({ isBusy : false });
                             }
                         },
                         () => {
@@ -222,7 +228,7 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
             console.warn(`[widget] widget with key '${this.key}' is already attached (did you attached two components to the same widget? did you forgot to detach the widget upon ngOnDestroy?)`);
         }else {
             console.log(`[widget] widget '${this.key}': attaching widget`);
-            this.updateState({isAttached: true});
+            this._updateState({isAttached: true});
             this.activate();
         }
     }
@@ -235,7 +241,7 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
             console.warn(`[widget] widget with key '${this.key}' is already detached (did you attached two components to the same widget? did you forgot to attach the widget upon ngOnInit?)`);
         }else {
             console.log(`[widget] widget '${this.key}': detaching widget`);
-            this.updateState({isAttached: false});
+            this._updateState({isAttached: false});
         }
     }
 

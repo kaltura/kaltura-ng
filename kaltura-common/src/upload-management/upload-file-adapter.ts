@@ -7,4 +7,5 @@ export abstract class UploadFileAdapter<T extends UploadFileData>{
     abstract prepare(files : {id: string, data : T}[]) : Observable<{id: string, status: boolean}[]>;
     abstract upload(id: string, data : T) : Observable<{ id : string, progress? : number}>;
     abstract canHandle(uploadFile : UploadFileData) : boolean;
+    abstract supportChunkUpload(): boolean;
 }

@@ -8,6 +8,7 @@ import { TimePipe } from './time.pipe';
 import { FileSizePipe } from './file-size.pipe';
 import { LineBreakPipe } from './line-break.pipe';
 import { AutofocusDirective } from './input-autofocus';
+import { ScrollToTopContainerComponent } from './components/scroll-to-top-container.component';
 
 @NgModule({
     imports: <any[]>[
@@ -21,7 +22,8 @@ import { AutofocusDirective } from './input-autofocus';
         DatePipe,
         FileSizePipe,
         LineBreakPipe,
-        AutofocusDirective
+        AutofocusDirective,
+        ScrollToTopContainerComponent,
     ],
     exports: <any[]>[
         TimePipe,
@@ -31,7 +33,8 @@ import { AutofocusDirective } from './input-autofocus';
         DatePipe,
         FileSizePipe,
         LineBreakPipe,
-        AutofocusDirective
+        AutofocusDirective,
+        ScrollToTopContainerComponent,
     ],
     providers: <any[]>[
     ]

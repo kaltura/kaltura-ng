@@ -1,6 +1,6 @@
 {
 	"name": "@kaltura-ng/kaltura-common",
-	"version": "2.1.1",
+	"version": "2.2.0",
 	"private": true,
 	"description": "Angular - commonly needed services within Kaltura projects",
 	"keywords": [
