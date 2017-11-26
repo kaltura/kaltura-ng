@@ -150,7 +150,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	                this._modalOverlay.className = "kPopupWidgetModalOverlay kTransparent";
                 }
                 this._modalOverlay.style.zIndex = this.popup.nativeElement.style.zIndex - 1;
-                if (!this.slider) {
+                if (!this.slider && this.closeOnClickOutside) {
 	                this._modalOverlay.addEventListener("mousedown", (event: any) => {
 		                event.stopPropagation();
 		                this.close();
