@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
 import { FriendlyHashId } from '../friendly-hash-id';
-import { ISubscription } from "rxjs/Subscription";
-import { Subject } from "rxjs/Subject";
+import { ISubscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
 
 export type PollInterval = 10 | 30 | 60 | 300;
 
