@@ -45,6 +45,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     private _showNoItems = false;
     private _errorMessage = '';
     private _allowMultiple = false;
+    public _placeholder = '';
 
     @Input()
     onItemAdding : (value : any) => any;
@@ -89,6 +90,15 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
                 }
             }
         }
+    }
+
+    @Input() set placeholder(value : string)
+    {
+        const isIE11 = !!window['MSInputMethodContext'] && !!document['documentMode'];
+        this._placeholder = isIE11 && !this._allowMultiple ? '' : value;
+    }
+    get placeholder(): string{
+        return this._placeholder;
     }
 
     @Input() set multiple(value : boolean)
