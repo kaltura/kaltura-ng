@@ -77,14 +77,17 @@ export abstract class ServerPolls<TRequest, TError> {
     }
     
     this._cancelCurrentInterval();
-    
-    const interval = Math.min(...pollQueueList.map(({ interval }) => interval));
+  
+    let interval = 10; // default interval
+    if (pollQueueList.some(({ lastExecution}) => !!lastExecution)) {
+      interval = Math.min(...pollQueueList.map(({ interval }) => interval)) / 2;
+    }
     
     this._queueTimeout = setTimeout(() => {
       this._onTick(() => {
         this._runQueue();
       });
-    }, interval / 2 * 1000);
+    }, interval * 1000);
   }
   
   private _onTick(runNextTick: () => void): void {
