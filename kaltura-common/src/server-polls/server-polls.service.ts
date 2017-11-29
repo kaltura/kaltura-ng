@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
 import { FriendlyHashId } from '../friendly-hash-id';
-import { Subject } from 'rxjs/Subject';
+import { ISubscription } from "rxjs/Subscription";
+import { Subject } from "rxjs/Subject";
 
 export type PollInterval = 10 | 30 | 60 | 300;
 
@@ -21,18 +22,21 @@ export abstract class ServerPolls<TRequest, TError> {
   private _pollQueue: { [key: string]: PollItem<TRequest> } = {};
   private _tokenGenerator = new FriendlyHashId();
   private _queueTimeout: number;
-  private _maxErrorCount = 10;
-  private _currentErrorCount = 0;
-  
-  protected _onDestroy = new Subject<void>();
+  private _executionSubscription: ISubscription;
   
   protected abstract _executeRequests(requests: TRequest[]): Observable<{ error: TError, result: any }[]>;
   
   protected abstract _createGlobalError(): TError;
   
+  protected _onDestroy$ = new Subject<void>();
+  
   constructor() {
-    this._onDestroy.subscribe(() => {
+    this._onDestroy$.subscribe(() => {
       this._cancelCurrentInterval();
+      if (this._executionSubscription) {
+        this._executionSubscription.unsubscribe();
+        this._executionSubscription = null;
+      }
     });
   }
   
@@ -67,7 +71,8 @@ export abstract class ServerPolls<TRequest, TError> {
   private _runQueue(): void {
     const pollQueueList = this._getPollQueueList();
     if (!pollQueueList.length) {
-      this._log('info', `There's nothing in the queue. Waiting for subscribers...`);
+      this._log('debug', `There's nothing in the queue. Waiting for subscribers...`);
+      this._cancelCurrentInterval();
       return;
     }
     
@@ -85,20 +90,19 @@ export abstract class ServerPolls<TRequest, TError> {
   private _onTick(runNextTick: () => void): void {
     this._log('info', 'Running next tick');
     const queue = this._getPollQueueList()
-      .filter(item => Number(item.lastExecution) + (item.interval * 1000) <= Number(new Date()));
+      .filter(item => !item.lastExecution || Number(item.lastExecution) + (item.interval * 1000) <= Number(new Date()));
     const requests = queue.map(item => item.requestFactory.create());
     
     if (!queue.length) {
       this._log('info', 'Nothing to run. Waiting next tick...');
-      return runNextTick();
+      runNextTick();
+      return;
     }
     
     this._log('info', 'Ask server for data');
     
-    this._executeRequests(requests)
+    this._executionSubscription = this._executeRequests(requests)
       .subscribe(response => {
-          this._currentErrorCount = 0;
-          
           queue.forEach((item, index) => {
             if (this._pollQueue[item.id]) {
               this._log('info', `Received data for: ${item.id}`);
@@ -117,27 +121,19 @@ export abstract class ServerPolls<TRequest, TError> {
               item.lastExecution = new Date();
             }
           });
-          this._currentErrorCount += 1;
-          this._log('error', `Error happened (${this._currentErrorCount}). ${error.message}`);
-          
-          if (this._currentErrorCount <= this._maxErrorCount) {
-            runNextTick();
-          } else {
-            this._log('error', 'Server keeps failing responses. Stop interval!');
-            this._cancelCurrentInterval();
-          }
+          this._log('warn', `Error happened: ${error.message}`);
+          runNextTick();
         }
       );
   }
   
   public register(intervalInSeconds: PollInterval, requestFactory: RequestFactory<TRequest>): Observable<{ error: TError, result: any }[]> {
-    const newPollId = this._tokenGenerator.generateUnique(Object.keys(this._pollQueue));
-    
     return Observable.create(observer => {
+      const newPollId = this._tokenGenerator.generateUnique(Object.keys(this._pollQueue));
       this._pollQueue[newPollId] = {
         id: newPollId,
         interval: intervalInSeconds,
-        lastExecution: new Date(),
+        lastExecution: null,
         requestFactory: requestFactory,
         observer: observer
       };
