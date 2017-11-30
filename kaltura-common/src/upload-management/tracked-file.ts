@@ -145,7 +145,8 @@ export class TrackedFile {
                     break;
                 case TrackedFileStatuses.failure:
                     // always allow changing to 'failure' status (assuming 'purge' is handled separately before)
-                    result = true;
+                    result = !([TrackedFileStatuses.uploadCompleted, TrackedFileStatuses.purged].includes(fromStatus));
+                    break;
                 case TrackedFileStatuses.purged:
                     // one-time status, cannot be assigned twice
                     result = !this.wasInStatus(TrackedFileStatuses.purged);
