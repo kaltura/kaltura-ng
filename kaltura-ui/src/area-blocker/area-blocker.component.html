@@ -1,7 +1,7 @@
 <ng-content></ng-content>
-<div *ngIf="showLoader || _message" class="kAreaBlockerContainer" [ngClass]="classes">
+<div #areaBlockerContainer *ngIf="showLoader || _message" class="kAreaBlockerContainer" [ngClass]="classes">
   <div *ngIf="showLoader && !_message" class="loading-backdrop show">
-    <div class='spinner-container' [class.centerOnScreen]="centerOnScreen" [style.marginTop]="spinnerMarginTop+'px'">
+    <div #spinnerContainer class='spinner-container' [class.centerOnScreen]="centerOnScreen" [style.marginTop]="spinnerMarginTop+'px'">
       <div class='spinner'><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
     </div>
   </div>
