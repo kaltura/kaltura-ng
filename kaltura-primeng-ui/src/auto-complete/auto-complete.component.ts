@@ -2,6 +2,7 @@ import { Component, AfterViewInit, forwardRef, ChangeDetectorRef, AfterViewCheck
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 import { AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR } from "primeng/components/autocomplete/autocomplete";
+import { KalturaBrowserUtils, BrowserNames } from '@kaltura-ng/kaltura-ui';
 import { DomHandler } from "primeng/components/dom/domhandler";
 import { ObjectUtils } from 'primeng/components/utils/objectutils';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
@@ -39,7 +40,6 @@ export const KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
 })
 // [kmcng] upon upgrade: compare implemented interfaces in the original component (no need to include ControlValueAccessor)
 export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterViewInit, AfterViewChecked  {
-
     private _suggestionsProvider$ : ISubscription = null;
     private _loading = false;
     private _showNoItems = false;
@@ -94,7 +94,9 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
 
     @Input() set placeholder(value : string)
     {
-        const isIE11 = !!window['MSInputMethodContext'] && !!document['documentMode'];
+        // IE11 bug causing output event to fire upon input field blur event when there is a placeholder. Thus, we remove the placeholder attribute for IE11, single selection mode.
+        // Additional details: https://connect.microsoft.com/IE/feedback/details/810538/ie-11-fires-input-event-on-focus
+        const isIE11 = KalturaBrowserUtils.detectBrowser() === BrowserNames.IE11;
         this._placeholder = isIE11 && !this._allowMultiple ? '' : value;
     }
     get placeholder(): string{
