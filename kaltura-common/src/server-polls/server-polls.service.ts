@@ -77,9 +77,9 @@ export abstract class ServerPolls<TRequest, TError> {
     }
     
     this._cancelCurrentInterval();
-  
+    
     let interval = 10; // default interval
-    if (pollQueueList.some(({ lastExecution}) => !!lastExecution)) {
+    if (pollQueueList.some(({ lastExecution }) => !!lastExecution)) {
       interval = Math.min(...pollQueueList.map(({ interval }) => interval)) / 2;
     }
     
@@ -94,7 +94,26 @@ export abstract class ServerPolls<TRequest, TError> {
     this._log('info', 'Running next tick');
     const queue = this._getPollQueueList()
       .filter(item => !item.lastExecution || Number(item.lastExecution) + (item.interval * 1000) <= Number(new Date()));
-    const requests = queue.map(item => item.requestFactory.create());
+    const requests = queue.map(item => {
+      let result;
+      let error;
+      try {
+        result = item.requestFactory.create();
+      } catch (err) {
+        result = null;
+        error = err;
+      }
+      
+      if (!result) {
+        try {
+          item.observer.next({ error: error, result: null });
+        } catch (err) {
+          // do nothing
+          this._log('warn', 'Error happened during action creation');
+        }
+      }
+      return result;
+    }).filter(Boolean);
     
     if (!queue.length) {
       this._log('info', 'Nothing to run. Waiting next tick...');
@@ -107,11 +126,16 @@ export abstract class ServerPolls<TRequest, TError> {
     this._executionSubscription = this._executeRequests(requests)
       .subscribe(response => {
           queue.forEach((item, index) => {
-            if (this._pollQueue[item.id]) {
-              this._log('info', `Received data for: ${item.id}`);
-              const currentResponse = Array.isArray(response[index]) ? response[index] : [response[index]];
-              item.observer.next(currentResponse);
-              item.lastExecution = new Date();
+            try {
+              if (this._pollQueue[item.id]) {
+                this._log('info', `Received data for: ${item.id}`);
+                const currentResponse = Array.isArray(response[index]) ? response[index] : [response[index]];
+                item.observer.next(currentResponse);
+                item.lastExecution = new Date();
+              }
+            } catch (err) {
+              // do nothing
+              this._log('warn', 'Error happened during proceeding response');
             }
           });
           runNextTick();
