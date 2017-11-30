@@ -106,7 +106,7 @@ export abstract class ServerPolls<TRequest, TError> {
       
       if (!result) {
         try {
-          item.observer.next({ error: error, result: null });
+          item.observer.next([{ error: error, result: null }]);
         } catch (err) {
           // do nothing
           this._log('warn', 'Error happened during action creation');
@@ -144,7 +144,7 @@ export abstract class ServerPolls<TRequest, TError> {
           const globalError = this._createGlobalError();
           queue.forEach((item) => {
             if (this._pollQueue[item.id]) {
-              item.observer.next({ error: globalError, result: null });
+              item.observer.next([{ error: globalError, result: null }]);
               item.lastExecution = new Date();
             }
           });
