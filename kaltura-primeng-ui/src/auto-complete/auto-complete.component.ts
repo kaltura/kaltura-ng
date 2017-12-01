@@ -60,6 +60,9 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
 
     @Input()
     suggestionLabelField : string = '';
+    
+    @Input()
+    lowerCase = true;
 
     get multiple() : boolean
     {
@@ -213,8 +216,12 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
      */
     private _addValueFromInput() : { status : 'added' | 'invalid' | 'not relevant'}
     {
-        const rawInputValue = this.searchText;
-
+        let rawInputValue = this.searchText || '';
+        
+        if (this.lowerCase) {
+            rawInputValue = rawInputValue.toLowerCase();
+        }
+        
         if (!this.limitToSuggestions && rawInputValue && !this.highlightOption && this.focus)
         {
             if ( rawInputValue.length >= 1 && !this._isItemSelected(rawInputValue)) {
