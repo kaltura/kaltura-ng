@@ -160,7 +160,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	                this._modalOverlay.className = "kPopupWidgetModalOverlay kTransparent";
                 }
                 this._modalOverlay.style.zIndex = this.popup.nativeElement.style.zIndex - 1;
-                if (!this.slider) {
+                if (!this.slider && this.closeOnClickOutside) {
 	                this._modalOverlay.addEventListener("mousedown", (event: any) => {
 		                event.stopPropagation();
 		                this.close();
@@ -177,6 +177,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	        if (this.preventPageScroll){
 	        	this._saveOriginalScroll = window.getComputedStyle(document.body)["overflow-y"];
 	        	document.body.style.overflowY = 'hidden';
+	        	document.body.style.position = 'fixed';
 	        }
 
             setTimeout(()=>{
@@ -206,6 +207,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		        }
 		        if (this.preventPageScroll){
 			        document.body.style.overflowY = this._saveOriginalScroll;
+			        document.body.style.position = '';
 		        }
 		        this.removeClickOutsideSupport();
 		        this.onClose.emit(); // dispatch onClose event (API)

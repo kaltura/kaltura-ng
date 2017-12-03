@@ -1,4 +1,4 @@
-import { Directive, Input, Renderer, ElementRef, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
+import { Directive, Input, Renderer, ElementRef, AfterViewInit, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { StickyScrollService } from '../services/sticky-scroll.service';
 
 @Directive({
@@ -11,11 +11,10 @@ export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
     private originalCss: any;
     private _destroyed = false;
 
-
+    @Output() onStickyEvent = new EventEmitter<any>();
+    @Output() onUnStickyEvent = new EventEmitter<any>();
 
     @Input() stickyClass: string;
-@Input() stickyTop: number; //TODO  remove
-
     @Input() scrollOffset: number = 0;
     @Input() appendTo: any;
     @Input() stickyId: string = "";
@@ -150,6 +149,7 @@ export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
                 this.setStyle('left', this.appendTo.getBoundingClientRect()['left'] + 'px');
             }
             this.setClass(true);
+            this.onStickyEvent.emit();
             this._onSticky();
         }
     }
@@ -168,6 +168,7 @@ export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
                 this.setStyle('left', this.originalCss.left + 'px');
             }
             this.setClass(false);
+            this.onUnStickyEvent.emit();
             this._onUnsetSticky();
         }
     }
