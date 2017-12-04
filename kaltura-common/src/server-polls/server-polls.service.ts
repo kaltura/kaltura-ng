@@ -22,32 +22,47 @@ export abstract class ServerPolls<TRequest, TError> {
   private _pollQueue: { [key: string]: PollItem<TRequest> } = {};
   private _tokenGenerator = new FriendlyHashId();
   private _queueTimeout: number;
+  private _isInitialized = false;
   private _executionSubscription: ISubscription;
-  
+
   protected abstract _executeRequests(requests: TRequest[]): Observable<{ error: TError, result: any }[]>;
-  
+
   protected abstract _createGlobalError(): TError;
-  
-  protected _onDestroy$ = new Subject<void>();
-  
+
+  protected abstract _getOnDestroy$(): Observable<void>;
+
   constructor() {
-    this._onDestroy$.subscribe(() => {
-      this._cancelCurrentInterval();
-      if (this._executionSubscription) {
-        this._executionSubscription.unsubscribe();
-        this._executionSubscription = null;
-      }
-    });
+    this._initialize();
   }
-  
+
+  private _initialize(): void {
+      setTimeout(() => {
+          const onDestroy$ = this._getOnDestroy$();
+
+          if (!onDestroy$) {
+              throw new Error(`calling method '_getOnDestroy$()' didn't return valid observable (did you remember to provide 'Observable' that will be invoked from ngOnDestroy method?) `);
+          } else {
+              onDestroy$.subscribe(() => {
+                  this._cancelCurrentInterval();
+                  if (this._executionSubscription) {
+                      this._executionSubscription.unsubscribe();
+                      this._executionSubscription = null;
+                  }
+              });
+
+              this._isInitialized = true;
+          }
+      });
+  }
+
   private _cancelCurrentInterval(): void {
     clearTimeout(this._queueTimeout);
   }
-  
+
   private _getPollQueueList(): PollItem<TRequest>[] {
     return Object.keys(this._pollQueue).map(key => this._pollQueue[key]);
   }
-  
+
   // TODO [kmcng] replace this function with log library
   private _log(level: 'silly' | 'debug' | 'info' | 'warn' | 'error', message: string, fileId?: string): void {
     const messageContext = fileId ? `file '${fileId}'` : '';
@@ -67,7 +82,7 @@ export abstract class ServerPolls<TRequest, TError> {
         break;
     }
   }
-  
+
   private _runQueue(): void {
     const pollQueueList = this._getPollQueueList();
     if (!pollQueueList.length) {
@@ -75,23 +90,29 @@ export abstract class ServerPolls<TRequest, TError> {
       this._cancelCurrentInterval();
       return;
     }
-    
+
     this._cancelCurrentInterval();
-    
+
     let interval = 10; // default interval
     if (pollQueueList.some(({ lastExecution }) => !!lastExecution)) {
       interval = Math.min(...pollQueueList.map(({ interval }) => interval)) / 2;
     }
-    
+
     this._queueTimeout = setTimeout(() => {
       this._onTick(() => {
         this._runQueue();
       });
     }, interval * 1000);
   }
-  
+
   private _onTick(runNextTick: () => void): void {
     this._log('info', 'Running next tick');
+
+    if (!this._isInitialized) {
+        this._log('warn', 'service is disabled due to error during initialization, view error log for more details.');
+        return;
+    }
+
     const queue = this._getPollQueueList()
       .filter(item => !item.lastExecution || Number(item.lastExecution) + (item.interval * 1000) <= Number(new Date()));
     const requests = queue.map(item => {
@@ -103,7 +124,7 @@ export abstract class ServerPolls<TRequest, TError> {
         result = null;
         error = err;
       }
-      
+
       if (!result) {
         try {
           item.observer.next([{ error: error, result: null }]);
@@ -114,15 +135,15 @@ export abstract class ServerPolls<TRequest, TError> {
       }
       return result;
     }).filter(Boolean);
-    
+
     if (!queue.length) {
       this._log('info', 'Nothing to run. Waiting next tick...');
       runNextTick();
       return;
     }
-    
+
     this._log('info', 'Ask server for data');
-    
+
     this._executionSubscription = this._executeRequests(requests)
       .subscribe(response => {
           queue.forEach((item, index) => {
@@ -153,7 +174,7 @@ export abstract class ServerPolls<TRequest, TError> {
         }
       );
   }
-  
+
   public register(intervalInSeconds: PollInterval, requestFactory: RequestFactory<TRequest>): Observable<{ error: TError, result: any }[]> {
     return Observable.create(observer => {
       const newPollId = this._tokenGenerator.generateUnique(Object.keys(this._pollQueue));
@@ -164,15 +185,15 @@ export abstract class ServerPolls<TRequest, TError> {
         requestFactory: requestFactory,
         observer: observer
       };
-      
+
       this._log('info', `Registering new poll request: ${newPollId}`);
       this._log('info', 'Starting new interval');
       this._runQueue();
-      
+
       return () => {
         this._log('info', `Stop polling for ${newPollId}`);
         delete this._pollQueue[newPollId];
       }
     });
   }
-}
+
