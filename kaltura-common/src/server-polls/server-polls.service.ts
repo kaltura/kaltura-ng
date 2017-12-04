@@ -2,7 +2,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
 import { FriendlyHashId } from '../friendly-hash-id';
 import { ISubscription } from 'rxjs/Subscription';
-import { Subject } from 'rxjs/Subject';
 
 export type PollInterval = 10 | 30 | 60 | 300;
 
@@ -94,7 +93,8 @@ export abstract class ServerPolls<TRequest, TError> {
     this._cancelCurrentInterval();
     
     let interval = 10; // default interval
-    if (pollQueueList.some(({ lastExecution }) => !!lastExecution)) {
+    const hasNewPolls = pollQueueList.some(({ lastExecution }) => !!lastExecution);
+    if (!hasNewPolls) {
       interval = Math.min(...pollQueueList.map(({ interval }) => interval)) / 2;
     }
     
@@ -106,7 +106,7 @@ export abstract class ServerPolls<TRequest, TError> {
   }
   
   private _onTick(runNextTick: () => void): void {
-    this._log('info', 'Running next tick');
+    this._log('debug', 'Running next tick');
     
     if (!this._isInitialized) {
       this._log('warn', 'service is disabled due to error during initialization, view error log for more details.');
@@ -116,6 +116,7 @@ export abstract class ServerPolls<TRequest, TError> {
     const queue = this._getPollQueueList()
       .filter(item => !item.lastExecution || Number(item.lastExecution) + (item.interval * 1000) <= Number(new Date()));
     const requests = queue.map(item => {
+      this._log('debug', `create action for ${item.id}`);
       let result;
       let error;
       try {
@@ -137,15 +138,18 @@ export abstract class ServerPolls<TRequest, TError> {
     }).filter(Boolean);
     
     if (!queue.length) {
-      this._log('info', 'Nothing to run. Waiting next tick...');
+      this._log('debug', 'Nothing to run. Waiting next tick...');
       runNextTick();
       return;
     }
     
-    this._log('info', 'Ask server for data');
+    this._log('debug', 'Ask server for data');
     
     this._executionSubscription = this._executeRequests(requests)
-      .subscribe(response => {
+      .subscribe(
+        response => {
+          this._executionSubscription = null;
+          
           queue.forEach((item, index) => {
             try {
               if (this._pollQueue[item.id]) {
@@ -162,6 +166,8 @@ export abstract class ServerPolls<TRequest, TError> {
           runNextTick();
         },
         (error) => {
+          this._executionSubscription = null;
+          
           const globalError = this._createGlobalError();
           queue.forEach((item) => {
             if (this._pollQueue[item.id]) {
