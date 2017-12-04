@@ -61,9 +61,6 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
 
     @Input()
     suggestionLabelField : string = '';
-    
-    @Input()
-    lowerCase = true;
 
     get multiple() : boolean
     {
@@ -228,10 +225,20 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
      */
     private _addValueFromInput() : { status : 'added' | 'invalid' | 'not relevant'}
     {
-        let rawInputValue = this.searchText || '';
+        const rawInputValue = this.searchText;
         
-        if (this.lowerCase) {
-            rawInputValue = rawInputValue.toLowerCase();
+        const inputValue = (rawInputValue || '').toLowerCase();
+        
+        // 1. if !`this.value` -> form is valid (assuming that we add value for the first time)
+        // 2. if each value is string and there's no same value in the `this.value` array -> form is valid
+        const isValid = !this.value || this.value.every(value => {
+          return typeof value === 'string' && value.toLowerCase() !== inputValue;
+        });
+        
+        if (!isValid) {
+          this.hide();
+          this._clearInputValue();
+          return { status : 'invalid'};
         }
         
         if (!this.limitToSuggestions && rawInputValue && !this.highlightOption && this.focus)
