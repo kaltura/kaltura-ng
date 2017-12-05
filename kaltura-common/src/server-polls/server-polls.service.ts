@@ -107,7 +107,7 @@ export abstract class ServerPolls<TRequest, TError> {
       if (!hasNewPolls) {
           newInterval = Math.min(...pollQueueList.map(({interval}) => interval)) / 2;
       }
-      newInterval = newInterval || 10; // default to ten seconds
+      newInterval = newInterval && newInterval > 10 ? newInterval : 10; // default to ten seconds (minimum value)
       if (this._queueInterval !== newInterval) {
           this._log('info', `updating queue interval to poll server every ${newInterval} seconds`);
           this._queueInterval = newInterval;
