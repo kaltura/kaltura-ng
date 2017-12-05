@@ -223,7 +223,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
      * @returns { {status} } status 'added' if valid value, 'invalid' if cannot add the value or 'not relevant' if the request should be ignored
      * @private
      */
-    private _addValueFromInput() : { status : 'added' | 'invalid' | 'not relevant'}
+    private _addValueFromInput() : { status : 'added' | 'invalid' | 'not relevant' | 'duplicated'}
     {
         const rawInputValue = this.searchText;
         
@@ -231,14 +231,12 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
         
         // 1. if !`this.value` -> form is valid (assuming that we add value for the first time)
         // 2. if each value is string and there's no same value in the `this.value` array -> form is valid
-        const isValid = !this.value || this.value.every(value => {
-          return typeof value === 'string' && value.toLowerCase() !== inputValue;
+        const isDuplicated = this.value && this.value.some(value => {
+          return typeof value === 'string' && value.toLowerCase() === inputValue;
         });
         
-        if (!isValid) {
-          this.hide();
-          this._clearInputValue();
-          return { status : 'invalid'};
+        if (isDuplicated) {
+          return { status : 'duplicated'};
         }
         
         if (!this.limitToSuggestions && rawInputValue && !this.highlightOption && this.focus)
@@ -345,9 +343,21 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     onKeydown(event)  {
         let preventKeydown = false;
 
-        if ((event.which === 9 || event.which === 13) && this._addValueFromInput().status !== 'not relevant')
+
+        if ((event.which === 9 || event.which === 13) )
         {
-            preventKeydown = true;
+            const status = this._addValueFromInput().status;
+
+            if (status !== 'not relevant') {
+                preventKeydown = true;
+
+                if (status === 'duplicated') {
+                    if (this.panelVisible) {
+                        this.hide();
+                    }
+                    this._clearInputValue();
+                }
+            }
         }
 
         if(!preventKeydown && this.panelVisible) {
