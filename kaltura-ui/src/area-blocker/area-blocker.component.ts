@@ -15,7 +15,7 @@ export class AreaBlockerComponent implements OnInit  {
   @ViewChild('areaBlockerContainer') areaBlockerContainer: ElementRef;
   @ViewChild('spinnerContainer') spinnerContainer: ElementRef;
 
-  @Input() centerOnScreen : boolean = false;
+  @Input() bodyScroll : boolean = false;
   @Input() spinnerMarginTop : number = 0;
   @Input() classes : string;
 
@@ -23,7 +23,7 @@ export class AreaBlockerComponent implements OnInit  {
     // once showLoader is set to true, use a timeout so *ngIf will cause the HTML to render and then calculate area blocker width
     if (value){
       setTimeout(()=>{
-        if (this.centerOnScreen && this.areaBlockerContainer){
+        if (this.bodyScroll && this.areaBlockerContainer){
           const rect = this.areaBlockerContainer.nativeElement.getBoundingClientRect();
           if (rect.width < document.body.clientWidth && this.spinnerContainer){
             this._renderer.setStyle(this.spinnerContainer.nativeElement, 'left', `${rect.left + rect.width/2}px`);
@@ -32,7 +32,7 @@ export class AreaBlockerComponent implements OnInit  {
         this._renderer.setStyle(this.spinnerContainer.nativeElement, 'opacity', '1'); // show the spinner only after its position is calculated to prevent seeing it jumps...
       },0);
     }else{
-      if (this.centerOnScreen && this.spinnerContainer){
+      if (this.bodyScroll && this.spinnerContainer){
         this._renderer.setStyle(this.spinnerContainer.nativeElement, 'opacity', '0'); // hide the spinner so we won't see it jump next time its position is recalculated
       }
     }

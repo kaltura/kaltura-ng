@@ -54,7 +54,7 @@ k-area-blocker {
 				display: block;
 				opacity: 0;
 				transform: translate3d(-50px, -50px, 0);
-				&.centerOnScreen{
+				&.bodyScroll{
 					position: fixed;
 				}
 			}
@@ -90,7 +90,7 @@ k-area-blocker {
 			justify-content: center;
 			flex-direction: column;
 			z-index: 1001;
-			&.centerOnScreen{
+			&.bodyScroll{
 				margin-top: 0px;
 				position: fixed;
 				top: calc(50vh - 90px);
