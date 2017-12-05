@@ -39,13 +39,17 @@ export abstract class ServerPolls<TRequest, TError> {
   }
   
   private _initialize(): void {
+    this._log('silly','_initialize()');
     setTimeout(() => {
       const onDestroy$ = this._getOnDestroy$();
       
       if (!onDestroy$) {
-        throw new Error(`calling method '_getOnDestroy$()' didn't return valid observable (did you remember to provide 'Observable' that will be invoked from ngOnDestroy method?) `);
+        const error = `calling method '_getOnDestroy$()' didn't return valid observable (did you remember to provide 'Observable' that will be invoked from ngOnDestroy method?)`;
+          this._log('error',error);
+        throw new Error(error);
       } else {
         onDestroy$.subscribe(() => {
+            this._log('silly','onDestroy$.subscribe()');
           this._cancelCurrentInterval();
           if (this._executionSubscription) {
             this._executionSubscription.unsubscribe();
@@ -85,32 +89,39 @@ export abstract class ServerPolls<TRequest, TError> {
         break;
     }
   }
-  
+
+  private _queueInterval: number = null;
+
   private _runQueue(): void {
-    const pollQueueList = this._getPollQueueList();
-    if (!pollQueueList.length) {
-      this._log('debug', `There's nothing in the queue. Waiting for subscribers...`);
       this._cancelCurrentInterval();
-      return;
-    }
-    
-    this._cancelCurrentInterval();
-    
-    let interval = 10; // default interval
-    const hasNewPolls = pollQueueList.some(({ lastExecution }) => !!lastExecution);
-    if (!hasNewPolls) {
-      interval = Math.min(...pollQueueList.map(({ interval }) => interval)) / 2;
-    }
-    
-    this._queueTimeout = setTimeout(() => {
-      this._onTick(() => {
-        this._runQueue();
-      });
-    }, interval * 1000);
+
+      const pollQueueList = this._getPollQueueList();
+
+      if (!pollQueueList.length) {
+         // no need to run interval, it is being executed automatically once a new action is being registered
+          return;
+      }
+
+      let newInterval: number = null;
+      const hasNewPolls = pollQueueList.some(({lastExecution}) => !!lastExecution);
+      if (!hasNewPolls) {
+          newInterval = Math.min(...pollQueueList.map(({interval}) => interval)) / 2;
+      }
+      newInterval = newInterval || 10; // default to ten seconds
+      if (this._queueInterval !== newInterval) {
+          this._log('info', `updating queue interval to poll server every ${newInterval} seconds`);
+          this._queueInterval = newInterval;
+      }
+
+      this._queueTimeout = setTimeout(() => {
+          this._onTick(() => {
+              this._runQueue();
+          });
+      }, this._queueInterval * 1000);
   }
   
   private _onTick(runNextTick: () => void): void {
-    this._log('debug', 'Running next tick');
+    this._log('debug', 'prepare server poll request');
 
     if (!this._isInitialized) {
       this._log('warn', 'service is disabled due to error during initialization, view error log for more details.');
@@ -120,73 +131,82 @@ export abstract class ServerPolls<TRequest, TError> {
     const queue = this._getPollQueueList()
       .filter(item => !item.lastExecution || Number(item.lastExecution) + (item.interval * 1000) <= Number(new Date()));
     const requests = queue.map(item => {
-      this._log('debug', `create action for ${item.id}`);
       let result;
       let error;
       try {
         result = item.requestFactory.create();
       } catch (err) {
-        result = null;
-        error = err;
+        this._log('error',`failed to create a request for '${item.id}'. got the following error : '${err.message}'`);
+
+          result = null;
+          error = err;
       }
 
-      if (!result) {
+      if (error) {
+        this._propagateServerResponse(item, )
         try {
-          item.observer.next([{ error: error, result: null }]);
+            item.observer.next([{ error: error, result: null }]);
         } catch (err) {
-          // do nothing
-          this._log('warn', 'Error happened during action creation');
+            this._log('warn', `error happened while propagating error to '${item.id}'.ignoring error. got the following error: ${err.message}`);
         }
       }
       return result;
     }).filter(Boolean);
 
     if (!queue.length) {
-      this._log('debug', 'Nothing to run. Waiting next tick...');
+      this._log('debug', 'nothing to run. Waiting next tick...');
       runNextTick();
       return;
     }
 
-    this._log('debug', 'Ask server for data (set busy mode to true)');
+    this._log('info', `has ${queue.length} pending requests. send requests to server (set busy mode to true)`);
     this._state.next({ busy: true});
     this._executionSubscription = this._executeRequests(requests)
       .subscribe(
         response => {
-          this._executionSubscription = null;
+            this._executionSubscription = null;
+            this._log('info', `got ${response.length} responses. propagate responses to relevant actions`);
+            queue.forEach((item, index) => {
 
-          queue.forEach((item, index) => {
-            try {
-              if (this._pollQueue[item.id]) {
-                this._log('info', `Received data for: ${item.id}`);
-                const currentResponse = Array.isArray(response[index]) ? response[index] : [response[index]];
-                item.observer.next(currentResponse);
-                item.lastExecution = new Date();
-              }
-            } catch (err) {
-              // do nothing
-              this._log('warn', 'Error happened during proceeding response');
-            }
-          });
+                if (this._pollQueue[item.id]) {
+                    const currentResponse = Array.isArray(response[index]) ? response[index] : [response[index]];
+                    this._propagateServerResponse(item, currentResponse);
+                } else {
+                    this._log('info', `failed to find action ${item.id}, ignoring response (it might indicate that this action was unsubscribed while a request to the server was executed)`);
+                }
+            });
 
-            this._state.next({ busy: false});
+            this._state.next({busy: false});
             runNextTick();
         },
         (error) => {
+
+            this._log('error',`failed to query the server. got the following error : '${error.message}'`);
             this._executionSubscription = null;
 
             const globalError = this._createGlobalError();
             queue.forEach((item) => {
                 if (this._pollQueue[item.id]) {
-                    item.observer.next([{error: globalError, result: null}]);
                     item.lastExecution = new Date();
+                    item.observer.next([{error: globalError, result: null}]);
                 }
             });
-            this._log('warn', `Error happened: ${error.message}`);
+
             this._state.next({busy: false});
 
             runNextTick();
         }
       );
+  }
+
+  private _propagateServerResponse(item: PollItem<TRequest>, response: { error: TError, result: any }[]): void{
+      try {
+          this._log('debug', `propagating response for ${item.id}`);
+          item.lastExecution = new Date();
+          item.observer.next(response);
+      } catch (err) {
+          this._log('warn', `error happened while propagating response of '${item.id}'.ignoring error. got the following error: ${err.message}`);
+      }
   }
 
   public isBusy(): boolean {
@@ -204,12 +224,11 @@ export abstract class ServerPolls<TRequest, TError> {
         observer: observer
       };
       
-      this._log('info', `Registering new poll request: ${newPollId}`);
-      this._log('info', 'Starting new interval');
+      this._log('info', `register new poll request ${newPollId}`);
       this._runQueue();
       
       return () => {
-        this._log('info', `Stop polling for ${newPollId}`);
+        this._log('info', `stop polling for ${newPollId}`);
         delete this._pollQueue[newPollId];
       }
     });
