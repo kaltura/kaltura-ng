@@ -1,11 +1,11 @@
 <ng-content></ng-content>
-<div *ngIf="showLoader || _message" class="kAreaBlockerContainer" [ngClass]="classes">
+<div #areaBlockerContainer *ngIf="showLoader || _message" class="kAreaBlockerContainer" [ngClass]="classes">
   <div *ngIf="showLoader && !_message" class="loading-backdrop show">
-    <div class='spinner-container' [class.centerOnScreen]="centerOnScreen" [style.marginTop]="spinnerMarginTop+'px'">
+    <div #spinnerContainer class='spinner-container' [class.bodyScroll]="bodyScroll" [style.marginTop]="spinnerMarginTop+'px'">
       <div class='spinner'><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
     </div>
   </div>
-  <div  class="kErrorMessageContainer" *ngIf="_message" [class.centerOnScreen]="centerOnScreen">
+  <div  class="kErrorMessageContainer" *ngIf="_message" [class.bodyScroll]="bodyScroll">
     <div class="kErrorMessage">
       <div class="kErrorMessageTitle">{{ _message.title }}</div>
       <div class="kErrorMessageText">{{ _message.message }}</div>
