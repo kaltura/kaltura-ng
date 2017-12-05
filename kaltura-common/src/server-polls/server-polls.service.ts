@@ -6,20 +6,20 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export type PollInterval = 10 | 30 | 60 | 300;
 
-export interface RequestFactory<T> {
-  create(): T;
+export interface RequestFactory<TRequest, TResponse> {
+  create(): TRequest;
 }
 
-interface PollItem<TRequest> {
+interface PollItem<TError> {
   id: string;
   interval: PollInterval;
   lastExecution: Date,
-  requestFactory: RequestFactory<TRequest>,
-  observer: Subscriber<any>
+  requestFactory: RequestFactory<any, any>,
+  observer: Subscriber<{result: any, error: TError}>
 }
 
 export abstract class ServerPolls<TRequest, TError> {
-  private _pollQueue: { [key: string]: PollItem<TRequest> } = {};
+  private _pollQueue: { [key: string]: PollItem<TError> } = {};
   private _tokenGenerator = new FriendlyHashId();
   private _queueTimeout: number;
   private _isInitialized = false;
@@ -30,7 +30,7 @@ export abstract class ServerPolls<TRequest, TError> {
   
   protected abstract _executeRequests(requests: TRequest[]): Observable<{ error: TError, result: any }[]>;
   
-  protected abstract _createGlobalError(): TError;
+  protected abstract _createGlobalError(error?: Error): TError;
   
   protected abstract _getOnDestroy$(): Observable<void>;
   
@@ -66,7 +66,7 @@ export abstract class ServerPolls<TRequest, TError> {
     clearTimeout(this._queueTimeout);
   }
   
-  private _getPollQueueList(): PollItem<TRequest>[] {
+  private _getPollQueueList(): PollItem<TError>[] {
     return Object.keys(this._pollQueue).map(key => this._pollQueue[key]);
   }
   
@@ -98,7 +98,7 @@ export abstract class ServerPolls<TRequest, TError> {
       const pollQueueList = this._getPollQueueList();
 
       if (!pollQueueList.length) {
-         // no need to run interval, it is being executed automatically once a new action is being registered
+          this._log('info','no actions found in the queue. suspending interval until an action will be added');
           return;
       }
 
@@ -131,24 +131,19 @@ export abstract class ServerPolls<TRequest, TError> {
     const queue = this._getPollQueueList()
       .filter(item => !item.lastExecution || Number(item.lastExecution) + (item.interval * 1000) <= Number(new Date()));
     const requests = queue.map(item => {
-      let result;
-      let error;
+      let result: TRequest;
+      let error: TError;
       try {
         result = item.requestFactory.create();
       } catch (err) {
         this._log('error',`failed to create a request for '${item.id}'. got the following error : '${err.message}'`);
 
           result = null;
-          error = err;
+          error = this._createGlobalError(err);
       }
 
       if (error) {
-        this._propagateServerResponse(item, )
-        try {
-            item.observer.next([{ error: error, result: null }]);
-        } catch (err) {
-            this._log('warn', `error happened while propagating error to '${item.id}'.ignoring error. got the following error: ${err.message}`);
-        }
+        this._propagateServerResponse(item, { error: error, result: null });
       }
       return result;
     }).filter(Boolean);
@@ -169,8 +164,7 @@ export abstract class ServerPolls<TRequest, TError> {
             queue.forEach((item, index) => {
 
                 if (this._pollQueue[item.id]) {
-                    const currentResponse = Array.isArray(response[index]) ? response[index] : [response[index]];
-                    this._propagateServerResponse(item, currentResponse);
+                    this._propagateServerResponse(item, response[index]);
                 } else {
                     this._log('info', `failed to find action ${item.id}, ignoring response (it might indicate that this action was unsubscribed while a request to the server was executed)`);
                 }
@@ -184,11 +178,11 @@ export abstract class ServerPolls<TRequest, TError> {
             this._log('error',`failed to query the server. got the following error : '${error.message}'`);
             this._executionSubscription = null;
 
-            const globalError = this._createGlobalError();
+            const globalError = this._createGlobalError(error);
             queue.forEach((item) => {
                 if (this._pollQueue[item.id]) {
                     item.lastExecution = new Date();
-                    item.observer.next([{error: globalError, result: null}]);
+                    item.observer.next({error: globalError, result: null});
                 }
             });
 
@@ -199,7 +193,7 @@ export abstract class ServerPolls<TRequest, TError> {
       );
   }
 
-  private _propagateServerResponse(item: PollItem<TRequest>, response: { error: TError, result: any }[]): void{
+  private _propagateServerResponse(item: PollItem<TError>, response: { error: TError, result: any }): void{
       try {
           this._log('debug', `propagating response for ${item.id}`);
           item.lastExecution = new Date();
@@ -213,7 +207,7 @@ export abstract class ServerPolls<TRequest, TError> {
       return this._state.getValue().busy;
   }
   
-  public register(intervalInSeconds: PollInterval, requestFactory: RequestFactory<TRequest>): Observable<{ error: TError, result: any }[]> {
+  public register<TResponse>(intervalInSeconds: PollInterval, requestFactory: RequestFactory<TRequest, TResponse>): Observable<{ error: TError, result: TResponse }> {
     return Observable.create(observer => {
       const newPollId = this._tokenGenerator.generateUnique(Object.keys(this._pollQueue));
       this._pollQueue[newPollId] = {
