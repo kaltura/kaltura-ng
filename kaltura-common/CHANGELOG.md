@@ -7,19 +7,10 @@ See [standard-version](https://github.com/conventional-changelog/standard-versio
 # [2.3.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@2.2.0...@kaltura-ng/kaltura-common@2.3.0) (2017-12-06)
 
 
-### Bug Fixes
-
-* error handling ([144d946](https://github.com/kaltura/kaltura-ng/commit/144d946))
-* quotes ([4557f71](https://github.com/kaltura/kaltura-ng/commit/4557f71))
-* review comments ([f38a4bb](https://github.com/kaltura/kaltura-ng/commit/f38a4bb))
-* typo ([2af6297](https://github.com/kaltura/kaltura-ng/commit/2af6297))
-* upload management cancelWithError ([562e69d](https://github.com/kaltura/kaltura-ng/commit/562e69d))
-
-
 ### Features
 
 * add bulk move up/down support ([102abc4](https://github.com/kaltura/kaltura-ng/commit/102abc4))
-* implement server polls feature ([bbf3842](https://github.com/kaltura/kaltura-ng/commit/bbf3842))
+* implement server polls feature
 
 
 
