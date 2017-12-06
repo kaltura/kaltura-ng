@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.2.0"></a>
+# [3.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.1.0...@kaltura-ng/kaltura-ui@3.2.0) (2017-12-06)
+
+
+### Bug Fixes
+
+* fix loading spinner layout ([95d2f52](https://github.com/kaltura/kaltura-ng/commit/95d2f52))
+* fix support for closeOnClickOutside on transparent modal overlays ([b5bd532](https://github.com/kaltura/kaltura-ng/commit/b5bd532))
+* support preventPageScroll on Safari ([c08727e](https://github.com/kaltura/kaltura-ng/commit/c08727e))
+* **content-entries:** problem changing entry owner in IE11 ([aacd179](https://github.com/kaltura/kaltura-ng/commit/aacd179))
+
+
+### Features
+
+* show tooltip over custom data fields in metadata sections ([#37](https://github.com/kaltura/kaltura-ng/issues/37)) ([0923eb3](https://github.com/kaltura/kaltura-ng/commit/0923eb3))
+* support sticky elements with custom width ([7a9d6fb](https://github.com/kaltura/kaltura-ng/commit/7a9d6fb))
+
+
+
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.0.1...@kaltura-ng/kaltura-ui@3.1.0) (2017-11-16)
 
