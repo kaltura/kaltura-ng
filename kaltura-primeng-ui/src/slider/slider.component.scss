@@ -1,0 +1,20 @@
+:host /deep/ .ui-slider {
+  background-color: #cccccc;
+  height: 6px;
+  border: none;
+
+  .ui-slider-range {
+    background: #00a784;
+    border: 2px solid #00a784;
+  }
+
+  .ui-slider-handle {
+    top: -.3em;
+    margin-left: -.6em;
+    border-radius: 50%;
+    border: 2px solid #00a784;
+    height: 16px;
+    width: 16px;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.24);
+  }
+}
