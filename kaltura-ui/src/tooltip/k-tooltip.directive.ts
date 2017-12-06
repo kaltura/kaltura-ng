@@ -18,6 +18,7 @@ export class KTooltipDirective implements OnDestroy{
 	@Input() placement: TooltipPositions = "top";
 	@Input() delay = 0;
 	@Input() maxWidth: number = 0;
+	@Input() followTarget = false;
 
 	@HostListener("mouseenter") onMouseEnter() {
 		if (this._tooltip === null && this.kTooltip !== null && typeof this.kTooltip !== 'undefined' && this.kTooltip !== '') {
@@ -32,6 +33,18 @@ export class KTooltipDirective implements OnDestroy{
 			this._tooltip = null;
 		}
 	}
+  
+  @HostListener("mousemove") moveTooltip() {
+    if (this.followTarget && this._tooltip) {
+      if (this.escape) {
+        this._tooltip.innerHTM = '';
+        this._tooltip.textContent = this.kTooltip;
+      } else {
+        this._tooltip.innerHTML = this.kTooltip;
+      }
+      this.setPosition();
+    }
+  }
 
 	createElem() {
 		this._tooltip = document.createElement('span');
