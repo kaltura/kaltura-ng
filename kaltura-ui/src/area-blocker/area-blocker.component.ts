@@ -23,7 +23,7 @@ export class AreaBlockerComponent implements OnInit  {
     // once showLoader is set to true, use a timeout so *ngIf will cause the HTML to render and then calculate area blocker width
     if (value){
       setTimeout(()=>{
-        if (this.bodyScroll && this.areaBlockerContainer){
+        if (this.bodyScroll && !!this.areaBlockerContainer){
           const rect = this.areaBlockerContainer.nativeElement.getBoundingClientRect();
           if (rect.width < document.body.clientWidth && this.spinnerContainer){
             this._renderer.setStyle(this.spinnerContainer.nativeElement, 'left', `${rect.left + rect.width/2}px`);
