@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.1"></a>
+## [0.6.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.6.0...@kaltura-ng/kaltura-primeng-ui@0.6.1) (2017-12-06)
+
+
+### Bug Fixes
+
+* add lowercase mode for autocomplete ([e85b2c6](https://github.com/kaltura/kaltura-ng/commit/e85b2c6))
+* **content-entries:** problem changing entry owner in IE11 ([aacd179](https://github.com/kaltura/kaltura-ng/commit/aacd179))
+* do not allow duplications in the input ([b67c723](https://github.com/kaltura/kaltura-ng/commit/b67c723))
+
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.5.2...@kaltura-ng/kaltura-primeng-ui@0.6.0) (2017-11-16)
 
