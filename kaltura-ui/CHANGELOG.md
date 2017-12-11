@@ -3,6 +3,52 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.2.0"></a>
+# [3.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.1.0...@kaltura-ng/kaltura-ui@3.2.0) (2017-12-06)
+
+
+### Bug Fixes
+
+* fix loading spinner layout ([95d2f52](https://github.com/kaltura/kaltura-ng/commit/95d2f52))
+* fix support for closeOnClickOutside on transparent modal overlays ([b5bd532](https://github.com/kaltura/kaltura-ng/commit/b5bd532))
+* support preventPageScroll on Safari ([c08727e](https://github.com/kaltura/kaltura-ng/commit/c08727e))
+* **content-entries:** problem changing entry owner in IE11 ([aacd179](https://github.com/kaltura/kaltura-ng/commit/aacd179))
+
+
+### Features
+
+* show tooltip over custom data fields in metadata sections ([#37](https://github.com/kaltura/kaltura-ng/issues/37)) ([0923eb3](https://github.com/kaltura/kaltura-ng/commit/0923eb3))
+* support sticky elements with custom width ([7a9d6fb](https://github.com/kaltura/kaltura-ng/commit/7a9d6fb))
+
+
+
+
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.0.1...@kaltura-ng/kaltura-ui@3.1.0) (2017-11-16)
+
+
+### Bug Fixes
+
+* add tooltip to icon ([fef5780](https://github.com/kaltura/kaltura-ng/commit/fef5780))
+* fix icon style ([00a999d](https://github.com/kaltura/kaltura-ng/commit/00a999d))
+* reset details bar on screen resize ([4b1e2ec](https://github.com/kaltura/kaltura-ng/commit/4b1e2ec))
+* remove kModal class when closing the popup without timeout ([432c8fb](https://github.com/kaltura/kaltura-ng/commit/432c8fb))
+
+
+### Features
+
+* add `closeOnScroll` option to popup widget ([982ee4c](https://github.com/kaltura/kaltura-ng/commit/982ee4c))
+* add edit mode modal to popup widget ([06cd48b](https://github.com/kaltura/kaltura-ng/commit/06cd48b))
+* add ip and url validators ([1cef9a7](https://github.com/kaltura/kaltura-ng/commit/1cef9a7))
+* add scroll to top container component ([#30](https://github.com/kaltura/kaltura-ng/issues/30)) ([f2fbb85](https://github.com/kaltura/kaltura-ng/commit/f2fbb85))
+* add tag rxjs operator  ([fa9a9fb](https://github.com/kaltura/kaltura-ng/commit/fa9a9fb))
+* expose a url validation ([#31](https://github.com/kaltura/kaltura-ng/issues/31)) ([67c5f6d](https://github.com/kaltura/kaltura-ng/commit/67c5f6d))
+* support widgets form lifecycle when working on new data ([88a5d4f](https://github.com/kaltura/kaltura-ng/commit/88a5d4f))
+* allow passing class names to area blocker component
+
+
+
+
 <a name="3.0.1"></a>
 ## [3.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.0.0...@kaltura-ng/kaltura-ui@3.0.1) (2017-10-31)
 

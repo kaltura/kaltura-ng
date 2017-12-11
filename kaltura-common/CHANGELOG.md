@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.3.0"></a>
+# [2.3.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@2.2.0...@kaltura-ng/kaltura-common@2.3.0) (2017-12-06)
+
+
+### Features
+
+* add bulk move up/down support ([102abc4](https://github.com/kaltura/kaltura-ng/commit/102abc4))
+* implement server polls feature
+
+
+
+
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@2.1.1...@kaltura-ng/kaltura-common@2.2.0) (2017-11-16)
+
+
+### Features
+
+* add tag rxjs operator  ([fa9a9fb](https://github.com/kaltura/kaltura-ng/commit/fa9a9fb))
+* check if a file can be uploaded using chunk support ([#34](https://github.com/kaltura/kaltura-ng/issues/34)) ([621bcff](https://github.com/kaltura/kaltura-ng/commit/621bcff))
+* extended upload management to support resume file upload ([8bc8eed](https://github.com/kaltura/kaltura-ng/commit/8bc8eed))
+
+
+
+
 <a name="2.1.1"></a>
 ## [2.1.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@2.1.0...@kaltura-ng/kaltura-common@2.1.1) (2017-10-31)
 

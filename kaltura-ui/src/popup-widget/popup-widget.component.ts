@@ -160,7 +160,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	                this._modalOverlay.className = "kPopupWidgetModalOverlay kTransparent";
                 }
                 this._modalOverlay.style.zIndex = this.popup.nativeElement.style.zIndex - 1;
-                if (!this.slider) {
+                if (!this.slider && this.closeOnClickOutside) {
 	                this._modalOverlay.addEventListener("mousedown", (event: any) => {
 		                event.stopPropagation();
 		                this.close();
@@ -168,7 +168,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
                 }
                 document.body.appendChild(this._modalOverlay);
                 if (this.modal || this.slider) {
-	                document.body.classList.add("kModal");
+                	PopupWidgetLayout.increaseModalCount();
                 }
 				}
             }
@@ -177,6 +177,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	        if (this.preventPageScroll){
 	        	this._saveOriginalScroll = window.getComputedStyle(document.body)["overflow-y"];
 	        	document.body.style.overflowY = 'hidden';
+	        	document.body.style.position = 'fixed';
 	        }
 
             setTimeout(()=>{
@@ -206,6 +207,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		        }
 		        if (this.preventPageScroll){
 			        document.body.style.overflowY = this._saveOriginalScroll;
+			        document.body.style.position = '';
 		        }
 		        this.removeClickOutsideSupport();
 		        this.onClose.emit(); // dispatch onClose event (API)
@@ -215,7 +217,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 			        timeout = 300;
 		        }
 		        if (this.modal && !this.slider) {
-			        document.body.classList.remove("kModal");
+			        PopupWidgetLayout.decreaseModalCount();
 		        }
 		        setTimeout(()=>{
 			        // remove modal
@@ -224,7 +226,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 				        this._modalOverlay = null;
 			        }
 			        if (this.slider) {
-				        document.body.classList.remove("kModal");
+				        PopupWidgetLayout.decreaseModalCount();
 			        }
 			        this._statechange.next({state: PopupWidgetStates.Close, context: context, reason: reason}); // use timeout to prevent valueChangeAfterChecked error
 		        },timeout);

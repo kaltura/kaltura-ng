@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.1"></a>
+## [0.6.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.6.0...@kaltura-ng/kaltura-primeng-ui@0.6.1) (2017-12-06)
+
+
+### Bug Fixes
+
+* add lowercase mode for autocomplete ([e85b2c6](https://github.com/kaltura/kaltura-ng/commit/e85b2c6))
+* **content-entries:** problem changing entry owner in IE11 ([aacd179](https://github.com/kaltura/kaltura-ng/commit/aacd179))
+* do not allow duplications in the input ([b67c723](https://github.com/kaltura/kaltura-ng/commit/b67c723))
+
+
+
+
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.5.2...@kaltura-ng/kaltura-primeng-ui@0.6.0) (2017-11-16)
+
+
+### Bug Fixes
+
+* detach input length check from search minLength definitions in auto-complete component ([abb89f7](https://github.com/kaltura/kaltura-ng/commit/abb89f7))
+* KMCNG-846 - close menu on page scroll, remove scrollTarget property ([c8e66b4](https://github.com/kaltura/kaltura-ng/commit/c8e66b4))
+* prevent runtime error and application crash when a data table do not have a scrollable header div (non scrollable tables) ([c4d0e2f](https://github.com/kaltura/kaltura-ng/commit/c4d0e2f))
+
+
+### Features
+
+* add auto focus api to auto complete component ([1551abd](https://github.com/kaltura/kaltura-ng/commit/1551abd))
+
+
+
+
 <a name="0.5.2"></a>
 ## [0.5.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.5.1...@kaltura-ng/kaltura-primeng-ui@0.5.2) (2017-10-31)
 
