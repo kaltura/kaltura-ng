@@ -42,23 +42,17 @@
       "@angular/core/*": [
         "../node_modules/@angular/core/*"
       ],
-      "@angular/http": [
-        "../node_modules/@angular/http"
+      "@types/jsnlog": [
+        "../node_modules/@types/jsnlog"
       ],
-      "@angular/http/*": [
-        "../node_modules/@angular/http/*"
+      "@types/jsnlog/*": [
+        "../node_modules/@types/jsnlog/*"
       ],
-      "@angular/router": [
-        "../node_modules/@angular/router"
+      "jsnlog": [
+        "../node_modules/jsnlog"
       ],
-      "@angular/router/*": [
-        "../node_modules/@angular/router/*"
-      ],
-      "ng2-translate": [
-        "../node_modules/ng2-translate"
-      ],
-      "ng2-translate/*": [
-        "../node_modules/ng2-translate/*"
+      "jsnlog/*": [
+        "../node_modules/jsnlog/*"
       ],
       "rxjs": [
         "../node_modules/rxjs"
