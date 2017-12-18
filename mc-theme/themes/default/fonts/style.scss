@@ -1,0 +1,277 @@
+@import '_variables.scss';
+
+@font-face {
+  font-family: 'kmcng-icon-pack';
+  src:
+          url('#{$mc-theme-font-path}/kmcng-icon-pack.woff2?hfxnrr') format('woff2'),
+          url('#{$mc-theme-font-path}/kmcng-icon-pack.ttf?hfxnrr') format('truetype'),
+          url('#{$mc-theme-font-path}/kmcng-icon-pack.woff?hfxnrr') format('woff'),
+          url('#{$mc-theme-font-path}/kmcng-icon-pack.svg?hfxnrr#kmcng-icon-pack') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="kIcon"], [class*=" kIcon"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'kmcng-icon-pack' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.kIconShare:before {
+  content: "\e94f";
+}
+.kIconlife_donut:before {
+  content: "\e950";
+}
+.kIcontag:before {
+  content: "\e900";
+}
+.kIconduplicate:before {
+  content: "\e902";
+}
+.kIconlink:before {
+  content: "\e934";
+}
+.kIconunlink:before {
+  content: "\e935";
+}
+.kIconremove:before {
+  content: "\e936";
+}
+.kIconmore:before {
+  content: "\e916";
+}
+.kIconcheck-medium:before {
+  content: "\e938";
+}
+.kIconautocomplete:before {
+  content: "\e939";
+}
+.kIconhouse:before {
+  content: "\e924";
+}
+.kIconuser_small:before {
+  content: "\e925";
+}
+.kIconconfirmation:before {
+  content: "\e915";
+}
+.kIconwarning:before {
+  content: "\e918";
+}
+.kIconarrow_up:before {
+  content: "\e933";
+}
+.kIcongear:before {
+  content: "\e904";
+}
+.kIconreorder:before {
+  content: "\e901";
+}
+.kIconexternal_link:before {
+  content: "\e913";
+}
+.kIconfilter:before {
+  content: "\e90f";
+}
+.kIconarrow_backward:before {
+  content: "\e90c";
+}
+.kIconarrow_forward:before {
+  content: "\e90d";
+}
+.kIconmagnifier:before {
+  content: "\e911";
+}
+.kIconplus:before {
+  content: "\e937";
+}
+.kIconcalendar:before {
+  content: "\e923";
+}
+.kIconCopy-to-clipboard:before {
+  content: "\e903";
+}
+.kIconupload:before {
+  content: "\e914";
+}
+.kIcontrash:before {
+  content: "\e917";
+}
+.kIconReport:before {
+  content: "\e905";
+}
+.kIconUnknown:before {
+  content: "\e927";
+}
+.kIconLive:before {
+  content: "\e928";
+}
+.kIconfolder_large:before {
+  content: "\e906";
+}
+.kIconsound:before {
+  content: "\e909";
+}
+.kIconhelp:before {
+  content: "\e907";
+}
+.kIconimage:before {
+  content: "\e908";
+}
+.kIconplay:before {
+  content: "\e926";
+}
+.kIconrefresh:before {
+  content: "\e90a";
+}
+.kIconuser:before {
+  content: "\e90b";
+}
+.kIconvideo:before {
+  content: "\e930";
+}
+.kIconfolder:before {
+  content: "\e929";
+}
+.kIconPlaylist_Manual:before {
+  content: "\e92a";
+}
+.kIconPlaylist_RuleBased:before {
+  content: "\e931";
+}
+.kIconcollection:before {
+  content: "\e951";
+}
+.kIconvod:before {
+  content: "\e952";
+}
+.kIconepisodes:before {
+  content: "\e942";
+}
+.kIconmovies:before {
+  content: "\e943";
+}
+.kIconseries:before {
+  content: "\e944";
+}
+.kIconmetadata-templates:before {
+  content: "\e945";
+}
+.kIconcheckbox:before {
+  content: "\e946";
+}
+.kIcondate-and-time:before {
+  content: "\e947";
+}
+.kIcondropdown:before {
+  content: "\e948";
+}
+.kIconinput-field-numeric:before {
+  content: "\e949";
+}
+.kIconinput-field:before {
+  content: "\e94a";
+}
+.kIconswitch:before {
+  content: "\e94b";
+}
+.kIconfile-small:before {
+  content: "\e93a";
+}
+.kIconimage-small:before {
+  content: "\e93b";
+}
+.kIconsound-small:before {
+  content: "\e93c";
+}
+.kIconvideo-small:before {
+  content: "\e93d";
+}
+.kIconhelp_full:before {
+  content: "\e92f";
+}
+.kIconcheck_large:before {
+  content: "\e90e";
+}
+.kIconpen:before {
+  content: "\e912";
+}
+.kIcontree-arrow-right:before {
+  content: "\e919";
+}
+.kIcontree-arrow-down:before {
+  content: "\e910";
+}
+.kIconpartial_small:before {
+  content: "\e922";
+}
+.kIconpagination_end:before {
+  content: "\e91f";
+}
+.kIconpagination_start:before {
+  content: "\e920";
+}
+.kIconcheck_small:before {
+  content: "\e91a";
+}
+.kIconclose_small:before {
+  content: "\e91b";
+}
+.kIcondropdown_arrow_bottom:before {
+  content: "\e91c";
+}
+.kIcondropdown_arrow_right:before {
+  content: "\e921";
+}
+.kIcondropdown_arrow_left:before {
+  content: "\e91d";
+}
+.kIcondropdown_arrow_top:before {
+  content: "\e91e";
+}
+.kIconbulk:before {
+  content: "\e92b";
+}
+.kIconUsers:before {
+  content: "\e92e";
+}
+.kIconlive:before {
+  content: "\e92c";
+}
+.kIconUpload:before {
+  content: "\e92d";
+}
+.kIconcomplete:before {
+  content: "\e93e";
+}
+.kIconerror:before {
+  content: "\e93f";
+}
+.kIconsync:before {
+  content: "\e940";
+}
+.kIconupload2:before {
+  content: "\e941";
+}
+.kIconrefresh_small:before {
+  content: "\e932";
+}
+.kIconepisode-small:before {
+  content: "\e94c";
+}
+.kIconmovies-small:before {
+  content: "\e94d";
+}
+.kIconseries-small:before {
+  content: "\e94e";
+}

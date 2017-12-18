@@ -1,9 +1,12 @@
 {
   "lerna": "0.0.2",
   "packages": [
+    "kaltura-log",
     "kaltura-common",
     "kaltura-ui",
-    "kaltura-primeng-ui"
+    "kaltura-primeng-ui",
+    "mc-theme",
+    "mc-ui"
   ],
  "npmClient": "npm",
   "version": "independent"
