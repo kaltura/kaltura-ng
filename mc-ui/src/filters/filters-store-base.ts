@@ -79,11 +79,17 @@ export abstract class FiltersStoreBase<T extends { [key: string]: any }> {
         return this._filters;
     }
 
+    protected _preFilter(updates: Partial<T>): Partial<T> {
+        return updates;
+    }
+
     public filter(updates: Partial<T>): UpdateResult<T> {
         let newFilters = this._filters;
         let hasChanges = false;
         const dataChanges: DataChanges<T> = { changes: {}, diff : {} };
         const result: UpdateResult<T> = {};
+
+        updates = this._preFilter(updates);
 
         Object.keys(updates).forEach(filterName => {
 
