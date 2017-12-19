@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.2.1"></a>
+## [3.2.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.2.0...@kaltura-ng/kaltura-ui@3.2.1) (2017-12-19)
+
+
+### Bug Fixes
+
+* handle kModal class add / remove via the PopupWidgetLayout service instead from the component itself to ensure consistency ([e662326](https://github.com/kaltura/kaltura-ng/commit/e662326))
+* prevent rare runtime error when accessing area blocker DOM elements ([74c65e2](https://github.com/kaltura/kaltura-ng/commit/74c65e2))
+
+
+
+
 <a name="3.2.0"></a>
 # [3.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.1.0...@kaltura-ng/kaltura-ui@3.2.0) (2017-12-06)
 

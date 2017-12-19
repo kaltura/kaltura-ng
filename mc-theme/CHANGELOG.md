@@ -1,6 +1,18 @@
 # Change Log
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file.
+See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="0.9.0"></a>
+# 0.9.0 (2017-12-19)
+
+
+### Features
+
+* add list filters infrastructure ([a209512](https://github.com/kaltura/kaltura-ng/commit/a209512))
+
+
+
 
 <a name="0.8.1"></a>
 ## [0.8.1](https://github.com/kaltura/kaltura-ng-mc-theme/compare/v0.8.0...v0.8.1) (2017-12-06)
@@ -106,7 +118,8 @@ All notable changes to this project will be documented in this file. See [standa
 
 * **upload-menu:** add orange color ([7728b9b](https://github.com/kaltura/kaltura-ng-mc-theme/commit/7728b9b))
 * add upload icons to icomoon font ([9256c45](https://github.com/kaltura/kaltura-ng-mc-theme/commit/9256c45))
-* allow lines breaks in tooltip text using \n ([611aec9](https://github.com/kaltura/kaltura-ng-mc-theme/commit/611aec9))
+* allow lines breaks in tooltip text using 
+ ([611aec9](https://github.com/kaltura/kaltura-ng-mc-theme/commit/611aec9))
 * new icons ([3428562](https://github.com/kaltura/kaltura-ng-mc-theme/commit/3428562))
 
 
