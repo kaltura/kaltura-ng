@@ -2,7 +2,7 @@ import { TypeAdapterBase } from './filter-types/type-adapter-base';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import * as Immutable from 'seamless-immutable';
-import { KalturaLogger } from '@kaltura-ng/kaltura-log';
+import { KalturaLogger } from '@kaltura-ng/kaltura-logger';
 import { FiltersUtils } from './/filters-utils';
 
 export type TypeAdaptersMapping<T> = {
@@ -19,7 +19,7 @@ export type UpdateResult<T> = {
 }
 
 export abstract class FiltersStoreBase<T extends { [key: string]: any }> {
-    private _filters: Immutable.ImmutableObject<T> = Immutable(this._createEmptyStoreData());
+    private _filters: Immutable.ImmutableObject<T> = Immutable(this._createDefaultFiltersValue());
     private _filtersChange = new Subject<DataChanges<T>>();
     public filtersChange$ = this._filtersChange.asObservable();
     private _typeAdaptersMapping: TypeAdaptersMapping<T> = null;
@@ -30,11 +30,11 @@ export abstract class FiltersStoreBase<T extends { [key: string]: any }> {
         this._typeAdaptersMapping = this._getTypeAdaptersMapping();
     }
 
-    protected abstract  _createEmptyStoreData(): T;
+    protected abstract  _createDefaultFiltersValue(): T;
     protected abstract _getTypeAdaptersMapping(): TypeAdaptersMapping<T>;
 
     public resetFilters(filterNames?: (keyof T)[]): void {
-        let newData: Partial<T> = this._createEmptyStoreData();
+        let newData: Partial<T> = this._createDefaultFiltersValue();
         if (filterNames && filterNames.length) {
             const filteredNewData: Partial<T> = {};
             filterNames.forEach(filterName => {

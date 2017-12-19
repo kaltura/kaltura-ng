@@ -25,7 +25,7 @@ function createLoggerFactory(name: string) : Provider[]
     providers: <any[]>[
         ]
 })
-export class KalturaLogModule {
+export class KalturaLoggerModule {
     // constructor(@Optional() @SkipSelf() module : KalturaCoreModule, private appBootstrap : AppBootstrap)
     // {
     //     if (module) {
@@ -35,7 +35,7 @@ export class KalturaLogModule {
 
     static forRoot(name: string): ModuleWithProviders {
         return {
-            ngModule: KalturaLogModule,
+            ngModule: KalturaLoggerModule,
             providers: [
                 createLoggerFactory(name)
             ]
