@@ -1,5 +1,5 @@
 {
-	"name": "@kaltura-ng/mc-ui",
+	"name": "@kaltura-ng/mc-shared",
 	"version": "1.0.0",
 	"private": true,
 	"description": "Angular - Kaltura Managemenet consoles UI directives, pipes and services",

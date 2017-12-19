@@ -6,7 +6,7 @@
     "kaltura-ui",
     "kaltura-primeng-ui",
     "mc-theme",
-    "mc-ui"
+    "mc-shared"
   ],
  "npmClient": "npm",
   "version": "independent"
