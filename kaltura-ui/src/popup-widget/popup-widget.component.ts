@@ -274,9 +274,6 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
     // component lifecycle events
     ngAfterViewInit() {
 		this._viewInitialize = true;
-		if (!this.modal && !this.slider) {
-			this.popup.nativeElement.style.opacity = 0;
-		}
 
         if (this.validate()) {
 			if (this.appendTo && !this.modal){
