@@ -50,30 +50,31 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	
 	@ContentChild(TemplateRef) public _template: TemplateRef<any>;
 
-  private _viewInitialize = false;
+	private readonly _toggleFunc = this.toggle.bind(this);
+	private readonly _openFunc = this.open.bind(this);
+	private readonly _closeFunc = this.close.bind(this);
+
+    private _viewInitialize = false;
 
 	@Input() set targetRef(targetRef: any) {
 		if (this.trigger === 'click') {
-			const toggleFunc = this.toggle.bind(this);
 			if (this._targetRef) {
-				this._targetRef.removeEventListener('click', toggleFunc);
+				this._targetRef.removeEventListener('click', this._toggleFunc);
 			}
 			this._targetRef = targetRef;
 			if (this._targetRef) {
-				this._targetRef.addEventListener('click', toggleFunc);
+				this._targetRef.addEventListener('click', this._toggleFunc);
 			}
 		}
 		else if (this.trigger === 'hover') {
-			const openFunc = this.open.bind(this);
-			const closeFunc = this.close.bind(this);
 			if (this._targetRef) {
-				this._targetRef.removeEventListener('mouseover', openFunc);
-				this._targetRef.removeEventListener('mouseout', closeFunc);
+				this._targetRef.removeEventListener('mouseover', this._openFunc);
+				this._targetRef.removeEventListener('mouseout', this._closeFunc);
 			}
 			this._targetRef = targetRef;
 			if (this._targetRef) {
-				this._targetRef.addEventListener('mouseover', openFunc);
-				this._targetRef.addEventListener('mouseout', closeFunc);
+				this._targetRef.addEventListener('mouseover', this._openFunc);
+				this._targetRef.addEventListener('mouseout', this._closeFunc);
 			}
 		}
 	}
@@ -157,22 +158,22 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	        if (!this._modalOverlay) {
 				if (this.trigger !== 'hover') {
 					this._modalOverlay = document.createElement('div');
-                if (this.modal || this.slider) {
-	                this._modalOverlay.className = "kPopupWidgetModalOverlay";
-                }else{
-	                this._modalOverlay.className = "kPopupWidgetModalOverlay kTransparent";
-                }
-                this._modalOverlay.style.zIndex = this.popup.nativeElement.style.zIndex - 1;
-                if (!this.slider && this.closeOnClickOutside) {
-	                this._modalOverlay.addEventListener("mousedown", (event: any) => {
-		                event.stopPropagation();
-		                this.close();
-	                });
-                }
-                document.body.appendChild(this._modalOverlay);
-                if (this.modal || this.slider) {
-                	PopupWidgetLayout.increaseModalCount();
-                }
+	                if (this.modal || this.slider) {
+		                this._modalOverlay.className = "kPopupWidgetModalOverlay";
+	                }else{
+		                this._modalOverlay.className = "kPopupWidgetModalOverlay kTransparent";
+	                }
+	                this._modalOverlay.style.zIndex = this.popup.nativeElement.style.zIndex - 1;
+	                if (!this.slider && this.closeOnClickOutside) {
+		                this._modalOverlay.addEventListener("mousedown", (event: any) => {
+			                event.stopPropagation();
+			                this.close();
+		                });
+	                }
+	                document.body.appendChild(this._modalOverlay);
+	                if (this.modal || this.slider) {
+	                    PopupWidgetLayout.increaseModalCount();
+	                }
 				}
             }
 
@@ -190,7 +191,10 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
             this.onOpen.emit(); // dispatch onOpen event (API)
             this._statechange.next({state: PopupWidgetStates.Open});
 		}
-		// auto positioning need first the dom to render
+	    if (!this.modal && !this.slider && this.popup.nativeElement) {
+		    this.popup.nativeElement.style.opacity = 0;
+	    }
+	    // auto positioning need first the dom to render
 		setTimeout(() => {
 			this.setPosition();
 		}, 0);
@@ -287,8 +291,16 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
     }
 
     ngOnDestroy(){
-    	if (this._targetRef) {
-		    this._targetRef.removeEventListener('click', (e: any) => this.toggle());
+	    if (this.trigger === 'click') {
+		    if (this._targetRef) {
+			    this._targetRef.removeEventListener('click', this._toggleFunc);
+		    }
+	    }
+	    else if (this.trigger === 'hover') {
+		    if (this._targetRef) {
+			    this._targetRef.removeEventListener('mouseover', this._openFunc);
+			    this._targetRef.removeEventListener('mouseout', this._closeFunc);
+		    }
 	    }
         if (this._stateChangeSubscription){
             this._stateChangeSubscription.unsubscribe();
@@ -367,7 +379,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		// placement and repositioning is not relevent to modals.
 		if (this.modal) return;
 		if (!this._targetRef) return;
-		
+
 		const popupHeight = this.popup.nativeElement.clientHeight;
 		const popupWidth = this.popup.nativeElement.clientWidth;
 		const popupBox = this.popup.nativeElement.getBoundingClientRect();
