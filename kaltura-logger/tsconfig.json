@@ -1,0 +1,80 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "outDir": "./.tmp",
+    "declaration": true,
+    "stripInternal": true,
+    "experimentalDecorators": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "noEmitHelpers": false,
+    "module": "es2015",
+    "importHelpers": false,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "inlineSources": true,
+    "target": "es5",
+    "skipLibCheck": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2015",
+      "ES2017",
+      "dom"
+    ],
+    "paths": {
+      "@angular/common": [
+        "../node_modules/@angular/common"
+      ],
+      "@angular/common/*": [
+        "../node_modules/@angular/common/*"
+      ],
+      "@angular/compiler": [
+        "../node_modules/@angular/compiler"
+      ],
+      "@angular/compiler/*": [
+        "../node_modules/@angular/compiler/*"
+      ],
+      "@angular/core": [
+        "../node_modules/@angular/core"
+      ],
+      "@angular/core/*": [
+        "../node_modules/@angular/core/*"
+      ],
+      "@types/jsnlog": [
+        "../node_modules/@types/jsnlog"
+      ],
+      "@types/jsnlog/*": [
+        "../node_modules/@types/jsnlog/*"
+      ],
+      "jsnlog": [
+        "../node_modules/jsnlog"
+      ],
+      "jsnlog/*": [
+        "../node_modules/jsnlog/*"
+      ],
+      "rxjs": [
+        "../node_modules/rxjs"
+      ],
+      "rxjs/*": [
+        "../node_modules/rxjs/*"
+      ],
+      "tslib": [
+        "../node_modules/tslib"
+      ],
+      "tslib/*": [
+        "../node_modules/tslib/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts"
+  ],
+  "angularCompilerOptions": {
+    "skipTemplateCodegen": true
+  }
+}
