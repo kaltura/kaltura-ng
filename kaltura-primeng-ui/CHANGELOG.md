@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.6.1...@kaltura-ng/kaltura-primeng-ui@0.7.0) (2017-12-19)
+
+
+### Features
+
+* add list filters infrastructure ([a209512](https://github.com/kaltura/kaltura-ng/commit/a209512))
+
+
+
+
 <a name="0.6.1"></a>
 ## [0.6.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.6.0...@kaltura-ng/kaltura-primeng-ui@0.6.1) (2017-12-06)
 

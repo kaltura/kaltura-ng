@@ -2,18 +2,42 @@ import { Download } from './download';
 
 export class KalturaUtils
 {
-    static removeEmptyProperties(value : {})
+	static getStartDateValue(value : Date) : Date
     {
-        Object.keys(value).forEach(function(key) {
-            if (value[key] && typeof value[key] === 'object') {
-                KalturaUtils.removeEmptyProperties(value[key]);
-            }
-            else if (value[key] === null) {
-                delete value[key]
-            }
-        });
-        return value;
+        if (value) {
+            const newValue = new Date(value.getTime());
+            newValue.setHours(0);
+            newValue.setMinutes(0);
+            newValue.setSeconds(0);
+            return newValue;
+        }else{
+            return null;
+        }
     }
+
+    static getEndDateValue(value : Date) : Date
+    {
+        if (value) {
+            const newValue = new Date(value.getTime());
+            newValue.setHours(23);
+            newValue.setMinutes(59);
+            newValue.setSeconds(59);
+            return newValue;
+        }else{
+            return null;
+        }
+    }static removeEmptyProperties(value : {})
+	{
+		Object.keys(value).forEach(function(key) {
+			if (value[key] && typeof value[key] === 'object') {
+				KalturaUtils.removeEmptyProperties(value[key]);
+			}
+			else if (value[key] === null) {
+				delete value[key]
+			}
+		});
+		return value;
+	}
 
     static moveUpItems<T>(list: T[], selectedItems : T[]): boolean {
         if (list && list.length && selectedItems && selectedItems.length) {

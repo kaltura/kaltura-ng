@@ -18,8 +18,6 @@ export class PrimeTreePropagation implements OnInit, DoCheck, OnChanges {
     @Input()
     propagateUpMode : 'default' | 'none' | 'visualOnly' = 'default';
 
-    @Input()
-    disableTrackByData = false;
 
     constructor(private _treeComponent : Tree, private _differs : IterableDiffers, private _cdr : ChangeDetectorRef)
     {
@@ -28,9 +26,7 @@ export class PrimeTreePropagation implements OnInit, DoCheck, OnChanges {
 
     ngOnChanges(changes)
     {
-        if (changes.disableTrackByData) {
-            this._createSelectionDiffer();
-        }
+
     }
 
 
@@ -42,7 +38,6 @@ export class PrimeTreePropagation implements OnInit, DoCheck, OnChanges {
         this._treeComponent.propagateSelectionDown = false;
 
         if (!this._selectionDiffer) {
-            // create default selection differ only if it wasn't created already during 'ngOnChanges' hook
             this._createSelectionDiffer();
         }
     }
@@ -136,20 +131,12 @@ export class PrimeTreePropagation implements OnInit, DoCheck, OnChanges {
         }
     }
 
-    private _createSelectionDiffer()
-    {
+    private _createSelectionDiffer() {
         const hasActiveDiffer = !!this._selectionDiffer;
 
-        if (this.disableTrackByData)
-        {
-            this._selectionDiffer = this._differs.find([]).create<PrimeTreeNode>(null);
-        }else
-        {
-            this._selectionDiffer = this._differs.find([]).create<PrimeTreeNode>((index, item) =>
-            {
-                return item ? item.data + '' : null;
-            });
-        }
+        this._selectionDiffer = this._differs.find([]).create<PrimeTreeNode>((index, item) => {
+            return item ? item.data + '' : null;
+        });
 
         if (hasActiveDiffer) {
             this._selectionDiffer.diff(this._treeComponent.selection);
