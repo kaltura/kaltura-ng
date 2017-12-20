@@ -54,23 +54,26 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
 	@Input() set targetRef(targetRef: any) {
 		if (this.trigger === 'click') {
+			const toggleFunc = this.toggle.bind(this);
 			if (this._targetRef) {
-				this._targetRef.removeEventListener('click', this.toggle.bind(this));
+				this._targetRef.removeEventListener('click', toggleFunc);
 			}
 			this._targetRef = targetRef;
 			if (this._targetRef) {
-				this._targetRef.addEventListener('click', this.toggle.bind(this));
+				this._targetRef.addEventListener('click', toggleFunc);
 			}
 		}
 		else if (this.trigger === 'hover') {
+			const openFunc = this.open.bind(this);
+			const closeFunc = this.close.bind(this);
 			if (this._targetRef) {
-				this._targetRef.removeEventListener('mouseover', this.open.bind(this));
-				this._targetRef.removeEventListener('mouseout', this.close.bind(this));
+				this._targetRef.removeEventListener('mouseover', openFunc);
+				this._targetRef.removeEventListener('mouseout', closeFunc);
 			}
 			this._targetRef = targetRef;
 			if (this._targetRef) {
-				this._targetRef.addEventListener('mouseover', this.open.bind(this));
-				this._targetRef.addEventListener('mouseout', this.close.bind(this));
+				this._targetRef.addEventListener('mouseover', openFunc);
+				this._targetRef.addEventListener('mouseout', closeFunc);
 			}
 		}
 	}
