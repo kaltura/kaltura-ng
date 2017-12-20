@@ -289,9 +289,12 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
     ngOnDestroy(){
 
-       this._targetRef.removeEventListener('click', this._toggleFunc);
-       this._targetRef.removeEventListener('mouseover', this._openFunc);
-       this._targetRef.removeEventListener('mouseout', this._closeFunc);
+    	if (this._targetRef)
+    	{
+		this._targetRef.removeEventListener('click', this._toggleFunc);
+		this._targetRef.removeEventListener('mouseover', this._openFunc);
+		this._targetRef.removeEventListener('mouseout', this._closeFunc);
+    	}
 	    
         if (this._stateChangeSubscription){
             this._stateChangeSubscription.unsubscribe();
