@@ -266,10 +266,13 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
     // component lifecycle events
     ngAfterViewInit() {
-      	this._viewInitialize = true;
+		this._viewInitialize = true;
+		if (!this.modal && !this.slider) {
+			this.popup.nativeElement.style.opacity = 0;
+		}
 
         if (this.validate()) {
-	        if (this.appendTo && !this.modal){
+			if (this.appendTo && !this.modal){
 				this.appendChild(this.popup.nativeElement, this.appendTo);
 	        }else {
 		        document.body.appendChild(this.popup.nativeElement);
@@ -421,7 +424,6 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		popupMarginTop = this.placement.y ? popupTopMargins[this.placement.y] : popupTopMargins.bottom;
 		popupMarginLeft = this.placement.x ? popupLeftMargins[this.placement.y] : popupLeftMargins.right;
 
-		this.popup.nativeElement.style.opacity = 0;
 		this.popup.nativeElement.style.marginTop = Math.round(popupMarginTop) + 'px';
 		this.popup.nativeElement.style.marginLeft = Math.round(popupMarginLeft) + 'px';
 		
