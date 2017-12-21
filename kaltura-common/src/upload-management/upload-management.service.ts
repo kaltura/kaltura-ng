@@ -107,14 +107,16 @@ export class UploadManagement implements OnDestroy {
             {
                 if (trackedFile.canTransitionTo(TrackedFileStatuses.cancelled)) {
                     this.cancelUpload(id, false);
-
+  
+                  if (trackedFile.canTransitionTo(TrackedFileStatuses.failure)) {
                     this._updateTrackedFile(trackedFile,
-                        {
-                            status: TrackedFileStatuses.cancelled,
-                            failureReason: reason || 'unknown error',
-                            failureType: 'manual_error'
-                        }
+                      {
+                        status: TrackedFileStatuses.failure,
+                        failureReason: reason || 'unknown error',
+                        failureType: 'manual_error'
+                      }
                     );
+                  }
                 }
             }
         }else

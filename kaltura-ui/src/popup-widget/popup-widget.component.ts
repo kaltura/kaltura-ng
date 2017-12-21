@@ -16,6 +16,14 @@ export type popupStatus = {
 	context?: any,
 	reason?: string
 }
+
+export type PopupWidgetXPositions = 'left' | 'right' | 'center';
+export type PopupWidgetYPositions = 'top' | 'bottom' | 'center';
+type PopupWidgetXMargins = {left?: number, right?: number, center?: number}
+type PopupWidgetYMargins = {top?: number, bottom?: number, center?: number}
+
+const WINDOW_GUTTER = 16;
+
 @Component({
     selector: 'kPopupWidget',
     templateUrl: './popup-widget.component.html',
@@ -38,17 +46,37 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() targetOffset: any = {'x':0, 'y': 0};
 	@Input() childrenPopups: PopupWidgetComponent[] = [];
 	@Input() closeOnScroll: boolean = false;
+	@Input() trigger: 'click' | 'hover' = 'click';
+	@Input() placement: {x: PopupWidgetXPositions, y: PopupWidgetYPositions} = {x: 'right', y: 'bottom'}
+
 	@ContentChild(TemplateRef) public _template: TemplateRef<any>;
 
-  private _viewInitialize = false;
+	private readonly _toggleFunc = this.toggle.bind(this);
+	private readonly _openFunc = this.open.bind(this);
+	private readonly _closeFunc = this.close.bind(this);
+
+    private _viewInitialize = false;
 
 	@Input() set targetRef(targetRef: any) {
-		if (this._targetRef) {
-			this._targetRef.removeEventListener('click', this.toggle.bind(this));
+		if (this.trigger === 'click') {
+			if (this._targetRef) {
+				this._targetRef.removeEventListener('click', this._toggleFunc);
+			}
+			this._targetRef = targetRef;
+			if (this._targetRef) {
+				this._targetRef.addEventListener('click', this._toggleFunc);
+			}
 		}
-		this._targetRef = targetRef;
-		if (this._targetRef) {
-			this._targetRef.addEventListener('click', this.toggle.bind(this));
+		else if (this.trigger === 'hover') {
+			if (this._targetRef) {
+				this._targetRef.removeEventListener('mouseover', this._openFunc);
+				this._targetRef.removeEventListener('mouseout', this._closeFunc);
+			}
+			this._targetRef = targetRef;
+			if (this._targetRef) {
+				this._targetRef.addEventListener('mouseover', this._openFunc);
+				this._targetRef.addEventListener('mouseout', this._closeFunc);
+			}
 		}
 	}
 	get targetRef(): any { return this._targetRef; }
@@ -69,7 +97,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	}
 	get parentPopup(): PopupWidgetComponent { return this._parentPopup; }
 
-    @Output() onOpen = new EventEmitter<any>();
+	@Output() onOpen = new EventEmitter<any>();
     @Output() onClose = new EventEmitter<any>();
 
 	private _targetRef: any;
@@ -89,7 +117,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
     // public API methods
     open(){
-        if (this.isEnabled && this.validate()) {
+		if (this.isEnabled && this.validate()) {
 	        // handle auto height
 			if (!this.popupHeight  || this.popupHeight === 'auto'){
 				if (this.slider) {
@@ -134,16 +162,9 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	        }
             this.popup.nativeElement.style.zIndex = PopupWidgetLayout.getPopupZindex(this.fullScreen);
 
-	        // verify the widget is not cut off by the browser window right hand side
-	        const viewPortWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-	        const diff = viewPortWidth - this.popup.nativeElement.getBoundingClientRect().left - this.popupWidth;
-	        if (diff < 0){
-		        this.popup.nativeElement.style.marginLeft = parseInt(this.popup.nativeElement.style.marginLeft) + diff - 18 + "px"; // 18 pixels due to vertical scroll bar
-	        }
-
             // handle modal
 	        if (!this._modalOverlay) {
-                this._modalOverlay = document.createElement('div');
+                if (this.trigger !== 'hover') {this._modalOverlay = document.createElement('div');
                 if (this.modal || this.slider) {
 	                this._modalOverlay.className = "kPopupWidgetModalOverlay";
                 }else{
@@ -156,13 +177,12 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		                this.close();
 	                });
                 }
-		        if (this.appendTo){
+        if (this.appendTo){
 			        this.appendChild(this._modalOverlay, this.appendTo);
-		        }else {
-			        document.body.appendChild(this._modalOverlay);
-		        }
+		        }else {        document.body.appendChild(this._modalOverlay);}
                 if (this.modal || this.slider) {
-	                document.body.classList.add("kModal");
+	                PopupWidgetLayout.increaseModalCount();
+	                }
                 }
             }
 
@@ -180,7 +200,14 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
             this.onOpen.emit(); // dispatch onOpen event (API)
             this._statechange.next({state: PopupWidgetStates.Open});
-        }
+		}
+	    if (!this.modal && !this.slider && this.popup.nativeElement) {
+		    this.popup.nativeElement.style.opacity = 0;
+	    }
+	    // auto positioning need first the dom to render
+		setTimeout(() => {
+			this.setPosition();
+		}, 0);
     }
 
     close(context: any = null, reason: string = null){
@@ -211,7 +238,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 			        timeout = 300;
 		        }
 		        if (this.modal && !this.slider) {
-			        document.body.classList.remove("kModal");
+			        PopupWidgetLayout.decreaseModalCount();
 		        }
 		        setTimeout(()=>{
 			        // remove modal
@@ -224,7 +251,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 				        this._modalOverlay = null;
 			        }
 			        if (this.slider) {
-				        document.body.classList.remove("kModal");
+				        PopupWidgetLayout.decreaseModalCount();
 			        }
 			        this._statechange.next({state: PopupWidgetStates.Close, context: context, reason: reason}); // use timeout to prevent valueChangeAfterChecked error
 		        },timeout);
@@ -264,17 +291,17 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
     // component lifecycle events
     ngAfterViewInit() {
-      	this._viewInitialize = true;
+		this._viewInitialize = true;
 
         if (this.validate()) {
-	        if (this.appendTo && !this.modal){
-	            this.appendChild(this.popup.nativeElement, this.appendTo);
+			if (this.appendTo && !this.modal){
+				this.appendChild(this.popup.nativeElement, this.appendTo);
 	        }else {
 		        document.body.appendChild(this.popup.nativeElement);
 		        if (this.appendTo){
 		        	console.warn("[kaltura] -> Ignoring append to " + this.appendTo + " since popup is set to modal=true."); // keep warning
 		        }
-	        }
+			}
 	        if (this.fullScreen){
 		        this.popup.nativeElement.style.width = '0px';
 		        this.popup.nativeElement.style.height = '0px';
@@ -283,9 +310,14 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
     }
 
     ngOnDestroy(){
-    	if (this._targetRef) {
-		    this._targetRef.removeEventListener('click', (e: any) => this.toggle());
-	    }
+
+    	if (this._targetRef)
+    	{
+		this._targetRef.removeEventListener('click', this._toggleFunc);
+		this._targetRef.removeEventListener('mouseover', this._openFunc);
+		this._targetRef.removeEventListener('mouseout', this._closeFunc);
+    	}
+
         if (this._stateChangeSubscription){
             this._stateChangeSubscription.unsubscribe();
         }
@@ -357,5 +389,118 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		return (typeof HTMLElement === "object" ? obj instanceof HTMLElement :
 			obj && typeof obj === "object" && obj !== null && obj.nodeType === 1 && typeof obj.nodeName === "string"
 		);
+	}
+
+	private setPosition() {
+		// placement and repositioning is not relevent to modals.
+		if (this.modal) return;
+		if (!this._targetRef) return;
+
+		const popupHeight = this.popup.nativeElement.clientHeight;
+		const popupWidth = this.popup.nativeElement.clientWidth;
+		const popupBox = this.popup.nativeElement.getBoundingClientRect();
+		const targetRefBox = this._targetRef.getBoundingClientRect();
+		const parentTop = this.appendTo && !this.modal ? this.appendTo.getBoundingClientRect().top : 0;
+		const parentLeft = this.appendTo && !this.modal ? this.appendTo.getBoundingClientRect().left : 0;
+
+		let popupMarginTop: number;
+		let popupMarginLeft: number;
+
+		let popupLeftMargins: PopupWidgetXMargins = {}
+		let popupTopMargins: PopupWidgetYMargins = {}
+
+		popupTopMargins.top = (
+			targetRefBox.top
+			- parentTop
+			- popupHeight
+			+ this.targetRef.offsetHeight
+			- this.targetOffset['y']
+		);
+
+		popupTopMargins.bottom = (
+			targetRefBox.top
+			- parentTop
+			+ this.targetOffset['y']
+		);
+
+		popupTopMargins.center = (
+			targetRefBox.top
+			- parentTop
+			- popupHeight / 2
+			+ this.targetRef.offsetHeight / 2
+			+ this.targetOffset['y']
+		);
+
+		popupLeftMargins.left = (
+			targetRefBox.left
+			- parentLeft
+			- popupWidth
+			+ this.targetRef.clientWidth
+			- this.targetOffset['x']
+		);
+
+		popupLeftMargins.right = (
+			targetRefBox.left
+			- parentLeft
+			+ this.targetOffset['x']
+		);
+
+		popupLeftMargins.center = (
+			targetRefBox.left
+			- parentLeft
+			- popupWidth / 2
+			+ this.targetOffset['x']
+		);
+
+		popupMarginTop = this.placement.y ? popupTopMargins[this.placement.y] : popupTopMargins.bottom;
+		popupMarginLeft = this.placement.x ? popupLeftMargins[this.placement.y] : popupLeftMargins.right;
+
+		this.popup.nativeElement.style.marginTop = Math.round(popupMarginTop) + 'px';
+		this.popup.nativeElement.style.marginLeft = Math.round(popupMarginLeft) + 'px';
+
+		this.validatePosition(popupLeftMargins, popupTopMargins);
+	}
+
+	// validate popup widget is not outside of the viewport (+ gutter) and if it is, reposition it
+	private validatePosition(popupLeftMargins: PopupWidgetXMargins, popupTopMargins: PopupWidgetYMargins) {
+
+		const popupHeight = this.popup.nativeElement.clientHeight;
+		const popupWidth = this.popup.nativeElement.clientWidth;
+		const popupBox = this.popup.nativeElement.getBoundingClientRect();
+		const clientHeight = window.innerHeight;
+		const clientWidth = window.innerWidth;
+
+		let popupMarginTop: number;
+		let popupMarginLeft: number;
+
+		if (this.placement.y === 'top') {
+			if (popupBox.top < WINDOW_GUTTER) {
+				popupMarginTop = popupTopMargins.bottom;
+			}
+		}
+		else if (this.placement.y === 'bottom') {
+			if (popupBox.top + popupHeight > clientHeight - WINDOW_GUTTER) {
+				popupMarginTop = popupTopMargins.top;
+			}
+		}
+		else if (this.placement.y === 'center') {
+			if (popupBox.top < WINDOW_GUTTER) {
+				popupMarginTop = popupTopMargins.bottom;
+			}
+			else if (popupBox.top + popupHeight > clientHeight - WINDOW_GUTTER) {
+				popupMarginTop = popupTopMargins.top;
+			}
+		}
+
+		if (popupBox.left + popupWidth > clientWidth + WINDOW_GUTTER) {
+			popupMarginLeft = popupLeftMargins.left;
+		}
+		else if (popupBox.left < WINDOW_GUTTER) {
+			popupMarginLeft = popupLeftMargins.right;
+		}
+
+		this.popup.nativeElement.style.marginTop = Math.round(popupMarginTop) + 'px';
+		this.popup.nativeElement.style.marginLeft = Math.round(popupMarginLeft) + 'px';
+		this.popup.nativeElement.style.opacity = 1;
 	}
 }

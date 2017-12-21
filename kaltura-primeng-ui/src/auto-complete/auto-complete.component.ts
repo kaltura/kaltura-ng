@@ -2,6 +2,7 @@ import { Component, AfterViewInit, forwardRef, ChangeDetectorRef, AfterViewCheck
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 import { AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR } from "primeng/components/autocomplete/autocomplete";
+import { KalturaBrowserUtils, BrowserNames } from '@kaltura-ng/kaltura-ui';
 import { DomHandler } from "primeng/components/dom/domhandler";
 import { ObjectUtils } from 'primeng/components/utils/objectutils';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
@@ -39,12 +40,12 @@ export const KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
 })
 // [kmcng] upon upgrade: compare implemented interfaces in the original component (no need to include ControlValueAccessor)
 export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterViewInit, AfterViewChecked  {
-
     private _suggestionsProvider$ : ISubscription = null;
     private _loading = false;
     private _showNoItems = false;
     private _errorMessage = '';
     private _allowMultiple = false;
+    public _placeholder = '';
 
     @Input()
     onItemAdding : (value : any) => any;
@@ -89,6 +90,17 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
                 }
             }
         }
+    }
+
+    @Input() set placeholder(value : string)
+    {
+        // IE11 bug causing output event to fire upon input field blur event when there is a placeholder. Thus, we remove the placeholder attribute for IE11, single selection mode.
+        // Additional details: https://connect.microsoft.com/IE/feedback/details/810538/ie-11-fires-input-event-on-focus
+        const isIE11 = KalturaBrowserUtils.detectBrowser() === BrowserNames.IE11;
+        this._placeholder = isIE11 && !this._allowMultiple ? '' : value;
+    }
+    get placeholder(): string{
+        return this._placeholder;
     }
 
     @Input() set multiple(value : boolean)
@@ -211,10 +223,22 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
      * @returns { {status} } status 'added' if valid value, 'invalid' if cannot add the value or 'not relevant' if the request should be ignored
      * @private
      */
-    private _addValueFromInput() : { status : 'added' | 'invalid' | 'not relevant'}
+    private _addValueFromInput() : { status : 'added' | 'invalid' | 'not relevant' | 'duplicated'}
     {
         const rawInputValue = this.searchText;
-
+        
+        const inputValue = (rawInputValue || '').toLowerCase();
+        
+        // 1. if !`this.value` -> form is valid (assuming that we add value for the first time)
+        // 2. if each value is string and there's no same value in the `this.value` array -> form is valid
+        const isDuplicated = this.value && this.value.some(value => {
+          return typeof value === 'string' && value.toLowerCase() === inputValue;
+        });
+        
+        if (isDuplicated) {
+          return { status : 'duplicated'};
+        }
+        
         if (!this.limitToSuggestions && rawInputValue && !this.highlightOption && this.focus)
         {
             if ( rawInputValue.length >= 1 && !this._isItemSelected(rawInputValue)) {
@@ -319,9 +343,21 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     onKeydown(event)  {
         let preventKeydown = false;
 
-        if ((event.which === 9 || event.which === 13) && this._addValueFromInput().status !== 'not relevant')
+
+        if ((event.which === 9 || event.which === 13) )
         {
-            preventKeydown = true;
+            const status = this._addValueFromInput().status;
+
+            if (status !== 'not relevant') {
+                preventKeydown = true;
+
+                if (status === 'duplicated') {
+                    if (this.panelVisible) {
+                        this.hide();
+                    }
+                    this._clearInputValue();
+                }
+            }
         }
 
         if(!preventKeydown && this.panelVisible) {

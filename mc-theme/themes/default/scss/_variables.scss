@@ -1,0 +1,45 @@
+/* Application */
+$appBkgColor: #f4f6f8;
+$minAppWidth: 1024px;
+
+/* App menu colors */
+$menuBkgColor: #1B4A97;
+$mainLinkColor: #FFFFFF;
+$mainLinkHoverBkg: #252525;
+$mainLinkHoverColor: #FFFFFF;
+$mainLinkActiveColor: #FFFFFF;
+$subLinkColor: #808080;
+$subLinkActiveColor: #000000;
+$uploadLinkActiveColor: #F1F6FD;
+$widgetLinkColor: #59A3B5;
+$headerTextColor: rgba(255,255,255,0.6);
+
+$appMenuHeight: 50px;
+$contentArea: calc(100vh - 105px);
+$minTableHeight: calc(100vh - 140px);
+
+$appContainerPadding: 50px;
+
+/* Gridlex overrides */
+$gl-gutter: 28px;
+
+/* colors */
+$kPrimary: #00a784;
+$kSecondary: #01accd;
+$kTertiary: #1b4a97;
+$kBlack: #222222;
+$kOrange: #F9A71B;
+$kBlue: #112D5B;
+$kAqua: #2ACDED;
+$kGrayscale1: #333333;
+$kGrayscale2: #666666;
+$kGrayscale3: #999999;
+$kGrayscale4: #cccccc;
+$kGrayscale5: #dadada;
+$kGrayscale6: #ebebeb;
+$kGrayscale7: #f4f4f4;
+$kSuccess: #009444;
+$kDandger: #db1f26;
+
+// magnifying glass for input fields
+$kMagnifyingGlassBkg: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAwElEQVR42uWUQQoDIQxFvf/ZFBFEEBeCCy8gbtxYvhBoS3XUTmcWDQzBJD40cT6rPzJ2OTilVL33VSlVOefNY434NjiE0GC9D/llMEGFEDXGWEspLQ6PNeIzcPZ+fYLmnD9uQJzgo7a8gNFDbMDJRoY86lA/BaZB0fV7hjwNdApMw5mxo9prTrzaY+fcza9i5R1LKYct2/rzAIXXWnfhS1qBniIOGKAj+La6HcG/ks1nuDHmXD0GHFBr7c1C/3/gB+dXWGIjwhyzAAAAAElFTkSuQmCC') no-repeat 5px 6px;
