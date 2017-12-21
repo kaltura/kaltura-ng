@@ -201,7 +201,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
             this.onOpen.emit(); // dispatch onOpen event (API)
             this._statechange.next({state: PopupWidgetStates.Open});
 		}
-	    if (!this.modal && !this.slider && this.popup.nativeElement) {
+	    if (!this.modal && !this.slider && !this.fullScreen && this.popup.nativeElement) {
 		    this.popup.nativeElement.style.opacity = 0;
 	    }
 	    // auto positioning need first the dom to render
