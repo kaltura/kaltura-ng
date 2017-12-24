@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, EventEmitter, OnDestroy, Input, Output, ElementRef, HostListener, TemplateRef, ContentChild } from '@angular/core';
+import { Component, AfterViewInit, EventEmitter, OnDestroy, Input, Output, ElementRef, HostListener, TemplateRef, ContentChild, Renderer2 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
@@ -6,9 +6,9 @@ import { PopupWidgetLayout } from './popup-widget-layout';
 import 'rxjs/add/observable/fromEvent';
 
 export const PopupWidgetStates = {
-    "Open": "open",
+	"Open": "open",
 	"BeforeClose": "beforeClose",
-    "Close": "close",
+	"Close": "close",
 	"Disabled": "disabled"
 }
 export type popupStatus = {
@@ -25,19 +25,20 @@ type PopupWidgetYMargins = {top?: number, bottom?: number, center?: number}
 const WINDOW_GUTTER = 16;
 
 @Component({
-    selector: 'kPopupWidget',
-    templateUrl: './popup-widget.component.html',
-    styleUrls: ['./popup-widget.component.scss']
+	selector: 'kPopupWidget',
+	templateUrl: './popup-widget.component.html',
+	styleUrls: ['./popup-widget.component.scss']
 })
 export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() transparent = false;
 	@Input() appendTo: any;
 	@Input() popupWidth: number;
-    @Input() popupHeight: number | 'auto' = 'auto';
+	@Input() popupHeight: number | 'auto' = 'auto';
 	@Input() showTooltip: boolean = false;
 	@Input() preventPageScroll: boolean = false;
 	@Input() modal: boolean = false;
 	@Input() slider: boolean = false;
+	@Input() fullScreen: boolean = false;
 	@Input() closeBtn: boolean = true;
 	@Input() closeBtnInside: boolean = false;
 	@Input() closeOnClickOutside: boolean = true;
@@ -47,30 +48,34 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() closeOnScroll: boolean = false;
 	@Input() trigger: 'click' | 'hover' = 'click';
 	@Input() placement: {x: PopupWidgetXPositions, y: PopupWidgetYPositions} = {x: 'right', y: 'bottom'}
-	
+
 	@ContentChild(TemplateRef) public _template: TemplateRef<any>;
 
-  private _viewInitialize = false;
+	private readonly _toggleFunc = this.toggle.bind(this);
+	private readonly _openFunc = this.open.bind(this);
+	private readonly _closeFunc = this.close.bind(this);
+
+	private _viewInitialize = false;
 
 	@Input() set targetRef(targetRef: any) {
 		if (this.trigger === 'click') {
 			if (this._targetRef) {
-				this._targetRef.removeEventListener('click', this.toggle.bind(this));
+				this._targetRef.removeEventListener('click', this._toggleFunc);
 			}
 			this._targetRef = targetRef;
 			if (this._targetRef) {
-				this._targetRef.addEventListener('click', this.toggle.bind(this));
+				this._targetRef.addEventListener('click', this._toggleFunc);
 			}
 		}
 		else if (this.trigger === 'hover') {
 			if (this._targetRef) {
-				this._targetRef.removeEventListener('mouseover', this.open.bind(this));
-				this._targetRef.removeEventListener('mouseout', this.close.bind(this));
+				this._targetRef.removeEventListener('mouseover', this._openFunc);
+				this._targetRef.removeEventListener('mouseout', this._closeFunc);
 			}
 			this._targetRef = targetRef;
 			if (this._targetRef) {
-				this._targetRef.addEventListener('mouseover', this.open.bind(this));
-				this._targetRef.addEventListener('mouseout', this.close.bind(this));
+				this._targetRef.addEventListener('mouseover', this._openFunc);
+				this._targetRef.addEventListener('mouseout', this._closeFunc);
 			}
 		}
 	}
@@ -93,161 +98,181 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	get parentPopup(): PopupWidgetComponent { return this._parentPopup; }
 
 	@Output() onOpen = new EventEmitter<any>();
-    @Output() onClose = new EventEmitter<any>();
+	@Output() onClose = new EventEmitter<any>();
 
 	private _targetRef: any;
-    private _saveOriginalScroll: string = "";
+	private _saveOriginalScroll: string = "";
+	private _saveScrollPosition: number;
 	public _popupWidgetHeight: string;
-    private _modalOverlay: any;
+	private _modalOverlay: any;
 	private _parentPopup: PopupWidgetComponent;
 	private _stateChangeSubscription: ISubscription = null;
 	private _statechange: BehaviorSubject<popupStatus> = new BehaviorSubject<popupStatus>({state: ''});
 
 	public state$: Observable<popupStatus> = this._statechange.asObservable();
 
-    constructor(public popup: ElementRef) {
-	    this._statechange.next({state: PopupWidgetStates.Close});
-    }
+	constructor(public popup: ElementRef, private renderer: Renderer2) {
+		this._statechange.next({state: PopupWidgetStates.Close});
+	}
 
-    // public API methods
-    open(){
+	// public API methods
+	open(){
 		if (this.isEnabled && this.validate()) {
-	        // handle auto height
+			// handle auto height
 			if (!this.popupHeight  || this.popupHeight === 'auto'){
 				if (this.slider) {
 					this._popupWidgetHeight = 'calc(100vh - 80px)';
 				}else {
 					this._popupWidgetHeight = 'auto';
 				}
-	        } else
-	        {
-		        this._popupWidgetHeight = this.popupHeight + "px";
-	        }
-            // set location according to targetRef
-	        const parentLeft = this.appendTo && !this.modal ? this.appendTo.getBoundingClientRect().left : 0;
-	        const parentTop = this.appendTo && !this.modal ? this.appendTo.getBoundingClientRect().top : 0;
-	        // center on screen if no targetRef was defined
-	        if (!this._targetRef){
-		        this.popup.nativeElement.style.marginLeft = window.innerWidth/2 - this.popupWidth/2 + 'px';
-		        if (this.slider) {
-			        window.scrollTo(0,0);
-			        this.popup.nativeElement.style.top = "auto";
-			        this.closeBtn = false;
-			        this.preventPageScroll = true;
-			        this.popup.nativeElement.style.bottom = this.popupHeight!== 'auto' ?  this.popupHeight * -1 +"px" :  "-1000px";
-			        setTimeout(()=>{
-				        this.popup.nativeElement.style.bottom = 0 +"px"; // use timeout to invoke animation
-			        },0);
-		        }else{
-			        const marginTop = this.popupHeight !== 'auto' ? (window.innerHeight / 2 - this.popupHeight / 2) : 100;
-			        this.popup.nativeElement.style.marginTop = marginTop + 'px';
-			        this.popup.nativeElement.style.position = "fixed";
-		        }
-	        }else{
-		        this.popup.nativeElement.style.marginLeft = this._targetRef.getBoundingClientRect().left - parentLeft + this.targetOffset['x'] + 'px';
-		        this.popup.nativeElement.style.marginTop = this._targetRef.getBoundingClientRect().top - parentTop + this.targetOffset['y'] + 'px';
-		        this.popup.nativeElement.style.position = "absolute";
-	        }
-            this.popup.nativeElement.style.zIndex = PopupWidgetLayout.getPopupZindex();
-
-            // handle modal
-	        if (!this._modalOverlay) {
-				if (this.trigger !== 'hover') {
-					this._modalOverlay = document.createElement('div');
-                if (this.modal || this.slider) {
-	                this._modalOverlay.className = "kPopupWidgetModalOverlay";
-                }else{
-	                this._modalOverlay.className = "kPopupWidgetModalOverlay kTransparent";
-                }
-                this._modalOverlay.style.zIndex = this.popup.nativeElement.style.zIndex - 1;
-                if (!this.slider && this.closeOnClickOutside) {
-	                this._modalOverlay.addEventListener("mousedown", (event: any) => {
-		                event.stopPropagation();
-		                this.close();
-	                });
-                }
-                document.body.appendChild(this._modalOverlay);
-                if (this.modal || this.slider) {
-	                document.body.classList.add("kModal");
-                }
+			} else
+			{
+				this._popupWidgetHeight = this.popupHeight + "px";
+			}
+			// set location according to targetRef
+			const parentLeft = this.appendTo && !this.modal ? this.appendTo.getBoundingClientRect().left : 0;
+			const parentTop = this.appendTo && !this.modal ? this.appendTo.getBoundingClientRect().top : 0;
+			// center on screen if no targetRef was defined
+			if (!this._targetRef){
+				if (this.fullScreen){
+					this.modal = false;
+					this.preventPageScroll = true;
+					this.renderer.addClass(this.popup.nativeElement, 'fullScreen');
+				}else {
+					this.popup.nativeElement.style.marginLeft = window.innerWidth / 2 - this.popupWidth / 2 + 'px';
+					if (this.slider) {
+						window.scrollTo(0, 0);
+						this.popup.nativeElement.style.top = "auto";
+						this.closeBtn = false;
+						this.preventPageScroll = true;
+						this.popup.nativeElement.style.bottom = this.popupHeight !== 'auto' ? this.popupHeight * -1 + "px" : "-1000px";
+						setTimeout(() => {
+							this.popup.nativeElement.style.bottom = 0 + "px"; // use timeout to invoke animation
+						}, 0);
+					} else {
+						const marginTop = this.popupHeight !== 'auto' ? (window.innerHeight / 2 - this.popupHeight / 2) : 100;
+						this.popup.nativeElement.style.marginTop = marginTop + 'px';
+						this.popup.nativeElement.style.position = "fixed";
+					}
 				}
-            }
+			}else{
+				this.popup.nativeElement.style.marginLeft = this._targetRef.getBoundingClientRect().left - parentLeft + this.targetOffset['x'] + 'px';
+				this.popup.nativeElement.style.marginTop = this._targetRef.getBoundingClientRect().top - parentTop + this.targetOffset['y'] + 'px';
+				this.popup.nativeElement.style.position = "absolute";
+			}
+			this.popup.nativeElement.style.zIndex = PopupWidgetLayout.getPopupZindex(this.fullScreen);
 
-            // prevent page scroll
-	        if (this.preventPageScroll){
-	        	this._saveOriginalScroll = window.getComputedStyle(document.body)["overflow-y"];
-	        	document.body.style.overflowY = 'hidden';
-	        	document.body.style.position = 'fixed';
-	        }
+			// handle modal
+			if (!this._modalOverlay) {
+				if (this.trigger !== 'hover') {this._modalOverlay = document.createElement('div');
+					if (this.modal || this.slider) {
+						this._modalOverlay.className = "kPopupWidgetModalOverlay";
+					}else{
+						this._modalOverlay.className = "kPopupWidgetModalOverlay kTransparent";
+					}
+					this._modalOverlay.style.zIndex = this.popup.nativeElement.style.zIndex - 1;
+					if (!this.slider && this.closeOnClickOutside) {
+						this._modalOverlay.addEventListener("mousedown", (event: any) => {
+							event.stopPropagation();
+							this.close();
+						});
+					}
+					if (this.appendTo){
+						this.appendChild(this._modalOverlay, this.appendTo);
+					}else {        document.body.appendChild(this._modalOverlay);}
+					if (this.modal || this.slider) {
+						PopupWidgetLayout.increaseModalCount();
+					}
+				}
+			}
 
-            setTimeout(()=>{
-	            this.addClickOutsideSupport();
-            },0);
+			// prevent page scroll
+			if (this.preventPageScroll){
+				this._saveOriginalScroll = window.getComputedStyle(document.body)["overflow-y"];
+				this._saveScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+				document.body.style.overflowY = 'hidden';
+				document.body.style.position = 'fixed';
+			}
 
-            this.onOpen.emit(); // dispatch onOpen event (API)
-            this._statechange.next({state: PopupWidgetStates.Open});
+			setTimeout(()=>{
+				this.addClickOutsideSupport();
+			},0);
+
+			this.onOpen.emit(); // dispatch onOpen event (API)
+			this._statechange.next({state: PopupWidgetStates.Open});
+		}
+		if (!this.modal && !this.slider && !this.fullScreen && this.popup.nativeElement) {
+			this.popup.nativeElement.style.opacity = 0;
 		}
 		// auto positioning need first the dom to render
 		setTimeout(() => {
 			this.setPosition();
 		}, 0);
-    }
+	}
 
-    close(context: any = null, reason: string = null){
-        if (this.isEnabled && this.isShow) {
+	close(context: any = null, reason: string = null){
+		if (this.isEnabled && this.isShow) {
+			if (this.fullScreen){
+				this.renderer.removeClass(this.popup.nativeElement, 'fullScreen');
+			}
 			// allow cancelling the close operation
-	        let beforeCloseContext = {"allowClose": true};
-	        this._statechange.next({state: PopupWidgetStates.BeforeClose, context: beforeCloseContext});
-	        if (beforeCloseContext['allowClose']) {
-		        // close children popups if exist
-		        if (this.childrenPopups.length) {
-			        this.childrenPopups.forEach((popup: PopupWidgetComponent) => {
-				        popup.close();
-			        });
-		        }
-		        if (this.preventPageScroll){
-			        document.body.style.overflowY = this._saveOriginalScroll;
-			        document.body.style.position = '';
-		        }
-		        this.removeClickOutsideSupport();
-		        this.onClose.emit(); // dispatch onClose event (API)
-		        let timeout = 0;
-		        if (this.slider){
-			        this.popup.nativeElement.style.bottom = this.popupHeight!== 'auto' ?  this.popupHeight * -1 +"px" :  "-1000px";
-			        timeout = 300;
-		        }
-		        if (this.modal && !this.slider) {
-			        document.body.classList.remove("kModal");
-		        }
-		        setTimeout(()=>{
-			        // remove modal
-			        if (this._modalOverlay) {
-				        document.body.removeChild(this._modalOverlay);
-				        this._modalOverlay = null;
-			        }
-			        if (this.slider) {
-				        document.body.classList.remove("kModal");
-			        }
-			        this._statechange.next({state: PopupWidgetStates.Close, context: context, reason: reason}); // use timeout to prevent valueChangeAfterChecked error
-		        },timeout);
-	        }
-        }
+			let beforeCloseContext = {"allowClose": true};
+			this._statechange.next({state: PopupWidgetStates.BeforeClose, context: beforeCloseContext});
+			if (beforeCloseContext['allowClose']) {
+				// close children popups if exist
+				if (this.childrenPopups.length) {
+					this.childrenPopups.forEach((popup: PopupWidgetComponent) => {
+						popup.close();
+					});
+				}
+				if (this.preventPageScroll){
+					document.body.style.overflowY = this._saveOriginalScroll;
+					document.body.style.position = '';
+					window.scrollTo(0, this._saveScrollPosition);
+				}
+				this.removeClickOutsideSupport();
+				this.onClose.emit(); // dispatch onClose event (API)
+				let timeout = 0;
+				if (this.slider){
+					this.popup.nativeElement.style.bottom = this.popupHeight!== 'auto' ?  this.popupHeight * -1 +"px" :  "-1000px";
+					timeout = 300;
+				}
+				if (this.modal && !this.slider) {
+					PopupWidgetLayout.decreaseModalCount();
+				}
+				setTimeout(()=>{
+					// remove modal
+					if (this._modalOverlay) {
+						if (this.appendTo){
+							this.removeChild(this._modalOverlay, this.appendTo);
+						}else {
+							document.body.removeChild(this._modalOverlay);
+						}
+						this._modalOverlay = null;
+					}
+					if (this.slider) {
+						PopupWidgetLayout.decreaseModalCount();
+					}
+					this._statechange.next({state: PopupWidgetStates.Close, context: context, reason: reason}); // use timeout to prevent valueChangeAfterChecked error
+				},timeout);
+			}
+		}
 
-    }
+	}
 
-    toggle(){
-        if (this.isEnabled) {
-            this.isShow ? this.close() : this.open();
-        }
-    }
+	toggle(){
+		if (this.isEnabled) {
+			this.isShow ? this.close() : this.open();
+		}
+	}
 
-    get isShow(): boolean {
-    	return this._statechange.getValue().state !== PopupWidgetStates.Close;
-    }
+	get isShow(): boolean {
+		return this._statechange.getValue().state !== PopupWidgetStates.Close;
+	}
 
-    get isEnabled(): boolean {
-    	return this._statechange.getValue().state !== PopupWidgetStates.Disabled;
-    }
+	get isEnabled(): boolean {
+		return this._statechange.getValue().state !== PopupWidgetStates.Disabled;
+	}
 
 
 	@HostListener("window:resize", [])
@@ -264,76 +289,84 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		}
 	}
 
-    // component lifecycle events
-    ngAfterViewInit() {
-      	this._viewInitialize = true;
+	// component lifecycle events
+	ngAfterViewInit() {
+		this._viewInitialize = true;
 
-        if (this.validate()) {
-	        if (this.appendTo && !this.modal){
+		if (this.validate()) {
+			if (this.appendTo && !this.modal){
 				this.appendChild(this.popup.nativeElement, this.appendTo);
-	        }else {
-		        document.body.appendChild(this.popup.nativeElement);
-		        if (this.appendTo){
-		        	console.warn("[kaltura] -> Ignoring append to " + this.appendTo + " since popup is set to modal=true."); // keep warning
-		        }
-			}
-        }
-    }
-
-    ngOnDestroy(){
-    	if (this._targetRef) {
-		    this._targetRef.removeEventListener('click', (e: any) => this.toggle());
-	    }
-        if (this._stateChangeSubscription){
-            this._stateChangeSubscription.unsubscribe();
-        }
-	    this._statechange.complete();
-        this.removeClickOutsideSupport();
-	    if (this.modal && this._modalOverlay) {
-		    document.body.removeChild(this._modalOverlay);
-		    this._modalOverlay = null;
-	    }
-	    if (this.appendTo && !this.modal){
-		    this.removeChild(this.popup.nativeElement, this.appendTo);
-	    }else {
-	    	if (this._viewInitialize) {
-          document.body.removeChild(this.popup.nativeElement);
+			}else {
+				document.body.appendChild(this.popup.nativeElement);
+				if (this.appendTo){
+					console.warn("[kaltura] -> Ignoring append to " + this.appendTo + " since popup is set to modal=true."); // keep warning
 				}
-	    }
-    }
+			}
+			if (this.fullScreen){
+				this.popup.nativeElement.style.width = '0px';
+				this.popup.nativeElement.style.height = '0px';
+			}
+		}
+	}
 
-    // private methods
+	ngOnDestroy(){
 
-    private addClickOutsideSupport(){
-        if (this.closeOnClickOutside){
-            this.popup.nativeElement.addEventListener('mousedown', this.blockMouseDownHandler);
-	        if (this.targetRef) {
-		        this.targetRef.addEventListener('mousedown', this.blockMouseDownHandler);
-	        }
-        }
-    }
+		if (this._targetRef)
+		{
+			this._targetRef.removeEventListener('click', this._toggleFunc);
+			this._targetRef.removeEventListener('mouseover', this._openFunc);
+			this._targetRef.removeEventListener('mouseout', this._closeFunc);
+		}
 
-    private blockMouseDownHandler(event: any){
-	    event.stopPropagation();
-    }
+		if (this._stateChangeSubscription){
+			this._stateChangeSubscription.unsubscribe();
+		}
+		this._statechange.complete();
+		this.removeClickOutsideSupport();
+		if (this.modal && this._modalOverlay) {
+			document.body.removeChild(this._modalOverlay);
+			this._modalOverlay = null;
+		}
+		if (this.appendTo && !this.modal){
+			this.removeChild(this.popup.nativeElement, this.appendTo);
+		}else {
+			if (this._viewInitialize) {
+				document.body.removeChild(this.popup.nativeElement);
+			}
+		}
+	}
 
-    private removeClickOutsideSupport(){
-        if (this.closeOnClickOutside){
-            this.popup.nativeElement.removeEventListener('mousedown', this.blockMouseDownHandler);
-	        if (this.targetRef) {
-		        this.targetRef.removeEventListener('mousedown', this.blockMouseDownHandler);
-	        }
-        }
-    }
+	// private methods
+	private addClickOutsideSupport(){
+		if (this.closeOnClickOutside){
+			this.popup.nativeElement.addEventListener('mousedown', this.blockMouseDownHandler);
+			if (this.targetRef) {
+				this.targetRef.addEventListener('mousedown', this.blockMouseDownHandler);
+			}
+		}
+	}
 
-    private validate(){
-        let valid: boolean = typeof this.popupWidth !== 'undefined';
-        if (!valid){
-	        this._statechange.next({state: PopupWidgetStates.Disabled});
-	        throw "Popup widget error: missing required parameters. Verify popupWidth is defined.";
-        }
-        return valid;
-    }
+	private blockMouseDownHandler(event: any){
+		event.stopPropagation();
+	}
+
+	private removeClickOutsideSupport(){
+		if (this.closeOnClickOutside){
+			this.popup.nativeElement.removeEventListener('mousedown', this.blockMouseDownHandler);
+			if (this.targetRef) {
+				this.targetRef.removeEventListener('mousedown', this.blockMouseDownHandler);
+			}
+		}
+	}
+
+	private validate(){
+		let valid: boolean = typeof this.popupWidth !== 'undefined' || this.fullScreen;
+		if (!valid){
+			this._statechange.next({state: PopupWidgetStates.Disabled});
+			throw "Popup widget error: missing required parameters. Verify popupWidth is defined.";
+		}
+		return valid;
+	}
 
 	private appendChild(element: any, target: any) {
 		if (this.isElement(target)) {
@@ -353,7 +386,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
 	private isElement(obj: any) {
 		return (typeof HTMLElement === "object" ? obj instanceof HTMLElement :
-			obj && typeof obj === "object" && obj !== null && obj.nodeType === 1 && typeof obj.nodeName === "string"
+				obj && typeof obj === "object" && obj !== null && obj.nodeType === 1 && typeof obj.nodeName === "string"
 		);
 	}
 
@@ -361,7 +394,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		// placement and repositioning is not relevent to modals.
 		if (this.modal) return;
 		if (!this._targetRef) return;
-		
+
 		const popupHeight = this.popup.nativeElement.clientHeight;
 		const popupWidth = this.popup.nativeElement.clientWidth;
 		const popupBox = this.popup.nativeElement.getBoundingClientRect();
@@ -376,44 +409,44 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		let popupTopMargins: PopupWidgetYMargins = {}
 
 		popupTopMargins.top = (
-			targetRefBox.top 
-			- parentTop 
+			targetRefBox.top
+			- parentTop
 			- popupHeight
 			+ this.targetRef.offsetHeight
 			- this.targetOffset['y']
 		);
 
 		popupTopMargins.bottom = (
-			targetRefBox.top 
-			- parentTop 
+			targetRefBox.top
+			- parentTop
 			+ this.targetOffset['y']
 		);
 
 		popupTopMargins.center = (
-			targetRefBox.top 
-			- parentTop 
+			targetRefBox.top
+			- parentTop
 			- popupHeight / 2
 			+ this.targetRef.offsetHeight / 2
 			+ this.targetOffset['y']
 		);
 
 		popupLeftMargins.left = (
-			targetRefBox.left 
-			- parentLeft 
+			targetRefBox.left
+			- parentLeft
 			- popupWidth
 			+ this.targetRef.clientWidth
 			- this.targetOffset['x']
 		);
 
 		popupLeftMargins.right = (
-			targetRefBox.left 
-			- parentLeft 
+			targetRefBox.left
+			- parentLeft
 			+ this.targetOffset['x']
 		);
 
 		popupLeftMargins.center = (
-			targetRefBox.left 
-			- parentLeft 
+			targetRefBox.left
+			- parentLeft
 			- popupWidth / 2
 			+ this.targetOffset['x']
 		);
@@ -421,10 +454,9 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		popupMarginTop = this.placement.y ? popupTopMargins[this.placement.y] : popupTopMargins.bottom;
 		popupMarginLeft = this.placement.x ? popupLeftMargins[this.placement.y] : popupLeftMargins.right;
 
-		this.popup.nativeElement.style.opacity = 0;
 		this.popup.nativeElement.style.marginTop = Math.round(popupMarginTop) + 'px';
 		this.popup.nativeElement.style.marginLeft = Math.round(popupMarginLeft) + 'px';
-		
+
 		this.validatePosition(popupLeftMargins, popupTopMargins);
 	}
 
@@ -439,7 +471,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
 		let popupMarginTop: number;
 		let popupMarginLeft: number;
-		
+
 		if (this.placement.y === 'top') {
 			if (popupBox.top < WINDOW_GUTTER) {
 				popupMarginTop = popupTopMargins.bottom;

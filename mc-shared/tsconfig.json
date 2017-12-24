@@ -1,0 +1,61 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src",
+    "outDir": "./.tmp",
+    "declaration": true,
+    "stripInternal": true,
+    "experimentalDecorators": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "noEmitHelpers": false,
+    "module": "es2015",
+    "importHelpers": false,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "inlineSources": true,
+    "target": "es5",
+    "skipLibCheck": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "paths": {
+      "@angular/common": [
+        "../node_modules/@angular/common"
+      ],
+      "@angular/common/*": [
+        "../node_modules/@angular/common/*"
+      ],
+      "@angular/core": [
+        "../node_modules/@angular/core"
+      ],
+      "@angular/core/*": [
+        "../node_modules/@angular/core/*"
+      ],
+      "@angular/forms": [
+        "../node_modules/@angular/forms"
+      ],
+      "@angular/forms/*": [
+        "../node_modules/@angular/forms/*"
+      ],
+      "seamless-immutable": [
+        "../node_modules/seamless-immutable"
+      ],
+      "seamless-immutable/*": [
+        "../node_modules/seamless-immutable/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts"
+  ],
+  "angularCompilerOptions": {
+    "skipTemplateCodegen": true
+  }
+}

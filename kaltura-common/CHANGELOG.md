@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.4.0"></a>
+# [2.4.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@2.3.0...@kaltura-ng/kaltura-common@2.4.0) (2017-12-19)
+
+
+### Features
+
+* add list filters infrastructure ([a209512](https://github.com/kaltura/kaltura-ng/commit/a209512))
+
+
+
+
+<a name="2.3.0"></a>
+# [2.3.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@2.2.0...@kaltura-ng/kaltura-common@2.3.0) (2017-12-06)
+
+
+### Features
+
+* add bulk move up/down support ([102abc4](https://github.com/kaltura/kaltura-ng/commit/102abc4))
+* implement server polls feature
+
+
+
+
 <a name="2.2.0"></a>
 # [2.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@2.1.1...@kaltura-ng/kaltura-common@2.2.0) (2017-11-16)
 
