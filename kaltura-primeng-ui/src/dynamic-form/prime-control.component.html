@@ -13,5 +13,7 @@
         <option *ngFor="let opt of control.options" [value]="opt.key">{{opt.value}}</option>
     </select>
 
+    <p-inputSwitch  *ngSwitchCase="'Switch'" [formControlName]="control.key"> </p-inputSwitch>
+
     <span *ngSwitchDefault="">Missing control for {{control.controlType}}</span>
 </div>

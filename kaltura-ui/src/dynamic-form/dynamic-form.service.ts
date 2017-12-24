@@ -40,8 +40,7 @@ export class DynamicFormService {
                             result = this.toFormGroup(formControl.children, {formValue: config.formValue});
                         }
                     } else {
-                        result[formControl.key] = formControl.required ? new FormControl(formControl.defaultValue || null, Validators.required)
-                            : new FormControl(formControl.defaultValue || null);
+                        result[formControl.key] = new FormControl(formControl.defaultValue || null, formControl.validators);
                     }
                 }
 
