@@ -15,6 +15,19 @@ export class DynamicFormItem {
 
     @ContentChildren(TemplateRef, {descendants: false}) public _templates: QueryList<TemplateRef<any>>;
 
+    public get isRequired(): boolean {
+        if(!this.control.validators)
+            return false;
+        const requeredValidator = this.control.validators
+            .filter(validator => {
+               return validator == Validators.required;
+            }) ;
+        if(requeredValidator)
+            return true;
+        return false;
+
+    }
+
     constructor(private _formBuilder : FormBuilder, private _dynamicFormService : DynamicFormService)
     {
 
