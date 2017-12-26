@@ -16,27 +16,20 @@ export class PrimeControl {
     }
 
     getErrorMsg(): string {
-        let error:string  = "";
-        if(this.control.errors){
-            const BreakException = {};
-            try {
-                Object.keys(this.control.errors).forEach(
-                    key => {
-                        if (this.form.hasError(key, [this.control.key])) {
-                            error = this.control.errors[key];
-                            throw  BreakException;
-                        }
+        let result = '';
 
-                    }
-                )
-            }
-            catch (e) {
-                if (e != BreakException) {
-                    throw e;
-                }
+        const formControl = this.form.controls[this.control.key];
+        if (this.control.errors && !formControl.valid)
+        {
+            const firstErrorKey = Object.keys(this.control.errors).find( errorKey =>
+                formControl.hasError(errorKey));
+
+            if (firstErrorKey)
+            {
+                result = this.control.errors[firstErrorKey];
             }
         }
 
-        return error;
+        return result || 'Invalid value';
     }
 }
