@@ -24,13 +24,17 @@ export class DynamicFormItem implements  OnInit {
 
     ngOnInit() {
         this.isRequired=false;
-        if(this.control.validators){
-            const requeredValidator = this.control.validators
-                .filter(validator => {
-                    return validator == Validators.required;
-                })[0] ;
-            if(requeredValidator)
+
+        const validators = this.control.validators;
+        if (this.control.validators)
+        {
+            const RequiredValidator =validators.find( validator =>
+            validator == Validators.required);
+
+            if (RequiredValidator)
+            {
                 this.isRequired=true;
+            }
         }
     }
 
