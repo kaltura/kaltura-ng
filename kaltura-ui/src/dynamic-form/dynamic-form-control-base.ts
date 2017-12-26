@@ -8,7 +8,9 @@ export interface DynamicFormControlArgs<T>
     description?: string,
     order?: number,
     allowMultiple? : boolean,
-    validators? : Array<ValidatorFn>
+    validators? : Array<ValidatorFn>,
+    errors? : {[key: string]: string},
+    inputHelperConfig?: {title?: string, body: string}
 };
 
 export abstract class DynamicFormControlBase<T>{
@@ -20,7 +22,10 @@ export abstract class DynamicFormControlBase<T>{
     allowMultiple : boolean;
     order: number;
     description: string;
-    validators : Array<ValidatorFn>
+    validators : Array<ValidatorFn>;
+    errors:  {[key: string]:  string};
+    inputHelperConfig: {title?: string, body: string};
+
 
     constructor(options: DynamicFormControlArgs<T>) {
         this.defaultValue = options.value;
@@ -30,5 +35,7 @@ export abstract class DynamicFormControlBase<T>{
         this.order = options.order === undefined ? 1 : options.order;
         this.description = options.description || '';
         this.validators = options.validators;
+        this.errors = options.errors;
+        this.inputHelperConfig = options.inputHelperConfig;
     }
 }

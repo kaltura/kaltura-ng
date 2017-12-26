@@ -40,8 +40,8 @@
     <div class="kRow" *ngIf="control.controlType !== 'Group'">
         <div class="kFormLabelContainer">
             <span class="kLabel" *ngIf="control.label">{{control.label}}
-                <kInputHelper *ngIf="control.description" [title]="control.label">
-                    <span>{{control.description}}</span>
+                <kInputHelper *ngIf="control.inputHelperConfig" [title]="control.inputHelperConfig.title">
+                    <span>{{control.inputHelperConfig.body}}</span>
                 </kInputHelper>
             </span>
             <span *ngIf="isRequired" class="kFormRequiredIndicator">*</span>
