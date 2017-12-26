@@ -1,5 +1,5 @@
 <div [formGroup]="form" [ngSwitch]="control.controlType">
-    <textarea  *ngSwitchCase="'TextArea'" [formControlName]="control.key"  pInputTextarea></textarea>
+    <textarea  *ngSwitchCase="'TextArea'" [formControlName]="control.key"  pInputTextarea ></textarea>
 
     <input *ngSwitchCase="'Textbox'" [formControlName]="control.key" pInputText/>
 
@@ -16,4 +16,8 @@
     <p-inputSwitch  *ngSwitchCase="'Switch'" [formControlName]="control.key"> </p-inputSwitch>
 
     <span *ngSwitchDefault="">Missing control for {{control.controlType}}</span>
+
+    <p *ngIf="!isValid"
+       class="kFormError">{{getErrorMsg()}}
+    </p>
 </div>
