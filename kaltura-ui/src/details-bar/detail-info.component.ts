@@ -27,17 +27,17 @@ export class DetailInfoComponent implements OnInit {
         this._data = data;
     }
 
-    public isClickabke: boolean = false;
+    public isClickable: boolean = false;
 
     constructor() {
     }
 
     ngOnInit() {
-        this.isClickabke = this.itemClick.observers.length > 0;
+        this.isClickable = this.itemClick.observers.length > 0;
     }
 
     onClick($event: MouseEvent){
-        if (this.isClickabke){
+        if (this.isClickable){
             this.itemClick.emit($event);
         }
     }
