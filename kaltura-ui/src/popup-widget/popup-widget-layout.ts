@@ -5,7 +5,10 @@ export class PopupWidgetLayout {
   private static popupWidgetInitialZindex = 600;
   private static modalsCount = 0;
 
-  static getPopupZindex(){
+  static getPopupZindex(isFullScreen = false){
+      if (isFullScreen){
+          return 1000;
+      }
       PopupWidgetLayout.popupWidgetInitialZindex += 2;
       return PopupWidgetLayout.popupWidgetInitialZindex;
   }
