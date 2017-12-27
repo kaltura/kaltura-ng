@@ -25,12 +25,12 @@ export class KTooltipDirective implements OnDestroy {
     @Input() followTarget = false;
 
     @Input()
-    set kTooltip(value: string) {
+    set kTooltip(value: number | string) {
         if (typeof value === 'undefined' || value === '' || value === null) {
             this._tooltipText = null;
         }
         else {
-            this._tooltipText = value;
+            this._tooltipText = value + '';
         }
 
         this._updateTooltipElementContent();
