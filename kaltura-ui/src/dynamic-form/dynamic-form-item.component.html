@@ -40,7 +40,7 @@
     <div class="kRow" *ngIf="control.controlType !== 'Group'">
         <div class="kFormLabelContainer">
             <span class="kLabel" *ngIf="control.label">{{control.label}}
-                <kInputHelper *ngIf="control.inputHelperConfig" [title]="control.inputHelperConfig.title">
+                <kInputHelper *ngIf="control.inputHelperConfig && control.inputHelperConfig.body" [title]="control.inputHelperConfig.title">
                     <span>{{control.inputHelperConfig.body}}</span>
                 </kInputHelper>
             </span>
