@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import {Component, Input} from '@angular/core';
-=======
 import {Component, Input, OnInit, OnDestroy} from '@angular/core';
->>>>>>> master
 import {FormGroup}        from '@angular/forms';
 import {DynamicFormControlBase} from '@kaltura-ng/kaltura-ui/dynamic-form';
 
