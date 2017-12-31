@@ -17,7 +17,7 @@
 
     <span *ngSwitchDefault="">Missing control for {{control.controlType}}</span>
 
-    <p *ngIf="!isValid"
-       class="kFormError">{{getErrorMsg()}}
+    <p *ngIf="errorMsg"
+       class="kFormError">{{errorMsg}}
     </p>
 </div>
