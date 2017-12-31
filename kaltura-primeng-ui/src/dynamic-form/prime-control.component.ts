@@ -43,12 +43,6 @@ export class PrimeControl implements OnInit, OnDestroy {
     }
 
     private getErrorMsg(): string {
-        if (!this.isValid) {
-
-        }
-        else {
-            this.errorMsg = '';
-        }
         let result = "";
         const formControl = this.form.controls[this.control.key];
         if (this.control.errors && !formControl.valid) {
