@@ -11,25 +11,44 @@ export class PrimeControl implements OnInit, OnDestroy {
     @Input() control: DynamicFormControlBase<any>;
     @Input() form: FormGroup;
 
-    public isValid = true;
     public errorMsg = '';
 
+    get isValid() {
+        return this.form.controls[this.control.key].valid;
+    }
 
     ngOnInit() {
+        if (!this.isValid) {
+            this.errorMsg = this.getErrorMsg();
+        }
+        else {
+            this.errorMsg = '';
+        }
+
+        this.onFormStatusChanges();
+
+    }
+
+    private onFormStatusChanges(): void {
         this.form.statusChanges
             .cancelOnDestroy(this)
             .subscribe(() => {
-                this.isValid = this.form.status === 'VALID';
                 if (!this.isValid) {
                     this.errorMsg = this.getErrorMsg();
                 }
-                else{
+                else {
                     this.errorMsg = '';
                 }
             });
     }
 
     private getErrorMsg(): string {
+        if (!this.isValid) {
+
+        }
+        else {
+            this.errorMsg = '';
+        }
         let result = "";
         const formControl = this.form.controls[this.control.key];
         if (this.control.errors && !formControl.valid) {
