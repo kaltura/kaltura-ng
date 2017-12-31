@@ -42,30 +42,6 @@ export class PrimeControl implements OnInit, OnDestroy {
             });
     }
 
-    private getErrorMsg(): string {
-        if (!this.isValid) {
-
-        }
-        else {
-            this.errorMsg = '';
-        }
-        let result = "";
-        const formControl = this.form.controls[this.control.key];
-        if (this.control.errors && !formControl.valid) {
-            const firstErrorKey = Object.keys(this.control.errors).find(errorKey =>
-                formControl.hasError(errorKey));
-
-            if (firstErrorKey) {
-                result = this.control.errors[firstErrorKey];
-            }
-        }
-        return result;
-    }
-
-    ngOnDestroy() {
-
-    }
-
     getErrorMsg(): string {
         let result = '';
 
@@ -82,5 +58,9 @@ export class PrimeControl implements OnInit, OnDestroy {
         }
 
         return result || 'Invalid value';
+    }
+
+    ngOnDestroy() {
+
     }
 }
