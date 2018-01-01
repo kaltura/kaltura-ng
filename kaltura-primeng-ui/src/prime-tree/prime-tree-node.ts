@@ -35,7 +35,7 @@ export class PrimeTreeNode implements TreeNode{
         }
     }
 
-    constructor(public data: string | number, public label : string,  children : PrimeTreeNode[] | number = null, public origin : any, public payload : any = null) {
+    constructor(public data: string, public label : string,  children : PrimeTreeNode[] | number = null, public origin : any, public payload : any = null) {
         if (children !== null) {
             if (!isNaN(<any>children) && isFinite(<any>children)) {
                 this.setChildrenCount(<number>children);

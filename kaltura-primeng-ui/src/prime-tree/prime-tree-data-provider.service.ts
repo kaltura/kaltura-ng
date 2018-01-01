@@ -54,7 +54,7 @@ export class PrimeTreeDataProvider
 
 				let itemChildrenCount = args.childrenCountProperty ? item[args.childrenCountProperty] : null;
 				itemChildrenCount = itemChildrenCount && typeof itemChildrenCount !== 'undefined' ? itemChildrenCount : null; // make sure both 'undefined' and null are handled as 'null'
-				const itemId = item[args.idProperty];
+				const itemId = String(item[args.idProperty]);
 				const itemName = item[args.nameProperty];
 
 				const node = new PrimeTreeNode(itemId, itemName, itemChildrenCount, item, args.payload);
