@@ -1,4 +1,4 @@
-import { Component, Input, TemplateRef, ContentChildren, QueryList } from '@angular/core';
+import { Component, Input, TemplateRef, ContentChildren, QueryList, OnInit } from '@angular/core';
 import { FormArray, FormGroup, Validators,  FormBuilder } from '@angular/forms';
 import { DynamicSectionControl } from './controls/dynamic-section-control';
 import { DynamicFormService } from './dynamic-form.service';
@@ -9,15 +9,33 @@ import { DynamicFormControlBase } from './dynamic-form-control-base';
     templateUrl: './dynamic-form-item.component.html',
     styleUrls : ['./dynamic-form-item.component.scss']
 })
-export class DynamicFormItem {
+export class DynamicFormItem implements  OnInit {
     @Input() control: DynamicFormControlBase<any>;
     @Input() form : FormGroup;
+
+    public isRequired: boolean;
 
     @ContentChildren(TemplateRef, {descendants: false}) public _templates: QueryList<TemplateRef<any>>;
 
     constructor(private _formBuilder : FormBuilder, private _dynamicFormService : DynamicFormService)
     {
 
+    }
+
+    ngOnInit() {
+        this.isRequired=false;
+
+        const validators = this.control.validators;
+        if (this.control.validators)
+        {
+            const RequiredValidator =validators.find( validator =>
+            validator == Validators.required);
+
+            if (RequiredValidator)
+            {
+                this.isRequired=true;
+            }
+        }
     }
 
     initItem(dynamicControl : DynamicFormControlBase<any>) {
