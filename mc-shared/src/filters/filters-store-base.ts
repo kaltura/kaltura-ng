@@ -14,20 +14,34 @@ export type DataChanges<T> = {
     diff: { [P in keyof T]? : { previousValue: T[P] | null, currentValue: T[P] | null }}
 }
 
+
 export type UpdateResult<T> = {
     [P in keyof T]? : { failed: boolean, failureCode: string };
 }
 
 export abstract class FiltersStoreBase<T extends { [key: string]: any }> {
-    private _filters: Immutable.ImmutableObject<T> = Immutable(this._createDefaultFiltersValue());
+
     private _filtersChange = new Subject<DataChanges<T>>();
     public filtersChange$ = this._filtersChange.asObservable();
     private _typeAdaptersMapping: TypeAdaptersMapping<T> = null;
 
     public readonly filtersUtils = FiltersUtils;
 
+    private get _filters(): Immutable.ImmutableObject<T>{
+        // this property defer execution of '_createDefaultFiltersValue'
+        // to allow using DI by the class that extends this class
+        (<any>this).__filters = (<any>this).__filters || Immutable(this._createDefaultFiltersValue());
+        return (<any>this).__filters;
+    }
+
+    private set _filters(value: Immutable.ImmutableObject<T>)
+    {
+        (<any>this).__filters = value;
+    }
+
     constructor(protected _logger: KalturaLogger) {
         this._typeAdaptersMapping = this._getTypeAdaptersMapping();
+
     }
 
     protected abstract  _createDefaultFiltersValue(): T;
