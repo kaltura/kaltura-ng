@@ -279,6 +279,8 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	onWindowResize() {
 		if (this.closeOnResize) {
 			this.close();
+		}else{
+			this.setPosition();
 		}
 	}
 
@@ -391,8 +393,10 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	}
 
 	private setPosition() {
-		// placement and repositioning is not relevent to modals.
-		if (this.modal) return;
+		if (this.modal || this.slider) {
+			this.popup.nativeElement.style.marginLeft = window.innerWidth / 2 - this.popupWidth / 2 + 'px';
+			return;
+		}
 		if (!this._targetRef) return;
 
 		const popupHeight = this.popup.nativeElement.clientHeight;
