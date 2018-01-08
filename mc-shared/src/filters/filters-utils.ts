@@ -37,7 +37,10 @@ export class FiltersUtils {
         const isSourceNull = source === null || typeof source === 'undefined';
         const isCompareToNull = compareTo === null || typeof compareTo === 'undefined';
 
-        if ((isSourceNull && !isCompareToNull) || (!isSourceNull && isCompareToNull)) {
+        if (source instanceof Array || compareTo instanceof Array)
+        {
+            throw new Error('cannot compare items. one of them or both of them is of type Array');
+        } else if ((isSourceNull && !isCompareToNull) || (!isSourceNull && isCompareToNull)) {
             return true;
         } else if (!isSourceNull  && !isCompareToNull) {
             for(const propertyName in source)

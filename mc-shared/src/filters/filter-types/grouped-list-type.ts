@@ -4,7 +4,7 @@ import { FiltersUtils } from '../filters-utils';
 export interface GroupedListItem {
     value: string;
     label: string;
-    payload?: { [key: string]: any }
+    tooltip?: string;
 }
 
 export interface GroupedListType
