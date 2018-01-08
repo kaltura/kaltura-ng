@@ -123,7 +123,7 @@ export abstract class FiltersStoreBase<T extends { [key: string]: any }> {
                     this._logger.info(`update filter '${filterName}'`);
                     const immutableNewValue = Immutable(newValue);
                     newFilters = newFilters.set(filterName, immutableNewValue);
-                    const changes = immutableNewValue.asMutable ? immutableNewValue.asMutable() : immutableNewValue;
+                    const changes = (immutableNewValue !== null && typeof immutableNewValue !== 'undefined' && immutableNewValue.asMutable) ? immutableNewValue.asMutable() : immutableNewValue;
                     dataChanges.changes[filterName] = changes;
                     dataChanges.diff[filterName] = { previousValue, currentValue: changes };
                     hasChanges = true;
