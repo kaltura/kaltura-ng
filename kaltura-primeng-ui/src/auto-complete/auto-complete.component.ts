@@ -122,7 +122,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
             this._suggestionsProvider$ = provider$.subscribe(
                 data => {
 
-                    const valueLengthValid = this.input && this.input.value && this.input.value.length >= this.minLength;
+                    const valueLengthValid = this.input && (this.input.value || '').trim().length >= this.minLength;
                     if (!valueLengthValid) {
                         // primeng fix: if user use backspace to delete search text, should abort the last query.
                         return;
@@ -225,14 +225,12 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
      */
     private _addValueFromInput() : { status : 'added' | 'invalid' | 'not relevant' | 'duplicated'}
     {
-        const rawInputValue = this.searchText;
-        
-        const inputValue = (rawInputValue || '').toLowerCase();
-        
+        const rawInputValue = (this.searchText || '').trim();
+
         // 1. if !`this.value` -> form is valid (assuming that we add value for the first time)
         // 2. if each value is string and there's no same value in the `this.value` array -> form is valid
         const isDuplicated = this.value && this.value.some(value => {
-          return typeof value === 'string' && value.toLowerCase() === inputValue;
+          return typeof value === 'string' && value.toLowerCase() === rawInputValue.toLowerCase();
         });
         
         if (isDuplicated) {

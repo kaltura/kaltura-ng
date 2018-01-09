@@ -41,6 +41,30 @@
       "@angular/forms/*": [
         "../node_modules/@angular/forms/*"
       ],
+      "@kaltura-ng/kaltura-logger": [
+        "../node_modules/@kaltura-ng/kaltura-logger"
+      ],
+      "@kaltura-ng/kaltura-logger/*": [
+        "../node_modules/@kaltura-ng/kaltura-logger/*"
+      ],
+      "@types/seamless-immutable": [
+        "../node_modules/@types/seamless-immutable"
+      ],
+      "@types/seamless-immutable/*": [
+        "../node_modules/@types/seamless-immutable/*"
+      ],
+      "primeng": [
+        "../node_modules/primeng"
+      ],
+      "primeng/*": [
+        "../node_modules/primeng/*"
+      ],
+      "rxjs": [
+        "../node_modules/rxjs"
+      ],
+      "rxjs/*": [
+        "../node_modules/rxjs/*"
+      ],
       "seamless-immutable": [
         "../node_modules/seamless-immutable"
       ],
