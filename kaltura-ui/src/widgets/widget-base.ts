@@ -78,6 +78,10 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
         return this._key;
     }
 
+    public get isNewData(): boolean{
+        return this.form.isNewData;
+    }
+
     protected onValidate(wasActivated: boolean): Observable<{isValid: boolean}> {
         return Observable.of({isValid: true});
     }

@@ -31,6 +31,10 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
         return this._widgetsState.getValue();
     }
 
+    public get isNewData(): boolean{
+        return this._isNewData;
+    }
+
     public _updateWidgetState(newWidgetState : WidgetState): void {
         const currentWidgetsState = this._widgetsState.getValue();
 
