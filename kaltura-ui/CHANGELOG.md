@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.4.0"></a>
+# [3.4.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.3.0...@kaltura-ng/kaltura-ui@3.4.0) (2018-01-14)
+
+
+### Features
+
+* add 'click' trigger support for input helper ([#64](https://github.com/kaltura/kaltura-ng/issues/64)) ([cb1c7e7](https://github.com/kaltura/kaltura-ng/commit/cb1c7e7))
+
+
+
+
 <a name="3.3.0"></a>
 # [3.3.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.2.1...@kaltura-ng/kaltura-ui@3.3.0) (2018-01-09)
 
