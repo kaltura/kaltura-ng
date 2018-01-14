@@ -98,6 +98,13 @@ export abstract class FiltersStoreBase<T extends { [key: string]: any }> {
     }
 
     public filter(updates: Partial<T>): UpdateResult<T> {
+
+        if (!updates)
+        {
+            this._logger.warn(`provided 'undefined' object to filter by, ignoring request`);
+            return;
+        }
+
         let newFilters = this._filters;
         let hasChanges = false;
         const dataChanges: DataChanges<T> = { changes: {}, diff : {} };
