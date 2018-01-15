@@ -3,13 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-       <a name="0.9.1"></a>
+ <a name="0.10.0"></a>
+# [0.10.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@0.9.1...@kaltura-ng/mc-theme@0.10.0) (2018-01-14)
+
+
+### Features
+
+* remove page horizontal scroll ([9385ab0](https://github.com/kaltura/kaltura-ng/commit/9385ab0))
+
+
+
+
+ <a name="0.9.1"></a>
 ## [0.9.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@0.9.0...@kaltura-ng/mc-theme@0.9.1) (2018-01-09)
 
 
 
 
-       <a name="0.9.0"></a>
+<a name="0.9.0"></a>
 # 0.9.0 (2017-12-19)
 
 
