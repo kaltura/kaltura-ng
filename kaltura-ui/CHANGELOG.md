@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.4.0"></a>
+# [3.4.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.3.0...@kaltura-ng/kaltura-ui@3.4.0) (2018-01-14)
+
+
+### Features
+
+* add 'click' trigger support for input helper ([#64](https://github.com/kaltura/kaltura-ng/issues/64)) ([cb1c7e7](https://github.com/kaltura/kaltura-ng/commit/cb1c7e7))
+
+
+
+
+<a name="3.3.0"></a>
+# [3.3.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.2.1...@kaltura-ng/kaltura-ui@3.3.0) (2018-01-09)
+
+
+### Bug Fixes
+
+* handle show loader only if needed ([68a7316](https://github.com/kaltura/kaltura-ng/commit/68a7316))
+* typo in API variable name ([7e05044](https://github.com/kaltura/kaltura-ng/commit/7e05044))
+
+
+### Features
+
+* add switch control type to dynamic from control and support dynamic control validations  ([#52](https://github.com/kaltura/kaltura-ng/issues/52)) ([c124794](https://github.com/kaltura/kaltura-ng/commit/c124794))
+* center popups on resize ([45a1e9d](https://github.com/kaltura/kaltura-ng/commit/45a1e9d))
+* expose form new data mode ([a3ea9b6](https://github.com/kaltura/kaltura-ng/commit/a3ea9b6))
+* input helper popover in dynamic form controls ([#36](https://github.com/kaltura/kaltura-ng/issues/36)) ([a900963](https://github.com/kaltura/kaltura-ng/commit/a900963))
+* Support full screen mode for popup widget ([#51](https://github.com/kaltura/kaltura-ng/issues/51)) ([238c9fc](https://github.com/kaltura/kaltura-ng/commit/238c9fc))
+
+
+
+
 <a name="3.2.1"></a>
 ## [3.2.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.2.0...@kaltura-ng/kaltura-ui@3.2.1) (2017-12-19)
 

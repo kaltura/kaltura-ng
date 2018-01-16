@@ -6,3 +6,4 @@ export * from './simple-type-base';
 export * from './string-type';
 export * from './boolean-type';
 export * from './type-adapter-base';
+export * from './enum-type';

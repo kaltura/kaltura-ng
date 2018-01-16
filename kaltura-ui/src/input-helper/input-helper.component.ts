@@ -8,6 +8,7 @@ import { PopupWidgetXPositions, PopupWidgetYPositions } from '../popup-widget/po
 })
 export class InputHelperComponent implements OnInit {
     @Input() title: string;
+    @Input() trigger: 'click' | 'hover' = 'hover';
     @Input() icon: string = 'kIconhelp';
     @Input() width: number = 300;
     @Input() placement: {x: PopupWidgetXPositions, y: PopupWidgetYPositions} = {x: 'right', y: 'top'};

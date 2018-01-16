@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+ <a name="0.10.0"></a>
+# [0.10.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@0.9.1...@kaltura-ng/mc-theme@0.10.0) (2018-01-14)
+
+
+### Features
+
+* remove page horizontal scroll ([9385ab0](https://github.com/kaltura/kaltura-ng/commit/9385ab0))
+
+
+
+
+ <a name="0.9.1"></a>
+## [0.9.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@0.9.0...@kaltura-ng/mc-theme@0.9.1) (2018-01-09)
+
+
+
+
 <a name="0.9.0"></a>
 # 0.9.0 (2017-12-19)
 
@@ -119,7 +136,7 @@ See [standard-version](https://github.com/conventional-changelog/standard-versio
 * **upload-menu:** add orange color ([7728b9b](https://github.com/kaltura/kaltura-ng-mc-theme/commit/7728b9b))
 * add upload icons to icomoon font ([9256c45](https://github.com/kaltura/kaltura-ng-mc-theme/commit/9256c45))
 * allow lines breaks in tooltip text using 
- ([611aec9](https://github.com/kaltura/kaltura-ng-mc-theme/commit/611aec9))
+([611aec9](https://github.com/kaltura/kaltura-ng-mc-theme/commit/611aec9))
 * new icons ([3428562](https://github.com/kaltura/kaltura-ng-mc-theme/commit/3428562))
 
 
