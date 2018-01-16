@@ -19,3 +19,37 @@ export class ListAdapter extends TypeAdapterBase<ListType> {
         return FiltersUtils.hasChanges(currentValueMap, previousValueMap);
     }
 }
+
+export class NewListTypeAdapter<T> extends TypeAdapterBase<T[]> {
+
+    hasChanges(currentValue: T[], previousValue: T[]): boolean {
+
+        if (!currentValue && !previousValue) {
+            return false;
+        } else if ((currentValue && !previousValue) || (previousValue && !currentValue)) {
+            return true;
+        } else if (currentValue.length !== previousValue.length) {
+            return true;
+        } else {
+
+            let result = true;
+            for (let value of currentValue) {
+
+                // using indexOf for now as we don't expect big arrays.
+                // if a performance hit will happen then we should map
+                // to hashmaps first and use them for comparison.
+
+                if (previousValue.indexOf(value) === -1) {
+                    result = false;
+                    break;
+                }
+            }
+            return result;
+        }
+    }
+
+    get isValueImmutable(): boolean
+    {
+        return false;
+    }
+}
