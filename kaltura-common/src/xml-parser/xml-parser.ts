@@ -1,5 +1,15 @@
 import { XmlToJSON } from './xml-to-json';
 
+function convertAttributes(attributes: object): string {
+  let parsedAttributes = '';
+  if (attributes) {
+    Object.keys(attributes).forEach(attributeName => {
+      parsedAttributes += ` ${attributeName}="${attributes[attributeName]}"`;
+    });
+  }
+  
+  return parsedAttributes;
+}
 
 function convertObjectToXml(prefix: string, propertyName: string, propertyValue: any): string {
     let result = ``;
@@ -12,15 +22,7 @@ function convertObjectToXml(prefix: string, propertyName: string, propertyValue:
         });
     } else if (typeof propertyValue === 'object') {
 
-        const attributes = propertyValue['attr'];
-        let parsedAttributes = '';
-        if (attributes) {
-            Object.keys(attributes).forEach(attributeName =>
-            {
-                parsedAttributes += `${parsedAttributes ? ' ' : ''}${attributeName}="${attributes[attributeName]}"`;
-            });
-        }
-
+        const parsedAttributes = convertAttributes(propertyValue['attr']);
         let parsedValue: any = '';
 
         if (propertyValue['text']) {
@@ -36,7 +38,7 @@ function convertObjectToXml(prefix: string, propertyName: string, propertyValue:
         result += `<${prefix}${propertyName}`;
 
         if (parsedAttributes) {
-            result += ` ${parsedAttributes}>`;
+            result += `${parsedAttributes}>`;
         } else {
             result += '>';
         }
@@ -61,20 +63,23 @@ export class XmlParser
                 childrenAsArray: false 	// force children into arrays
             });
     }
-
-    static toXml(namespace: string, prefix: string, data: object): string {
-
-        let parsedObject = '';
+  
+    static toXml(data: object, root: string, prefix: string): string {
         const parsedPrefix = prefix ? `${prefix}:` : '';
-
-        if (data)
-        {
+        let parsedObject = '';
+        let parsedAttributes = '';
+      
+        if (data) {
+            parsedAttributes = convertAttributes(data['attr']);
+            
             Object.keys(data).forEach(property => {
-                parsedObject += convertObjectToXml(parsedPrefix, property, data[property])
+                if (property !== 'attr') {
+                   parsedObject += convertObjectToXml(parsedPrefix, property, data[property])
+                }
             });
         }
-
-        return `<${parsedPrefix}schema xmlns:xsd="${namespace}">${parsedObject}</${parsedPrefix}schema>`;
+      
+        return `<${parsedPrefix}${root}${parsedAttributes}>${parsedObject}</${parsedPrefix}${root}>`;
     }
 
     static toSimpleXml(data : {}, config : {removeEmpty? : boolean} = {}) : string{
