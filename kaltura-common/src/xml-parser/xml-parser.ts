@@ -20,7 +20,7 @@ function convertObjectToXml(prefix: string, propertyName: string, propertyValue:
         {
             result += convertObjectToXml(prefix, propertyName, innerItem);
         });
-    } else if (typeof propertyValue === 'object') {
+    } else if (propertyValue && typeof propertyValue === 'object') {
 
         const parsedAttributes = convertAttributes(propertyValue['attr']);
         let parsedValue: any = '';
