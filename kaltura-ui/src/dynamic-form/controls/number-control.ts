@@ -1,9 +1,9 @@
 import { DynamicFormControlBase, DynamicFormControlArgs } from '../dynamic-form-control-base';
 
-export class TextboxControl extends DynamicFormControlBase<string> {
+export class NumberControl extends DynamicFormControlBase<string> {
     get controlType()
     {
-        return 'Textbox';
+        return 'Number';
     }
 
     constructor(options: DynamicFormControlArgs<string>) {
