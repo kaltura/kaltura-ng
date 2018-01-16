@@ -3,6 +3,8 @@
 
     <input *ngSwitchCase="'Textbox'" [formControlName]="control.key" pInputText/>
 
+    <input *ngSwitchCase="'Number'"  type="number" [formControlName]="control.key"/>
+
     <p-dropdown *ngSwitchCase="'Dropdown'" [formControlName]="control.key"  [options]="control.values | kPrimeListOptions : control.required"></p-dropdown>
 
     <p-multiSelect *ngSwitchCase="'List'" [formControlName]="control.key"  [options]="control.values | kPrimeListOptions"></p-multiSelect>
