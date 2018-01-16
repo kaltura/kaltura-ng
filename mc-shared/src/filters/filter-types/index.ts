@@ -7,3 +7,5 @@ export * from './string-type';
 export * from './boolean-type';
 export * from './type-adapter-base';
 export * from './enum-type';
+export * from './set-of-enums-type';
+export * from './set-of-strings-type';
