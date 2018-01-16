@@ -64,7 +64,7 @@ export class XmlParser
             });
     }
   
-    static toXml(data: object, root: string, prefix: string): string {
+    static toXml(data: object, root: string, prefix: string = ''): string {
         const parsedPrefix = prefix ? `${prefix}:` : '';
         let parsedObject = '';
         let parsedAttributes = '';
