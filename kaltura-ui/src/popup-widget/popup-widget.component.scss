@@ -37,7 +37,8 @@
         color: white;
         cursor: pointer;
         &:hover {
-            color: #00a784;
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.35);
         }
     }
     .kCloseBtn.closeBtnInside {
