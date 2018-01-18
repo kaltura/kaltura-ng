@@ -41,7 +41,7 @@
         <div class="kFormLabelContainer">
             <span class="kLabel" *ngIf="control.label">{{control.label}}
                 <kInputHelper *ngIf="control.inputHelperConfig && control.inputHelperConfig.body" [title]="control.inputHelperConfig.title">
-                    <span>{{control.inputHelperConfig.body}}</span>
+                    <span [innerHTML]="control.inputHelperConfig.body"></span>
                 </kInputHelper>
             </span>
             <span *ngIf="isRequired" class="kFormRequiredIndicator">*</span>
