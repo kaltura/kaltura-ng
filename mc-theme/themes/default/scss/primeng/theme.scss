@@ -234,6 +234,25 @@ td.ui-datatable-emptymessage{
   animation:progress 2s linear infinite;
 }
 
+.ui-datatable .ui-datatable-data .fa-chevron-circle-right {
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-left: 12px solid $kGrayscale4;
+  border-bottom: 8px solid transparent;
+}
+
+.ui-datatable .ui-datatable-data .fa-chevron-circle-down {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 12px solid $kGrayscale4;
+  margin-left: -3px;
+}
+
 @-webkit-keyframes progress{
   0% {
     background-position: 0 0;
