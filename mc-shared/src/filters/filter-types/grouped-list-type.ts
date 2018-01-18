@@ -35,3 +35,33 @@ export class GroupedListAdapter extends TypeAdapterBase<GroupedListType> {
         return false;
     }
 }
+
+export interface NewGroupedListType<T>
+{
+    [id: string]: T[]
+}
+
+
+export class NewGroupedListAdapter<T> extends TypeAdapterBase<NewGroupedListType<T>> {
+
+    hasChanges(currentValue: NewGroupedListType<T>, previousValue: NewGroupedListType<T>): boolean {
+        const isCurrentValueNull = currentValue === null || typeof currentValue === 'undefined';
+        const isPreviousValueNull = previousValue === null || typeof previousValue === 'undefined';
+
+        if (isCurrentValueNull && isPreviousValueNull) {
+            return false;
+        } else if (FiltersUtils.hasChanges(currentValue, previousValue)) {
+            return true;
+        } else {
+            Object.keys(currentValue).forEach(listName => {
+                const currentValueMap = FiltersUtils.toMap(currentValue[listName]);
+                const previousValueMap = FiltersUtils.toMap(previousValue[listName]);
+                if (FiltersUtils.hasChanges(currentValueMap, previousValueMap)) {
+                    return true;
+                }
+            })
+        }
+
+        return false;
+    }
+}

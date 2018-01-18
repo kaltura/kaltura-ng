@@ -60,6 +60,15 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     suggestionItemField : string = '';
 
     @Input()
+    tooltipField : string = null;
+
+    @Input()
+    tooltipResolver: (value:any) => string = null;
+
+    @Input()
+    classField: string = null;
+
+    @Input()
     suggestionLabelField : string = '';
 
     get multiple() : boolean

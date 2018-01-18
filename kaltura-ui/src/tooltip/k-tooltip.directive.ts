@@ -14,13 +14,15 @@ export class KTooltipDirective implements OnDestroy{
 
 	@Input() escape: boolean = true;
 	@Input() tooltipOffset: number = 8;
-	@Input() kTooltip : number | string = "";
+	@Input() kTooltip: any = null;
+	@Input() tooltipResolver: (val: any) => string = null;
 	@Input() placement: TooltipPositions = "top";
 	@Input() delay = 0;
 	@Input() maxWidth: number = 0;
 
 	@HostListener("mouseenter") onMouseEnter() {
-		if (this._tooltip === null && this.kTooltip !== null && typeof this.kTooltip !== 'undefined' && this.kTooltip !== '') {
+		const tooltipContent = this._getTooltipContent();
+		if (!this._tooltip && tooltipContent) {
 			document.body.appendChild(this.createElem());
 			this.setPosition();
 		}
@@ -33,6 +35,12 @@ export class KTooltipDirective implements OnDestroy{
 		}
 	}
 
+	private _getTooltipContent(): string {
+        let result = this.kTooltip !== null && typeof this.kTooltip !== 'undefined' && this.kTooltip !== '' ? this.kTooltip : null;
+
+        return result ? (this.tooltipResolver ? this.tooltipResolver(result) : String(this.kTooltip)) : null;
+    }
+
 	createElem() {
 		this._tooltip = document.createElement('span');
 		this._tooltip.className += "ng-tooltip ng-tooltip-" + this.placement;
@@ -41,9 +49,9 @@ export class KTooltipDirective implements OnDestroy{
 		}
 		if (this.escape) {
 			this._tooltip.innerHTM = '';
-			this._tooltip.textContent = this.kTooltip;
+			this._tooltip.textContent = this._getTooltipContent();
 		}else{
-			this._tooltip.innerHTML = this.kTooltip;
+			this._tooltip.innerHTML = this._getTooltipContent();
 		}
 
 		setTimeout(() => {
