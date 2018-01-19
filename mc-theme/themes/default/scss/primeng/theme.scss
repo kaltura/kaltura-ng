@@ -719,10 +719,43 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   }
 }
 // multi select
-.ui-multiselect-item.ui-corner-all{
-  label{
+.ui-multiselect {
+  color: $kGrayscale2;
+  height: 34px;
+  width: 237px;
+  border-radius: 3px;
+
+  .ui-widget-header {
+    border: 0;
+  }
+
+  .ui-multiselect-label {
+    height: 34px;
     font-size: 15px;
     font-weight: 400;
+    padding: .5em 1em;
+  }
+
+  .ui-multiselect-trigger {
+    border-left: 0;
+    color: $kGrayscale2;
+    padding: .5em;
+  }
+
+  .ui-multiselect-item {
+    height: 40px;
+  }
+}
+
+.ui-multiselect-filter-container {
+  width: 288px;
+
+  .ui-inputtext {
+    padding: .125em;
+  }
+
+  .fa-search {
+    display: none;
   }
 }
 
