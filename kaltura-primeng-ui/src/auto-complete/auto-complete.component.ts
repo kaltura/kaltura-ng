@@ -61,6 +61,8 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
 
     @Input()
     suggestionLabelField : string = '';
+    
+    @Input() validatorFn: (val: any) => boolean = null;
 
     get multiple() : boolean
     {
@@ -470,5 +472,12 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
                     this.input.focus();
                 }
         }, 0);
+    }
+    
+    public _validateItem(item: any) : boolean {
+        if (typeof this.validatorFn === 'function') {
+            return !this.validatorFn(item);
+        }
+        return false;
     }
 }

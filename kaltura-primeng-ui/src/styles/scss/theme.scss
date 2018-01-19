@@ -61,6 +61,12 @@
       &:hover {
         background-color: darken(#00A784, 10%);
       }
+      &.invalid {
+        background-color: $kDandger;
+        &:hover {
+          background-color: darken($kDandger, 10%);
+        }
+      }
       &.userAdded{
         background-color: transparentize($kPrimary, 0.5);
       }
