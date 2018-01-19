@@ -748,7 +748,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
 }
 
 .ui-multiselect-filter-container {
-  width: 288px;
+  width: 100% !important;
 
   .ui-inputtext {
     padding: .125em;
