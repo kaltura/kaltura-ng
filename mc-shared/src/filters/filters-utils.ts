@@ -2,11 +2,22 @@
 
 
 export class FiltersUtils {
-    static toMap<T, K extends keyof T>(value: T[], keyPropertyName: K): { [key: string]: T } {
+    static toMap<T, K extends keyof T>(value: T[], keyPropertyName?: K): { [key: string]: T } {
         const result:  { [key: string]: T } = {};
         if (value) {
-            for (let i = 0; i < value.length; i++) {
-                result[(<any>value[i][keyPropertyName])] = value[i];
+            if (keyPropertyName) {
+                for (let i = 0; i < value.length; i++) {
+                    result[(<any>value[i][keyPropertyName])] = value[i];
+                }
+            }else {
+                value.forEach(item =>
+                {
+                    if (typeof item === 'string' || typeof item === 'number') {
+                        result[String(item)] = item;
+                    }else {
+                        throw new Error('array should include items of type string/number only if no property name provided');
+                    }
+                });
             }
         }
         return result;

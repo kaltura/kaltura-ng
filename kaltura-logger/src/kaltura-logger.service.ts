@@ -19,6 +19,10 @@ export class KalturaLogger implements OnDestroy{
         this._logger.debug('logger created');
     }
 
+    public subLogger(name: string): KalturaLogger{
+        return new KalturaLogger(name, this);
+    }
+
     static createFactory(name): Provider[] {
         const loggerName = (name || 'app').replace(/[.]/g, '_');
         // TODO [kaltura-ng] waiting for NG5

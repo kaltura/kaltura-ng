@@ -11,12 +11,12 @@ export class KTooltipDirective implements OnDestroy {
     }
 
     private _tooltipElement: HTMLElement = null;
-    private _tooltipText: string = null;
+    private _tooltipContent: any = null;
     private _shouldBeVisible = false;
     private _tooltipHeight: number = null;
     private _tooltipWidth: number = null;
 
-
+    @Input() tooltipResolver: string | ((val: any) => string) = null;
     @Input() escape: boolean = true;
     @Input() tooltipOffset: number = 8;
     @Input() placement: TooltipPositions = "top";
@@ -25,19 +25,24 @@ export class KTooltipDirective implements OnDestroy {
     @Input() followTarget = false;
 
     @Input()
-    set kTooltip(value: number | string) {
-        if (typeof value === 'undefined' || value === '' || value === null) {
-            this._tooltipText = null;
+    set kTooltip(value: any) {
+        if (this.isValidContent(value)) {
+            this._tooltipContent = value;
         }
         else {
-            this._tooltipText = value + '';
+            this._tooltipContent = null;
         }
 
-        this._updateTooltipElementContent();
+        this._updateTooltipElement();
     }
 
+    private isValidContent(value: any)
+    {
+        return typeof value !== 'undefined' && value !== '' && value !== null;
+    }
+    
     private _updateTooltipElement(): void {
-        if (!this._tooltipText) {
+        if (!this._tooltipContent) {
             if (this._isShowingTooltip()) {
                 this._removeTooltipElement();
             }
@@ -63,12 +68,14 @@ export class KTooltipDirective implements OnDestroy {
                 }
 
                 document.body.appendChild(this._tooltipElement);
-                this._updateTooltipElementContent();
-                this._updateTooltipElementPosition();
+                if (this._updateTooltipElementContent()) {
+                    this._updateTooltipElementPosition();
+                }
 
             } else {
-                this._updateTooltipElementContent();
-                this._updateTooltipElementPosition();
+                if (this._updateTooltipElementContent()) {
+                    this._updateTooltipElementPosition();
+                }
             }
         } else {
             if (this._isShowingTooltip()) {
@@ -111,20 +118,41 @@ export class KTooltipDirective implements OnDestroy {
         return this._tooltipElement !== null;
 	}
 
-    private _updateTooltipElementContent() {
-        if (this._isShowingTooltip()) {
-            if (this.escape) {
-                this._tooltipElement.innerHTML = '';
-                this._tooltipElement.textContent = this._tooltipText;
-            } else {
-                this._tooltipElement.innerHTML = this._tooltipText;
-                this._tooltipElement.textContent = '';
+    private _updateTooltipElementContent(): boolean {
+        if (this._isShowingTooltip() && this._tooltipContent) {
+
+            let content = '';
+
+            if (this.tooltipResolver && typeof this.tooltipResolver === 'string')
+            {
+                content = this._tooltipContent[this.tooltipResolver];
+            }else if (this.tooltipResolver && typeof this.tooltipResolver === 'function')
+            {
+                content = this.tooltipResolver(this._tooltipContent);
+            }else
+            {
+                content = this._tooltipContent;
             }
 
-            this._tooltipHeight = this._tooltipElement.clientHeight;
-            this._tooltipWidth = this._tooltipElement.offsetWidth;
-        } else {
-            this._updateTooltipElement();
+            if (this.isValidContent(content)) {
+                // re-check content type to handle scenarios when the tooltipResolver caused the value to be undefined
+                if (this.escape) {
+                    this._tooltipElement.innerHTML = '';
+                    this._tooltipElement.textContent = content;
+                } else {
+                    this._tooltipElement.innerHTML = content;
+                    this._tooltipElement.textContent = '';
+                }
+
+                this._tooltipHeight = this._tooltipElement.clientHeight;
+                this._tooltipWidth = this._tooltipElement.offsetWidth;
+
+                return true;
+            } else
+            {
+                this._removeTooltipElement();
+                return false;
+            }
         }
     }
 
