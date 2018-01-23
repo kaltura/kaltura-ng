@@ -1,20 +1,15 @@
 import { TypeAdapterBase } from './type-adapter-base';
 import { FiltersUtils } from '../filters-utils';
 
-export interface GroupedListItem {
-    value: string;
-    label: string;
-    tooltip?: string;
-}
-
-export interface GroupedListType
+export interface GroupedListType<T>
 {
-    [id: string]: GroupedListItem[]
+    [id: string]: T[]
 }
 
-export class GroupedListAdapter extends TypeAdapterBase<GroupedListType> {
 
-    hasChanges(currentValue: GroupedListType, previousValue: GroupedListType): boolean {
+export class GroupedListAdapter<T> extends TypeAdapterBase<GroupedListType<T>> {
+
+    hasChanges(currentValue: GroupedListType<T>, previousValue: GroupedListType<T>): boolean {
         const isCurrentValueNull = currentValue === null || typeof currentValue === 'undefined';
         const isPreviousValueNull = previousValue === null || typeof previousValue === 'undefined';
 
@@ -24,8 +19,8 @@ export class GroupedListAdapter extends TypeAdapterBase<GroupedListType> {
             return true;
         } else {
             Object.keys(currentValue).forEach(listName => {
-                const currentValueMap = FiltersUtils.toMap(currentValue[listName], 'value');
-                const previousValueMap = FiltersUtils.toMap(previousValue[listName], 'value');
+                const currentValueMap = FiltersUtils.toMap(currentValue[listName]);
+                const previousValueMap = FiltersUtils.toMap(previousValue[listName]);
                 if (FiltersUtils.hasChanges(currentValueMap, previousValueMap)) {
                     return true;
                 }
