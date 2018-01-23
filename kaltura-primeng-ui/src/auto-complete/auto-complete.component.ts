@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, forwardRef, ChangeDetectorRef, AfterViewChecked, Input, ElementRef, OnDestroy, Renderer2, IterableDiffers } from '@angular/core';
+import { Component, AfterViewInit, forwardRef, ChangeDetectorRef, AfterViewChecked, Input, ElementRef, OnDestroy, Renderer2, IterableDiffers, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 import { AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR } from "primeng/components/autocomplete/autocomplete";
@@ -66,6 +66,9 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
 
     @Input()
     suggestionLabelField : string = '';
+
+    @Output()
+    itemClick = new EventEmitter<any>();
 
     get multiple() : boolean
     {
@@ -476,4 +479,9 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
                 }
         }, 0);
     }
+
+    public onItemClick(item: any){
+        this.itemClick.emit(item);
+    }
+
 }
