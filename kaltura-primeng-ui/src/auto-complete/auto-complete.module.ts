@@ -10,7 +10,7 @@ import { IsSuggestionDisabledPipe } from "./is-suggestion-disabled.pipe";
 
 @NgModule({
     imports: [CommonModule,InputTextModule,ButtonModule,SharedModule,TooltipModule],
-    declarations: [AutoComplete, HighlightPipe,IsSuggestionDisabledPipe],
+    declarations: [AutoComplete, HighlightPipe, IsSuggestionDisabledPipe],
     exports: [AutoComplete, HighlightPipe],
 
 })

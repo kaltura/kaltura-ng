@@ -4,7 +4,7 @@
            [attr.placeholder]="_placeholder" [attr.size]="size" [attr.maxlength]="maxlength" [attr.tabindex]="tabindex" [readonly]="readonly" [disabled]="disabled"
            [ngClass]="{'ui-autocomplete-input':true,'ui-autocomplete-dd-input':dropdown}"
     ><ul *ngIf="multiple" #multiContainer class="ui-autocomplete-multiple-container ui-widget ui-inputtext ui-state-default ui-corner-all" [ngClass]="{'ui-state-disabled':disabled,'ui-state-focus':focus}" (click)="multiIn.focus()">
-		<li #token *ngFor="let val of value" class="ui-autocomplete-token ui-state-highlight ui-corner-all" [class.userAdded]="val.userAdded" [class.invalid]="_validateItem(val)" [kTooltip]="val.tooltip">
+		<li #token *ngFor="let val of value"  [class]="'ui-autocomplete-token ui-state-highlight ui-corner-all ' + (classField && val ? val[classField] : '')" [class.invalid]="_validateItem(val)" [kTooltip]="val" [tooltipResolver]="tooltipResolver">
             <span class="ui-autocomplete-token-icon fa fa-fw fa-close" (click)="removeItem(token)" *ngIf="!disabled"></span>
             <span *ngIf="!selectedItemTemplate" class="ui-autocomplete-token-label">{{field ? val[field] : val}}</span>
             <ng-template *ngIf="selectedItemTemplate" [pTemplateWrapper]="selectedItemTemplate" [item]="val"></ng-template>

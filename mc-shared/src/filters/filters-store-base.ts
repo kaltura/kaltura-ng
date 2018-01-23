@@ -57,6 +57,9 @@ export abstract class FiltersStoreBase<T extends { [key: string]: any }> {
 
             newData = filteredNewData;
         }
+
+        newData = this._preFiltersReset(newData);
+
         this.filter(newData);
     }
 
@@ -94,6 +97,10 @@ export abstract class FiltersStoreBase<T extends { [key: string]: any }> {
     }
 
     protected _preFilter(updates: Partial<T>): Partial<T> {
+        return updates;
+    }
+
+    protected _preFiltersReset(updates: Partial<T>): Partial<T> {
         return updates;
     }
 
