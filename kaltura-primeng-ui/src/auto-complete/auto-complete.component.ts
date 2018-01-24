@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, forwardRef, ChangeDetectorRef, AfterViewChecked, Input, ElementRef, OnDestroy, Renderer2, IterableDiffers } from '@angular/core';
+import { Component, AfterViewInit, forwardRef, ChangeDetectorRef, AfterViewChecked, Input, ElementRef, OnDestroy, Renderer2, IterableDiffers, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 import { AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR } from "primeng/components/autocomplete/autocomplete";
@@ -79,6 +79,10 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     @Input() get suggestions(): any[] {
         return this._suggestions;
     }
+
+    @Output()
+    itemClick = new EventEmitter<any>();
+
 
     set suggestions(val:any[]) {
         this._suggestions = val;
@@ -484,5 +488,9 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
             return !this.validatorFn(item);
         }
         return false;
+    }
+  
+    public onItemClick(item: any){
+        this.itemClick.emit(item);
     }
 }
