@@ -39,7 +39,9 @@
     "email": "community@kaltura.com"
   },
   "license": "AGPL-3.0",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-inline-ng2-template": "^4.1.0"
+  },
   "engines": {
     "node": ">= 7.0.0",
     "npm": ">= 5.0.0"
@@ -68,7 +70,7 @@
     "gulp-util": "^3.0.7",
     "lerna": "https://github.com/esakal/lerna.git#temp-publish",
     "merge2": "^1.0.2",
-    "rimraf": "^2.5.1",
+    "rimraf": "^2.6.2",
     "run-sequence": "1.2.2",
     "rxjs": "^5.5.6",
     "through2": "^2.0.3",

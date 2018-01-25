@@ -8,7 +8,7 @@ var consoleAppender=JL.createConsoleAppender('consoleAppender');
 JL().setOptions({"appenders": [consoleAppender]});
 
 
-function createLoggerFactory(name: string) : Provider[]
+export function createLoggerFactory(name: string) : Provider[]
 {
     return KalturaLogger.createFactory(name);
 }
