@@ -1017,7 +1017,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   }
 
 }
-.ui-datatable tbody > tr.ui-widget-content:hover {
+.ui-datatable tbody > tr.ui-widget-content:not(.ui-datatable-emptymessage-row):hover {
   background-color: $kGrayscale7;
 }
 .ui-datatable .ui-datatable-data tr.ui-state-hover, .ui-datatable .ui-datatable-data tr.ui-state-highlight {
