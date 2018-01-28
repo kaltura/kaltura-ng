@@ -122,8 +122,8 @@ textarea.ui-inputtext {
 }
 /* radio buttons */
 .ui-radiobutton-box.ui-state-active{
-  background-color: $kPrimary;
-  border: 1px solid $kPrimary;
+  background-color: #fff;
+  border: 6px solid $kPrimary;
   color: #ffffff;
 }
 .ui-radiobutton-icon.fa-circle{
@@ -289,7 +289,7 @@ td.ui-datatable-emptymessage{
     background: darken($kPrimary, 10%);
   }
   &:active {
-    box-shadow: inset 0px 1px 3px 0 rgba(0, 0, 0, 0.50);
+    box-shadow: 0 0 0 3px rgba(0,167,132,0.4);
   }
   &:disabled {
     color: $kGrayscale4;
@@ -300,16 +300,18 @@ td.ui-datatable-emptymessage{
   }
 }
 .ui-button.kButtonDefault {
+  font-weight: bold;
+
   &.ui-state-default{
     color: $kGrayscale1;
     background: #ffffff;
     border: 1px solid $kGrayscale4;
   }
   &:hover{
-    color: $kPrimary;
+    border-color: $kPrimary;
   }
   &:active:not(:disabled){
-    box-shadow: inset 0px 1px 3px 0 rgba(0,0,0,0.50);
+    box-shadow: 0 0 0 3px rgba(0,167,132,0.4);
   }
   &:disabled{
     color: $kGrayscale4;
@@ -329,9 +331,9 @@ td.ui-datatable-emptymessage{
     border: 0px solid darken($kDandger, 10%);
   }
   &:active:not(:disabled){
-    box-shadow: inset 0px 1px 3px 0 rgba(0,0,0,0.50);
+    box-shadow: 0 0 0 3px rgba(219, 31, 38, 0.4);
   }
-  &:disabled{
+  &.ui-state-default:disabled, &:disabled{
     @extend .disabled;
   }
 }
@@ -674,6 +676,9 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
     }
   }
 }
+.ui-dropdown-panel {
+  margin: 8px 0;
+}
 .ui-dropdown-panel .ui-dropdown-items-wrapper{
   overflow-x: hidden;
 }
@@ -687,8 +692,10 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   height: 32px;
   line-height: 22px;
   padding-left: 8px;
-  &:hover{
-    color: $kPrimary;
+  color: $kGrayscale1;
+
+  &:active {
+    box-shadow: 0 0 0 3px rgba(0,167,132,0.4);
   }
 }
 .ui-dropdown-trigger{
@@ -738,7 +745,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
         color: $kPrimary;
       }
       &:active {
-        box-shadow: inset 0px 1px 3px 0 rgba(0, 0, 0, 0.50);
+        box-shadow: 0 0 0 3px rgba(0,167,132,0.4);
       }
     }
   }
@@ -938,6 +945,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   }
   button{
     color: $kGrayscale1;
+    
     &:hover{
       color: $kPrimary;
     }
@@ -1009,3 +1017,9 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   }
 
 }
+.ui-datatable tbody > tr.ui-widget-content:hover {
+  background-color: $kGrayscale7;
+}
+.ui-datatable .ui-datatable-data tr.ui-state-hover, .ui-datatable .ui-datatable-data tr.ui-state-highlight {
+  border-color: $kGrayscale5;
+} 
