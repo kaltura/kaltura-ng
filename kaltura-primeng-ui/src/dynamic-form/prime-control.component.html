@@ -3,7 +3,7 @@
 
     <input *ngSwitchCase="'Textbox'" [formControlName]="control.key" pInputText/>
 
-    <input *ngSwitchCase="'Number'"  type="number" [formControlName]="control.key"/>
+    <input *ngSwitchCase="'Number'"  type="number" [formControlName]="control.key" pInputText />
 
     <p-dropdown *ngSwitchCase="'Dropdown'" [formControlName]="control.key"  [options]="control.values | kPrimeListOptions : control.required"></p-dropdown>
 
