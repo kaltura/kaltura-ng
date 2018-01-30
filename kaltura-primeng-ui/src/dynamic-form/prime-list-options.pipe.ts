@@ -8,20 +8,12 @@ export class PrimeListOptionsPipe implements PipeTransform {
 
     constructor(){}
 
-    transform(values : any[], isRequired : boolean = true ): any {
-
-        const result = [];
-
-        if (!isRequired)
-        {
-            result.push({label:'', value : null});
-        }
-
-        values && values.forEach(value =>
-        {
-            result.push({ label : value.text, value : value.value });
-        });
-
-        return result;
+    transform(values : any[]): any {
+        return [
+            {label: 'Select a value', value: null},
+            ...(values || []).map(value => {
+                return {label: value.text, value: value.value};
+            })
+        ];
     }
 }
