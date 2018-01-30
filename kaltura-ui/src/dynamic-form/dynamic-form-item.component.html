@@ -29,7 +29,7 @@
 
     <div class="kMultiple" *ngIf="control.controlType === 'Group' && !control.allowMultiple">
         <span class="kGroupTitle" *ngIf="control.label" [kTooltip]="control.description" [maxWidth]="300">{{control.label}}</span>
-        <k-dynamic-form-item *ngFor="let childControl of control.children" [control]="childControl" [form]="form">
+        <k-dynamic-form-item *ngFor="let childControl of control.children" [control]="childControl" [form]="form" [labelTemplate]="labelTemplate">
             <ng-template let-item="item">
                 <ng-template [ngOutletContext]="{ item : item }" [ngTemplateOutlet]="_templates.first">
                 </ng-template>
@@ -39,11 +39,15 @@
 
     <div class="kRow" *ngIf="control.controlType !== 'Group'">
         <div class="kFormLabelContainer">
-            <span class="kLabel" *ngIf="control.label">{{control.label}}
+            <span class="kLabel" *ngIf="control.label && !!labelTemplate == false">{{control.label}}
                 <kInputHelper *ngIf="control.inputHelperConfig && control.inputHelperConfig.body" [title]="control.inputHelperConfig.title">
                     <span [innerHTML]="control.inputHelperConfig.body"></span>
                 </kInputHelper>
             </span>
+            <ng-template [ngIf]="!!labelTemplate"
+                    [ngTemplateOutlet]="labelTemplate"
+                    [ngOutletContext]="{item: { control : control, form : itemFormGroup, isRequired : isRequired }}">
+            </ng-template>
             <span *ngIf="isRequired" class="kFormRequiredIndicator">*</span>
         </div>
         <div class="kMultiple" *ngIf="control.allowMultiple" [formArrayName]="control.key">
