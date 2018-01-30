@@ -122,13 +122,9 @@ textarea.ui-inputtext {
 }
 /* radio buttons */
 .ui-radiobutton-box.ui-state-active{
-  background-color: $kPrimary;
-  border: 1px solid $kPrimary;
+  background-color: #ffffff;
+  border: 6px solid $kPrimary;
   color: #ffffff;
-}
-.ui-radiobutton-icon.fa-circle{
-  margin-top: 3px;
-  line-height: 10px !important;
 }
 
 /* data table */
