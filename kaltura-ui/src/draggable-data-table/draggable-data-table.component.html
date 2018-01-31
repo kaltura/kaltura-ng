@@ -1,0 +1,47 @@
+<table [ngClass]="{ 'onDragMode' : !dragModeOff }">
+  <thead>
+  <tr>
+    <th class="draggable-row-icon-placeholder"></th>
+    <th *ngFor="let col of columns" [ngStyle]="col.style">{{col.header}}</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <tr *ngFor="let row of unDraggableItemsFromTop">
+    <td class="draggable-row-icon-placeholder"></td>
+    <td *ngFor="let col of columns" [ngStyle]="col.style">
+      <ng-container *ngTemplateOutlet="col.template; context: { $implicit: col, rowData: row }"></ng-container>
+    </td>
+  </tbody>
+
+  <tbody #tableBody>
+  <tr *ngFor="let row of draggableItems;index as i;"
+      [class]="row.class"
+      [ngClass]="{ 'draggable-row' : true }"
+      (mousedown)="onMouseDown($event, i)"
+      (mouseover)="onMouseOver($event, i)"
+      (mouseup)="onMouseUp()">
+
+    <td class="draggable-row-icon-placeholder"><i class="draggable-row-icon kMetaTypeIcon kIconmore"></i></td>
+    <td *ngFor="let col of columns" [ngStyle]="col.style">
+      <ng-container *ngTemplateOutlet="col.template; context: { $implicit: col, rowData: row }"></ng-container>
+    </td>
+  </tr>
+  </tbody>
+
+  <tbody>
+  <tr *ngFor="let row of unDraggableItemsFromBottom">
+    <td class="draggable-row-icon-placeholder"></td>
+    <td *ngFor="let col of columns" [ngStyle]="col.style">
+      <ng-container *ngTemplateOutlet="col.template; context: {$implicit: col, rowData: row}"></ng-container>
+    </td>
+  </tbody>
+</table>
+
+
+<div #draggable [hidden]="dragModeOff"
+     (mouseup)="onMouseUp()"
+     (mousemove)="onMouseMove($event)">
+  <ng-container *ngTemplateOutlet="draggableViewTemplate; context: {currentDraggableItem: currentDraggableItem}">
+  </ng-container>
+</div>
