@@ -12,8 +12,23 @@ export class DatePipe implements PipeTransform {
     transform(date: number, format : string): any {
         if (date) {
             if (!format) {
-                format = "L HH:mm";
+                format = "dateAndTime";
             }
+
+            switch (format) {
+                case 'dateOnly':
+                    format = 'MM/DD/YY';
+                    break;
+                case 'timeOnly':
+                    format = 'HH:mm';
+                    break;
+                case 'dateAndTime':
+                    format = "MM/DD/YY HH:mm";
+                    break;
+                default:
+                    break;
+            }
+
 
             return moment(date).format(format);
         }else
