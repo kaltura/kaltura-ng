@@ -54,6 +54,12 @@
       "@angular/router/*": [
         "../node_modules/@angular/router/*"
       ],
+      "@kaltura-ng/kaltura-logger": [
+        "../node_modules/@kaltura-ng/kaltura-logger"
+      ],
+      "@kaltura-ng/kaltura-logger/*": [
+        "../node_modules/@kaltura-ng/kaltura-logger/*"
+      ],
       "ng2-translate": [
         "../node_modules/ng2-translate"
       ],
