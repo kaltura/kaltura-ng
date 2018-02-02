@@ -1,12 +1,13 @@
-import { Directive, ContentChild, HostListener } from '@angular/core';
+import { Directive, ContentChild, HostListener, Input } from '@angular/core';
 import { Menu } from 'primeng/primeng';
 
 @Directive({
 	selector: '[kMenuCloseOnScroll]',
 })
 export class MenuCloseOnScroll {
+	@Input() menu: Menu;
 
-	@ContentChild(Menu) public menu: Menu;
+	@ContentChild(Menu) public currentMenu: Menu;
 
 	constructor() {
 	}
@@ -17,8 +18,9 @@ export class MenuCloseOnScroll {
 	}
 
 	private closeMenu():void{
-		if (this.menu && typeof this.menu.hide !== "undefined"){
-			this.menu.hide();
+    const menu = this.menu || this.currentMenu;
+		if (menu && typeof menu.hide !== "undefined"){
+      menu.hide();
 		}
 	}
 }
