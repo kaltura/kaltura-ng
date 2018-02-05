@@ -17,7 +17,12 @@ function convertAttributes(attributes: object): string {
 
 function convertObjectToXml(prefix: string, propertyName: string, propertyValue: any): string {
     let result = ``;
-
+  
+    const noPrefixPropertyName = (propertyName || '').indexOf('noprefix:') !== -1;
+    if (noPrefixPropertyName) {
+      propertyName = propertyName.replace('noprefix:', '');
+      prefix = '';
+    }
 
     if (Array.isArray(propertyValue)) {
         propertyValue.forEach(innerItem =>
