@@ -11,8 +11,21 @@ const _xmlCharMap = {
 
 export class KalturaUtils
 {
-    static escapeXml(value: string) : string {
-        return String(value || '').replace(/[&<>"'`]/g, char => _xmlCharMap[char]);
+    static escapeXml(value: any) : string {
+        let parsedValue = value;
+        switch(typeof value)
+        {
+            case 'string':
+            case 'number':
+            case 'boolean':
+                parsedValue = value;
+                break;
+            default:
+            parsedValue = value || '';
+                break;
+        }
+
+        return String(parsedValue).replace(/[&<>"'`]/g, char => _xmlCharMap[char]);
     }
 
 	static getStartDateValue(value : Date) : Date
