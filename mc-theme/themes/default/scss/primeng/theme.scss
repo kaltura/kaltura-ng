@@ -122,13 +122,9 @@ textarea.ui-inputtext {
 }
 /* radio buttons */
 .ui-radiobutton-box.ui-state-active{
-  background-color: $kPrimary;
-  border: 1px solid $kPrimary;
+  background-color: #ffffff;
+  border: 6px solid $kPrimary;
   color: #ffffff;
-}
-.ui-radiobutton-icon.fa-circle{
-  margin-top: 3px;
-  line-height: 10px !important;
 }
 
 /* data table */
@@ -356,14 +352,16 @@ td.ui-datatable-emptymessage{
 }
 
 /* menu */
-.ui-tieredmenu, .ui-menu-list {
+.ui-tieredmenu, .ui-menu-list, .ui-menu {
   padding-left: 0px;
   padding-right: 0px;
   .ui-menuitem-link{
+    min-height: 32px;
+    line-height: 1.1em;
     padding-left: 12px;
   }
   .ui-menuitem .ui-menuitem-link:hover{
-    background-color: $kGrayscale7;
+    background-color: $kGrayscale6;
   }
 }
 body .ui-tieredmenu.ui-menu {
@@ -506,6 +504,7 @@ body .ui-tieredmenu.ui-menu {
 .ui-calendar{
   button.ui-state-default {
     height: 34px;
+    width: 42px;
     border: 0px solid white;
     color: $kGrayscale4;
     &:active{
@@ -513,7 +512,7 @@ body .ui-tieredmenu.ui-menu {
     }
   }
   .ui-button-icon-left.kIconcalendar{
-    font-size: 18px;
+    font-size: 24px;
   }
   .ui-datepicker{
     padding: 0;
@@ -527,7 +526,7 @@ body .ui-tieredmenu.ui-menu {
   .ui-inputtext {
     width: 100px;
     float: right;
-    margin-left: 28px;
+    margin-left: 40px;
     background-color: white;
     border: 0px solid white;
     outline: hidden;
@@ -561,7 +560,7 @@ body .ui-tieredmenu.ui-menu {
       background-color: $kPrimary;
       color: white;
       height: 100%;
-      padding-top: 6px;
+      padding-top: 3px;
     }
   }
   .ui-timepicker.ui-widget-header{

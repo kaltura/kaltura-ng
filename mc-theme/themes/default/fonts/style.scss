@@ -26,6 +26,12 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.kIconplayback-file:before {
+  content: "\e955";
+}
+.kIconEdit:before {
+  content: "\e956";
+}
 .kIconShare:before {
   content: "\e94f";
 }
@@ -151,6 +157,9 @@
 }
 .kIconPlaylist_RuleBased:before {
   content: "\e931";
+}
+.kIconList:before {
+  content: "\e957";
 }
 .kIcondatabase_search:before {
   content: "\e953";
