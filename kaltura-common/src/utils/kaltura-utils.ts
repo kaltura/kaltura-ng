@@ -1,7 +1,20 @@
 import { Download } from './download';
 
+const _xmlCharMap = {
+    '<': '&lt;',
+    '>': '&gt;',
+    '&': '&amp;',
+    '"': '&quot;',
+    "'": '&apos;',
+    "`": "&#x60;"
+};
+
 export class KalturaUtils
 {
+    static escapeXml(value: string) : string {
+        return String(value || '').replace(/[&<>"'`]/g, char => _xmlCharMap[char]);
+    }
+
 	static getStartDateValue(value : Date) : Date
     {
         if (value) {

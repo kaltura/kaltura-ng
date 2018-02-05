@@ -1,10 +1,14 @@
 import { XmlToJSON } from './xml-to-json';
+import { KalturaUtils } from '../utils/kaltura-utils';
+
+
 
 function convertAttributes(attributes: object): string {
   let parsedAttributes = '';
   if (attributes) {
     Object.keys(attributes).forEach(attributeName => {
-      parsedAttributes += ` ${attributeName}="${attributes[attributeName]}"`;
+      const value = KalturaUtils.escapeXml(attributes[attributeName]);
+      parsedAttributes += ` ${attributeName}="${value}"`;
     });
   }
   
@@ -26,7 +30,7 @@ function convertObjectToXml(prefix: string, propertyName: string, propertyValue:
         let parsedValue: any = '';
 
         if (propertyValue['text']) {
-            parsedValue = propertyValue['text'];
+            parsedValue = KalturaUtils.escapeXml(propertyValue['text']);
         } else {
             Object.keys(propertyValue).forEach(innerProperty => {
                 if (innerProperty !== 'attr') {
