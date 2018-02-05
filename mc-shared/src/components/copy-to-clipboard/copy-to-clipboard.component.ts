@@ -22,18 +22,17 @@ export class CopyToClipboardComponent implements OnInit {
 
   @Input()
   set text(text: string) {
-    this._status = 'idle';
-    if (!this._isCopyToClipboardSupportedByBrowser()) {
-      this._status = 'notSupported';
-    } else {
-      this._text = text;
-    }
+    this._text = text;
   }
 
   constructor() {
   }
 
   ngOnInit() {
+      this._status = 'idle';
+      if (!this._isCopyToClipboardSupportedByBrowser()) {
+          this._status = 'notSupported';
+      }
   }
 
   copy(): void {
