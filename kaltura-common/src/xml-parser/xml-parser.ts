@@ -101,7 +101,7 @@ export class XmlParser
                 result = XmlParser.toSimpleXml(value, config);
             }
             else {
-                result = value;
+                result = KalturaUtils.escapeXml(value);
             }
 
             return result;
@@ -131,7 +131,8 @@ export class XmlParser
                         }
                     }
                     else {
-                        result += `<${key}>${propertyValue}</${key}>`;
+                        const value = KalturaUtils.escapeXml(propertyValue);
+                        result += `<${key}>${value}</${key}>`;
                     }
                 }
             });
