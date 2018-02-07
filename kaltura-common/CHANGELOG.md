@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@2.4.0...@kaltura-ng/kaltura-common@3.0.0) (2018-02-05)
+
+
+### Bug Fixes
+
+* escape values when converting object to xml ([3171425](https://github.com/kaltura/kaltura-ng/commit/3171425))
+
+
+### Features
+
+* add json to xml parser ([f649672](https://github.com/kaltura/kaltura-ng/commit/f649672))
+* customize xml root element ([3380400](https://github.com/kaltura/kaltura-ng/commit/3380400))
+* improve server polling logic and extend kaltura logger ([#73](https://github.com/kaltura/kaltura-ng/issues/73)) ([bc11630](https://github.com/kaltura/kaltura-ng/commit/bc11630))
+
+
+### BREAKING CHANGES
+
+* Server polling now requires an override of method '_canExecute'
+
+
+
+
 <a name="2.4.0"></a>
 # [2.4.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@2.3.0...@kaltura-ng/kaltura-common@2.4.0) (2017-12-19)
 
