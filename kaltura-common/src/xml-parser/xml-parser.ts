@@ -1,10 +1,14 @@
 import { XmlToJSON } from './xml-to-json';
+import { KalturaUtils } from '../utils/kaltura-utils';
+
+
 
 function convertAttributes(attributes: object): string {
   let parsedAttributes = '';
   if (attributes) {
     Object.keys(attributes).forEach(attributeName => {
-      parsedAttributes += ` ${attributeName}="${attributes[attributeName]}"`;
+      const value = KalturaUtils.escapeXml(attributes[attributeName]);
+      parsedAttributes += ` ${attributeName}="${value}"`;
     });
   }
   
@@ -13,7 +17,12 @@ function convertAttributes(attributes: object): string {
 
 function convertObjectToXml(prefix: string, propertyName: string, propertyValue: any): string {
     let result = ``;
-
+  
+    const noPrefixPropertyName = (propertyName || '').indexOf('noprefix:') !== -1;
+    if (noPrefixPropertyName) {
+      propertyName = propertyName.replace('noprefix:', '');
+      prefix = '';
+    }
 
     if (Array.isArray(propertyValue)) {
         propertyValue.forEach(innerItem =>
@@ -26,7 +35,7 @@ function convertObjectToXml(prefix: string, propertyName: string, propertyValue:
         let parsedValue: any = '';
 
         if (propertyValue['text']) {
-            parsedValue = propertyValue['text'];
+            parsedValue = KalturaUtils.escapeXml(propertyValue['text']);
         } else {
             Object.keys(propertyValue).forEach(innerProperty => {
                 if (innerProperty !== 'attr') {
@@ -92,7 +101,7 @@ export class XmlParser
                 result = XmlParser.toSimpleXml(value, config);
             }
             else {
-                result = value;
+                result = KalturaUtils.escapeXml(value);
             }
 
             return result;
@@ -122,7 +131,8 @@ export class XmlParser
                         }
                     }
                     else {
-                        result += `<${key}>${propertyValue}</${key}>`;
+                        const value = KalturaUtils.escapeXml(propertyValue);
+                        result += `<${key}>${value}</${key}>`;
                     }
                 }
             });
