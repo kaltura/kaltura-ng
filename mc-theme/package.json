@@ -1,7 +1,7 @@
 {
   "name": "@kaltura-ng/mc-theme",
   "private": true,
-  "version": "0.10.0",
+  "version": "1.0.0",
   "license": "AGPL-3.0",
   "description": "Kaltura theme for Angular management console applications",
   "contributors": [
@@ -16,8 +16,8 @@
   ],
   "dependencies": {
     "@kaltura-ng/dev-workspace": "^2.0.2",
-    "@kaltura-ng/kaltura-primeng-ui": "^0.8.1",
-    "@kaltura-ng/kaltura-ui": "^3.4.0",
+    "@kaltura-ng/kaltura-primeng-ui": "^1.0.0",
+    "@kaltura-ng/kaltura-ui": "^4.0.0",
     "normalize.css": "^7.0.0",
     "primeng": "^4.1.3"
   },

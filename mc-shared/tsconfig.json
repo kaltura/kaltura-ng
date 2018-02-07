@@ -47,6 +47,12 @@
       "@kaltura-ng/kaltura-logger/*": [
         "../node_modules/@kaltura-ng/kaltura-logger/*"
       ],
+      "@kaltura-ng/kaltura-ui": [
+        "../node_modules/@kaltura-ng/kaltura-ui"
+      ],
+      "@kaltura-ng/kaltura-ui/*": [
+        "../node_modules/@kaltura-ng/kaltura-ui/*"
+      ],
       "@types/seamless-immutable": [
         "../node_modules/@types/seamless-immutable"
       ],

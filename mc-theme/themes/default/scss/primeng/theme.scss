@@ -1,3 +1,5 @@
+@import "../../fonts/style.scss";
+
 $fontFamily: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $fontSize: 1em;
 $borderRadius: 3px;
@@ -337,7 +339,7 @@ td.ui-datatable-emptymessage{
   padding-left: 0px;
   padding-right: 0px;
   .ui-menuitem-link{
-    height: 32px;
+    min-height: 32px;
     line-height: 1.1em;
     padding-left: 12px;
   }
@@ -471,7 +473,7 @@ body .ui-tieredmenu.ui-menu {
       cursor: default;
 
       &::before {
-        content: "\E91A";
+        @extend .kIconcheck_small:before;
       }
     }
   }
@@ -541,7 +543,7 @@ body .ui-tieredmenu.ui-menu {
       background-color: $kPrimary;
       color: white;
       height: 100%;
-      padding-top: 6px;
+      padding-top: 3px;
     }
   }
   .ui-timepicker.ui-widget-header{
@@ -665,7 +667,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
     color: #000000;
     &:after{
       font-family: 'kmcng-icon-pack';
-      content: "\e91a";
+      @extend .kIconcheck_small:before;
       font-weight: normal;
       float: right;
       font-size: 12px;
