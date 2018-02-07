@@ -1,15 +1,15 @@
-import { Directive, ContentChild, HostListener, Input } from '@angular/core';
-import { Menu } from 'primeng/primeng';
+import { Directive, ContentChild, HostListener, Input, Optional } from '@angular/core';
+import { Menu, TieredMenu } from 'primeng/primeng';
 
 @Directive({
 	selector: '[kMenuCloseOnScroll]',
 })
 export class MenuCloseOnScroll {
-	@Input() menu: Menu;
+	private  _menu: Menu | TieredMenu;
 
-	@ContentChild(Menu) public currentMenu: Menu;
-
-	constructor() {
+	constructor(@Optional() menu: Menu, @Optional() tieredMenu: TieredMenu)
+	{
+        this._menu = menu || tieredMenu;
 	}
 
 	@HostListener("window:scroll", [])
@@ -17,10 +17,9 @@ export class MenuCloseOnScroll {
 		this.closeMenu();
 	}
 
-	private closeMenu():void{
-    const menu = this.menu || this.currentMenu;
-		if (menu && typeof menu.hide !== "undefined"){
-      menu.hide();
-		}
-	}
+	private closeMenu():void {
+        if (this._menu && typeof this._menu.hide !== "undefined") {
+            this._menu.hide();
+        }
+    }
 }
