@@ -55,10 +55,11 @@ table {
 
 .draggable-row-icon {
   display: none;
-  transform: rotate(90deg);
-  color: #999;
-  font-size: 24px;
-  vertical-align: middle;
+  width: 4px;
+  height: 4px;
+  border-radius:2px;
+  background-color: #cccccc;
+  margin: 4px 0 4px 7px;
 }
 
 .draggable-row-icon-placeholder {
@@ -66,7 +67,7 @@ table {
 }
 
 .draggable-row:hover .draggable-row-icon {
-  display: inline-block;
+  display: block;
 }
 
 .onDragMode .draggable-row:hover .draggable-row-icon {

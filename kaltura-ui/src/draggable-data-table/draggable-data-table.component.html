@@ -22,7 +22,12 @@
       (mouseover)="onMouseOver($event, i)"
       (mouseup)="onMouseUp()">
 
-    <td class="draggable-row-icon-placeholder"><i class="draggable-row-icon kMetaTypeIcon kIconmore"></i></td>
+    <td class="draggable-row-icon-placeholder">
+      <span class="draggable-row-icon"></span>
+      <span class="draggable-row-icon"></span>
+      <span class="draggable-row-icon"></span>
+      <span class="draggable-row-icon"></span>
+    </td>
     <td *ngFor="let col of columns" [ngStyle]="col.style">
       <ng-container *ngTemplateOutlet="col.template; context: { $implicit: col, rowData: row }"></ng-container>
     </td>
