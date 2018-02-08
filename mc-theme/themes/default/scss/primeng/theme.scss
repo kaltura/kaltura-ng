@@ -339,6 +339,18 @@ td.ui-datatable-emptymessage{
     @extend .disabled;
   }
 }
+.ui-button.kButtonTranslucent {
+  min-width: 100px;
+  
+  &.ui-state-default{
+    color: #ffffff;
+    background-color: rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  &:hover{
+    border-color:rgba(255,255,255,0.5);
+  }
+}
 
 /* menu */
 .ui-tieredmenu, .ui-menu-list {
