@@ -76,7 +76,9 @@
       box-shadow: none;
     }
     .ui-autocomplete-token-icon.fa-close {
-      margin-right: 2px;
+      margin-right: 3px;
+      font-size: 10px;
+      padding-top: 5px;
       &:hover {
         background-color: rgba(255, 255, 255, 0.3);
         border: 0px solid rgba(255, 255, 255, 0.3);

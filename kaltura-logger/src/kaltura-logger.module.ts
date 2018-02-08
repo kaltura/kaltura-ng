@@ -5,8 +5,11 @@ import { JL } from 'jsnlog';
 
 
 var consoleAppender=JL.createConsoleAppender('consoleAppender');
-JL().setOptions({"appenders": [consoleAppender]});
 
+JL().setOptions({"appenders": [consoleAppender]});
+if (window && window.onerror) {
+    window.onerror = null;
+}
 
 function createLoggerFactory(name: string) : Provider[]
 {

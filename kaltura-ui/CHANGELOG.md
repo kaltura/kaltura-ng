@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.4.0...@kaltura-ng/kaltura-ui@4.0.0) (2018-02-05)
+
+
+### Bug Fixes
+
+* ux fixes ([#78](https://github.com/kaltura/kaltura-ng/issues/78)) ([71b93a0](https://github.com/kaltura/kaltura-ng/commit/71b93a0))
+
+
+### Features
+
+* add http validator ([#76](https://github.com/kaltura/kaltura-ng/issues/76)) ([acafd14](https://github.com/kaltura/kaltura-ng/commit/acafd14))
+* allow html content in input helper in dynamic form ([9f583b3](https://github.com/kaltura/kaltura-ng/commit/9f583b3))
+* dynamic form add number type control ([7d7b6d2](https://github.com/kaltura/kaltura-ng/commit/7d7b6d2))
+* extend kDate pipe to support predefined formats and remove defa… ([#80](https://github.com/kaltura/kaltura-ng/issues/80)) ([b2f9f11](https://github.com/kaltura/kaltura-ng/commit/b2f9f11))
+* extend tooltip component api, logger api and filters service api ([fb8c332](https://github.com/kaltura/kaltura-ng/commit/fb8c332))
+* improve server polling logic and extend kaltura logger ([#73](https://github.com/kaltura/kaltura-ng/issues/73)) ([bc11630](https://github.com/kaltura/kaltura-ng/commit/bc11630))
+* modify tooltip position when dragging the target component ([#49](https://github.com/kaltura/kaltura-ng/issues/49)) ([e518cb0](https://github.com/kaltura/kaltura-ng/commit/e518cb0))
+
+
+### BREAKING CHANGES
+
+* Server polling now requires an override of method '_canExecute'
+* previously the list filter item and group filter item held the tooltip and label of the filtered item. Now the list filter item hold the id/value only.
+
+
+
+
 <a name="3.4.0"></a>
 # [3.4.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.3.0...@kaltura-ng/kaltura-ui@3.4.0) (2018-01-14)
 
