@@ -25,6 +25,9 @@ export class DatePipe implements PipeTransform {
                 case 'dateAndTime':
                     format = "MM/DD/YY HH:mm";
                     break;
+                case 'longDateOnly':
+                    format = "MMMM D, YYYY";
+                    break;
                 default:
                     break;
             }
