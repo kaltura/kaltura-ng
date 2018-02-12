@@ -1,6 +1,6 @@
 {
 	"name": "@kaltura-ng/mc-shared",
-	"version": "1.2.0",
+	"version": "2.0.0",
 	"private": true,
 	"description": "Angular - Kaltura Managemenet consoles UI directives, pipes and services",
 	"keywords": [
@@ -21,7 +21,6 @@
 		"codecov": "cat coverage/lcov.info | codecov",
 		"explorer": "source-map-explorer ./dist/index.umd.js",
 		"lint": "npm run tslint 'src/**/*.ts'",
-		"ngcompile": "../node_modules/.bin/ngc -p tsconfig-aot.json",
 		"prebuild": "rimraf dist tmp",
 		"prebuild:watch": "rimraf dist tmp",
 		"tslint": "tslint"
@@ -52,7 +51,8 @@
 		"@angular/common": "^5.2.0",
 		"@angular/core": "^5.2.0",
 		"@angular/forms": "^5.2.0",
-		"@kaltura-ng/kaltura-logger": "^0.1.0",
+		"@kaltura-ng/kaltura-logger": "^1.0.0",
+		"@kaltura-ng/kaltura-ui": "^4.0.0",
 		"@types/seamless-immutable": "^7.1.1",
 		"primeng": "^4.2.1",
 		"rimraf": "^2.6.2",

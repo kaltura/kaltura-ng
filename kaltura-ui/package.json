@@ -1,6 +1,6 @@
 {
 	"name": "@kaltura-ng/kaltura-ui",
-	"version": "3.4.0",
+	"version": "4.0.0",
 	"private": true,
 	"description": "Angular - Kaltura UI directives, pipes and services",
 	"keywords": [
@@ -21,7 +21,6 @@
 		"codecov": "cat coverage/lcov.info | codecov",
 		"explorer": "source-map-explorer ./dist/index.umd.js",
 		"lint": "npm run tslint 'src/**/*.ts'",
-		"ngcompile": "../node_modules/.bin/ngc -p tsconfig-aot.json",
 		"prebuild": "rimraf dist tmp",
 		"prebuild:watch": "rimraf dist tmp",
 		"tslint": "tslint"
@@ -52,7 +51,7 @@
 		"@angular/common": "^5.2.0",
 		"@angular/core": "^5.2.0",
 		"@angular/forms": "^5.2.0",
-		"@kaltura-ng/kaltura-common": "^2.4.0",
+		"@kaltura-ng/kaltura-common": "^3.0.0",
 		"jquery": "~3.1.0",
 		"moment": "^2.14.1",
 		"ramda": "~0.22.1",

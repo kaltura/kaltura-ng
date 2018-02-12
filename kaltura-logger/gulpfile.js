@@ -52,14 +52,14 @@ gulp.task('clean:tmp',(callback) =>
  * @see: https://github.com/angular/angular/issues/12867
  */
 gulp.task('build:esm', ['inline-templates'], (callback) => {
-  exec('npm run ngcompile', function (error, stdout, stderr) {
+  exec('../node_modules/.bin/ngc -p tsconfig-aot.json', function (error, stdout, stderr) {
     console.log(stdout, stderr);
 
     if (error)
     {
       runSequence('clean:tmp',() =>
       {
-        callback();
+        process.exit(1);
     });
     }else {
       runSequence('extras','clean:tmp',() =>

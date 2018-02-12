@@ -4,6 +4,8 @@ import { InjectionToken } from '@angular/core';
 
 export const KalturaLoggerName = new InjectionToken<string>('kaltura-logger-name');
 
+export type LogLevels = 'All' | 'Trace' | 'Debug' | 'Info' | 'Warn' | 'Error' | 'Fatal' | 'Off';
+
 @Injectable()
 export class KalturaLogger implements OnDestroy{
     private _name: string;
@@ -19,6 +21,17 @@ export class KalturaLogger implements OnDestroy{
         this._logger.debug('logger created!');
     }
 
+    public setOptions(options: { level?: LogLevels}): void
+    {
+        let level: number = undefined;
+        if (options.level && JL)
+        {
+            const getLevelValue = JL[`get${options.level}Level`];
+            level = typeof getLevelValue === 'function' ? getLevelValue() : undefined;
+        }
+
+        JL().setOptions({level: level});
+    }
     public subLogger(name: string): KalturaLogger{
         return new KalturaLogger(name, this);
     }

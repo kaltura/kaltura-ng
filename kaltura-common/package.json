@@ -1,6 +1,6 @@
 {
 	"name": "@kaltura-ng/kaltura-common",
-	"version": "2.4.0",
+	"version": "3.0.0",
 	"private": true,
 	"description": "Angular - commonly needed services within Kaltura projects",
 	"keywords": [
@@ -21,7 +21,6 @@
 		"codecov": "cat coverage/lcov.info | codecov",
 		"explorer": "source-map-explorer ./dist/index.umd.js",
 		"lint": "npm run tslint 'src/**/*.ts'",
-		"ngcompile": "../node_modules/.bin/ngc -p tsconfig-aot.json",
 		"prebuild": "rimraf dist tmp",
 		"prebuild:watch": "rimraf dist tmp",
 		"tslint": "tslint"
@@ -54,6 +53,7 @@
 		"@angular/core": "^5.2.0",
 		"@angular/http": "^5.2.0",
 		"@angular/router": "^5.2.0",
+		"@kaltura-ng/kaltura-logger": "^1.0.0",
 		"ng2-translate": "~5.0.0",
 		"rimraf": "^2.6.2",
 		"rxjs": "^5.5.6",

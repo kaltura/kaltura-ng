@@ -1,6 +1,6 @@
 {
 	"name": "@kaltura-ng/kaltura-logger",
-	"version": "0.1.0",
+	"version": "1.0.0",
 	"private": true,
 	"description": "Angular - javascript logger ",
 	"keywords": [
@@ -21,7 +21,6 @@
 		"codecov": "cat coverage/lcov.info | codecov",
 		"explorer": "source-map-explorer ./dist/index.umd.js",
 		"lint": "npm run tslint 'src/**/*.ts'",
-		"ngcompile": "../node_modules/.bin/ngc -p tsconfig-aot.json",
 		"prebuild": "rimraf dist tmp",
 		"prebuild:watch": "rimraf dist tmp",
 		"tslint": "tslint"
