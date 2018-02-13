@@ -67,8 +67,6 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     @Input()
     suggestionLabelField : string = '';
     
-    @Input() validatorFn: (val: any) => boolean = null;
-
     get multiple() : boolean
     {
         // always return true to affect component ui of selected item.
@@ -481,13 +479,6 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
                     this.input.focus();
                 }
         }, 0);
-    }
-    
-    public _validateItem(item: any) : boolean {
-        if (typeof this.validatorFn === 'function') {
-            return !this.validatorFn(item);
-        }
-        return false;
     }
   
     public onItemClick(item: any){
