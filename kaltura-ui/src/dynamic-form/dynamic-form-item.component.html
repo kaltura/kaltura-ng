@@ -10,8 +10,8 @@
                                           [control]="childControl"
                                           [form]="groupForm">
                             <ng-template let-item="item">
-                                <ng-template [ngOutletContext]="{ item : item }" [ngTemplateOutlet]="_templates.first">
-                                </ng-template>
+                                <ng-container *ngTemplateOutlet="_templates.first;context:{ item : item }">
+                                </ng-container>
                             </ng-template>
                         </k-dynamic-form-item>
                     </div>
@@ -31,8 +31,7 @@
         <span class="kGroupTitle" *ngIf="control.label" [kTooltip]="control.description" [maxWidth]="300">{{control.label}}</span>
         <k-dynamic-form-item *ngFor="let childControl of control.children" [control]="childControl" [form]="form" [labelTemplate]="labelTemplate">
             <ng-template let-item="item">
-                <ng-template [ngOutletContext]="{ item : item }" [ngTemplateOutlet]="_templates.first">
-                </ng-template>
+                <ng-container *ngTemplateOutlet="_templates.first;context:{ item : item }"></ng-container>
             </ng-template>
         </k-dynamic-form-item>
     </div>
@@ -44,19 +43,15 @@
                     <span [innerHTML]="control.inputHelperConfig.body"></span>
                 </kInputHelper>
             </span>
-            <ng-template [ngIf]="!!labelTemplate"
-                    [ngTemplateOutlet]="labelTemplate"
-                    [ngOutletContext]="{item: { control : control, form : itemFormGroup, isRequired : isRequired }}">
-            </ng-template>
+            <ng-container [ngIf]="!!labelTemplate">
+                <ng-container *ngTemplateOutlet="labelTemplate;context:{item: { control : control, form : itemFormGroup, isRequired : isRequired }}"></ng-container>
+            </ng-container>
             <span *ngIf="isRequired" class="kFormRequiredIndicator">*</span>
         </div>
         <div class="kMultiple" *ngIf="control.allowMultiple" [formArrayName]="control.key">
 
             <div class="kSingleItem" *ngFor="let itemFormGroup of form.controls[control.key].controls; let i=index" [formGroupName]="i">
-                    <ng-template
-                            [ngOutletContext]="{item: { control : control, form : itemFormGroup }}"
-                            [ngTemplateOutlet]="_templates.first">
-                    </ng-template>
+                    <ng-container *ngTemplateOutlet="_templates.first;context:{item: { control : control, form : itemFormGroup }}"></ng-container>
                 <a (click)="removeItem(control,i)" class="kDelete">Delete</a>
             </div>
             <div>
@@ -65,10 +60,7 @@
         </div>
 
         <div class="kControl" [ngClass]="[control.controlType, control.key + 'Control']" *ngIf="!control.allowMultiple">
-            <ng-template
-                    [ngOutletContext]="{item: { control : control, form : form }}"
-                    [ngTemplateOutlet]="_templates.first">
-            </ng-template>
+            <ng-container *ngTemplateOutlet="_templates.first;context:{item: { control : control, form : form }}"></ng-container>
         </div>
         <!--<div class="errorMessage" *ngIf="form.controls[control.key].valid">{{control.label}} is required</div>-->
     </div>
