@@ -16,6 +16,7 @@ export class DynamicFormItem implements  OnInit {
     public isRequired: boolean;
 
     @ContentChildren(TemplateRef, {descendants: false}) public _templates: QueryList<TemplateRef<any>>;
+    @Input() labelTemplate: TemplateRef<any>;
 
     constructor(private _formBuilder : FormBuilder, private _dynamicFormService : DynamicFormService)
     {
