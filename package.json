@@ -40,7 +40,8 @@
   },
   "license": "AGPL-3.0",
   "dependencies": {
-    "gulp-inline-ng2-template": "^4.1.0"
+    "gulp-inline-ng2-template": "^4.1.0",
+    "node-sass": "^4.7.2"
   },
   "engines": {
     "node": ">= 7.0.0",
@@ -56,18 +57,8 @@
     "@kaltura-ng/dev-workspace": "^2.0.2",
     "@types/core-js": "^0.9.37",
     "@types/jquery": "^2.0.40",
-    "@types/ramda": "0.0.3",
     "del": "^2.2.2",
-    "glob": "^7.1.2",
     "gulp": "^3.9.1",
-    "gulp-add-src": "^0.2.0",
-    "gulp-json-editor": "^2.2.1",
-    "gulp-load-plugins": "^1.4.0",
-    "gulp-sass": "^3.1.0",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-tslint": "^7.1.0",
-    "gulp-typescript": "^3.1.2",
-    "gulp-util": "^3.0.7",
     "lerna": "https://github.com/esakal/lerna.git#temp-publish",
     "merge2": "^1.0.2",
     "rimraf": "^2.6.2",
