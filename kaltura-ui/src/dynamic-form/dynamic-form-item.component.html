@@ -43,7 +43,7 @@
                     <span [innerHTML]="control.inputHelperConfig.body"></span>
                 </kInputHelper>
             </span>
-            <ng-container [ngIf]="!!labelTemplate">
+            <ng-container *ngIf="!!labelTemplate">
                 <ng-container *ngTemplateOutlet="labelTemplate;context:{item: { control : control, form : itemFormGroup, isRequired : isRequired }}"></ng-container>
             </ng-container>
             <span *ngIf="isRequired" class="kFormRequiredIndicator">*</span>
@@ -65,3 +65,4 @@
         <!--<div class="errorMessage" *ngIf="form.controls[control.key].valid">{{control.label}} is required</div>-->
     </div>
 </div>
+
