@@ -1,4 +1,4 @@
-import { OpaqueToken } from '@angular/core';
+
 
 export interface IAppStorage {
     setInLocalStorage(key:string, value:any) : void;

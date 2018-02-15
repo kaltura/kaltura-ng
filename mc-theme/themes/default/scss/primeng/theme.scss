@@ -204,6 +204,7 @@ textarea.ui-inputtext {
 }
 .ui-datatable .ui-datatable-scrollable-body{
   border-top: 1px solid #d9d9d9;
+  max-height: none !important;
 }
 td.ui-datatable-emptymessage{
   text-align: center;
@@ -347,15 +348,26 @@ td.ui-datatable-emptymessage{
     background-color: $kGrayscale6;
   }
 }
-body .ui-tieredmenu.ui-menu {
+body .ui-tieredmenu {
   width: 250px;
-  .ui-submenu-icon {
+  .ui-menuitem-link .ui-submenu-icon {
     font-size: 10px;
-    margin-top: 3px;
+    margin-top: -.7em;
+    right: 3px;
   }
 }
-
+.ui-menu .ui-menuitem-text {
+  vertical-align: middle;
+}
 /* paginator */
+.ui-paginator{
+  p-dropdown{
+    float: right;
+    .ui-dropdown{
+      border: none;
+    }
+  }
+}
 .ui-paginator.ui-widget-header.ui-unselectable-text{
   background: transparent;
   border: none;
@@ -934,6 +946,8 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
 }
 .ui-dialog.ui-confirmdialog .ui-dialog-footer{
   text-align: center;
+  border: none;
+  border-top: 1px solid $kGrayscale4;
   .ui-button-text{
     padding: .25em 2.1em .25em 2.1em;
   }
@@ -946,7 +960,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
 }
 .ui-dialog-buttonpane.ui-widget-content{
   border: 0;
-  border-top: 1px solid #d9d9d9;
+  border-top: 1px solid $kGrayscale4;
   height: 66px;
   padding-top: 8px;
   button{
