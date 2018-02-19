@@ -130,16 +130,9 @@ textarea.ui-inputtext {
 }
 
 /* data table */
-.ui-table thead th, .ui-table tfoot td, .ui-table tbody td, .ui-table-data.ui-widget-content {
-  border-left: none;
-  border-right: none;
-}
-.ui-table th.ui-state-default{
-  text-align: left;
-  border: none;
-  background: transparent;
-}
-.ui-table tbody > tr.ui-widget-content {
+
+
+.ui-table .ui-table-tbody > tr > td{
   height: 70px;
   border-left: none;
   border-right: none;
@@ -147,49 +140,51 @@ textarea.ui-inputtext {
     border-top: 1px solid #ffffff;
   }
 }
-.noResults .ui-table tbody > tr.ui-widget-content {
-  border: 1px solid white;
-}
+
 .ui-widget-header.ui-table-scrollable-header{
   background: transparent;
   height: 40px;
-  border-top: 1px solid #d9d9d9;
   border-left: none;
   border-right: none;
   tr{
     height: 40px;
-    border-left: none;
-    border-right: none;
-    border-top: 0px solid #ffffff;
   }
 }
 .ui-table .ui-table-thead>tr>th{
   border-left: none;
   border-right: none;
   font-weight: bold;
-}
-.ui-table th.ui-state-default{
-  font-size: 13px;
-  font-weight: 400;
+  text-align: left;
+  border: none;
+  background: transparent;
   color: $kGrayscale3;
+  font-size: 13px;
   outline: none;
   text-overflow: ellipsis;
+}
+.ui-table .ui-table-scrollable-header-box.stickyHeader{
+  z-index: 10;
+  display: table;
+  background-color: white;
+  border-bottom: 1px solid $kGrayscale5;
 }
 .ui-table th.ui-state-active {
   color: $kGrayscale1;
 }
-.ui-table .ui-cell-data{
+
+.ui-table .ui-table-tbody>tr>td {
   font-size: 15px;
   font-weight: 400;
   color: $kGrayscale3;
   text-overflow: ellipsis;
   line-height: 22px;
 }
+/*
 .ui-table .ui-table-data tr.ui-state-highlight{
   background-color: #ffffff;
   cursor: auto;
 }
-
+*/
 .ui-sortable-column-icon.fa.fa-sort{
   visibility: hidden;
   &.fa-sort-asc, &.fa-sort-desc{
@@ -203,16 +198,16 @@ textarea.ui-inputtext {
   overflow: hidden;
 }
 .ui-table .ui-table-scrollable-body{
-  border-top: 1px solid #d9d9d9;
   max-height: none !important;
 }
+/*
 td.ui-table-emptymessage{
   text-align: center;
   line-height: 200px;
   font-size: 28px;
   color: $kGrayscale3;
 }
-
+*/
 .ui-table .ui-table-data tr.uploadFailure{
   background: lighten($kDandger, 45%);
 }

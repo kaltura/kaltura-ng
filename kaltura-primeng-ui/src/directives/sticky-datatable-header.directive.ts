@@ -15,7 +15,7 @@ export class StickyDatatableHeaderDirective extends StickyDirective {
     }
 
     protected _getStickyElement(elementRef: ElementRef) :any{
-        const headers = elementRef.nativeElement.getElementsByClassName('ui-datatable-scrollable-header-box');
+        const headers = elementRef.nativeElement.getElementsByClassName('ui-table-scrollable-header-box');
 
         if (headers && headers.length > 0) {
             // console.log("got primeng table header!");
