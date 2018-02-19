@@ -11,7 +11,7 @@ if (window && window.onerror) {
     window.onerror = null;
 }
 
-function createLoggerFactory(name: string) : Provider[]
+export function createLoggerFactory(name: string) : Provider[]
 {
     return KalturaLogger.createFactory(name);
 }

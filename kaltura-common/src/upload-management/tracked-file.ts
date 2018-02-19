@@ -141,11 +141,11 @@ export class TrackedFile {
                         && fromStatus === TrackedFileStatuses.uploading;
                     break;
                 case TrackedFileStatuses.cancelled:
-                    result = !([TrackedFileStatuses.cancelled, TrackedFileStatuses.uploadCompleted, TrackedFileStatuses.purged].includes(fromStatus));
+                    result = ([TrackedFileStatuses.cancelled, TrackedFileStatuses.uploadCompleted, TrackedFileStatuses.purged].indexOf(fromStatus) === -1);
                     break;
                 case TrackedFileStatuses.failure:
                     // always allow changing to 'failure' status (assuming 'purge' is handled separately before)
-                    result = !([TrackedFileStatuses.uploadCompleted, TrackedFileStatuses.purged].includes(fromStatus));
+                    result = ([TrackedFileStatuses.uploadCompleted, TrackedFileStatuses.purged].indexOf(fromStatus) === -1);
                     break;
                 case TrackedFileStatuses.purged:
                     // one-time status, cannot be assigned twice
