@@ -54,7 +54,7 @@ export class TimeSpinnerComponent implements ControlValueAccessor {
   public onModelTouched: Function = () => {
   };
   
-  private _spin(event: Event, dir: 1 | -1) {
+  private _spin(event: Event, dir: number) {
     const currentValue = this._getCurrentInputValue();
     let nextValue = currentValue;
     if (currentValue === 0 && dir === -1) {
@@ -123,7 +123,7 @@ export class TimeSpinnerComponent implements ControlValueAccessor {
     }
   }
   
-  private _repeat(event: Event, interval: number, dir: 1 | -1): void {
+  private _repeat(event: Event, interval: number, dir: number): void {
     const i = interval || 500;
     
     this._clearTimer();
@@ -205,7 +205,7 @@ export class TimeSpinnerComponent implements ControlValueAccessor {
     this.onBlur.emit(event);
   }
   
-  public _onButtonMousedown(event: Event, dir: 1 | -1): void {
+  public _onButtonMousedown(event: Event, dir: number): void {
     if (!this._disabled) {
       this._highlightInput();
       this._repeat(event, null, dir);
