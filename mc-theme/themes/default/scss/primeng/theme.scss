@@ -324,14 +324,15 @@ textarea.ui-inputtext {
   .ui-table-scrollable-body {
     max-height: none !important;
   }
-  /*
-  td.ui-table-emptymessage{
+
+  .emptymessage{
     text-align: center;
     line-height: 200px;
     font-size: 28px;
     color: $kGrayscale3;
+    border-bottom: 1px solid $kGrayscale4;
   }
-  */
+
   .ui-table-data tr.uploadFailure {
     background: lighten($kDandger, 45%);
   }
