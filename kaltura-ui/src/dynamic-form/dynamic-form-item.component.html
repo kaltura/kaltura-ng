@@ -43,10 +43,9 @@
                     <span [innerHTML]="control.inputHelperConfig.body"></span>
                 </kInputHelper>
             </span>
-            <ng-template [ngIf]="!!labelTemplate"
-                    [ngTemplateOutlet]="labelTemplate"
-                    [ngOutletContext]="{item: { control : control, form : itemFormGroup, isRequired : isRequired }}">
-            </ng-template>
+            <ng-container *ngIf="!!labelTemplate">
+                <ng-container *ngTemplateOutlet="labelTemplate;context:{item: { control : control, form : itemFormGroup, isRequired : isRequired }}"></ng-container>
+            </ng-container>
             <span *ngIf="isRequired" class="kFormRequiredIndicator">*</span>
         </div>
         <div class="kMultiple" *ngIf="control.allowMultiple" [formArrayName]="control.key">
