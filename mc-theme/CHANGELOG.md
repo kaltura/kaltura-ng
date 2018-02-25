@@ -3,7 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
- <a name="0.10.0"></a>
+       <a name="1.0.0"></a>
+# [1.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@0.9.1...@kaltura-ng/mc-theme@1.0.0) (2018-02-05)
+
+
+### Bug Fixes
+
+* allow variable height for menu items ([f3d2dea](https://github.com/kaltura/kaltura-ng/commit/f3d2dea))
+* fix layout of active date in date picker ([fa19494](https://github.com/kaltura/kaltura-ng/commit/fa19494))
+* fixed new icons in icomoon font icons ([438f76d](https://github.com/kaltura/kaltura-ng/commit/438f76d))
+* ux fixes ([#78](https://github.com/kaltura/kaltura-ng/issues/78)) ([71b93a0](https://github.com/kaltura/kaltura-ng/commit/71b93a0))
+
+
+### Features
+
+* add list icon to icomoon font icons ([05a42c9](https://github.com/kaltura/kaltura-ng/commit/05a42c9))
+* improve server polling logic and extend kaltura logger ([#73](https://github.com/kaltura/kaltura-ng/issues/73)) ([bc11630](https://github.com/kaltura/kaltura-ng/commit/bc11630))
+* new icons in icomoon font icons ([17a97fa](https://github.com/kaltura/kaltura-ng/commit/17a97fa))
+* remove page horizontal scroll ([9385ab0](https://github.com/kaltura/kaltura-ng/commit/9385ab0))
+
+
+### BREAKING CHANGES
+
+* Server polling now requires an override of method '_canExecute'
+
+
+
+
+       <a name="0.10.0"></a>
 # [0.10.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@0.9.1...@kaltura-ng/mc-theme@0.10.0) (2018-01-14)
 
 
@@ -14,7 +41,7 @@ See [standard-version](https://github.com/conventional-changelog/standard-versio
 
 
 
- <a name="0.9.1"></a>
+<a name="0.9.1"></a>
 ## [0.9.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@0.9.0...@kaltura-ng/mc-theme@0.9.1) (2018-01-09)
 
 

@@ -12,7 +12,7 @@ export class DetailInfoComponent implements OnInit {
     @Input() valueField: string;
     @Input() link: string;
     @Input() tooltip: string;
-    @Input() toolTipAsHTML: boolean;
+    @Input() toolTipAsHTML: boolean = true;
     @Input() iconStyle: string;
     @Input() separator: string = "|";
     @Input() maxItemWidth: number = 300;

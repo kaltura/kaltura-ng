@@ -128,10 +128,6 @@ textarea.ui-inputtext {
   border: 6px solid $kPrimary;
   color: #ffffff;
 }
-.ui-radiobutton-icon.fa-circle{
-  margin-top: 3px;
-  line-height: 10px !important;
-}
 
 /* data table */
 .ui-datatable thead th, .ui-datatable tfoot td, .ui-datatable tbody td, .ui-datatable-data.ui-widget-content {
@@ -208,6 +204,7 @@ textarea.ui-inputtext {
 }
 .ui-datatable .ui-datatable-scrollable-body{
   border-top: 1px solid #d9d9d9;
+  max-height: none !important;
 }
 td.ui-datatable-emptymessage{
   text-align: center;
@@ -234,6 +231,25 @@ td.ui-datatable-emptymessage{
   -moz-animation:progress 2s linear infinite;
   -ms-animation:progress 2s linear infinite;
   animation:progress 2s linear infinite;
+}
+
+.ui-datatable .ui-datatable-data .fa-chevron-circle-right {
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-left: 12px solid $kGrayscale4;
+  border-bottom: 8px solid transparent;
+}
+
+.ui-datatable .ui-datatable-data .fa-chevron-circle-down {
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 12px solid $kGrayscale4;
+  margin-left: -3px;
 }
 
 @-webkit-keyframes progress{
@@ -353,25 +369,38 @@ td.ui-datatable-emptymessage{
 }
 
 /* menu */
-.ui-tieredmenu, .ui-menu-list {
+.ui-tieredmenu, .ui-menu-list, .ui-menu {
   padding-left: 0px;
   padding-right: 0px;
   .ui-menuitem-link{
+    min-height: 32px;
+    line-height: 1.1em;
     padding-left: 12px;
   }
   .ui-menuitem .ui-menuitem-link:hover{
-    background-color: $kGrayscale7;
+    background-color: $kGrayscale6;
   }
 }
-body .ui-tieredmenu.ui-menu {
+body .ui-tieredmenu {
   width: 250px;
-  .ui-submenu-icon {
+  .ui-menuitem-link .ui-submenu-icon {
     font-size: 10px;
-    margin-top: 3px;
+    margin-top: -.7em;
+    right: 3px;
   }
 }
-
+.ui-menu .ui-menuitem-text {
+  vertical-align: middle;
+}
 /* paginator */
+.ui-paginator{
+  p-dropdown{
+    float: right;
+    .ui-dropdown{
+      border: none;
+    }
+  }
+}
 .ui-paginator.ui-widget-header.ui-unselectable-text{
   background: transparent;
   border: none;
@@ -503,6 +532,7 @@ body .ui-tieredmenu.ui-menu {
 .ui-calendar{
   button.ui-state-default {
     height: 34px;
+    width: 42px;
     border: 0px solid white;
     color: $kGrayscale4;
     &:active{
@@ -510,7 +540,7 @@ body .ui-tieredmenu.ui-menu {
     }
   }
   .ui-button-icon-left.kIconcalendar{
-    font-size: 18px;
+    font-size: 24px;
   }
   .ui-datepicker{
     padding: 0;
@@ -524,7 +554,7 @@ body .ui-tieredmenu.ui-menu {
   .ui-inputtext {
     width: 100px;
     float: right;
-    margin-left: 28px;
+    margin-left: 40px;
     background-color: white;
     border: 0px solid white;
     outline: hidden;
@@ -558,7 +588,7 @@ body .ui-tieredmenu.ui-menu {
       background-color: $kPrimary;
       color: white;
       height: 100%;
-      padding-top: 6px;
+      padding-top: 3px;
     }
   }
   .ui-timepicker.ui-widget-header{
@@ -721,10 +751,43 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   }
 }
 // multi select
-.ui-multiselect-item.ui-corner-all{
-  label{
+.ui-multiselect {
+  color: $kGrayscale2;
+  height: 34px;
+  width: 237px;
+  border-radius: 3px;
+
+  .ui-widget-header {
+    border: 0;
+  }
+
+  .ui-multiselect-label {
+    height: 34px;
     font-size: 15px;
     font-weight: 400;
+    padding: .5em 1em;
+  }
+
+  .ui-multiselect-trigger {
+    border-left: 0;
+    color: $kGrayscale2;
+    padding: .5em;
+  }
+
+  .ui-multiselect-item {
+    height: 40px;
+  }
+}
+
+.ui-multiselect-filter-container {
+  width: 100% !important;
+
+  .ui-inputtext {
+    padding: .125em;
+  }
+
+  .fa-search {
+    display: none;
   }
 }
 
@@ -954,6 +1017,8 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
 }
 .ui-dialog.ui-confirmdialog .ui-dialog-footer{
   text-align: center;
+  border: none;
+  border-top: 1px solid $kGrayscale4;
   .ui-button-text{
     padding: .25em 2.1em .25em 2.1em;
   }
@@ -967,7 +1032,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
 }
 .ui-dialog-buttonpane.ui-widget-content{
   border: 0;
-  border-top: 1px solid #d9d9d9;
+  border-top: 1px solid $kGrayscale4;
   height: 66px;
   padding-top: 8px;
   button{

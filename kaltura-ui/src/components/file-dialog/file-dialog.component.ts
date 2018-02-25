@@ -23,8 +23,8 @@ export class FileDialogComponent implements OnInit {
 			event.stopPropagation();
 			event.preventDefault();
 		}
-		this.elementRef.nativeElement.firstChild.value = "";
-		this.elementRef.nativeElement.firstChild.click();
+		this.elementRef.nativeElement.firstElementChild.value = "";
+		this.elementRef.nativeElement.firstElementChild.click();
 	}
 
 	public _fileInputChange(event){

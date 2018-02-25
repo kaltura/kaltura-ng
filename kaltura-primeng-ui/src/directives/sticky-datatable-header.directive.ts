@@ -1,4 +1,4 @@
-import { Directive, Input, Renderer, ElementRef, OnInit, AfterContentInit, OnDestroy, OnChanges, HostListener } from '@angular/core';
+import { Directive, Renderer, ElementRef } from '@angular/core';
 import { StickyScrollService } from '@kaltura-ng/kaltura-ui/sticky';
 import { StickyDirective } from '@kaltura-ng/kaltura-ui';
 
