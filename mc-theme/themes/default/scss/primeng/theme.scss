@@ -258,6 +258,7 @@ textarea.ui-inputtext {
 .ui-table {
   .ui-table-tbody > tr > td {
     height: 70px;
+    overflow: hidden;
     border-left: none;
     border-right: none;
     &:first-child {
