@@ -44,18 +44,20 @@ export class AppPermissionsService {
 
     public loadPermissions(permissions: string[]): void {
         const newPermissions = permissions.reduce((source, p) =>
-                source[p] = true
+        {
+            source[p] = true;
+            return source;
+        }
             , {});
 
         this._permissions.next(Immutable(newPermissions));
     }
 
     private _hasArrayPermission(permissions: string[]): boolean {
-        const promises: any[] = [];
         const permissionsStore = this._permissions.getValue();
 
         let result = false;
-        for (const permission in permissions) {
+        for (const permission of permissions) {
             if (permissionsStore[permission]) {
                 result = true;
                 break;
