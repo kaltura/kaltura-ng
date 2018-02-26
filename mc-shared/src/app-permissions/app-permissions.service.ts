@@ -14,122 +14,54 @@ import * as Immutable from 'seamless-immutable';
 @Injectable()
 export class AppPermissionsService {
 
-    private _permissions = new BehaviorSubject<Immutable.ImmutableObject<string[]>>();
+    private _permissions = new BehaviorSubject<Immutable.ImmutableObjectMixin<{ [key: string]: boolean }>>(Immutable({}));
     public permissions$ = this._permissions.asObservable();
 
-    constructor(
-        @Inject(USE_PERMISSIONS_STORE) private isolate: boolean = false,
-        private permissionsStore: NgxPermissionsStore
-    ) {
-        this.permissionsSource = this.isolate ? new BehaviorSubject<NgxPermissionsObject>({}) : this.permissionsStore.permissionsSource;
-        this.permissions$ = this.permissionsSource.asObservable();
+    constructor() {
     }
 
     /**
      * Remove all permissions from permissions source
      */
     public flushPermissions(): void {
-        this.permissionsSource.next({});
+        this._permissions.next(Immutable({}));
     }
 
-    public hasPermission(permission: string | string[]): Promise<boolean> {
+    public hasPermission(permission: string | string[]): boolean {
         if (!permission || (Array.isArray(permission) && permission.length === 0)) {
-            return Promise.resolve(true);
+            return true;
         }
 
-        permission = transformStringToArray(permission);
-        return this.hasArrayPermission(permission);
+        let permissionList: string[] = null;
+        if  (permission && typeof permission === 'string')
+        {
+            permissionList = [permission];
+        }else {
+            permissionList = <string[]>permission;
+        }
+        return this._hasArrayPermission(permissionList);
     }
 
-    public loadPermissions(permissions: string[], validationFunction?: Function): void {
+    public loadPermissions(permissions: string[]): void {
         const newPermissions = permissions.reduce((source, p) =>
-                this.reducePermission(source, p, validationFunction)
+                source[p] = true
             , {});
 
-        this.permissionsSource.next(newPermissions);
+        this._permissions.next(Immutable(newPermissions));
     }
 
-    public addPermission(permission: string | string[], validationFunction?: Function): void {
-        if (Array.isArray(permission)) {
-            const permissions = permission.reduce((source, p) =>
-                    this.reducePermission(source, p, validationFunction)
-                , this.permissionsSource.value);
-
-            this.permissionsSource.next(permissions);
-        } else {
-            const permissions = this.reducePermission(this.permissionsSource.value, permission, validationFunction);
-
-            this.permissionsSource.next(permissions);
-        }
-    }
-
-    /**
-     * @param {string} permissionName
-     * Removes permission from permissionsObject;
-     */
-    public removePermission(permissionName: string): void {
-        const permissions = {
-            ...this.permissionsSource.value
-        };
-        delete permissions[ permissionName ];
-        this.permissionsSource.next(permissions);
-    }
-
-    public getPermission(name: string): NgxPermission {
-        return this.permissionsSource.value[ name ];
-    }
-
-    public getPermissions(): NgxPermissionsObject {
-        return this.permissionsSource.value;
-    }
-
-    private reducePermission(
-        source: NgxPermissionsObject,
-        name: string,
-        validationFunction?: Function
-    ): NgxPermissionsObject {
-        if (!!validationFunction && isFunction(validationFunction)) {
-            return {
-                ...source,
-                [ name ]: { name, validationFunction }
-            };
-        } else {
-            return {
-                ...source,
-                [ name ]: { name }
-            };
-        }
-    }
-
-    private hasArrayPermission(permissions: string[]): Promise<boolean> {
+    private _hasArrayPermission(permissions: string[]): boolean {
         const promises: any[] = [];
-        permissions.forEach((key) => {
-            if (this.hasPermissionValidationFunction(key)) {
-                const immutableValue = { ...this.permissionsSource.value };
-                return promises.push(Observable.from(Promise.resolve((<Function>this.permissionsSource.value[ key ].validationFunction)(
-                    key,
-                    immutableValue
-                ))).catch(() => {
-                    return Observable.of(false);
-                }));
-            } else {
-                //check for name of the permission if there is no validation function
-                promises.push(Observable.of(!!this.permissionsSource.value[ key ]));
+        const permissionsStore = this._permissions.getValue();
+
+        let result = false;
+        for (const permission in permissions) {
+            if (permissionsStore[permission]) {
+                result = true;
+                break;
             }
+        }
 
-        });
-        return Observable.merge(promises)
-            .mergeAll()
-            .first((data: any) => {
-                return data !== false;
-            }, () => true, false)
-            .toPromise()
-            .then((data: any) => {
-                return data;
-            });
-    }
-
-    private hasPermissionValidationFunction(key: string): boolean {
-        return !!this.permissionsSource.value[ key ] && !!this.permissionsSource.value[ key ].validationFunction && isFunction(this.permissionsSource.value[ key ].validationFunction);
+        return result;
     }
 }
