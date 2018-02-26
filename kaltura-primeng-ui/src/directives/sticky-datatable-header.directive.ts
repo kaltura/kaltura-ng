@@ -15,7 +15,6 @@ export class StickyDatatableHeaderDirective extends StickyDirective {
     }
 
     protected _getStickyElement(elementRef: ElementRef) :any{
-        // const headers = elementRef.nativeElement.getElementsByClassName('ui-table-scrollable-header-box');
         const headers = elementRef.nativeElement.querySelectorAll('.ui-table-scrollable-header-box,.ui-datatable-scrollable-header-box')
 
         if (headers && headers.length > 0) {
