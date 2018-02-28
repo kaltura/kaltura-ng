@@ -18,7 +18,7 @@ export class KalturaLogger implements OnDestroy{
     constructor(@Inject(KalturaLoggerName) @Self() name: string, @SkipSelf() @Optional() parentLogger: KalturaLogger) {
         this._name = parentLogger ? `${parentLogger.name}.${name}` : name;
         this._logger = JL(this._name);
-        this._logger.debug('logger created');
+        this._logger.debug('logger created!');
     }
 
     public setOptions(options: { level?: LogLevels}): void
@@ -36,7 +36,7 @@ export class KalturaLogger implements OnDestroy{
         return new KalturaLogger(name, this);
     }
 
-    static createFactory(name): Provider[] {
+    static createFactory(name: string): Provider[] {
         const loggerName = (name || 'app').replace(/[.]/g, '_');
         // TODO [kaltura-ng] waiting for NG5
         // {

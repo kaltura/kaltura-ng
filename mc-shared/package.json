@@ -1,6 +1,6 @@
 {
 	"name": "@kaltura-ng/mc-shared",
-	"version": "1.2.0",
+	"version": "2.0.0",
 	"private": true,
 	"description": "Angular - Kaltura Managemenet consoles UI directives, pipes and services",
 	"keywords": [
@@ -14,11 +14,16 @@
 		"email": "community@kaltura.com"
 	},
 	"scripts": {
-		"postinstall": "node ../scripts/fix-tsconfig-paths.js",
-		"build": "gulp build",
-		"build:prod": "gulp build --production",
-		"lint": "tslint src/**/*.ts",
-		"watch": "gulp watch"
+		"build": "gulp build:esm",
+		"build:watch": "gulp build:esm:watch",
+		"clean:all": "npm run clean:tmp && rimraf dist",
+		"clean:tmp": "rimraf coverage  tmp docs",
+		"codecov": "cat coverage/lcov.info | codecov",
+		"explorer": "source-map-explorer ./dist/index.umd.js",
+		"lint": "npm run tslint 'src/**/*.ts'",
+		"prebuild": "rimraf dist tmp",
+		"prebuild:watch": "rimraf dist tmp",
+		"tslint": "tslint"
 	},
 	"contributors": [
 		{
@@ -43,13 +48,15 @@
 	"main": "index.js",
 	"typings": "index.d.ts",
 	"dependencies": {
-		"@angular/common": "^4.0.0",
-		"@angular/core": "^4.0.0",
-		"@angular/forms": "^4.0.0",
-		"@kaltura-ng/kaltura-logger": "^0.1.0",
+		"@angular/common": "^5.2.0",
+		"@angular/core": "^5.2.0",
+		"@angular/forms": "^5.2.0",
+		"@kaltura-ng/kaltura-logger": "^1.0.0",
+		"@kaltura-ng/kaltura-ui": "^4.0.0",
 		"@types/seamless-immutable": "^7.1.1",
-		"primeng": "^4.2.1",
-		"rxjs": "^5.4.3",
+		"primeng": "^5.2.0",
+		"rimraf": "^2.6.2",
+		"rxjs": "^5.5.6",
 		"seamless-immutable": "^7.1.2"
 	},
 	"engines": {

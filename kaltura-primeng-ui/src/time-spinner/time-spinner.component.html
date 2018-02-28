@@ -1,0 +1,43 @@
+<div class="kSpinnerContainer" [class.ui-state-disabled]="_disabled">
+    <input #minutes
+           class="kMinutes"
+           type="text"
+           maxlength="2"
+           [disabled]="_disabled"
+           [value]="_minutesAsString"
+           (click)="minutes.select()"
+           (keydown)="_onInputKeydown($event)"
+           (keyup)="_onInputKeyup($event)"
+           (keypress)="_onInputKeyPress($event)"
+           (change)="_handleChange($event)"
+           (focus)="_onInputFocus($event, 'minutes')"
+           (blur)="_onInputBlur($event)">
+    <span class="kDelimiter">:</span>
+    <input #seconds class="kSeconds" type="text"
+           [value]="_secondsAsString"
+           [disabled]="_disabled"
+           (click)="seconds.select()"
+           (keydown)="_onInputKeydown($event)"
+           (keyup)="_onInputKeyup($event)"
+           (keypress)="_onInputKeyPress($event)"
+           (change)="_handleChange($event)"
+           (focus)="_onInputFocus($event, 'seconds')"
+           (blur)="_onInputBlur($event)">
+    <button type="button"
+            [ngClass]="{'ui-spinner-button ui-spinner-up ui-corner-tr ui-button ui-widget ui-state-default':true,'ui-state-disabled':_disabled}"
+            [disabled]="_disabled"
+            (mouseleave)="_onButtonMouseleave($event)"
+            (mousedown)="_onButtonMousedown($event, 1)"
+            (mouseup)="_onButtonMouseup($event)">
+        <span class="kIcondropdown_arrow_top kSpinnerBtn"></span>
+    </button>
+    <button type="button"
+            class="kSpinDown"
+            [ngClass]="{'ui-spinner-button ui-spinner-down ui-corner-br ui-button ui-widget ui-state-default':true,'ui-state-disabled':_disabled}"
+            [disabled]="_disabled"
+            (mouseleave)="_onButtonMouseleave($event)"
+            (mousedown)="_onButtonMousedown($event, -1)"
+            (mouseup)="_onButtonMouseup($event)">
+        <span class="kIcondropdown_arrow_bottom kSpinnerBtn"></span>
+    </button>
+</div>
