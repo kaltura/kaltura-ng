@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@3.0.0...@kaltura-ng/kaltura-common@4.0.0) (2018-03-04)
+
+
+### Features
+
+* upgrade stack to angular@5 ([80736ff](https://github.com/kaltura/kaltura-ng/commit/80736ff))
+
+
+### BREAKING CHANGES
+
+* upgrading from v4 to v5 required multiple changes in build scripts and some code adjustments
+
+
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@2.4.0...@kaltura-ng/kaltura-common@3.0.0) (2018-02-05)
 

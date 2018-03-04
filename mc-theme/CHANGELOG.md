@@ -3,7 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-       <a name="1.0.0"></a>
+ <a name="2.0.0"></a>
+# [2.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@1.0.0...@kaltura-ng/mc-theme@2.0.0) (2018-03-04)
+
+
+### Bug Fixes
+
+* fix style of scrollable datatable header ([8b2e3dc](https://github.com/kaltura/kaltura-ng/commit/8b2e3dc))
+* priming icons ([#84](https://github.com/kaltura/kaltura-ng/issues/84)) ([8d7096e](https://github.com/kaltura/kaltura-ng/commit/8d7096e))
+
+
+### Features
+
+* add time-spinner component ([b2b0bb0](https://github.com/kaltura/kaltura-ng/commit/b2b0bb0))
+* new icon in icomoon font ([0bed4ce](https://github.com/kaltura/kaltura-ng/commit/0bed4ce))
+* support PrimeNG Turbo table ([b614610](https://github.com/kaltura/kaltura-ng/commit/b614610))
+* upgrade stack to angular@5 ([80736ff](https://github.com/kaltura/kaltura-ng/commit/80736ff))
+
+
+### BREAKING CHANGES
+
+* upgrading from v4 to v5 required multiple changes in build scripts and some code adjustments
+
+
+
+
+ <a name="1.0.0"></a>
 # [1.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@0.9.1...@kaltura-ng/mc-theme@1.0.0) (2018-02-05)
 
 
@@ -30,7 +55,7 @@ See [standard-version](https://github.com/conventional-changelog/standard-versio
 
 
 
-       <a name="0.10.0"></a>
+<a name="0.10.0"></a>
 # [0.10.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@0.9.1...@kaltura-ng/mc-theme@0.10.0) (2018-01-14)
 
 
