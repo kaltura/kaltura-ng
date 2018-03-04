@@ -1,6 +1,6 @@
-import { NgModule, ModuleWithProviders, Provider } from '@angular/core';
+import { NgModule, ModuleWithProviders, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { KalturaLogger } from './kaltura-logger.service';
+import { KalturaLogger, KalturaDefaultLogger } from './kaltura-logger.service';
 import { JL } from 'jsnlog';
 
 
@@ -9,11 +9,6 @@ var consoleAppender=JL.createConsoleAppender('consoleAppender');
 JL().setOptions({"appenders": [consoleAppender]});
 if (window && window.onerror) {
     window.onerror = null;
-}
-
-export function createLoggerFactory(name: string) : Provider[]
-{
-    return KalturaLogger.createFactory(name);
 }
 
 @NgModule({
@@ -26,23 +21,29 @@ export function createLoggerFactory(name: string) : Provider[]
     exports: <any[]>[
     ],
     providers: <any[]>[
-        ]
+    ]
 })
 export class KalturaLoggerModule {
-    // constructor(@Optional() @SkipSelf() module : KalturaCoreModule, private appBootstrap : AppBootstrap)
-    // {
-    //     if (module) {
-    //         throw new Error("KMCngCoreModule module imported twice.");
-    //     }
-    // }
 
-    static forRoot(name: string): ModuleWithProviders {
-        return {
-            ngModule: KalturaLoggerModule,
-            providers: [
-                createLoggerFactory(name)
-            ]
-        };
-    }
+    // TODO check why this doesn't work with AOT
+    // static forRoot(name: string): ModuleWithProviders {
+    //     return {
+    //         ngModule: KalturaLoggerModule,
+    //         providers: [
+    //             {
+    //                 provide: KalturaLogger,
+    //                 useFactory(parentLogger)
+    //                 {
+    //                     const logger = new KalturaLogger(name, parentLogger);
+    //
+    //                     KalturaDefaultLogger.set(logger.subLogger('general'));
+    //
+    //                     return logger;
+    //                 },
+    //                 deps: [[new Optional(), new SkipSelf(), KalturaLogger]]
+    //             }
+    //         ]
+    //     };
+    // }
 }
 
