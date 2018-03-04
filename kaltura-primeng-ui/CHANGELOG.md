@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@1.0.0...@kaltura-ng/kaltura-primeng-ui@2.0.0) (2018-03-04)
+
+
+### Bug Fixes
+
+* priming icons ([#84](https://github.com/kaltura/kaltura-ng/issues/84)) ([8d7096e](https://github.com/kaltura/kaltura-ng/commit/8d7096e))
+
+
+### Features
+
+* add time-spinner component ([b2b0bb0](https://github.com/kaltura/kaltura-ng/commit/b2b0bb0))
+* support prime tiered menu with kMenuCloseOnScroll directive ([208f5dd](https://github.com/kaltura/kaltura-ng/commit/208f5dd))
+* support PrimeNG Turbo table ([b614610](https://github.com/kaltura/kaltura-ng/commit/b614610))
+* upgrade stack to angular@5 ([80736ff](https://github.com/kaltura/kaltura-ng/commit/80736ff))
+
+
+### BREAKING CHANGES
+
+* upgrading from v4 to v5 required multiple changes in build scripts and some code adjustments
+
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.8.1...@kaltura-ng/kaltura-primeng-ui@1.0.0) (2018-02-05)
 
