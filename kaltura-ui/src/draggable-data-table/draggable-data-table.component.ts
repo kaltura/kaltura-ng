@@ -60,6 +60,10 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     @Input() unDraggableFromBottom = 0;
     @Input() rowTrackBy: Function = (index: number, item: any) => item;
     @Input() columnTrackBy: Function = (index: number, item: any) => item;
+    @Input() paginator = false;
+    @Input() rows: number;
+    @Input() rowsPerPageOptions: number[];
+    @Output() onPage: EventEmitter;
 
     constructor(private renderer: Renderer2) {
     }
@@ -162,6 +166,12 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
         }
     }
 
+    paginate(event: any) {
+        this.unDraggableFromTop = event.first;
+        this.unDraggableFromBottom = (event.first + event.rows);
+        this._updateView();
+    }
+
     // private methods
     private _updateDraggable(event: MouseEvent) {
         this.renderer.setStyle(this.draggable, 'position', 'fixed');
@@ -191,8 +201,8 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     private _orderItems() {
         if (!!this.value) {
             this.unDraggableItemsFromTop = [...this.value.slice(0, this.unDraggableFromTop)];
-            this.unDraggableItemsFromBottom = [...this.value.slice(this.value.length - this.unDraggableFromBottom, this.value.length)];
-            this.draggableItems = [...this.value.slice(this.unDraggableFromTop, this.value.length - this.unDraggableFromBottom)];
+            this.unDraggableItemsFromBottom = [...this.value.slice(this.unDraggableFromBottom)];
+            this.draggableItems = [...this.value.slice(this.unDraggableFromTop, this.unDraggableFromBottom)];
         }
     }
 }

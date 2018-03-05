@@ -43,6 +43,13 @@
   </tbody>
 </table>
 
+<p-paginator *ngIf="paginator"
+        [rows]="rows"
+        [totalRecords]="value? value.length : 0"
+        [rowsPerPageOptions]="rowsPerPageOptions"
+        (onPageChange)="paginate($event)">
+</p-paginator>
+
 
 <div #draggable [hidden]="dragModeOff"
      (mouseup)="onMouseUp()"
