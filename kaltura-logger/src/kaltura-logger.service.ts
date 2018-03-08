@@ -6,6 +6,22 @@ export const KalturaLoggerName = new InjectionToken<string>('kaltura-logger-name
 
 export type LogLevels = 'All' | 'Trace' | 'Debug' | 'Info' | 'Warn' | 'Error' | 'Fatal' | 'Off';
 
+let randomLoggerNameNumber = 1;
+
+export class KalturaDefaultLogger {
+    private static _defaultLogger: KalturaLogger = null;
+
+    static get(): KalturaLogger
+    {
+        return KalturaDefaultLogger._defaultLogger;
+    }
+
+    static set(instance: KalturaLogger): void
+    {
+        KalturaDefaultLogger._defaultLogger = instance;
+    }
+}
+
 @Injectable()
 export class KalturaLogger implements OnDestroy{
     private _name: string;
@@ -15,7 +31,16 @@ export class KalturaLogger implements OnDestroy{
         return this._name;
     }
 
-    constructor(@Inject(KalturaLoggerName) @Self() name: string, @SkipSelf() @Optional() parentLogger: KalturaLogger) {
+    constructor(@Inject(KalturaLoggerName) @Optional() @Self() name: string, @SkipSelf() @Optional() parentLogger: KalturaLogger) {
+
+        if (!name)
+        {
+            name = 'logger' + randomLoggerNameNumber;
+            randomLoggerNameNumber++;
+        }
+
+        name = name.replace(/[.]/g, '_');
+
         this._name = parentLogger ? `${parentLogger.name}.${name}` : name;
         this._logger = JL(this._name);
         this._logger.debug('logger created!');
@@ -36,20 +61,17 @@ export class KalturaLogger implements OnDestroy{
         return new KalturaLogger(name, this);
     }
 
-    static createFactory(name: string): Provider[] {
-        const loggerName = (name || 'app').replace(/[.]/g, '_');
-        // TODO [kaltura-ng] waiting for NG5
-        // {
-        //     provide: KalturaLogger,
-        //         useFactory: createLoggerFactory
-        //     deps: [[new Optional(), new SkipSelf(), KalturaLogger], [new Self(),]]
-        // },
-        return [
-            KalturaLogger,
-            {
-                provide: KalturaLoggerName, useValue: loggerName
-            }]
-    }
+    // TODO check why this doesn't work with AOT
+    // static create(name: string): Provider {
+    //     return {
+    //         provide: KalturaLogger,
+    //             useFactory(parentLogger)
+    //             {
+    //                 return new KalturaLogger(name, parentLogger);
+    //             },
+    //         deps: [[new Optional(), new SkipSelf(), KalturaLogger]]
+    //     }
+    // }
 
     ngOnDestroy()
     {
