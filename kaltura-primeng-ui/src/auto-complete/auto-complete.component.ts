@@ -351,7 +351,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
         let preventKeydown = false;
 
 
-        if ((event.which === 9 || event.which === 13) )
+        if ((event.which === 9 || event.which === 13 || event.which === 188) )
         {
             const status = this._addValueFromInput().status;
 
