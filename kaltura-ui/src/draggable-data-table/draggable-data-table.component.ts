@@ -63,13 +63,20 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     @Input() paginator = false;
     @Input() rows: number;
     @Input() rowsPerPageOptions: number[];
-    @Output() onPage: EventEmitter;
+    @Input() selectable = false;
+    @Input() showIndex = false;
+
+    @Output() onPage: EventEmitter<any>;
 
     constructor(private renderer: Renderer2) {
     }
 
     // component lifecycle events
     ngOnInit(): void {
+        if(this.paginator) {
+            this.unDraggableFromBottom = this.rows;
+        }
+
         this._orderItems();
         this.draggable = this.draggableElement.nativeElement;
         this.tableBodyElement = this.tableBody.nativeElement;
@@ -200,9 +207,12 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
 
     private _orderItems() {
         if (!!this.value) {
+            // once using d&d pagination page-size has to be increased by 1 because of the added placeholder
+            const buffer = (this.paginator && this._currentPlaceHolderIndex === -1) ? 0 : 1;
+
             this.unDraggableItemsFromTop = [...this.value.slice(0, this.unDraggableFromTop)];
-            this.unDraggableItemsFromBottom = [...this.value.slice(this.unDraggableFromBottom)];
-            this.draggableItems = [...this.value.slice(this.unDraggableFromTop, this.unDraggableFromBottom)];
+            this.unDraggableItemsFromBottom = [...this.value.slice(this.unDraggableFromBottom + buffer)];
+            this.draggableItems = [...this.value.slice(this.unDraggableFromTop, this.unDraggableFromBottom + buffer)];
         }
     }
 }
