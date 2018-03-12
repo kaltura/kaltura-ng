@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@2.0.0...@kaltura-ng/mc-shared@3.0.0) (2018-03-04)
+
+
+### Bug Fixes
+
+* clone filter updates object to allow data modification during prefilter ([3c30f1d](https://github.com/kaltura/kaltura-ng/commit/3c30f1d))
+* wrap SVG images in DIVs to support class manipulation in IE11 ([07aa100](https://github.com/kaltura/kaltura-ng/commit/07aa100))
+
+
+### Features
+
+* add copy-to-clipboard component ([#79](https://github.com/kaltura/kaltura-ng/issues/79)) ([c446103](https://github.com/kaltura/kaltura-ng/commit/c446103))
+* upgrade stack to angular@5 ([80736ff](https://github.com/kaltura/kaltura-ng/commit/80736ff))
+
+
+### BREAKING CHANGES
+
+* upgrading from v4 to v5 required multiple changes in build scripts and some code adjustments
+
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@1.2.0...@kaltura-ng/mc-shared@2.0.0) (2018-02-05)
 

@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@4.0.0...@kaltura-ng/kaltura-ui@5.0.0) (2018-03-04)
+
+
+### Features
+
+* add support for labels template in dynamic form item ([#74](https://github.com/kaltura/kaltura-ng/issues/74)) ([c2d8ba1](https://github.com/kaltura/kaltura-ng/commit/c2d8ba1))
+* added longDateOnly (MMMM D, YYYY) format to DatePipe ([#85](https://github.com/kaltura/kaltura-ng/issues/85)) ([81b4bc2](https://github.com/kaltura/kaltura-ng/commit/81b4bc2))
+* upgrade stack to angular@5 ([80736ff](https://github.com/kaltura/kaltura-ng/commit/80736ff))
+
+
+### BREAKING CHANGES
+
+* upgrading from v4 to v5 required multiple changes in build scripts and some code adjustments
+
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.4.0...@kaltura-ng/kaltura-ui@4.0.0) (2018-02-05)
 
