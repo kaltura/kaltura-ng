@@ -32,6 +32,7 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     tableBodyElement: any;
     columns: ColumnComponent[];
     dragModeOff = true;
+    selectedValues = [];
     mouseMoveSubscription: Subscription;
     mouseMove: Observable<any>;
     public unDraggableItemsFromTop: any[];
@@ -65,8 +66,7 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     @Input() rowsPerPageOptions: number[];
     @Input() selectable = false;
     @Input() showIndex = false;
-
-    @Output() onPage: EventEmitter<any>;
+    @Output() onItemsSelected: EventEmitter<any[]> = new EventEmitter<any[]>();
 
     constructor(private renderer: Renderer2) {
     }
@@ -142,6 +142,10 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
         }
     }
 
+    onMouseDownOnCheckbox(): void {
+        // empty method for overwriting D&D mouse-down event
+    }
+
     onMouseUp(): void {
         if (!this.dragModeOff) {
             this.dragModeOff = true;
@@ -179,16 +183,35 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
         this._updateView();
     }
 
+    selectAll(event: any): void {
+        if(event) {
+            for (let i = this.unDraggableFromTop; i < this.unDraggableFromBottom; i++) {
+                this.selectedValues.push(i);
+            }
+            this.selectedValues = [...Array.from(new Set<any>(this.selectedValues.map((item: any) => item)))];
+        } else {
+            this.selectedValues = [];
+        }
+
+        this.emitOnItemsSelected();
+    }
+
+    emitOnItemsSelected(): void {
+        const selectedItems: any[] = [];
+        this.selectedValues.forEach(index => selectedItems.push(this.draggableItems[index]));
+        this.onItemsSelected.emit(selectedItems);
+    }
+
     // private methods
+    _updateView(): void {
+        this._value = [...this.unDraggableItemsFromTop, ...this.draggableItems, ...this.unDraggableItemsFromBottom];
+        this.valueChange.emit(this._value);
+    }
+    
     private _updateDraggable(event: MouseEvent) {
         this.renderer.setStyle(this.draggable, 'position', 'fixed');
         this.renderer.setStyle(this.draggable, 'left', event.clientX + 20 + 'px');
         this.renderer.setStyle(this.draggable, 'top', event.clientY - 35 + 'px');
-    }
-
-    private _updateView(): void {
-        this._value = [...this.unDraggableItemsFromTop, ...this.draggableItems, ...this.unDraggableItemsFromBottom];
-        this.valueChange.emit(this._value);
     }
 
     private _onMouseLeave(): void {

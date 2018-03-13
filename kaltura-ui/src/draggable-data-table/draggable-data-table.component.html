@@ -2,18 +2,11 @@
   <thead>
   <tr>
     <th class="draggable-row-icon-placeholder"></th>
+    <th *ngIf="selectable" class="draggable-row-check-box"><p-checkbox (onChange)="selectAll($event)"></p-checkbox></th>
+    <td *ngIf="showIndex" class="draggable-row-index"></td>
     <th *ngFor="let col of columns" [ngStyle]="col.style">{{col.header}}</th>
   </tr>
   </thead>
-
-  <tbody>
-  <tr *ngFor="let row of unDraggableItemsFromTop">
-    <td class="draggable-row-icon-placeholder"></td>
-    <td *ngFor="let col of columns" [ngStyle]="col.style">
-      <ng-container *ngTemplateOutlet="col.template; context: { $implicit: col, rowData: row }"></ng-container>
-    </td>
-  </tbody>
-
   <tbody #tableBody>
   <tr *ngFor="let row of draggableItems;index as i;"
       [class]="row.class"
@@ -28,18 +21,16 @@
       <span class="draggable-row-icon"></span>
       <span class="draggable-row-icon"></span>
     </td>
+
+    <td *ngIf="selectable" class="draggable-row-check-box" (mouseover)="onMouseDownOnCheckbox()">
+      <p-checkbox [value]="i" [(ngModel)]="selectedValues" (onChange)="emitOnItemsSelected()"></p-checkbox>
+    </td>
+    <td *ngIf="showIndex" class="draggable-row-index"><span>{{i + 1}}</span></td>
+
     <td *ngFor="let col of columns" [ngStyle]="col.style">
       <ng-container *ngTemplateOutlet="col.template; context: { $implicit: col, rowData: row }"></ng-container>
     </td>
   </tr>
-  </tbody>
-
-  <tbody>
-  <tr *ngFor="let row of unDraggableItemsFromBottom">
-    <td class="draggable-row-icon-placeholder"></td>
-    <td *ngFor="let col of columns" [ngStyle]="col.style">
-      <ng-container *ngTemplateOutlet="col.template; context: {$implicit: col, rowData: row}"></ng-container>
-    </td>
   </tbody>
 </table>
 
