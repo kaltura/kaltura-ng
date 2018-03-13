@@ -141,11 +141,7 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
             this.renderer.setStyle(this.tableBody.nativeElement, 'cursor', 'move');
         }
     }
-
-    onMouseDownOnCheckbox(): void {
-        // empty method for overwriting D&D mouse-down event
-    }
-
+    
     onMouseUp(): void {
         if (!this.dragModeOff) {
             this.dragModeOff = true;

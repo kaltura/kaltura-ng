@@ -11,23 +11,23 @@
   <tr *ngFor="let row of draggableItems;index as i;"
       [class]="row.class"
       [ngClass]="{ 'draggable-row' : true }"
-      (mousedown)="onMouseDown($event, i)"
+
       (mouseover)="onMouseOver($event, i)"
       (mouseup)="onMouseUp()">
 
-    <td class="draggable-row-icon-placeholder">
+    <td class="draggable-row-icon-placeholder" (mousedown)="onMouseDown($event, i)">
       <span class="draggable-row-icon"></span>
       <span class="draggable-row-icon"></span>
       <span class="draggable-row-icon"></span>
       <span class="draggable-row-icon"></span>
     </td>
 
-    <td *ngIf="selectable" class="draggable-row-check-box" (mouseover)="onMouseDownOnCheckbox()">
+    <td *ngIf="selectable" class="draggable-row-check-box">
       <p-checkbox [value]="getItemIndex(i)" [(ngModel)]="selectedValues" (onChange)="emitOnItemsSelected()"></p-checkbox>
     </td>
-    <td *ngIf="showIndex" class="draggable-row-index"><span>{{getItemIndex(i) + 1}}</span></td>
+    <td *ngIf="showIndex" class="draggable-row-index" (mousedown)="onMouseDown($event, i)"><span>{{getItemIndex(i) + 1}}</span></td>
 
-    <td *ngFor="let col of columns" [ngStyle]="col.style">
+    <td *ngFor="let col of columns" [ngStyle]="col.style" (mousedown)="onMouseDown($event, i)">
       <ng-container *ngTemplateOutlet="col.template; context: { $implicit: col, rowData: row }"></ng-container>
     </td>
   </tr>
