@@ -911,6 +911,14 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   }
 }
 
+.kAlignToLeft {
+  .ui-dialog.ui-confirmdialog {
+    .ui-dialog-content.ui-widget-content {
+      text-align: left;
+    }
+  }
+}
+
 // messages
 .ui-growl-item-container.ui-state-highlight{
 
