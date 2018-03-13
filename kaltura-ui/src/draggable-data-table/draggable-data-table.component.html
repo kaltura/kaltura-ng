@@ -23,9 +23,9 @@
     </td>
 
     <td *ngIf="selectable" class="draggable-row-check-box" (mouseover)="onMouseDownOnCheckbox()">
-      <p-checkbox [value]="i" [(ngModel)]="selectedValues" (onChange)="emitOnItemsSelected()"></p-checkbox>
+      <p-checkbox [value]="getItemIndex(i)" [(ngModel)]="selectedValues" (onChange)="emitOnItemsSelected()"></p-checkbox>
     </td>
-    <td *ngIf="showIndex" class="draggable-row-index"><span>{{i + 1}}</span></td>
+    <td *ngIf="showIndex" class="draggable-row-index"><span>{{getItemIndex(i) + 1}}</span></td>
 
     <td *ngFor="let col of columns" [ngStyle]="col.style">
       <ng-container *ngTemplateOutlet="col.template; context: { $implicit: col, rowData: row }"></ng-container>

@@ -180,12 +180,12 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     paginate(event: any) {
         this.unDraggableFromTop = event.first;
         this.unDraggableFromBottom = (event.first + event.rows);
-        this._updateView();
+        this._value = [...this.unDraggableItemsFromTop, ...this.draggableItems, ...this.unDraggableItemsFromBottom];
     }
 
     selectAll(event: any): void {
         if(event) {
-            for (let i = this.unDraggableFromTop; i < this.unDraggableFromBottom; i++) {
+            for (let i = 0; i < this._value.length; i++) {
                 this.selectedValues.push(i);
             }
             this.selectedValues = [...Array.from(new Set<any>(this.selectedValues.map((item: any) => item)))];
@@ -200,6 +200,10 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
         const selectedItems: any[] = [];
         this.selectedValues.forEach(index => selectedItems.push(this.draggableItems[index]));
         this.onItemsSelected.emit(selectedItems);
+    }
+
+    getItemIndex(index: number): number {
+        return this._value.indexOf(this.draggableItems[index]);
     }
 
     // private methods
