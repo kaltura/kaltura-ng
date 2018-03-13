@@ -11,6 +11,12 @@ import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/from';
 import * as Immutable from 'seamless-immutable';
 
+enum CompareTypes
+{
+    All,
+    Match
+}
+
 @Injectable()
 export class AppPermissionsService {
 
@@ -39,7 +45,15 @@ export class AppPermissionsService {
         }else {
             permissionList = <string[]>permission;
         }
-        return this._hasArrayPermission(permissionList);
+        return this._hasArrayPermission(permissionList, CompareTypes.Match);
+    }
+
+    public hasAllPermissions(permissions: string[]): boolean {
+        if (permissions.length === 0) {
+            return true;
+        }
+
+        return this._hasArrayPermission(permissions, CompareTypes.All);
     }
 
     public loadPermissions(permissions: string[]): void {
@@ -53,15 +67,24 @@ export class AppPermissionsService {
         this._permissions.next(Immutable(newPermissions));
     }
 
-    private _hasArrayPermission(permissions: string[]): boolean {
+    private _hasArrayPermission(permissions: string[], compareType: CompareTypes): boolean {
         const permissionsStore = this._permissions.getValue();
-
         let result = false;
-        for (const permission of permissions) {
-            if (permissionsStore[permission]) {
-                result = true;
+
+        switch (compareType)
+        {
+            case CompareTypes.All:
+                result = permissions.every(permission =>
+                {
+                    return !!permissionsStore[permission];
+                });
                 break;
-            }
+            case CompareTypes.Match:
+                result = permissions.some(permission =>
+                {
+                    return !!permissionsStore[permission];
+                });
+                break;
         }
 
         return result;
