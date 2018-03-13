@@ -36,7 +36,24 @@
         </k-dynamic-form-item>
     </div>
 
-    <div class="kRow" *ngIf="control.controlType !== 'Group'">
+    <div class="kLinkedEntries kRow" *ngIf="control.controlType === 'LinkedEntriesComponent'">
+        <div class="kFormLabelContainer">
+            <span class="kLabel" *ngIf="control.label && !!labelTemplate == false">{{control.label}}
+                <kInputHelper *ngIf="control.inputHelperConfig && control.inputHelperConfig.body" [title]="control.inputHelperConfig.title">
+                    <span [innerHTML]="control.inputHelperConfig.body"></span>
+                </kInputHelper>
+            </span>
+            <ng-container *ngIf="!!labelTemplate">
+                <ng-container *ngTemplateOutlet="labelTemplate;context:{item: { control : control, form : itemFormGroup, isRequired : isRequired }}"></ng-container>
+            </ng-container>
+            <span *ngIf="isRequired" class="kFormRequiredIndicator">*</span>
+        </div>
+        <div class="kControl" [ngClass]="[control.controlType, control.key + 'Control']">
+            <ng-container *ngTemplateOutlet="_templates.first;context:{item: { control : control, form : form }}"></ng-container>
+        </div>
+    </div>
+
+    <div class="kRow" *ngIf="control.controlType !== 'Group' && control.controlType !== 'LinkedEntriesComponent'">
         <div class="kFormLabelContainer">
             <span class="kLabel" *ngIf="control.label && !!labelTemplate == false">{{control.label}}
                 <kInputHelper *ngIf="control.inputHelperConfig && control.inputHelperConfig.body" [title]="control.inputHelperConfig.title">
