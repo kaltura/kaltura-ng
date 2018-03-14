@@ -20,8 +20,7 @@ enum CompareTypes
 @Injectable()
 export class AppPermissionsService {
 
-    private _permissions = new BehaviorSubject<Immutable.ImmutableObjectMixin<{ [key: string]: boolean }>>(Immutable({}));
-    public permissions$ = this._permissions.asObservable();
+    private _permissions: Immutable.ImmutableObjectMixin<{ [key: string]: boolean }>;
 
     constructor() {
     }
@@ -30,26 +29,16 @@ export class AppPermissionsService {
      * Remove all permissions from permissions source
      */
     public flushPermissions(): void {
-        this._permissions.next(Immutable({}));
+        this._permissions = null;
     }
 
-    public hasMatchingPermissions(permission: string | string[]): boolean {
+    public hasPermission(permission: string): boolean {
         if (!permission)
         {
             return false;
         }
-        else if ((Array.isArray(permission) && permission.length === 0)) {
-            return true;
-        }
 
-        let permissionList: string[] = null;
-        if  (permission && typeof permission === 'string')
-        {
-            permissionList = [permission];
-        }else {
-            permissionList = <string[]>permission;
-        }
-        return this._hasArrayPermission(permissionList, CompareTypes.Match);
+        return this._hasArrayPermission([permission], CompareTypes.Match);
     }
 
     public hasAllPermissions(permissions: string[]): boolean {
@@ -71,11 +60,15 @@ export class AppPermissionsService {
         }
             , {});
 
-        this._permissions.next(Immutable(newPermissions));
+        this._permissions = Immutable(newPermissions);
     }
 
     private _hasArrayPermission(permissions: string[], compareType: CompareTypes): boolean {
-        const permissionsStore = this._permissions.getValue();
+        if (!this._permissions)
+        {
+            return false;
+        }
+
         let result = false;
 
         switch (compareType)
@@ -83,13 +76,13 @@ export class AppPermissionsService {
             case CompareTypes.All:
                 result = permissions.every(permission =>
                 {
-                    return !!permissionsStore[permission];
+                    return !!this._permissions[permission];
                 });
                 break;
             case CompareTypes.Match:
                 result = permissions.some(permission =>
                 {
-                    return !!permissionsStore[permission];
+                    return !!this._permissions[permission];
                 });
                 break;
         }
