@@ -33,7 +33,7 @@ export class AppPermissionsService {
         this._permissions.next(Immutable({}));
     }
 
-    public hasPermissionMatch(permission: string | string[]): boolean {
+    public hasMatchingPermissions(permission: string | string[]): boolean {
         if (!permission)
         {
             return false;
