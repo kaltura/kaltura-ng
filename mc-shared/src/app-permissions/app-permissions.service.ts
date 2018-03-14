@@ -33,8 +33,12 @@ export class AppPermissionsService {
         this._permissions.next(Immutable({}));
     }
 
-    public hasPermission(permission: string | string[]): boolean {
-        if (!permission || (Array.isArray(permission) && permission.length === 0)) {
+    public hasPermissionMatch(permission: string | string[]): boolean {
+        if (!permission)
+        {
+            return false;
+        }
+        else if ((Array.isArray(permission) && permission.length === 0)) {
             return true;
         }
 
@@ -49,7 +53,10 @@ export class AppPermissionsService {
     }
 
     public hasAllPermissions(permissions: string[]): boolean {
-        if (permissions.length === 0) {
+        if (!permissions)
+        {
+            return false;
+        } else if (permissions.length === 0) {
             return true;
         }
 

@@ -4,8 +4,9 @@ import { AppPermissionsService } from './app-permissions.service';
 @Directive({ selector: '[kAuthVisibileIfAll]'})
 export class AuthVisibileIfDirective implements OnChanges {
 
+    @Input('kAuthNgIf') condition: boolean = true;
     @Input('kAuthVisibileIfAll') authVisibileIfAll: string[];
-    isAuthenticated = false;
+    private _isVisible = false;
 
     constructor(
         private templateRef: TemplateRef<any>,
@@ -18,15 +19,21 @@ export class AuthVisibileIfDirective implements OnChanges {
         {
             this._updateAuthentication();
         }
+
+        if (changes.condition)
+        {
+            this._updateAuthentication();
+        }
     }
 
     private _updateAuthentication(): void{
         const isAuthenticated = this._service.hasAllPermissions(this.authVisibileIfAll);
+        const isVisible = this.condition && isAuthenticated;
 
-        if (this.isAuthenticated !== isAuthenticated)
+        if (this._isVisible !== isVisible)
         {
-            this.isAuthenticated = isAuthenticated;
-            if (this.isAuthenticated)
+            this._isVisible = isVisible;
+            if (this._isVisible)
             {
                 this.viewContainer.createEmbeddedView(this.templateRef);
             }else
