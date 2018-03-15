@@ -89,4 +89,22 @@ export class AppPermissionsService {
 
         return result;
     }
+    
+    public filterList(list: { id: string }[], permissionMapping: { [id: string]: string | string[] }): void {
+        Object.keys(permissionMapping).forEach(key => {
+            const permission = permissionMapping[key];
+            const hasPermission = Array.isArray(permission)
+              ? this.hasAllPermissions(permission)
+              : this.hasPermission(permission);
+
+          if (!hasPermission) {
+            const relevantItems = list.filter(({ id }) => id === key);
+            const relevantItemIndex = relevantItems && relevantItems.length ? list.indexOf(relevantItems[0]) : -1;
+            
+            if (relevantItemIndex !== -1) {
+              list.splice(relevantItemIndex, 1);
+            }
+          }
+        });
+    }
 }
