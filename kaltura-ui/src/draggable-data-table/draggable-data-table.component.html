@@ -11,7 +11,6 @@
   <tr *ngFor="let row of draggableItems;index as i;"
       [class]="row.class"
       [ngClass]="{ 'draggable-row' : true }"
-
       (mouseover)="onMouseOver($event, i)"
       (mouseup)="onMouseUp()">
 
@@ -28,7 +27,7 @@
     <td *ngIf="showIndex" class="draggable-row-index" (mousedown)="onMouseDown($event, i)"><span>{{getItemIndex(i) + 1}}</span></td>
 
     <td *ngFor="let col of columns" [ngStyle]="col.style" (mousedown)="onMouseDown($event, i)">
-      <ng-container *ngTemplateOutlet="col.template; context: { $implicit: col, rowData: row }"></ng-container>
+      <ng-container *ngTemplateOutlet="col.template; context: { $implicit: col, rowData: row, rowIndex: getItemIndex(i)}"></ng-container>
     </td>
   </tr>
   </tbody>
@@ -43,8 +42,10 @@
 
 
 <div #draggable [hidden]="dragModeOff"
+     [ngClass]="{ 'multiple-drag-and-drop' : (multipleDragAndDrop && selectedValues.length > 1) }"
      (mouseup)="onMouseUp()"
      (mousemove)="onMouseMove($event)">
+  <span *ngIf="multipleDragAndDrop && selectedValues.length > 1" class="selected-items-counter">{{selectedValues.length}}</span>
   <ng-container *ngTemplateOutlet="draggableViewTemplate; context: {currentDraggableItem: currentDraggableItem}">
   </ng-container>
 </div>
