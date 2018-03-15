@@ -1,18 +1,21 @@
 import {
     ElementRef, Input, OnChanges,
-    Directive
+    Directive, EventEmitter, Optional, Host, Renderer2, Output
 } from '@angular/core';
 import { AppPermissionsService } from './app-permissions.service';
+import { AbstractControl } from '@angular/forms';
+import { Dropdown } from 'primeng/primeng';
 
-@Directive({ selector: 'button[kEnableIfAllPermitted]'})
-export class EnableIfPermitted implements OnChanges {
+export abstract class EnableIfPermitted implements OnChanges {
     @Input('kEnableIf') condition: boolean = true;
     @Input('kEnableIfAllPermitted') enableIfAllPermitted: string[];
 
+    @Input() disabled: boolean;
+    @Output() disabledChange: EventEmitter<boolean>;
 
-    private _isEnabled = true;
+    protected _isEnabled = true;
 
-    constructor(private _service: AppPermissionsService, private _element: ElementRef) {
+    constructor(private _service: AppPermissionsService) {
     }
 
     ngOnChanges(changes) {
@@ -33,14 +36,36 @@ export class EnableIfPermitted implements OnChanges {
 
         if (this._isEnabled !== isEnabled) {
             this._isEnabled = isEnabled;
-            this._updateLayout();
+            this._updateLayout(isEnabled);
         }
     }
 
-    private _updateLayout(): void {
-        if (this._element) {
-            this._element.nativeElement.disabled = !this._isEnabled;
-        }
+    protected abstract _updateLayout(isEnabled: boolean): void;
+}
+
+@Directive({ selector: 'button[kEnableIfAllPermitted]'})
+export class HtmlEnableIfPermitted extends EnableIfPermitted {
+
+    constructor(_service: AppPermissionsService, private _element: ElementRef,
+                private _renderer: Renderer2) {
+        super(_service);
+    }
+
+    protected _updateLayout(isEnabled: boolean): void {
+        this._renderer.setProperty(this._element.nativeElement, 'disabled', isEnabled);
+    }
+}
+
+@Directive({ selector: 'p-dropdown[kEnableIfAllPermitted]'})
+export class PrimeDropdownEnableIfPermitted extends EnableIfPermitted {
+
+    constructor(_service: AppPermissionsService, private _control: Dropdown) {
+        super(_service);
+    }
+
+    protected _updateLayout(isEnabled: boolean): void {
+        this._control.disabled = !isEnabled;
+
     }
 }
 
