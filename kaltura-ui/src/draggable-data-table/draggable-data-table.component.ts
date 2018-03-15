@@ -1,5 +1,5 @@
 import {
-    AfterContentInit, Component, ContentChildren, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output,
+    AfterContentInit, Component, ContentChildren, ElementRef, EventEmitter, Input, OnInit, Output,
     QueryList, Renderer2, TemplateRef, ViewChild
 } from '@angular/core';
 import {ColumnComponent} from './column.component';
@@ -16,17 +16,14 @@ const Events = {
     MOUSE_LEAVE: 'mouseleave'
 };
 
-const DragAndDropMode = {
-    SINGLE: 'single',
-    MULTIPLE: 'multiple'
-};
-
 @Component({
     selector: 'k-draggable-data-table',
     templateUrl: './draggable-data-table.component.html',
     styleUrls: ['./draggable-data-table.component.scss']
 })
 export class DraggableDataTableComponent implements AfterContentInit, OnInit {
+
+    @Input() emptyStateTemplate: TemplateRef<any>;
 
     @Input() draggableViewTemplate: TemplateRef<any>;
 
@@ -48,7 +45,7 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
 
     dragModeOff: boolean = true;
 
-    selectedValues: any[] = [];
+    selectedIndexes: number[] = [];
 
     mouseMoveSubscription: Subscription;
 
@@ -104,7 +101,6 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     @Input() selectable: boolean = false;
 
     @Output() selectionChange: EventEmitter<any[]> = new EventEmitter<any[]>();
-
 
 
     constructor(private renderer: Renderer2) {
@@ -166,35 +162,25 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
         }
     }
 
-    /**
-     * There are 2 drag&drop modes: single and multiple
-     * Single - is always enabled, simple D&D for one item only.
-     * Multiple - available ONLY when table rows are 'selectable' and has next logic behavior:
-     * - once user select (checks any row) - only the selected rows will be draggable
-     * - if any of rows is selected - the table is behaving in 'Single' mode.
-     **/
     onMouseDown(event: MouseEvent, index: number): void {
+        // only left button mouse click
+        if (event.which === 1) {
+            if (this.multipleDragAndDrop) {
 
-
-
-        if (event.which === 1) { // only left button mouse click
-
-            if(this.multipleDragAndDrop) {
+                // sign draggable item as 'checked' if it's not:
                 const currentClickedIndex = this.getItemIndex(index);
-                if (this.selectedValues.indexOf(currentClickedIndex) === -1) {
-                    this.selectedValues = [currentClickedIndex, ...this.selectedValues];
+                if (this.selectedIndexes.indexOf(currentClickedIndex) === -1) {
+                    this.selectedIndexes = [currentClickedIndex, ...this.selectedIndexes];
                 }
 
                 // edge-case when all items are selected - d&d should be disabled
-                if (this.selectedValues.length === this._value.length) {
+                if (this.selectedIndexes.length === this._value.length) {
                     return;
                 }
 
-                this.selectedValues.forEach(index => this._value[index].class = 'open');
+                this.selectedIndexes.forEach(index => this._value[index].class = 'open');
                 this._value = [...this._value];
             }
-
-
 
             event.preventDefault();
             this.currentDraggableItem = this.draggableItems[index];
@@ -210,68 +196,55 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     }
 
 
-    // TODO: multi d&d - check edge case where draggable item is selected or not
     onMouseUp(): void {
         if (!this.dragModeOff) {
             this.dragModeOff = true;
-            this._currentDraggedElement['classList'].remove('open'); //TODO: remove 'open' from all selected on current page (*pagination)
+            this._currentDraggedElement['classList'].remove('open');
+            this._value.forEach(item => delete item['class']);
             this.mouseMoveSubscription.unsubscribe();
             this.renderer.setStyle(document.body, 'cursor', 'default');
             this.renderer.setStyle(this.tableBody.nativeElement, 'cursor', 'default');
 
             if (this._dropAvailable) {
                 if (this._currentPlaceHolderIndex !== -1) {
-                    const buffer: number = (this._currentDraggedIndex >= this._currentPlaceHolderIndex) ? 1 : 0;
                     if (this.multipleDragAndDrop) {
-                        // save this._currentPlaceHolderIndex - we'll need this item to find the insert index:
+
+                        // save item of this._currentPlaceHolderIndex - we'll need this item to find the entry-point:
                         let insertIndexReference = this.draggableItems[this._currentPlaceHolderIndex];
 
-                        // save all dragged items:
-                        let draggedItems: any[] = [];
-                        draggedItems.push(this.draggableItems[this._currentDraggedIndex + buffer]);
-                        this.selectedValues.forEach(index => {
-                            const indexBuffer = (index > this._currentPlaceHolderIndex) ? 1 : 0;
-                            draggedItems.push(this._value[index + indexBuffer]);
-                        });
+                        // save all dragged items aside:
+                        const draggedItems: any[] = this.selectedIndexes.sort().map<any>(index => this._value[index + ((index >= this._currentPlaceHolderIndex) ? 1 : 0)]);
 
-                        // remove duplications:
-                        draggedItems = Array.from(new Set<any>(draggedItems.map((item: any) => item)));
-
-                        // remove dragged (selected items):
+                        // remove dragged (selected items) from the original data:
                         draggedItems.forEach(item => this._value.splice(this._value.indexOf(item), 1));
 
-                        // insert draggable items back:
+                        // insert draggable items back to the original data but with new order:
                         this._value.splice(this._value.indexOf(insertIndexReference), 1, ...draggedItems);
 
                         // initiate state:
-                        this._value.forEach(item => delete item['class']);
                         this._currentPlaceHolderIndex = -1;
-                        this.selectedValues = [];
+                        this.selectedIndexes = [];
                         this._orderItems();
                         this._updateView();
                     }
                     else {
+                        const buffer: number = (this._currentDraggedIndex >= this._currentPlaceHolderIndex) ? 1 : 0;
                         // insert dragged item to the new location:
                         this.draggableItems[this._currentPlaceHolderIndex] = this.draggableItems[this._currentDraggedIndex + buffer];
 
                         // remove dragged item previous location & update view:
                         this.draggableItems.splice(this._currentDraggedIndex + buffer, 1);
 
-                        this._updateView();
-
                         // initiate state:
+                        this._updateView();
                         this._currentPlaceHolderIndex = -1;
                     }
                 }
-                else {
-                    this._value.forEach(item => delete item['class']);
-                }
             } else {
-                // initiate state:
+                // undroppable area - initiate state:
                 this.draggableItems.splice(this._currentPlaceHolderIndex, 1);
-                this._value.forEach(item => delete item['class']);
-                this._updateView();
                 this._currentPlaceHolderIndex = -1;
+                this._updateView();
             }
         }
     }
@@ -283,20 +256,12 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     }
 
     selectAll(event: any): void {
-        if(event) {
-            for (let i = 0; i < this._value.length; i++) {
-                this.selectedValues.push(i);
-            }
-            this.selectedValues = [...Array.from(new Set<any>(this.selectedValues.map((item: any) => item)))];
-        } else {
-            this.selectedValues = [];
-        }
-
-        this.emitOnItemsSelected();
+        this.selectedIndexes = (event) ? [...Array.from(Array(this._value.length), (_,x) => x)] : [];
+        this.onSelectionChange();
     }
 
-    emitOnItemsSelected(): void {
-        this.selectionChange.emit(this.selectedValues.map(index => this._value[index]));
+    onSelectionChange(): void {
+        this.selectionChange.emit(this.selectedIndexes.map(index => this._value[index]));
     }
 
     getItemIndex(index: number): number {
@@ -331,7 +296,7 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
 
     private _orderItems() {
         if (!!this.value) {
-            // once using d&d pagination page-size has to be increased by 1 because of the added placeholder
+            // once using d&d with pagination page-size has to be increased by 1 because of the added placeholder
             const buffer = (this.paginator && this._currentPlaceHolderIndex === -1) ? 0 : 1;
 
             this.unDraggableItemsFromTop = [...this.value.slice(0, this.unDraggableFromTop)];
