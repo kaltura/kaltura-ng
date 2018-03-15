@@ -41,7 +41,7 @@ export class AppPermissionsService {
         return this._hasArrayPermission([permission], CompareTypes.Match);
     }
 
-    public hasAllPermissions(permissions: string[]): boolean {
+    public hasAnyPermissions(permissions: string[]): boolean {
         if (!permissions)
         {
             return false;
@@ -49,7 +49,7 @@ export class AppPermissionsService {
             return true;
         }
 
-        return this._hasArrayPermission(permissions, CompareTypes.All);
+        return this._hasArrayPermission(permissions, CompareTypes.Match);
     }
 
     public loadPermissions(permissions: string[]): void {
@@ -94,7 +94,7 @@ export class AppPermissionsService {
         Object.keys(permissionMapping).forEach(key => {
             const permission = permissionMapping[key];
             const hasPermission = Array.isArray(permission)
-              ? this.hasAllPermissions(permission)
+              ? this.hasAnyPermissions(permission)
               : this.hasPermission(permission);
 
           if (!hasPermission) {

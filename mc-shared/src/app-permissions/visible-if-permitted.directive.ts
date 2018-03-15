@@ -1,11 +1,11 @@
 import { Directive, Input, TemplateRef, ViewContainerRef, OnInit, OnChanges } from '@angular/core';
 import { AppPermissionsService } from './app-permissions.service';
 
-@Directive({ selector: '[kVisibleIfAllPermitted]'})
+@Directive({ selector: '[kVisibleIfAnyPermitted]'})
 export class VisibleIfPermitted implements OnChanges {
 
-    @Input('kVisibleIfAllPermittedCondition') condition: boolean = true;
-    @Input('kVisibleIfAllPermitted') visibleIfAll: string[];
+    @Input('kVisibleIfAnyPermittedCondition') condition: boolean = true;
+    @Input('kVisibleIfAnyPermitted') visibleIfAny: string[];
     private _isVisible = false;
 
     constructor(
@@ -15,7 +15,7 @@ export class VisibleIfPermitted implements OnChanges {
 
     ngOnChanges(changes)
     {
-        if (changes.visibleIfAll)
+        if (changes.visibleIfAny)
         {
             this._updateAuthentication();
         }
@@ -27,7 +27,7 @@ export class VisibleIfPermitted implements OnChanges {
     }
 
     private _updateAuthentication(): void{
-        const isAuthenticated = this._service.hasAllPermissions(this.visibleIfAll);
+        const isAuthenticated = this._service.hasAnyPermissions(this.visibleIfAny);
         const isVisible = this.condition && isAuthenticated;
 
         if (this._isVisible !== isVisible)

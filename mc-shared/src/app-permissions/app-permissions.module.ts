@@ -1,11 +1,9 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppPermissionsService } from './app-permissions.service';
-import {
-    HtmlEnableIfPermitted,
-    PrimeDropdownEnableIfPermitted
-} from './enable-if-permitted.directive';
 import { VisibleIfPermitted } from './visible-if-permitted.directive';
+import { NotPermittedPipe } from './not-permitted-pipe';
+
 
 @NgModule({
     imports: [
@@ -13,13 +11,11 @@ import { VisibleIfPermitted } from './visible-if-permitted.directive';
     ],
     declarations: [
         VisibleIfPermitted,
-        PrimeDropdownEnableIfPermitted,
-        HtmlEnableIfPermitted
+        NotPermittedPipe
         ],
     exports: [
         VisibleIfPermitted,
-        PrimeDropdownEnableIfPermitted,
-        HtmlEnableIfPermitted
+        NotPermittedPipe
         ]
 })
 export class AppPermissionsModule {
