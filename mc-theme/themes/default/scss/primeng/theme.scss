@@ -311,6 +311,25 @@ textarea.ui-inputtext {
     cursor: auto;
   }
   */
+
+  .fa-chevron-circle-right {
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-left: 12px solid $kGrayscale4;
+    border-bottom: 8px solid transparent;
+  }
+
+  .fa-chevron-circle-down {
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 12px solid $kGrayscale4;
+    margin-left: -3px;
+  }
   .ui-sortable-column-icon.fa.fa-sort {
     visibility: hidden;
     &.fa-sort-asc, &.fa-sort-desc {
