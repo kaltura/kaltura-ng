@@ -1,6 +1,3 @@
-import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/first';
@@ -17,8 +14,7 @@ enum CompareTypes
     Match
 }
 
-@Injectable()
-export class AppPermissionsService {
+export abstract class AppPermissionsServiceBase<T> {
 
     private _permissions: Immutable.ImmutableObjectMixin<{ [key: string]: boolean }>;
 
@@ -32,7 +28,7 @@ export class AppPermissionsService {
         this._permissions = null;
     }
 
-    public hasPermission(permission: string): boolean {
+    public hasPermission(permission: T): boolean {
         if (!permission)
         {
             return false;
@@ -41,7 +37,7 @@ export class AppPermissionsService {
         return this._hasArrayPermission([permission], CompareTypes.Match);
     }
 
-    public hasAnyPermissions(permissions: string[]): boolean {
+    public hasAnyPermissions(permissions: T[]): boolean {
         if (!permissions)
         {
             return false;
@@ -52,10 +48,13 @@ export class AppPermissionsService {
         return this._hasArrayPermission(permissions, CompareTypes.Match);
     }
 
-    public loadPermissions(permissions: string[]): void {
+    public loadPermissions(permissions: T[]): void {
         const newPermissions = permissions.reduce((source, p) =>
         {
-            source[p] = true;
+            const formattedPermissionToken = this._convertToPermissionTokens(p);
+            if (formattedPermissionToken) {
+                source[formattedPermissionToken] = true;
+            }
             return source;
         }
             , {});
@@ -63,7 +62,18 @@ export class AppPermissionsService {
         this._permissions = Immutable(newPermissions);
     }
 
-    private _hasArrayPermission(permissions: string[], compareType: CompareTypes): boolean {
+    private _convertToPermissionTokens(arg: T[]): string[];
+    private _convertToPermissionTokens(arg: T): string;
+    private _convertToPermissionTokens(arg: T | T[]): string | string[]{
+        if (Array.isArray(arg))
+        {
+            return (<any>arg).map(value => (String(value) || '').toUpperCase());
+        }else {
+            return (String(arg) || '').toUpperCase();
+        }
+    }
+
+    private _hasArrayPermission(permissions: T[], compareType: CompareTypes): boolean {
         if (!this._permissions)
         {
             return false;
@@ -76,13 +86,15 @@ export class AppPermissionsService {
             case CompareTypes.All:
                 result = permissions.every(permission =>
                 {
-                    return !!this._permissions[permission];
+                    const formattedPermissionToken = String(permission || '').toUpperCase();
+                    return formattedPermissionToken && !!this._permissions[formattedPermissionToken];
                 });
                 break;
             case CompareTypes.Match:
                 result = permissions.some(permission =>
                 {
-                    return !!this._permissions[permission];
+                    const formattedPermissionToken = String(permission || '').toUpperCase();
+                    return formattedPermissionToken && !!this._permissions[formattedPermissionToken];
                 });
                 break;
         }
@@ -90,7 +102,7 @@ export class AppPermissionsService {
         return result;
     }
     
-    public filterList(list: { id: string }[], permissionMapping: { [id: string]: string | string[] }): void {
+    public filterList(list: { id: string }[], permissionMapping: { [id: string]: T | T[] }): void {
         Object.keys(permissionMapping).forEach(key => {
             const permission = permissionMapping[key];
             const hasPermission = Array.isArray(permission)

@@ -1,2 +1,2 @@
-export * from './app-permissions.module';
-export * from './app-permissions.service';
+export * from './action-permitted-pipe-base';
+export * from './app-permissions-service-base';
