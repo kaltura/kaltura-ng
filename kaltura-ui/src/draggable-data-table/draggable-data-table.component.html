@@ -10,6 +10,11 @@
     </tr>
     </thead>
     <tbody #tableBody>
+
+    <div *ngIf="(!!draggableItems && draggableItems.length === 0) || !draggableItems">
+        <ng-container *ngTemplateOutlet="emptyStateTemplate"></ng-container>
+    </div>
+
     <tr *ngFor="let row of draggableItems;index as i;" [class]="row.class" [ngClass]="{ 'draggable-row' : true }"
         (mouseover)="onMouseOver($event, i)" (mouseup)="onMouseUp()">
 

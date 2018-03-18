@@ -102,6 +102,8 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
 
     @Output() selectionChange: EventEmitter<any[]> = new EventEmitter<any[]>();
 
+    @Output() pageChange: EventEmitter<any> = new EventEmitter<any>();
+
 
     constructor(private renderer: Renderer2) {
     }
@@ -195,7 +197,6 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
         }
     }
 
-
     onMouseUp(): void {
         if (!this.dragModeOff) {
             this.dragModeOff = true;
@@ -208,12 +209,20 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
             if (this._dropAvailable) {
                 if (this._currentPlaceHolderIndex !== -1) {
                     if (this.multipleDragAndDrop) {
+                        const sortingFunction = (a, b) => {
+                            if (a === b)
+                                return 0;
+                            else if (a < b)
+                                return -1;
+                            else
+                                return 1;
+                        };
 
                         // save item of this._currentPlaceHolderIndex - we'll need this item to find the entry-point:
                         let insertIndexReference = this.draggableItems[this._currentPlaceHolderIndex];
 
                         // save all dragged items aside:
-                        const draggedItems: any[] = this.selectedIndexes.sort().map<any>(index => this._value[index + ((index >= this._currentPlaceHolderIndex) ? 1 : 0)]);
+                        const draggedItems: any[] = this.selectedIndexes.sort(sortingFunction).map<any>(index => this._value[index + ((index >= this._currentPlaceHolderIndex) ? 1 : 0)]);
 
                         // remove dragged (selected items) from the original data:
                         draggedItems.forEach(item => this._value.splice(this._value.indexOf(item), 1));
@@ -236,14 +245,15 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
                         this.draggableItems.splice(this._currentDraggedIndex + buffer, 1);
 
                         // initiate state:
-                        this._updateView();
                         this._currentPlaceHolderIndex = -1;
+                        this._updateView();
                     }
                 }
             } else {
                 // undroppable area - initiate state:
                 this.draggableItems.splice(this._currentPlaceHolderIndex, 1);
                 this._currentPlaceHolderIndex = -1;
+                this.onSelectionChange();
                 this._updateView();
             }
         }
@@ -253,6 +263,7 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
         this.unDraggableFromTop = event.first;
         this.unDraggableFromBottom = (event.first + event.rows);
         this._value = [...this.unDraggableItemsFromTop, ...this.draggableItems, ...this.unDraggableItemsFromBottom];
+        this.pageChange.emit(event);
     }
 
     selectAll(event: any): void {
