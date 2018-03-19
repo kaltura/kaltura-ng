@@ -41,9 +41,12 @@ export class MultiSelectComponent extends MultiSelect {
     super(el, domHandler, renderer, objectUtils, _cd);
   }
   
-  ngAfterViewInit() {
-    super.ngAfterViewInit();
-    
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this._removeHideOnScrollHandler();
+  }
+  
+  private _addHideOnScrollHandler() {
     if (this.hideOnScroll) {
       const listenElement = typeof this.hideOnScroll === 'string'
         ? document.querySelector(this.hideOnScroll)
@@ -55,14 +58,22 @@ export class MultiSelectComponent extends MultiSelect {
     }
   }
   
-  ngOnDestroy() {
-    super.ngOnDestroy();
-    
+  private _removeHideOnScrollHandler() {
     if (this.hideOnScroll && this._hideOnScrollListener) {
       this._hideOnScrollListener();
     }
   }
   
+  public show(): void {
+    super.show();
+    this._addHideOnScrollHandler();
+  }
+  
+  public hide(): void {
+    super.hide();
+    this._removeHideOnScrollHandler();
+  }
+
   public writeValue(value: string[] | null): void {
     this.value = (value || []).filter(val => {
       const relevantOption = (this.options || []).filter(option => option && option.value == val)[0];
