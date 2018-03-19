@@ -46,7 +46,7 @@
                 [style.max-height]="scrollHeight||'auto'">
                 <li *ngFor="let option of options; let index = i" class="ui-multiselect-item ui-corner-all"
                     (click)="isEnabled(option) && onItemClick($event,option.value)"
-                    [style.display]="isItemVisible(option) ? 'block' : 'none'"
+                    [style.display]="isItemVisible(option) ? menuItemDisplayStyle : 'none'"
                     [ngClass]="{'ui-state-highlight':isSelected(option), 'ui-state-disabled': option.disabled}">
                     <div class="ui-chkbox ui-widget">
                         <div class="ui-helper-hidden-accessible">
