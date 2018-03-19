@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@4.0.0...@kaltura-ng/kaltura-common@5.0.0) (2018-03-19)
+
+
+* remove unused mapping between language code and label ([bdb9e61](https://github.com/kaltura/kaltura-ng/commit/bdb9e61))
+
+
+### BREAKING CHANGES
+
+* KalturaUtils no longer expose methods 'getLanguageByCode' and 'getCodeByLanguage'
+
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@3.0.0...@kaltura-ng/kaltura-common@4.0.0) (2018-03-04)
 

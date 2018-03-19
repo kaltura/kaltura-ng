@@ -1,6 +1,6 @@
 {
 	"name": "@kaltura-ng/kaltura-common",
-	"version": "4.0.0",
+	"version": "5.0.0",
 	"private": true,
 	"description": "Angular - commonly needed services within Kaltura projects",
 	"keywords": [
@@ -53,7 +53,7 @@
 		"@angular/core": "^5.2.0",
 		"@angular/http": "^5.2.0",
 		"@angular/router": "^5.2.0",
-		"@kaltura-ng/kaltura-logger": "^2.0.0",
+		"@kaltura-ng/kaltura-logger": "^2.0.1",
 		"ng2-translate": "~5.0.0",
 		"rimraf": "^2.6.2",
 		"rxjs": "^5.5.6"
