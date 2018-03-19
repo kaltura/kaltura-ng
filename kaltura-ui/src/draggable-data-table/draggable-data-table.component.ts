@@ -1,5 +1,5 @@
 import {
-    AfterContentInit, Component, ContentChildren, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output,
+    AfterContentInit, Component, ContentChildren, ElementRef, EventEmitter, Input, OnInit, Output,
     QueryList, Renderer2, TemplateRef, ViewChild
 } from '@angular/core';
 import {ColumnComponent} from './column.component';
@@ -22,25 +22,49 @@ const Events = {
     styleUrls: ['./draggable-data-table.component.scss']
 })
 export class DraggableDataTableComponent implements AfterContentInit, OnInit {
+
+    @Input() emptyStateTemplate: TemplateRef<any>;
+
     @Input() draggableViewTemplate: TemplateRef<any>;
+
     @Output() valueChange: EventEmitter<any[]> = new EventEmitter<any[]>();
+
     @ViewChild('draggable') private draggableElement: ElementRef;
+
     @ViewChild('tableBody') private tableBody: ElementRef;
+
     @ContentChildren(ColumnComponent) cols: QueryList<ColumnComponent>;
+
     currentDraggableItem: any;
+
     draggable: any;
+
     tableBodyElement: any;
+
     columns: ColumnComponent[];
-    dragModeOff = true;
+
+    dragModeOff: boolean = true;
+
+    selectedIndexes: number[] = [];
+
     mouseMoveSubscription: Subscription;
+
     mouseMove: Observable<any>;
-    public unDraggableItemsFromTop: any[];
-    public unDraggableItemsFromBottom: any[];
-    public draggableItems: any[];
-    private _currentDraggedIndex: number;
-    private _currentPlaceHolderIndex: number = -1;
-    private _currentDraggedElement: EventTarget;
+
     private _value: any[];
+
+    public draggableItems: any[];
+
+    public unDraggableItemsFromTop: any[];
+
+    public unDraggableItemsFromBottom: any[];
+
+    private _currentDraggedIndex: number;
+
+    private _currentPlaceHolderIndex: number = -1;
+
+    private _currentDraggedElement: EventTarget;
+
     private _dropAvailable = false;
 
     @Input() set value(val: any[]) {
@@ -57,15 +81,39 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     }
 
     @Input() unDraggableFromTop = 0;
+
     @Input() unDraggableFromBottom = 0;
+
     @Input() rowTrackBy: Function = (index: number, item: any) => item;
+
     @Input() columnTrackBy: Function = (index: number, item: any) => item;
+
+    @Input() paginator: boolean = false;
+
+    @Input() rows: number;
+
+    @Input() rowsPerPageOptions: number[];
+
+    @Input() showIndex: boolean = false;
+
+    @Input() multipleDragAndDrop: boolean = false;
+
+    @Input() selectable: boolean = false;
+
+    @Output() selectionChange: EventEmitter<any[]> = new EventEmitter<any[]>();
+
+    @Output() pageChange: EventEmitter<any> = new EventEmitter<any>();
+
 
     constructor(private renderer: Renderer2) {
     }
 
     // component lifecycle events
     ngOnInit(): void {
+        if(this.paginator) {
+            this.unDraggableFromBottom = this.rows;
+        }
+
         this._orderItems();
         this.draggable = this.draggableElement.nativeElement;
         this.tableBodyElement = this.tableBody.nativeElement;
@@ -117,7 +165,25 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     }
 
     onMouseDown(event: MouseEvent, index: number): void {
-        if (event.which === 1) { // only left button mouse click
+        // only left button mouse click
+        if (event.which === 1) {
+            if (this.multipleDragAndDrop) {
+
+                // sign draggable item as 'checked' if it's not:
+                const currentClickedIndex = this.getItemIndex(index);
+                if (this.selectedIndexes.indexOf(currentClickedIndex) === -1) {
+                    this.selectedIndexes = [currentClickedIndex, ...this.selectedIndexes];
+                }
+
+                // edge-case when all items are selected - d&d should be disabled
+                if (this.selectedIndexes.length === this._value.length) {
+                    return;
+                }
+
+                this.selectedIndexes.forEach(index => this._value[index].class = 'open');
+                this._value = [...this._value];
+            }
+
             event.preventDefault();
             this.currentDraggableItem = this.draggableItems[index];
             this._updateDraggable(event);
@@ -135,43 +201,94 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
         if (!this.dragModeOff) {
             this.dragModeOff = true;
             this._currentDraggedElement['classList'].remove('open');
+            this._value.forEach(item => delete item['class']);
             this.mouseMoveSubscription.unsubscribe();
             this.renderer.setStyle(document.body, 'cursor', 'default');
             this.renderer.setStyle(this.tableBody.nativeElement, 'cursor', 'default');
 
             if (this._dropAvailable) {
                 if (this._currentPlaceHolderIndex !== -1) {
-                    const buffer: number = (this._currentDraggedIndex >= this._currentPlaceHolderIndex) ? 1 : 0;
+                    if (this.multipleDragAndDrop) {
+                        const sortingFunction = (a, b) => {
+                            if (a === b)
+                                return 0;
+                            else if (a < b)
+                                return -1;
+                            else
+                                return 1;
+                        };
 
-                    // insert dragged item to the new location:
-                    this.draggableItems[this._currentPlaceHolderIndex] = this.draggableItems[this._currentDraggedIndex + buffer];
+                        // save item of this._currentPlaceHolderIndex - we'll need this item to find the entry-point:
+                        let insertIndexReference = this.draggableItems[this._currentPlaceHolderIndex];
 
-                    // remove dragged item previous location & update view:
-                    this.draggableItems.splice(this._currentDraggedIndex + buffer, 1);
-                    this._updateView();
+                        // save all dragged items aside:
+                        const draggedItems: any[] = this.selectedIndexes.sort(sortingFunction).map<any>(index => this._value[index + ((index >= this._currentPlaceHolderIndex) ? 1 : 0)]);
 
-                    // initiate state:
-                    this._currentPlaceHolderIndex = -1;
+                        // remove dragged (selected items) from the original data:
+                        draggedItems.forEach(item => this._value.splice(this._value.indexOf(item), 1));
+
+                        // insert draggable items back to the original data but with new order:
+                        this._value.splice(this._value.indexOf(insertIndexReference), 1, ...draggedItems);
+
+                        // initiate state:
+                        this._currentPlaceHolderIndex = -1;
+                        this.selectedIndexes = [];
+                        this._orderItems();
+                        this._updateView();
+                    }
+                    else {
+                        const buffer: number = (this._currentDraggedIndex >= this._currentPlaceHolderIndex) ? 1 : 0;
+                        // insert dragged item to the new location:
+                        this.draggableItems[this._currentPlaceHolderIndex] = this.draggableItems[this._currentDraggedIndex + buffer];
+
+                        // remove dragged item previous location & update view:
+                        this.draggableItems.splice(this._currentDraggedIndex + buffer, 1);
+
+                        // initiate state:
+                        this._currentPlaceHolderIndex = -1;
+                        this._updateView();
+                    }
                 }
             } else {
-                // initiate state:
+                // undroppable area - initiate state:
                 this.draggableItems.splice(this._currentPlaceHolderIndex, 1);
-                this._updateView();
                 this._currentPlaceHolderIndex = -1;
+                this.onSelectionChange();
+                this._updateView();
             }
         }
     }
 
+    paginate(event: any) {
+        this.unDraggableFromTop = event.first;
+        this.unDraggableFromBottom = (event.first + event.rows);
+        this._value = [...this.unDraggableItemsFromTop, ...this.draggableItems, ...this.unDraggableItemsFromBottom];
+        this.pageChange.emit(event);
+    }
+
+    selectAll(event: any): void {
+        this.selectedIndexes = (event) ? [...Array.from(Array(this._value.length), (_,x) => x)] : [];
+        this.onSelectionChange();
+    }
+
+    onSelectionChange(): void {
+        this.selectionChange.emit(this.selectedIndexes.map(index => this._value[index]));
+    }
+
+    getItemIndex(index: number): number {
+        return this._value.indexOf(this.draggableItems[index]);
+    }
+
     // private methods
+    private _updateView(): void {
+        this._value = [...this.unDraggableItemsFromTop, ...this.draggableItems, ...this.unDraggableItemsFromBottom];
+        this.valueChange.emit(this._value);
+    }
+    
     private _updateDraggable(event: MouseEvent) {
         this.renderer.setStyle(this.draggable, 'position', 'fixed');
         this.renderer.setStyle(this.draggable, 'left', event.clientX + 20 + 'px');
         this.renderer.setStyle(this.draggable, 'top', event.clientY - 35 + 'px');
-    }
-
-    private _updateView(): void {
-        this._value = [...this.unDraggableItemsFromTop, ...this.draggableItems, ...this.unDraggableItemsFromBottom];
-        this.valueChange.emit(this._value);
     }
 
     private _onMouseLeave(): void {
@@ -190,9 +307,12 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
 
     private _orderItems() {
         if (!!this.value) {
+            // once using d&d with pagination page-size has to be increased by 1 because of the added placeholder
+            const buffer = (this.paginator && this._currentPlaceHolderIndex === -1) ? 0 : 1;
+
             this.unDraggableItemsFromTop = [...this.value.slice(0, this.unDraggableFromTop)];
-            this.unDraggableItemsFromBottom = [...this.value.slice(this.value.length - this.unDraggableFromBottom, this.value.length)];
-            this.draggableItems = [...this.value.slice(this.unDraggableFromTop, this.value.length - this.unDraggableFromBottom)];
+            this.unDraggableItemsFromBottom = [...this.value.slice(this.unDraggableFromBottom + buffer)];
+            this.draggableItems = [...this.value.slice(this.unDraggableFromTop, this.unDraggableFromBottom + buffer)];
         }
     }
 }
