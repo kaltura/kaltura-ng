@@ -29,6 +29,9 @@ export class MultiSelectComponent extends MultiSelect {
   @Input() disabledLabel: string;
   @Input() allSelectedLabel: string;
   @Input() menuItemDisplayStyle = 'block';
+  @Input() hideOnScroll: string | Element;
+  
+  private _hideOnScrollListener: () => void;
   
   constructor(public el: ElementRef,
               public domHandler: DomHandler,
@@ -36,6 +39,28 @@ export class MultiSelectComponent extends MultiSelect {
               public objectUtils: ObjectUtils,
               private _cd: ChangeDetectorRef) {
     super(el, domHandler, renderer, objectUtils, _cd);
+  }
+  
+  ngAfterViewInit() {
+    super.ngAfterViewInit();
+    
+    if (this.hideOnScroll) {
+      const listenElement = typeof this.hideOnScroll === 'string'
+        ? document.querySelector(this.hideOnScroll)
+        : this.hideOnScroll;
+      
+      if (listenElement instanceof Element) {
+        this._hideOnScrollListener = this.renderer.listen(listenElement, 'scroll', () => this.hide());
+      }
+    }
+  }
+  
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    
+    if (this.hideOnScroll && this._hideOnScrollListener) {
+      this._hideOnScrollListener();
+    }
   }
   
   public writeValue(value: string[] | null): void {
