@@ -262,7 +262,7 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     paginate(event: any) {
         this.unDraggableFromTop = event.first;
         this.unDraggableFromBottom = (event.first + event.rows);
-        this._value = [...this.unDraggableItemsFromTop, ...this.draggableItems, ...this.unDraggableItemsFromBottom];
+        this.value = [...this.unDraggableItemsFromTop, ...this.draggableItems, ...this.unDraggableItemsFromBottom];
         this.pageChange.emit(event);
     }
 
@@ -281,7 +281,7 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
 
     // private methods
     private _updateView(): void {
-        this._value = [...this.unDraggableItemsFromTop, ...this.draggableItems, ...this.unDraggableItemsFromBottom];
+        this.value = [...this.unDraggableItemsFromTop, ...this.draggableItems, ...this.unDraggableItemsFromBottom];
         this.valueChange.emit(this._value);
     }
     

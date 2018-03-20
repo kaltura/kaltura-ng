@@ -1,20 +1,29 @@
-import { NgModule } from '@angular/core';
-import { DraggableDataTableComponent } from "./draggable-data-table.component";
-import { ColumnComponent } from "./column.component";
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {DraggableDataTableComponent} from "./draggable-data-table.component";
+import {ColumnComponent} from "./column.component";
+import {CheckboxModule} from 'primeng/primeng';
+import {PaginatorModule} from "primeng/primeng";
 
 
 @NgModule(
     {
-        imports : [],
-        declarations : [],
-        exports : [
+        imports: [
+            CommonModule,
+            CheckboxModule,
+            PaginatorModule
+        ],
+        declarations: [
             DraggableDataTableComponent,
             ColumnComponent
         ],
-        providers : []
+        exports: [
+            DraggableDataTableComponent,
+            ColumnComponent
+        ],
+        providers: []
     }
 )
-export class DraggableDataTableModule
-{
+export class DraggableDataTableModule {
 
 } 
