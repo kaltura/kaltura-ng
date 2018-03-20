@@ -281,7 +281,7 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
 
     // private methods
     private _updateView(): void {
-        this.value = [...this.unDraggableItemsFromTop, ...this.draggableItems, ...this.unDraggableItemsFromBottom];
+        this.value = (this.paginator) ? [...this.unDraggableItemsFromTop, ...this.draggableItems, ...this.unDraggableItemsFromBottom] : [...this.draggableItems];
         this.valueChange.emit(this._value);
     }
     
@@ -307,12 +307,16 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
 
     private _orderItems() {
         if (!!this.value) {
-            // once using d&d with pagination page-size has to be increased by 1 because of the added placeholder
-            const buffer = (this.paginator && this._currentPlaceHolderIndex === -1) ? 0 : 1;
+         if (this.paginator) {
+             // once using d&d with pagination page-size has to be increased by 1 because of the added placeholder
+             const buffer = (this._currentPlaceHolderIndex === -1) ? 0 : 1;
 
-            this.unDraggableItemsFromTop = [...this.value.slice(0, this.unDraggableFromTop)];
-            this.unDraggableItemsFromBottom = [...this.value.slice(this.unDraggableFromBottom + buffer)];
-            this.draggableItems = [...this.value.slice(this.unDraggableFromTop, this.unDraggableFromBottom + buffer)];
+             this.unDraggableItemsFromTop = [...this.value.slice(0, this.unDraggableFromTop)];
+             this.unDraggableItemsFromBottom = [...this.value.slice(this.unDraggableFromBottom + buffer)];
+             this.draggableItems = [...this.value.slice(this.unDraggableFromTop, this.unDraggableFromBottom + buffer)];
+         } else {
+             this.draggableItems = [...this.value];
+         }
         }
     }
 }
