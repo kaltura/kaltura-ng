@@ -6,6 +6,7 @@ export { KalturaPlayerComponent } from './player/player.component';
 export { KalturaBrowserUtils, BrowserNames } from './kaltura-browser-utils';
 export { AreaBlockerModule, AreaBlockerMessage, AreaBlockerMessageButton } from './area-blocker';
 export { DetailsBarComponent } from "./details-bar/details-bar.component";
+export { DraggableDataTableModule } from "./draggable-data-table";
 export { TimePipe } from './time.pipe';
 export { DatePipe } from './date.pipe';
 export * from './validators';
