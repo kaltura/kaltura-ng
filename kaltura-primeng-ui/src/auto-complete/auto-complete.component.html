@@ -24,7 +24,7 @@
                        [attr.placeholder]="(value&&value.length ? null : _placeholder)" [attr.tabindex]="tabindex"
                        (input)="onInput($event)" (click)="onInputClick($event)"
                        (keydown)="onKeydown($event)" (keyup)="onKeyup($event)" (focus)="onInputFocus($event)"
-                       (blur)="onInputBlur($event)" autocomplete="off" [ngStyle]="inputStyle"
+                       (blur)="onInputBlur($event)" autocomplete="off" [ngStyle]="inputStyle" [readonly]="readonly"
                        [class]="inputStyleClass">
             </li>
         </ul

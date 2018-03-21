@@ -3,7 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
- <a name="2.0.0"></a>
+       <a name="2.0.1"></a>
+## [2.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.0.0...@kaltura-ng/mc-theme@2.0.1) (2018-03-19)
+
+
+### Bug Fixes
+
+* fix style of menu items ([0890dda](https://github.com/kaltura/kaltura-ng/commit/0890dda))
+
+
+
+
+       <a name="2.0.0"></a>
 # [2.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@1.0.0...@kaltura-ng/mc-theme@2.0.0) (2018-03-04)
 
 
@@ -28,7 +39,7 @@ See [standard-version](https://github.com/conventional-changelog/standard-versio
 
 
 
- <a name="1.0.0"></a>
+<a name="1.0.0"></a>
 # [1.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@0.9.1...@kaltura-ng/mc-theme@1.0.0) (2018-02-05)
 
 
