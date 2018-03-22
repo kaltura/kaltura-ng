@@ -48,7 +48,7 @@ export abstract class AppPermissionsServiceBase<T> {
         return this._hasArrayPermission(permissions, CompareTypes.Match);
     }
 
-    public loadPermissions(permissions: T[]): void {
+    protected loadPermissions(permissions: T[]): void {
         const newPermissions = permissions.reduce((source, p) =>
         {
             const formattedPermissionToken = this._convertToPermissionTokens(p);
