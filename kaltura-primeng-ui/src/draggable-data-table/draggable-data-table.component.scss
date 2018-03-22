@@ -72,6 +72,18 @@ table {
   //padding-left: 14px;
 }
 
+.draggable-row:hover {
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+.onDragMode .draggable-row:hover {
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
+}
+
 .draggable-row:hover .draggable-row-icon {
   display: block;
 }
