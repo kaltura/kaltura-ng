@@ -11,10 +11,6 @@
     </thead>
     <tbody #tableBody>
 
-    <div *ngIf="(!!draggableItems && draggableItems.length === 0) || !draggableItems">
-        <ng-container *ngTemplateOutlet="emptyStateTemplate"></ng-container>
-    </div>
-
     <tr *ngFor="let row of draggableItems;index as i;" [class]="row.class" [ngClass]="{ 'draggable-row' : true }"
         (mouseover)="onMouseOver($event, i)" (mouseup)="onMouseUp()">
 
@@ -38,6 +34,11 @@
     </tr>
     </tbody>
 </table>
+
+<div *ngIf="(!!draggableItems && draggableItems.length === 0) || !draggableItems"
+     class="empty-state-placeholder">
+    <ng-container *ngTemplateOutlet="emptyStateTemplate"></ng-container>
+</div>
 
 <p-paginator *ngIf="paginator" [rows]="rows" [totalRecords]="value ? value.length : 0"
              [rowsPerPageOptions]="rowsPerPageOptions" (onPageChange)="paginate($event)">
