@@ -72,13 +72,13 @@ table {
   //padding-left: 14px;
 }
 
-.draggable-row:hover {
+.draggable-row {
   cursor: -moz-grab;
   cursor: -webkit-grab;
   cursor: grab;
 }
 
-.onDragMode .draggable-row:hover {
+.onDragMode .draggable-row {
   cursor: -moz-grabbing;
   cursor: -webkit-grabbing;
   cursor: grabbing;
