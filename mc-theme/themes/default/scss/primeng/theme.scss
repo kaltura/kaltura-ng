@@ -430,7 +430,7 @@ textarea.ui-inputtext {
     background: darken($kPrimary, 10%);
   }
   &:active {
-    box-shadow: inset 0px 1px 3px 0 rgba(0, 0, 0, 0.50);
+    box-shadow: 0 0 0 3px rgba(0,167,132,0.4);
   }
   &:disabled {
     color: $kGrayscale4;
@@ -450,7 +450,7 @@ textarea.ui-inputtext {
     color: $kPrimary;
   }
   &:active:not(:disabled){
-    box-shadow: inset 0px 1px 3px 0 rgba(0,0,0,0.50);
+    box-shadow: 0 0 0 3px rgba(0,167,132, 0.4);
   }
   &:disabled{
     color: $kGrayscale4;
@@ -470,9 +470,9 @@ textarea.ui-inputtext {
     border: 0px solid darken($kDandger, 10%);
   }
   &:active:not(:disabled){
-    box-shadow: inset 0px 1px 3px 0 rgba(0,0,0,0.50);
+    box-shadow: 0 0 0 3px rgba(219, 31, 38, 0.4);
   }
-  &:disabled{
+  &.ui-state-default:disabled, &:disabled{
     @extend .disabled;
   }
 }
@@ -845,6 +845,9 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   &:hover{
     color: $kPrimary;
   }
+  &:active {
+    box-shadow: 0 0 0 3px rgba(0,167,132,0.4);
+  }
 }
 .ui-dropdown-trigger{
   border: 0px !important;
@@ -926,7 +929,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
         color: $kPrimary;
       }
       &:active {
-        box-shadow: inset 0px 1px 3px 0 rgba(0, 0, 0, 0.50);
+        box-shadow: 0 0 0 3px rgba(0,167,132,0.4);;
       }
     }
   }
