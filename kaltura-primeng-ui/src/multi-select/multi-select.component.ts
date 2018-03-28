@@ -28,6 +28,7 @@ export interface KalturaSelectItem extends SelectItem {
 export class MultiSelectComponent extends MultiSelect {
   @Input() disabledLabel: string;
   @Input() allSelectedLabel: string;
+  @Input() selectAllLabel: string;
   @Input() menuItemDisplayStyle = 'block';
   @Input() hideOnScroll: string | Element;
   
