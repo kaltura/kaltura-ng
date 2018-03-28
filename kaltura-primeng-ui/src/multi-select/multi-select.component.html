@@ -22,15 +22,6 @@
          [style.display]="overlayVisible ? 'block' : 'none'" (click)="panelClick=true">
         <div class="ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix"
              [ngClass]="{'ui-multiselect-header-no-toggleall': !showToggleAll}">
-            <div class="ui-chkbox ui-widget" *ngIf="showToggleAll">
-                <div class="ui-helper-hidden-accessible">
-                    <input #cb type="checkbox" readonly="readonly" [checked]="isAllChecked()">
-                </div>
-                <div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"
-                     [ngClass]="{'ui-state-active':isAllChecked()}" (click)="toggleAll($event,cb)">
-                    <span class="ui-chkbox-icon ui-clickable" [ngClass]="{'fa fa-check':isAllChecked()}"></span>
-                </div>
-            </div>
             <div class="ui-multiselect-filter-container" *ngIf="filter">
                 <input #filterInput type="text" role="textbox" (input)="onFilter($event)"
                        class="ui-inputtext ui-widget ui-state-default ui-corner-all"
@@ -44,6 +35,22 @@
         <div class="ui-multiselect-items-wrapper">
             <ul class="ui-multiselect-items ui-multiselect-list ui-widget-content ui-widget ui-corner-all ui-helper-reset"
                 [style.max-height]="scrollHeight||'auto'">
+                <li *ngIf="showToggleAll"
+                    class="ui-multiselect-item ui-corner-all ui-select-all"
+                    (click)="toggleAll($event,cb)" >
+                    <div class="ui-chkbox ui-widget">
+                        <div class="ui-helper-hidden-accessible">
+                            <input #cb type="checkbox" readonly="readonly"
+                                   [attr.aria-label]="selectAllLabel"
+                                   [checked]="isAllChecked()">
+                        </div>
+                        <div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"
+                             [ngClass]="{'ui-state-active':isAllChecked()}">
+                            <span class="ui-chkbox-icon ui-clickable fa" [ngClass]="{'fa-check':isAllChecked(), 'fa-minus':isPartiallyChecked()}"></span>
+                        </div>
+                    </div>
+                    <label>{{selectAllLabel}}</label>
+                </li>
                 <li *ngFor="let option of options; let index = i" class="ui-multiselect-item ui-corner-all"
                     (click)="isEnabled(option) && onItemClick($event,option.value)"
                     [style.display]="isItemVisible(option) ? menuItemDisplayStyle : 'none'"

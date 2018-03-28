@@ -28,6 +28,7 @@ export interface KalturaSelectItem extends SelectItem {
 export class MultiSelectComponent extends MultiSelect {
   @Input() disabledLabel: string;
   @Input() allSelectedLabel: string;
+  @Input() selectAllLabel: string;
   @Input() menuItemDisplayStyle = 'block';
   @Input() hideOnScroll: string | Element;
   
@@ -110,18 +111,11 @@ export class MultiSelectComponent extends MultiSelect {
     this.updateLabel();
   }
   
+  public isPartiallyChecked(): boolean {
+    return !this.isAllChecked() && (this.value || []).length > 0;
+  }
+  
   public isAllChecked(): boolean {
-    const value = (this.value || []).filter(option => this.isEnabled(option));
-    if (this.filterValue && this.filterValue.trim().length && this.visibleOptions) {
-      const visibleOptions = this.visibleOptions.filter(option => this.isEnabled(option));
-      return visibleOptions.length && (value.length === visibleOptions.length);
-    }
-    
-    if (this.options) {
-      const options = this.options.filter(option => this.isEnabled(option));
-      return value.length === options.length;
-    }
-    
-    return false;
+    return this.options ? (this.value || []).length === this.options.length : false;
   }
 }
