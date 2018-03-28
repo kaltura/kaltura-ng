@@ -28,7 +28,7 @@
                 </div>
                 <div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"
                      [ngClass]="{'ui-state-active':isAllChecked()}" (click)="toggleAll($event,cb)">
-                    <span class="ui-chkbox-icon ui-clickable" [ngClass]="{'fa fa-check':isAllChecked()}"></span>
+                    <span class="ui-chkbox-icon ui-clickable fa" [ngClass]="{'fa-check':isAllChecked(), 'fa-minus':isPartiallyChecked()}"></span>
                 </div>
             </div>
             <div class="ui-multiselect-filter-container" *ngIf="filter">
