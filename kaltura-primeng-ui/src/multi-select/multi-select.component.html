@@ -35,7 +35,7 @@
         <div class="ui-multiselect-items-wrapper">
             <ul class="ui-multiselect-items ui-multiselect-list ui-widget-content ui-widget ui-corner-all ui-helper-reset"
                 [style.max-height]="scrollHeight||'auto'">
-                <li *ngIf="showToggleAll"
+                <li *ngIf="showToggleAll && !filterValue"
                     class="ui-multiselect-item ui-corner-all ui-select-all"
                     (click)="toggleAll($event,cb)" >
                     <div class="ui-chkbox ui-widget">
