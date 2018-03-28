@@ -30,16 +30,19 @@
   content: "\e95f";
 }
 .kIconbulk:before {
-  content: "\e92d";
+  content: "\e92e";
 }
 .kIconUsers:before {
-  content: "\e92e";
+  content: "\e93f";
 }
 .kIconlive:before {
   content: "\e958";
 }
 .kIconUpload:before {
   content: "\e959";
+}
+.kIconstatistic:before {
+  content: "\e961";
 }
 .kIconplayback-file:before {
   content: "\e955";
@@ -173,6 +176,12 @@
 .kIconPlaylist_RuleBased:before {
   content: "\e931";
 }
+.kIcondynamic-collection:before {
+  content: "\e92b";
+}
+.kIconadd-to-collection:before {
+  content: "\e901";
+}
 .kIconzoom:before {
   content: "\e95a";
 }
@@ -249,7 +258,7 @@
   content: "\e91b";
 }
 .kIcontranscoding:before {
-  content: "\e901";
+  content: "\e940";
 }
 .kIconinactive:before {
   content: "\e95b";
@@ -258,16 +267,16 @@
   content: "\e95c";
 }
 .kIconcomplete:before {
-  content: "\e93f";
-}
-.kIconerror:before {
-  content: "\e940";
-}
-.kIconsync:before {
   content: "\e941";
 }
-.kIconupload2:before {
+.kIconerror:before {
   content: "\e942";
+}
+.kIconsync:before {
+  content: "\e943";
+}
+.kIconupload2:before {
+  content: "\e950";
 }
 .kIconpartial_small:before {
   content: "\e922";
@@ -297,13 +306,13 @@
   content: "\e92a";
 }
 .kIconsettings-upgrade-1:before {
-  content: "\e92b";
-}
-.kIconsettings-upgrade-2:before {
   content: "\e92c";
 }
+.kIconsettings-upgrade-2:before {
+  content: "\e92d";
+}
 .kIconrefresh_small:before {
-  content: "\e943";
+  content: "\e960";
 }
 .kIconepisode-small:before {
   content: "\e94e";
