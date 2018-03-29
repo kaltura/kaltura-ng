@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.0.1"></a>
+## [5.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@5.0.0...@kaltura-ng/kaltura-ui@5.0.1) (2018-03-19)
+
+
+### Bug Fixes
+
+* fix area blocker z-index to cover sticky elements ([b92b1e6](https://github.com/kaltura/kaltura-ng/commit/b92b1e6))
+
+
+
+
 <a name="5.0.0"></a>
 # [5.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@4.0.0...@kaltura-ng/kaltura-ui@5.0.0) (2018-03-04)
 

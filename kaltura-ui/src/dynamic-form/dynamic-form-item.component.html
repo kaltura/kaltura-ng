@@ -2,7 +2,9 @@
 
     <ng-container  *ngIf="control.controlType === 'Group' && control.allowMultiple">
             <div class="kMultiple" [formArrayName]="control.key">
-                <span class="kGroupTitle" *ngIf="control.label" [kTooltip]="control.description" [maxWidth]="300">{{control.label}}</span>
+                <span class="kGroupTitle" *ngIf="control.label">
+                    <span [kTooltip]="control.description" [maxWidth]="300">{{control.label}}</span>
+                </span>
                 <div class="kGroupContainer"  *ngFor="let groupForm of form.controls[control.key].controls; let i=index">
 
                     <div [formGroupName]="i">
@@ -28,7 +30,9 @@
     </ng-container>
 
     <div class="kMultiple" *ngIf="control.controlType === 'Group' && !control.allowMultiple">
-        <span class="kGroupTitle" *ngIf="control.label" [kTooltip]="control.description" [maxWidth]="300">{{control.label}}</span>
+        <span class="kGroupTitle" *ngIf="control.label">
+            <span [kTooltip]="control.description" [maxWidth]="300">{{control.label}}</span>
+        </span>
         <k-dynamic-form-item *ngFor="let childControl of control.children" [control]="childControl" [form]="form" [labelTemplate]="labelTemplate">
             <ng-template let-item="item">
                 <ng-container *ngTemplateOutlet="_templates.first;context:{ item : item }"></ng-container>

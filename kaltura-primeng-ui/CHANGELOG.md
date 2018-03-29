@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@2.0.0...@kaltura-ng/kaltura-primeng-ui@2.1.0) (2018-03-19)
+
+
+### Features
+
+* add item in autocomplete by pressing comma ([4a4b14e](https://github.com/kaltura/kaltura-ng/commit/4a4b14e))
+* support readonly in auto-complete multiple selection ([b05f55d](https://github.com/kaltura/kaltura-ng/commit/b05f55d))
+
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@1.0.0...@kaltura-ng/kaltura-primeng-ui@2.0.0) (2018-03-04)
 
