@@ -19,12 +19,12 @@
                     </div>
 
                     <div class="kDeleteGroup">
-                        <a (click)="removeItem(control,i)" class="kButton">Delete</a>
+                        <a (click)="!form.disabled && removeItem(control,i)" class="kButton" [class.disabled]="form.disabled">Delete</a>
                     </div>
                 </div>
 
                 <div class="kGroupButtons">
-                    <button (click)="addItem(control)" class="kButton">Add</button>
+                    <button (click)="addItem(control)" class="kButton" [disabled]="form.disabled">Add</button>
                 </div>
             </div>
     </ng-container>
@@ -56,10 +56,10 @@
 
             <div class="kSingleItem" *ngFor="let itemFormGroup of form.controls[control.key].controls; let i=index" [formGroupName]="i">
                     <ng-container *ngTemplateOutlet="_templates.first;context:{item: { control : control, form : itemFormGroup }}"></ng-container>
-                <a (click)="removeItem(control,i)" class="kDelete">Delete</a>
+                <a (click)="!form.disabled && removeItem(control,i)" class="kDelete" [class.disabled]="form.disabled">Delete</a>
             </div>
             <div>
-                <a (click)="addItem(control)">Add</a>
+                <a (click)="!form.disabled && addItem(control)" [class.disabled]="form.disabled">Add</a>
             </div>
         </div>
 
