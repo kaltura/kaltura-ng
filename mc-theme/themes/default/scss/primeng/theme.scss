@@ -394,11 +394,11 @@ textarea.ui-inputtext {
   height: 34px;
   font-size: 14px;
 }
-.disabled{
+.disabled:not(a){
   color: $kGrayscale4;
   background: transparent;
   border: 1px solid $kGrayscale4;
-  cursor: none;
+  cursor: default;
 }
 .ui-button.kButtonBranded {
   &.ui-state-default {
