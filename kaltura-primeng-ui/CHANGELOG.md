@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@2.1.0...@kaltura-ng/kaltura-primeng-ui@2.2.0) (2018-04-02)
+
+
+### Features
+
+* add multi-select dropdown component ([#102](https://github.com/kaltura/kaltura-ng/issues/102)) ([cf1a158](https://github.com/kaltura/kaltura-ng/commit/cf1a158))
+* use kaltura multi select component in dynamic form ([#103](https://github.com/kaltura/kaltura-ng/issues/103)) ([65a3218](https://github.com/kaltura/kaltura-ng/commit/65a3218))
+
+
+
+
 <a name="2.1.0"></a>
 # [2.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@2.0.0...@kaltura-ng/kaltura-primeng-ui@2.1.0) (2018-03-19)
 

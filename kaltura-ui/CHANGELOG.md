@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.1.0"></a>
+# [5.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@5.0.1...@kaltura-ng/kaltura-ui@5.1.0) (2018-04-02)
+
+
+### Bug Fixes
+
+* position the tooltip above the text KMCNG-1461 ([#96](https://github.com/kaltura/kaltura-ng/issues/96)) ([fd669fd](https://github.com/kaltura/kaltura-ng/commit/fd669fd))
+* remove export that is causing errors during build with aot ([b69df94](https://github.com/kaltura/kaltura-ng/commit/b69df94))
+
+
+### Features
+
+* update theme for anchor html element to support disabled class ([0b57093](https://github.com/kaltura/kaltura-ng/commit/0b57093))
+
+
+
+
 <a name="5.0.1"></a>
 ## [5.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@5.0.0...@kaltura-ng/kaltura-ui@5.0.1) (2018-03-19)
 

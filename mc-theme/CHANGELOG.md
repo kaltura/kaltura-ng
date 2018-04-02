@@ -3,7 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-       <a name="2.0.1"></a>
+ <a name="2.1.0"></a>
+# [2.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.0.1...@kaltura-ng/mc-theme@2.1.0) (2018-04-02)
+
+
+### Features
+
+* update theme for anchor html element to support disabled class ([0b57093](https://github.com/kaltura/kaltura-ng/commit/0b57093))
+* updated icons font (add statistics icon) ([1fd9d4e](https://github.com/kaltura/kaltura-ng/commit/1fd9d4e))
+
+
+
+
+ <a name="2.0.1"></a>
 ## [2.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.0.0...@kaltura-ng/mc-theme@2.0.1) (2018-03-19)
 
 
@@ -14,7 +26,7 @@ See [standard-version](https://github.com/conventional-changelog/standard-versio
 
 
 
-       <a name="2.0.0"></a>
+<a name="2.0.0"></a>
 # [2.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@1.0.0...@kaltura-ng/mc-theme@2.0.0) (2018-03-04)
 
 

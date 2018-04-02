@@ -1,6 +1,6 @@
 {
 	"name": "@kaltura-ng/kaltura-primeng-ui",
-	"version": "2.1.0",
+	"version": "2.2.0",
 	"private": true,
 	"description": "Angular - Kaltura UI directives, pipes and services that utilizes PrimeNG suite",
 	"keywords": [
@@ -51,8 +51,8 @@
 		"@angular/common": "^5.2.0",
 		"@angular/core": "^5.2.0",
 		"@angular/forms": "^5.2.0",
-		"@kaltura-ng/kaltura-common": "^5.0.0",
-		"@kaltura-ng/kaltura-ui": "^5.0.1",
+		"@kaltura-ng/kaltura-common": "^5.0.1",
+		"@kaltura-ng/kaltura-ui": "^5.1.0",
 		"primeng": "~5.2.0",
 		"rimraf": "^2.6.2",
 		"rxjs": "^5.5.6"
