@@ -31,6 +31,15 @@ export class KalturaLogger implements OnDestroy{
         return this._name;
     }
 
+    static createLogger(loggerName: string) : Provider[] {
+	    return [
+		    KalturaLogger,
+		    {
+			    provide: KalturaLoggerName, useValue: loggerName
+		    }
+	    ];
+    }
+
     constructor(@Inject(KalturaLoggerName) @Optional() @Self() name: string, @SkipSelf() @Optional() parentLogger: KalturaLogger) {
 
         if (!name)
