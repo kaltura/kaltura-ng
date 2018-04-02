@@ -78,8 +78,11 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     }
 
     get value(): any[] {
-        return this._value;
+        if (this.dragModeOff) {
+            return this._value;
+        }
     }
+
 
     @Input() unDraggableFromTop = 0;
 
@@ -281,7 +284,7 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     // private methods
     private _updateView(): void {
         this.value = (this.paginator) ? [...this.unDraggableItemsFromTop, ...this.draggableItems, ...this.unDraggableItemsFromBottom] : [...this.draggableItems];
-        this.valueChange.emit(this._value);
+        if (this.dragModeOff) { this.valueChange.emit(this.value); }
     }
     
     private _updateDraggable(event: MouseEvent) {
