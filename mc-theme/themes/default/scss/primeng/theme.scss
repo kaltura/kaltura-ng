@@ -468,6 +468,9 @@ textarea.ui-inputtext {
   .ui-menuitem .ui-menuitem-link:hover{
     background-color: $kGrayscale6;
   }
+  .ui-menuitem.kDanger .ui-menuitem-text{
+    color: $kDandger;
+  }
 }
 body .ui-tieredmenu {
   width: 250px;
