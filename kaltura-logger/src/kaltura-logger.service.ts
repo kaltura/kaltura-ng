@@ -4,6 +4,8 @@ import { InjectionToken } from '@angular/core';
 
 export const KalturaLoggerName = new InjectionToken<string>('kaltura-logger-name');
 
+export type Context = { [key: string]: any };
+export type DefferedContext = () => Context;
 export type LogLevels = 'All' | 'Trace' | 'Debug' | 'Info' | 'Warn' | 'Error' | 'Fatal' | 'Off';
 
 let randomLoggerNameNumber = 1;
@@ -70,18 +72,6 @@ export class KalturaLogger implements OnDestroy{
         return new KalturaLogger(name, this);
     }
 
-    // TODO check why this doesn't work with AOT
-    // static create(name: string): Provider {
-    //     return {
-    //         provide: KalturaLogger,
-    //             useFactory(parentLogger)
-    //             {
-    //                 return new KalturaLogger(name, parentLogger);
-    //             },
-    //         deps: [[new Optional(), new SkipSelf(), KalturaLogger]]
-    //     }
-    // }
-
     ngOnDestroy()
     {
         this._logger.debug('logger destroyed');
@@ -89,36 +79,61 @@ export class KalturaLogger implements OnDestroy{
 
     }
 
-    public debug(message: string, context? : any) : void{
-        const content = context ? Object.assign({message},context) : message;
-        this._logger.debug(content);
+    private _createLogObject(level: string, message: string, context: Context): any {
+        return context ? Object.assign({message, level}, context) : message;
     }
 
-    public trace(message: string, context? : any) : void{
-        const content = context ? Object.assign({message},context) : message;
-        this._logger.trace(content);
+	public trace(message: string, context? : DefferedContext) : void {
+		if (context && typeof context === 'function') {
+			this._logger.trace(() => this._createLogObject('trace', message, context()));
+		} else {
+			this._logger.trace(this._createLogObject('trace', message, context));
+		}
+	}
+
+	public debug(message: string, context? : Context) : void;
+    public debug(message: string, context? : DefferedContext) : void;
+    public debug(message: string, context? : Context | DefferedContext) : void {
+	    if (context && typeof context === 'function') {
+		    this._logger.debug(() => this._createLogObject('debug', message, context()));
+	    } else {
+		    this._logger.debug(this._createLogObject('debug', message, context));
+	    }
     }
 
-    public fatal(message: string, error? : Error) : void{
-        if (error) {
-            this._logger.fatalException(message, error);
-        }else {
-            this._logger.fatal(message);
-        }
-    }
+	public info(message: string, context? : Context) : void;
+	public info(message: string, context? : DefferedContext) : void;
+	public info(message: string, context? : Context | DefferedContext) : void {
+		if (context && typeof context === 'function') {
+			this._logger.info(() => this._createLogObject('info', message, context()));
+		} else {
+			this._logger.info(this._createLogObject('info', message, context));
+		}
+	}
 
-    public error(message: string, context? : any) : void{
-        const content = context ? Object.assign({message},context) : message;
-        this._logger.error(content);
-    }
+	public warn(message: string, context? : Context) : void;
+	public warn(message: string, context? : DefferedContext) : void;
+	public warn(message: string, context? : Context | DefferedContext) : void {
+		if (context && typeof context === 'function') {
+			this._logger.warn(() => this._createLogObject('warn', message, context()));
+		} else {
+			this._logger.warn(this._createLogObject('warn', message, context));
+		}
+	}
 
-    public warn(message: string, context? : any) : void{
-        const content = context ? Object.assign({message},context) : message;
-        this._logger.warn(content);
-    }
+	public error(message: string, context? : Context) : void;
+	public error(message: string, error? : Error) : void;
+	public error(message: string, context? : Error | Context) : void {
+		this._logger.error(this._createLogObject('error', message, context));
+	}
 
-    public info(message: string, context? : any) : void{
-        const content = context ? Object.assign({message},context) : message;
-        this._logger.info(content);
-    }
+	public fatal(message: string, context? : Context) : void;
+	public fatal(message: string, error? : Error) : void;
+	public fatal(message: string, context? : Error | Context) : void {
+		if (context && context instanceof Error) {
+			this._logger.fatalException(message, context);
+		}else {
+			this._logger.fatal(this._createLogObject('fatal', message, context));
+		}
+	}
 }
