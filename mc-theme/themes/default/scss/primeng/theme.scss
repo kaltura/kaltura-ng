@@ -754,7 +754,6 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
       background-color: $kGrayscale7;
     }
   }
-
   .ui-autocomplete-notification-item
   {
     min-height: 50px;
@@ -793,7 +792,9 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
     border-radius: 3px;
   }
 }
-
+.ui-autocomplete-token-label{
+  font-weight: bold;
+}
 // drop down
 .ui-dropdown-item.ui-corner-all{
   min-height: 32px;
