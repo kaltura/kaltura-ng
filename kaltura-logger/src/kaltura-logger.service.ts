@@ -79,15 +79,17 @@ export class KalturaLogger implements OnDestroy{
 
     }
 
-    private _createLogObject(level: string, message: string, context: Context): any {
+    private _createLogObject(level: string, message: string, context: Context | Error): any {
         return context ? Object.assign({message, level}, context) : message;
     }
 
-	public trace(message: string, context? : DefferedContext) : void {
+	public trace(message: string, context? : Context) : void;
+	public trace(message: string, context? : DefferedContext) : void;
+	public trace(message: string, context? : Context | DefferedContext) : void {
 		if (context && typeof context === 'function') {
 			this._logger.trace(() => this._createLogObject('trace', message, context()));
 		} else {
-			this._logger.trace(this._createLogObject('trace', message, context));
+			this._logger.trace(this._createLogObject('trace', message, <Context>context));
 		}
 	}
 
@@ -97,7 +99,7 @@ export class KalturaLogger implements OnDestroy{
 	    if (context && typeof context === 'function') {
 		    this._logger.debug(() => this._createLogObject('debug', message, context()));
 	    } else {
-		    this._logger.debug(this._createLogObject('debug', message, context));
+		    this._logger.debug(this._createLogObject('debug', message, <Context>context));
 	    }
     }
 
@@ -107,7 +109,7 @@ export class KalturaLogger implements OnDestroy{
 		if (context && typeof context === 'function') {
 			this._logger.info(() => this._createLogObject('info', message, context()));
 		} else {
-			this._logger.info(this._createLogObject('info', message, context));
+			this._logger.info(this._createLogObject('info', message, <Context>context));
 		}
 	}
 
@@ -117,7 +119,7 @@ export class KalturaLogger implements OnDestroy{
 		if (context && typeof context === 'function') {
 			this._logger.warn(() => this._createLogObject('warn', message, context()));
 		} else {
-			this._logger.warn(this._createLogObject('warn', message, context));
+			this._logger.warn(this._createLogObject('warn', message, <Context>context));
 		}
 	}
 
