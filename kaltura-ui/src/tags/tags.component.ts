@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList, HostListener, ElementRef, ContentChildren, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList, HostListener, ElementRef, ContentChildren, TemplateRef, SimpleChanges, SimpleChange } from '@angular/core';
 import { TagComponent } from './tag.component';
 import { Subscription } from "rxjs/Subscription";
 
@@ -51,6 +51,10 @@ export class TagsComponent implements AfterViewInit, OnDestroy{
 			this.onTagsChange.emit({tagsCount: (this.data ? this.data.length : 0) });
 			this.checkShowMore();
 		});
+	}
+
+	ngOnChanges(changes: SimpleChanges) {
+		this.checkShowMore();
 	}
 
 	ngOnDestroy(){
