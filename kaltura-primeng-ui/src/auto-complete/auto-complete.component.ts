@@ -1,4 +1,18 @@
-import { Component, AfterViewInit, forwardRef, ChangeDetectorRef, AfterViewChecked, Input, ElementRef, OnDestroy, Renderer2, IterableDiffers, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  forwardRef,
+  ChangeDetectorRef,
+  AfterViewChecked,
+  Input,
+  ElementRef,
+  OnDestroy,
+  Renderer2,
+  IterableDiffers,
+  Output,
+  EventEmitter,
+  HostListener
+} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 import { AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR } from "primeng/components/autocomplete/autocomplete";
@@ -67,6 +81,9 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     @Input()
     suggestionLabelField : string = '';
     
+    @Input()
+    addOnPaste = true;
+    
     get multiple() : boolean
     {
         // always return true to affect component ui of selected item.
@@ -80,6 +97,28 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
 
     @Output()
     itemClick = new EventEmitter<any>();
+    
+    @HostListener('paste', ['$event']) onPaste(event: ClipboardEvent) {
+      if (!this.addOnPaste) {
+        return;
+      }
+
+      const content = event.clipboardData.getData('text/plain');
+  
+      if (content && content.indexOf(',') !== -1) {
+        event.preventDefault();
+        content.split(',')
+          .map(item => item.trim())
+          .forEach(tag => this._addValueFromInput(tag));
+  
+        if (!this.panelVisible) {
+          // primng fix: if the panel is not visible (!panelVisible) and we currently leaving the input field clear input content
+          this._clearInputValue();
+        }
+  
+        this.onModelTouched();
+      }
+    }
 
 
     set suggestions(val:any[]) {
@@ -232,9 +271,9 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
      * @returns { {status} } status 'added' if valid value, 'invalid' if cannot add the value or 'not relevant' if the request should be ignored
      * @private
      */
-    private _addValueFromInput() : { status : 'added' | 'invalid' | 'not relevant' | 'duplicated'}
+    private _addValueFromInput(value = null) : { status : 'added' | 'invalid' | 'not relevant' | 'duplicated'}
     {
-        const rawInputValue = (this.searchText || '').trim();
+        const rawInputValue = (value || this.searchText || '').trim();
 
         // 1. if !`this.value` -> form is valid (assuming that we add value for the first time)
         // 2. if each value is string and there's no same value in the `this.value` array -> form is valid
