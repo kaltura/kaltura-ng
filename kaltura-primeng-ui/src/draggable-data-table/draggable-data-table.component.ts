@@ -8,6 +8,15 @@ import "rxjs/add/operator/delay";
 import {Observable} from "rxjs/Observable";
 import 'rxjs/add/observable/fromEvent';
 
+const sortingFunction = (a, b) => {
+    if (a === b)
+        return 0;
+    else if (a < b)
+        return -1;
+    else
+        return 1;
+};
+
 const Events = {
     MOUSE_UP: 'mouseup',
     MOUSE_MOVE: 'mousemove',
@@ -211,14 +220,6 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
             if (this._dropAvailable) {
                 if (this._currentPlaceHolderIndex !== -1) {
                     if (this.multipleDragAndDrop) {
-                        const sortingFunction = (a, b) => {
-                            if (a === b)
-                                return 0;
-                            else if (a < b)
-                                return -1;
-                            else
-                                return 1;
-                        };
 
                         // save item of this._currentPlaceHolderIndex - we'll need this item to find the entry-point:
                         let insertIndexReference = this.draggableItems[this._currentPlaceHolderIndex];
@@ -237,6 +238,7 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
                         this.selectedIndexes = [];
                         this._orderItems();
                         this._updateView();
+                        this.onSelectionChange();
                     }
                     else {
                         const buffer: number = (this._currentDraggedIndex >= this._currentPlaceHolderIndex) ? 1 : 0;
@@ -274,7 +276,7 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     }
 
     onSelectionChange(): void {
-        this.selectionChange.emit(this.selectedIndexes.map(index => this._value[index]));
+        this.selectionChange.emit(this.selectedIndexes.sort(sortingFunction).map(index => this._value[index]));
     }
 
     getItemIndex(index: number): number {
