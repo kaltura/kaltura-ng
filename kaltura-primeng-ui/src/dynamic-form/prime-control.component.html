@@ -9,7 +9,7 @@
 
     <kMultiSelect *ngSwitchCase="'List'" [resetFilterOnHide]="true" [formControlName]="control.key"  [options]="control.values | kPrimeListOptions : false"></kMultiSelect>
 
-    <p-calendar *ngSwitchCase="'DatePicker'" [formControlName]="control.key"   icon="kIconcalendar" [showIcon]="true" [monthNavigator]="true" [yearNavigator]="true" [showTime]="control.showTime" yearRange="2005:2030"></p-calendar>
+    <p-calendar *ngSwitchCase="'DatePicker'" [formControlName]="control.key"   icon="kIconcalendar" [showIcon]="true" [monthNavigator]="true" [yearNavigator]="true" [showTime]="control.showTime" yearRange="2005:2050"></p-calendar>
 
     <select [id]="control.key" *ngSwitchCase="'dropdown'" [formControlName]="control.key">
         <option *ngFor="let opt of control.options" [value]="opt.key">{{opt.value}}</option>
