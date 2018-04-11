@@ -401,6 +401,7 @@ textarea.ui-inputtext {
   cursor: default;
 }
 .ui-button.kButtonBranded {
+  border: none;
   &.ui-state-default {
     color: #ffffff;
     background: $kPrimary;
@@ -412,6 +413,7 @@ textarea.ui-inputtext {
     box-shadow: inset 0px 1px 3px 0 rgba(0, 0, 0, 0.50);
   }
   &:disabled {
+    opacity: 1;
     color: $kGrayscale4;
     background: transparent;
     border: 1px solid $kGrayscale4;
