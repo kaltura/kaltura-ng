@@ -113,7 +113,12 @@ export class TagsComponent implements AfterViewInit, OnDestroy {
 			this.showMoreCheckIntervalID = null;
 		},100);
 	}
-  
+ 
+	// WARNING: this functions uses native `smooth` scroll function
+	// which is not working properly in Safari and doesn't work at all in the IE
+	// if you want to use it, you MUST include polyfill in your target app
+	// for example this one:
+	// @link https://github.com/iamdustan/smoothscroll
   scroll(direction: string): void {
     const scrollPageWidth = this.scroller.nativeElement.getBoundingClientRect().width;
     const targetScrollLeft = direction === "right"
