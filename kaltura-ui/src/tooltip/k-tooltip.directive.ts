@@ -21,7 +21,7 @@ export class KTooltipDirective implements OnDestroy {
     @Input() tooltipOffset: number = 8;
     @Input() placement: TooltipPositions = "top";
     @Input() delay = 0;
-    @Input() maxWidth: number = 0;
+    @Input() maxWidth: number = 300;
     @Input() followTarget = false;
 
     @Input()
