@@ -3,6 +3,7 @@ import {FormGroup}        from '@angular/forms';
 import {DynamicFormControlBase} from '@kaltura-ng/kaltura-ui/dynamic-form';
 import { Calendar, Dropdown } from 'primeng/primeng';
 import { MultiSelectComponent } from '../multi-select';
+import { CalendarComponent } from '../calendar';
 
 @Component({
     selector: 'k-prime-control',
@@ -12,11 +13,11 @@ import { MultiSelectComponent } from '../multi-select';
 export class PrimeControl implements OnInit, OnDestroy {
     @Input() control: DynamicFormControlBase<any>;
     @Input() form: FormGroup;
-    @Input() hideOnScroll = true; // hide Dropdown and MultiSelectComponent on scroll
+    @Input() hideOnScroll = true; // hide Dropdown and CalendarComponent on scroll
     
     @ViewChild(Dropdown) _dropdown: Dropdown;
     @ViewChild(MultiSelectComponent) _multiSelect: MultiSelectComponent;
-    @ViewChild(Calendar) _calendar: Calendar;
+    @ViewChild(CalendarComponent) _calendar: CalendarComponent;
     
     @HostListener('window:scroll') _hideOnScroll(): void {
         if (!this.hideOnScroll) {
@@ -28,7 +29,7 @@ export class PrimeControl implements OnInit, OnDestroy {
         } else if (this._multiSelect) {
             this._multiSelect.hide();
         } else if (this._calendar) {
-          // hide calendar
+          this._calendar.hideOverlay();
         }
     }
 
