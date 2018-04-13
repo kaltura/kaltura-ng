@@ -56,11 +56,16 @@ export class KalturaLogger implements OnDestroy{
         this._logger = JL(this._name);
         this._logger.debug('logger created!');
     }
+    
+    public isValidLogLevel(level: LogLevels): boolean {
+      const validLogLevels = ['All', 'Trace', 'Debug', 'Info', 'Warn', 'Error', 'Fatal', 'Off'];
+      return validLogLevels.indexOf(level) !== -1;
+		}
 
     public setOptions(options: { level?: LogLevels}): void
     {
         let level: number = undefined;
-        if (options.level && JL)
+        if (this.isValidLogLevel(options.level) && JL)
         {
             const getLevelValue = JL[`get${options.level}Level`];
             level = typeof getLevelValue === 'function' ? getLevelValue() : undefined;
