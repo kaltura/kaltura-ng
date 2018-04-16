@@ -1,0 +1,25 @@
+.kPowerUserConsoleContainer {
+  .kHeader {
+    font-size: 1.5em;
+    padding-bottom: 10px;
+    border-bottom: 1px solid;
+  }
+
+  .kRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 15px 0;
+  }
+
+  .kLabel {
+    width: 140px;
+    flex: 0 0 auto;
+  }
+
+  .kControl {
+    height: 34px;
+    width: 140px;
+    border-radius: 3px;
+  }
+}
