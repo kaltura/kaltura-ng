@@ -286,6 +286,12 @@ textarea.ui-inputtext {
     font-size: 13px;
     outline: none;
     text-overflow: ellipsis;
+
+    a {
+      color: $kTertiary;
+      text-decoration: none;
+      font-size: 13px;
+    }
   }
   .ui-table-scrollable-header-box.stickyHeader {
     z-index: 10;
