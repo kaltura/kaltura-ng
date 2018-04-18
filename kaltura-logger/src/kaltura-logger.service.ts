@@ -63,24 +63,18 @@ export class KalturaLogger implements OnDestroy{
     private _addLogToBuffer(logItem: any): void {
       if (this._loggerRecordInterceptor) {
         this._loggerRecordInterceptor.addLogItemToBuffer(logItem);
-      } else {
-        this._logger.debug('not record interceptor provided, do nothing');
       }
     }
     
     public startRecordingLogs(): void {
       if (this._loggerRecordInterceptor) {
         this._loggerRecordInterceptor.startRecord();
-      } else {
-        this._logger.debug('not record interceptor provided, do nothing');
       }
     }
   
     public getRecordedLogs(): any[] | void {
       if (this._loggerRecordInterceptor) {
         return this._loggerRecordInterceptor.getRecordedLogs();
-      } else {
-        this._logger.debug('not record interceptor provided, do nothing');
       }
     }
     
