@@ -1,6 +1,7 @@
 import { Injectable, SkipSelf, Optional, Self, Inject, Provider, OnDestroy } from '@angular/core';
 import { JL } from 'jsnlog';
 import { InjectionToken } from '@angular/core';
+import { KalturaLoggerRecordService } from './kaltura-logger-record.service';
 
 export const KalturaLoggerName = new InjectionToken<string>('kaltura-logger-name');
 
@@ -42,7 +43,9 @@ export class KalturaLogger implements OnDestroy{
 	    ];
     }
 
-    constructor(@Inject(KalturaLoggerName) @Optional() @Self() name: string, @SkipSelf() @Optional() parentLogger: KalturaLogger) {
+    constructor(@Inject(KalturaLoggerName) @Optional() @Self() name: string,
+                @SkipSelf() @Optional() parentLogger: KalturaLogger,
+                @Optional() private _loggerRecordInterceptor: KalturaLoggerRecordService) {
 
         if (!name)
         {
@@ -55,6 +58,30 @@ export class KalturaLogger implements OnDestroy{
         this._name = parentLogger ? `${parentLogger.name}.${name}` : name;
         this._logger = JL(this._name);
         this._logger.debug('logger created!');
+    }
+    
+    private _addLogToBuffer(logItem: any): void {
+      if (this._loggerRecordInterceptor) {
+        this._loggerRecordInterceptor.addLogItemToBuffer(logItem);
+      } else {
+        this._logger.debug('not record interceptor provided, do nothing');
+      }
+    }
+    
+    public startRecordingLogs(): void {
+      if (this._loggerRecordInterceptor) {
+        this._loggerRecordInterceptor.startRecord();
+      } else {
+        this._logger.debug('not record interceptor provided, do nothing');
+      }
+    }
+  
+    public getRecordedLogs(): any[] | void {
+      if (this._loggerRecordInterceptor) {
+        return this._loggerRecordInterceptor.getRecordedLogs();
+      } else {
+        this._logger.debug('not record interceptor provided, do nothing');
+      }
     }
     
     public isValidLogLevel(level: LogLevels): boolean {
@@ -74,7 +101,7 @@ export class KalturaLogger implements OnDestroy{
         JL().setOptions({level: level});
     }
     public subLogger(name: string): KalturaLogger{
-        return new KalturaLogger(name, this);
+        return new KalturaLogger(name, this, this._loggerRecordInterceptor);
     }
 
     ngOnDestroy()
@@ -85,6 +112,7 @@ export class KalturaLogger implements OnDestroy{
     }
 
     private _createLogObject(level: string, message: string, context: Context | Error): any {
+        this._addLogToBuffer({ level, message, context });
         return context ? Object.assign({message, level}, context) : message;
     }
 
