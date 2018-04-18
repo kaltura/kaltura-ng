@@ -47,7 +47,7 @@ export abstract class ServerPolls<TRequest, TError> {
           this._logger = kalturaLogger.subLogger('ServerPolls');
       }else
       {
-          this._logger = new KalturaLogger('ServerPolls',null);
+          this._logger = new KalturaLogger('ServerPolls',null, null);
       }
     this._initialize();
   }
