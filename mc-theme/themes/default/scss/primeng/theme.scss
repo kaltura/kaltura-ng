@@ -77,9 +77,9 @@ $inputGroupTextColor: #222222;
   }
 }
 .ui-inputtext:disabled{
-  background-color: $kGrayscale5;
+  background-color: $kGrayscale6;
   border: 1px solid $kGrayscale4;
-  color: $kGrayscale4;
+  color: $kGrayscale3;
 }
 .ui-inputtext.ui-state-focus, .ui-inputtext:focus{
   box-shadow: none;
