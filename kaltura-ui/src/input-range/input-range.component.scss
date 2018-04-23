@@ -1,0 +1,91 @@
+@import '../styles/scss/theme';
+
+.kRangeContainer{
+  display: flex;
+
+  .kRangeInput {
+    display: inline-block;
+    padding-top: 10px;
+    padding-bottom: 50px;
+    user-select: none;
+
+    &.kRangeInputBlock {
+      display: block;
+      width: 100%;
+    }
+
+    .kBbar {
+      height: 4px; width: 100%;
+      background-color: $kGrayscale4;
+      position: relative;
+
+      .kBarProgress {
+        background-color: $kPrimary;
+        height: 100%;
+      }
+      .kBarPoints {
+        position: absolute;
+        left: 0; top: -8px;
+        width: 100%;
+
+        .kBarPointCol {
+          float: left;
+          position: relative;
+          height: 20px;
+
+          &:last-child {
+            width: 0% !important;
+          }
+
+          .kPointClickArea {
+            position: absolute;
+            width: 45px;
+            margin-top: -10px;
+            height: 40px;
+            transform: translateX(-50%);
+            cursor: pointer;
+          }
+
+          .kPoint {
+            width: 9px; height: 9px;
+            margin-top: 1px;
+            border-radius: 50%;
+            background-color: $kGrayscale4;
+            position: absolute;
+            transform: translateX(-50%);
+            cursor: pointer;
+            border: 4px solid #FFFFFF;
+
+            &.kSelected {
+              width: 16px; height: 16px;
+              margin-top: -3px;
+              border-radius: 50%;
+            }
+
+            &.kBgPrimary{
+              background-color: $kPrimary;
+              &.kSelected{
+                border: none !important;
+                margin-top:2px !important;
+              }
+
+            }
+          }
+          span {
+            position: absolute;
+            transform: translateX(-50%);
+            bottom: -36px;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
+
+  .kSelectedLabel{
+    padding-left: 30px;
+    padding-top: 3px;
+    font-size: 15px;
+  }
+}
+
