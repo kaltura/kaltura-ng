@@ -19,7 +19,7 @@
                     </div>
 
                     <div class="kDeleteGroup">
-                        <a (click)="!form.disabled && removeItem(control,i)" class="kButton" [class.disabled]="form.disabled">Delete</a>
+                        <a (click)="!form.disabled && removeItem(control,i)" [class.disabled]="form.disabled">Delete</a>
                     </div>
                 </div>
 
@@ -59,7 +59,7 @@
                 <a (click)="!form.disabled && removeItem(control,i)" class="kDelete" [class.disabled]="form.disabled">Delete</a>
             </div>
             <div>
-                <a (click)="!form.disabled && addItem(control)" [class.disabled]="form.disabled">Add</a>
+                <button class="kButton" (click)="!form.disabled && addItem(control)" [disabled]="form.disabled">Add</button>
             </div>
         </div>
 

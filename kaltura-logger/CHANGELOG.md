@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@2.0.2...@kaltura-ng/kaltura-logger@2.1.0) (2018-04-12)
+
+
+### Features
+
+* simplify provider creation for KalturaLogger ([253b583](https://github.com/kaltura/kaltura-ng/commit/253b583))
+
+
+
+
 <a name="2.0.2"></a>
 ## [2.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@2.0.1...@kaltura-ng/kaltura-logger@2.0.2) (2018-04-02)
 

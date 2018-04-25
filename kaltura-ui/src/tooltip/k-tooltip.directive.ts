@@ -136,12 +136,12 @@ export class KTooltipDirective implements OnDestroy {
 
             if (this.isValidContent(content)) {
                 // re-check content type to handle scenarios when the tooltipResolver caused the value to be undefined
+                this._tooltipElement.innerHTML = '';
+                this._tooltipElement.textContent = '';
                 if (this.escape) {
-                    this._tooltipElement.innerHTML = '';
                     this._tooltipElement.textContent = content;
                 } else {
                     this._tooltipElement.innerHTML = content;
-                    this._tooltipElement.textContent = '';
                 }
 
                 this._tooltipHeight = this._tooltipElement.clientHeight;
