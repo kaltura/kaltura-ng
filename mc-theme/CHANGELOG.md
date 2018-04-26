@@ -3,7 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
- <a name="2.1.0"></a>
+       <a name="2.1.1"></a>
+## [2.1.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.1.0...@kaltura-ng/mc-theme@2.1.1) (2018-04-12)
+
+
+### Bug Fixes
+
+* auto-complete items font weight ([6588583](https://github.com/kaltura/kaltura-ng/commit/6588583))
+* set max height for confirmation dialog boxes ([bd5a30d](https://github.com/kaltura/kaltura-ng/commit/bd5a30d))
+* update app background color ([545ecc9](https://github.com/kaltura/kaltura-ng/commit/545ecc9))
+
+
+
+
+       <a name="2.1.0"></a>
 # [2.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.0.1...@kaltura-ng/mc-theme@2.1.0) (2018-04-02)
 
 
@@ -15,7 +28,7 @@ See [standard-version](https://github.com/conventional-changelog/standard-versio
 
 
 
- <a name="2.0.1"></a>
+<a name="2.0.1"></a>
 ## [2.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.0.0...@kaltura-ng/mc-theme@2.0.1) (2018-03-19)
 
 
