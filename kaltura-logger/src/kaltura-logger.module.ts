@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { KalturaLogger, KalturaDefaultLogger } from './kaltura-logger.service';
 import { JL } from 'jsnlog';
 import { KalturaLoggerRecordService } from './kaltura-logger-record.service';
-
+import { KalturaLoggerAppender } from './kaltura-logger-appender'
 
 var consoleAppender=JL.createConsoleAppender('consoleAppender');
+var kalturaAppender = new KalturaLoggerAppender('kalturaAppender');
 
-JL().setOptions({"appenders": [consoleAppender]});
+JL().setOptions({"appenders": [consoleAppender,kalturaAppender]});
 if (window && window.onerror) {
     window.onerror = null;
 }

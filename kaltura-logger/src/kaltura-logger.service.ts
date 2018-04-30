@@ -58,6 +58,8 @@ export class KalturaLogger implements OnDestroy{
         this._name = parentLogger ? `${parentLogger.name}.${name}` : name;
         this._logger = JL(this._name);
         this._logger.trace('logger created!');
+        
+        console.warn((<any>JL).Appender);
     }
     
     private _addLogToBuffer(logItem: any): void {
