@@ -1,6 +1,7 @@
 import { Injectable, SkipSelf, Optional, Self, Inject, Provider, OnDestroy } from '@angular/core';
 import { JL } from 'jsnlog';
 import { InjectionToken } from '@angular/core';
+import { KalturaLoggerRecordService } from './kaltura-logger-record.service';
 
 export const KalturaLoggerName = new InjectionToken<string>('kaltura-logger-name');
 
@@ -42,7 +43,9 @@ export class KalturaLogger implements OnDestroy{
 	    ];
     }
 
-    constructor(@Inject(KalturaLoggerName) @Optional() @Self() name: string, @SkipSelf() @Optional() parentLogger: KalturaLogger) {
+    constructor(@Inject(KalturaLoggerName) @Optional() @Self() name: string,
+                @SkipSelf() @Optional() parentLogger: KalturaLogger,
+                @Optional() private _loggerRecordInterceptor: KalturaLoggerRecordService) {
 
         if (!name)
         {
@@ -56,11 +59,34 @@ export class KalturaLogger implements OnDestroy{
         this._logger = JL(this._name);
         this._logger.trace('logger created!');
     }
+    
+    private _addLogToBuffer(logItem: any): void {
+      if (this._loggerRecordInterceptor) {
+        this._loggerRecordInterceptor.addLogItemToBuffer(logItem);
+      }
+    }
+    
+    public startRecordingLogs(): void {
+      if (this._loggerRecordInterceptor) {
+        this._loggerRecordInterceptor.startRecord();
+      }
+    }
+  
+    public getRecordedLogs(): any[] | void {
+      if (this._loggerRecordInterceptor) {
+        return this._loggerRecordInterceptor.getRecordedLogs();
+      }
+    }
+    
+    public isValidLogLevel(level: LogLevels): boolean {
+      const validLogLevels = ['All', 'Trace', 'Debug', 'Info', 'Warn', 'Error', 'Fatal', 'Off'];
+      return validLogLevels.indexOf(level) !== -1;
+		}
 
     public setOptions(options: { level?: LogLevels}): void
     {
         let level: number = undefined;
-        if (options.level && JL)
+        if (this.isValidLogLevel(options.level) && JL)
         {
             const getLevelValue = JL[`get${options.level}Level`];
             level = typeof getLevelValue === 'function' ? getLevelValue() : undefined;
@@ -69,7 +95,7 @@ export class KalturaLogger implements OnDestroy{
         JL().setOptions({level: level});
     }
     public subLogger(name: string): KalturaLogger{
-        return new KalturaLogger(name, this);
+        return new KalturaLogger(name, this, this._loggerRecordInterceptor);
     }
 
     ngOnDestroy()
@@ -80,6 +106,7 @@ export class KalturaLogger implements OnDestroy{
     }
 
     private _createLogObject(level: string, message: string, context: Context | Error): any {
+        this._addLogToBuffer({ level, message, context });
         return context ? Object.assign({message, level}, context) : message;
     }
 

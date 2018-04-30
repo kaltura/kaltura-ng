@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders, Optional, SkipSelf } from '@angular/core
 import { CommonModule } from '@angular/common';
 import { KalturaLogger, KalturaDefaultLogger } from './kaltura-logger.service';
 import { JL } from 'jsnlog';
+import { KalturaLoggerRecordService } from './kaltura-logger-record.service';
 
 
 var consoleAppender=JL.createConsoleAppender('consoleAppender');
@@ -45,5 +46,13 @@ export class KalturaLoggerModule {
     //         ]
     //     };
     // }
+    static forRoot(): ModuleWithProviders {
+        return {
+          ngModule: KalturaLoggerModule,
+          providers: [
+            KalturaLoggerRecordService
+          ]
+        }
+    }
 }
 

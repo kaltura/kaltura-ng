@@ -1,3 +1,4 @@
+import { InjectionToken } from '@angular/core';
 
 
 export interface IAppStorage {
@@ -8,6 +9,8 @@ export interface IAppStorage {
     getFromSessionStorage(key:string) : any;
     removeFromSessionStorage(key:string) : any;
 }
+
+export const APP_STORAGE_TOKEN: InjectionToken<IAppStorage> = new InjectionToken<IAppStorage>('APP_STORAGE_TOKEN');
 
 export class AppStorage implements IAppStorage{
     private storage : any = {};
