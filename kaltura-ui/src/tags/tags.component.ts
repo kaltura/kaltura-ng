@@ -1,15 +1,27 @@
-import { Component, EventEmitter, Input, Output, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList, HostListener, ElementRef, ContentChildren, TemplateRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ContentChildren,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  Output,
+  QueryList,
+  TemplateRef,
+  ViewChild,
+  ViewChildren
+} from '@angular/core';
 import { TagComponent } from './tag.component';
 import { Subscription } from "rxjs/Subscription";
-
-import * as $ from 'jquery';
 
 @Component({
     selector: 'kTags',
     templateUrl: './tags.component.html',
     styleUrls: ['./tags.component.scss']
 })
-export class TagsComponent implements AfterViewInit, OnDestroy{
+export class TagsComponent implements AfterViewInit, OnDestroy {
 
 	@Input() data: any[] = [];
 	@Input() disabled: boolean = false;
@@ -60,7 +72,31 @@ export class TagsComponent implements AfterViewInit, OnDestroy{
 		}
 	}
 
-    removeTag(tag: any){
+  private _shouldEnableRightArrow(): boolean {
+    const scrollPageWidth = this.scroller.nativeElement.getBoundingClientRect().width;
+    const totalScroll = this.scroller.nativeElement.scrollWidth;
+    
+    return (this.scroller.nativeElement.scrollLeft + scrollPageWidth) < (totalScroll - 1)
+  }
+  
+  private _shouldEnableLeftArrow(): boolean {
+    return this.scroller.nativeElement.scrollLeft > 1;
+  }
+  
+  public _updateArrows(): void {
+    this._scrollLeftEnabled = this._shouldEnableLeftArrow();
+    this._scrollRightEnabled = this._shouldEnableRightArrow();
+  }
+  
+  private _safeScroll(element: Element, left: number): void {
+		if (typeof element.scroll === 'function') {
+			element.scroll({ left, behavior: 'smooth' });
+		} else {
+			element.scrollLeft = left;
+		}
+	}
+  
+  removeTag(tag: any){
     	this.onTagRemove.emit(tag);
     }
 
@@ -77,31 +113,19 @@ export class TagsComponent implements AfterViewInit, OnDestroy{
 		this.showMoreCheckIntervalID = setTimeout(() => {
 			if (this.data && this.data.length && this.scroller){
 				this._showMore = this.scroller.nativeElement.scrollWidth > (this.scroller.nativeElement.getBoundingClientRect().width + 1);
+				if (this._showMore) {
+          this._updateArrows();
+				}
 			}
 			this.showMoreCheckIntervalID = null;
 		},100);
 	}
 
-	scroll(direction: string){
-		const scrollPageWidth = this.scroller.nativeElement.getBoundingClientRect().width;
-		const totalScroll = this.scroller.nativeElement.scrollWidth;
-		if (direction === "right"){
-			const targetScrollLeft = this.scroller.nativeElement.scrollLeft + scrollPageWidth;
-			$(this.scroller.nativeElement).animate({scrollLeft: targetScrollLeft}, 800, () => {
-				this._scrollLeftEnabled = true;
-				if ((this.scroller.nativeElement.scrollLeft + scrollPageWidth) >= (totalScroll-1)){
-					this._scrollRightEnabled = false;
-				}
-			});
-		}else{
-			const targetScrollLeft = this.scroller.nativeElement.scrollLeft - scrollPageWidth;
-			$(this.scroller.nativeElement).animate({scrollLeft: targetScrollLeft}, 800, () => {
-				this._scrollRightEnabled = true;
-				if (this.scroller.nativeElement.scrollLeft <= 1){
-					this._scrollLeftEnabled = false;
-				}
-			});
-
-		}
-	}
+  scroll(direction: string): void {
+    const scrollPageWidth = this.scroller.nativeElement.getBoundingClientRect().width;
+    const targetScrollLeft = direction === "right"
+      ? this.scroller.nativeElement.scrollLeft + scrollPageWidth
+      : this.scroller.nativeElement.scrollLeft - scrollPageWidth;
+    this._safeScroll(this.scroller.nativeElement, targetScrollLeft);
+  }
 }
