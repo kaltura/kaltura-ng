@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-       <a name="2.1.1"></a>
+ <a name="2.1.2"></a>
+## [2.1.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.1.1...@kaltura-ng/mc-theme@2.1.2) (2018-04-30)
+
+
+
+
+ <a name="2.1.1"></a>
 ## [2.1.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.1.0...@kaltura-ng/mc-theme@2.1.1) (2018-04-12)
 
 
@@ -16,7 +22,7 @@ See [standard-version](https://github.com/conventional-changelog/standard-versio
 
 
 
-       <a name="2.1.0"></a>
+<a name="2.1.0"></a>
 # [2.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.0.1...@kaltura-ng/mc-theme@2.1.0) (2018-04-02)
 
 
