@@ -20,10 +20,14 @@ export class AppLocalization {
     constructor(private translate: TranslateService) {
     }
 
-    public setFilesHash(hash: string) : void{
+    public setFilesHash(hash: string, prefix?: string) : void{
         if (this.translate.currentLoader instanceof TranslateStaticLoader)
         {
             // This is a dirty workaround until we upgrade to ngx-translate.
+            if (prefix) {
+	            (<any>this.translate.currentLoader).prefix = prefix;
+            }
+
             (<any>this.translate.currentLoader).suffix = `.json?$v=${hash}`;
         }else {
             throw new Error('cannot assign translation files version');
