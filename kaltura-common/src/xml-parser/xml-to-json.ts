@@ -221,7 +221,7 @@ export const XmlToJSON = (function () {
                 return xmlDoc;
             } else {
                 return null;
-                // TODO [kmcng] consider if to allow active x object
+                // TODO consider if to allow active x object
                 // xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
                 // xmlDoc.async = false;
                 // xmlDoc.loadXML(xmlString);

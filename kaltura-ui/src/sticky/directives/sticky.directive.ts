@@ -124,7 +124,7 @@ export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
                 {
                     if (this.isSticky && scroll === this.lastScroll) {
                         this.setStyle('top', this._stickyTop + 'px');
-                        // console.log(`[${this.stickyId}] - _render (update sitcky values) - TODO!!!!!!`);
+                        // console.log(`[${this.stickyId}] - _render (update sitcky values)`);
                     }
                 }
                 this.lastScroll = scroll;

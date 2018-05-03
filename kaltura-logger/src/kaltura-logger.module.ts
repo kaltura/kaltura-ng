@@ -25,27 +25,6 @@ if (window && window.onerror) {
     ]
 })
 export class KalturaLoggerModule {
-
-    // TODO check why this doesn't work with AOT
-    // static forRoot(name: string): ModuleWithProviders {
-    //     return {
-    //         ngModule: KalturaLoggerModule,
-    //         providers: [
-    //             {
-    //                 provide: KalturaLogger,
-    //                 useFactory(parentLogger)
-    //                 {
-    //                     const logger = new KalturaLogger(name, parentLogger);
-    //
-    //                     KalturaDefaultLogger.set(logger.subLogger('general'));
-    //
-    //                     return logger;
-    //                 },
-    //                 deps: [[new Optional(), new SkipSelf(), KalturaLogger]]
-    //             }
-    //         ]
-    //     };
-    // }
     static forRoot(): ModuleWithProviders {
         return {
           ngModule: KalturaLoggerModule,

@@ -9,6 +9,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import { WidgetBase } from './widget-base';
 import { WidgetState } from './widget-state';
+import { KalturaLogger } from '../../../kaltura-logger/src/kaltura-logger.service';
 
 export declare type FormWidgetsState = {
     [key : number] : WidgetState
@@ -26,6 +27,7 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
     private _widgetsState: BehaviorSubject<FormWidgetsState> = new BehaviorSubject<FormWidgetsState>({});
     private _isNewData = false;
     public widgetsState$ = this._widgetsState.asObservable();
+    private _logger: KalturaLogger;
 
     public get widgetsState(): FormWidgetsState {
         return this._widgetsState.getValue();
@@ -35,13 +37,36 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
         return this._isNewData;
     }
 
+    constructor(logger?: KalturaLogger) {
+	    if (logger) {
+		    this._logger.subLogger(`WidgetsManagerBase`);
+	    }
+    }
+
+	private _log(level: 'info'|'warn'|'error', message: string, context?: {}): void {
+		if (this._logger) {
+			switch (level) {
+				case 'info':
+					this._logger.info(message,context);
+					break;
+				case 'warn':
+					this._logger.warn(message,context);
+					break;
+				case 'error':
+					this._logger.warn(message,context);
+					break;
+
+			}
+		}
+	}
+
     public _updateWidgetState(newWidgetState : WidgetState): void {
         const currentWidgetsState = this._widgetsState.getValue();
 
         if (!newWidgetState || !newWidgetState.key) {
-            console.warn('[widgets manager] cannot update widget state, missing widget key');
+	        this._log('warn', 'cannot update widget state, missing widget key');
         } else {
-            console.log(`[widgets manager] widget '${newWidgetState.key}': update widget state`, newWidgetState);
+	        this._log('info', `update widget state`, { newWidgetState, widget: newWidgetState.key});
             currentWidgetsState[newWidgetState.key] = newWidgetState;
             this._widgetsState.next(currentWidgetsState);
 
@@ -60,7 +85,7 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
                 {
                     throw new Error(`a widget with key '${widget.key}' is already registered (did you registered the same widget twice?)`);
                 }else {
-                    console.log(`[widgets manager] widget '${widget.key}': registered to a form widgets manager`);
+	                this._log('info', `registered to a form widgets manager`);
                     widget._setForm(this);
                     this._widgets.push(widget);
                 }
@@ -70,7 +95,7 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
     }
 
     public notifyDataLoading(dataId: any): void {
-        console.log(`[widgets manager] notify data loading. data identifier '${dataId}'`);
+	    this._log('info', `notify data loading. data identifier '${dataId}'`);
 
         this._widgets.filter(widget => widget.isActive).forEach(widget => {
             widget._reset();
@@ -83,10 +108,10 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
 
     public notifyDataLoaded(data: TData, settings: { isNewData: boolean }) : { errors?: Error[] } {
 
-        console.log(`[widgets manager] notify data loaded.`);
+	    this._log('info', `notify data loaded.`);
         const errors : Error[] = [];
         this._isNewData = settings.isNewData;
-        console.log(`[widgets manager] treat data as '${this._isNewData ? 'new' : 'existing'} data'.`);
+	    this._log('info', `treat data as '${this._isNewData ? 'new' : 'existing'} data'.`);
         this._widgets.forEach(widget => {
 
             try {
@@ -106,10 +131,10 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
         const widgets = this._isNewData ? this._widgets : this._widgets.filter(widget => widget.isActive);
         widgets.forEach(widget => {
             try {
-                console.log(`[widgets manager] widget '${widget.key}': build save request content`);
+	            this._log('info', `widget '${widget.key}': build save request content`);
                 widget._handleDataSaving(newData, request, originalData);
             } catch (err) {
-                console.error(`[widgets manager] widget '${widget.key}': failed to prepare data for save. Save operation aborted.`, err); // keep error
+	            this._log('error', `widget '${widget.key}': failed to prepare data for save. Save operation aborted.`, err); // keep error
                 errors.push(err);
             }
         });
@@ -119,7 +144,7 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
 
     public notifyDataSaving(newData: TData, request: TRequest, originalData: TData): Observable<{ ready: boolean, reason?: OnDataSavingReasons, errors?: Error[] }> {
 
-        console.log(`[widgets manager] notify data saving.`);
+	    this._log('info', `notify data saving.`);
 
         const isAttachedWidgetBusy = !!this._widgets.find(widget => widget.isAttached && widget.isBusy);
 
@@ -185,7 +210,7 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
             widget.destory();
         });
 
-        console.warn('[widgets manager] form widgets manager ngOnDestroy');
+	    this._log('warn', `form widgets manager ngOnDestroy');
         this._widgetsState.complete();
     }
 s

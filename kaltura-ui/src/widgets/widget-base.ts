@@ -11,6 +11,7 @@ import { WidgetsManagerBase } from './widgets-manager-base';
 import { ISubscription } from 'rxjs/Subscription';
 import { OnDestroy } from '@angular/core';
 import { WidgetState, WidgetStateData } from './widget-state';
+import { KalturaLogger } from '../../../kaltura-logger/src/kaltura-logger.service';
 
 
 
@@ -28,12 +29,17 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
     private _data: TData;
     private _dataSource: ReplaySubject<TData> = new ReplaySubject<TData>(1);
     public data$ = this._dataSource.asObservable();
+    private _logger: KalturaLogger;
 
-    constructor(private _key : string)
+    constructor(private _key : string, logger?: KalturaLogger)
     {
         if (!_key)
         {
             throw new Error(`Form widget key is required when constructing widget of type '${typeof this}`);
+        }
+
+        if (logger) {
+            this._logger.subLogger(`${_key}Widget`);
         }
     }
 
@@ -148,11 +154,29 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
                     const updateState = (response.isValid !== this._widgetState.isValid);
 
                     if (updateState) {
-                        console.log(`[widget] widget '${this.key}': widget 'isValid' state doesn't match result of 'onValidate'. updating status to '${response.isValid ? 'valid' : 'invalid'}'`);
+
+	                    this._log('info',`widget 'isValid' state doesn't match result of 'onValidate'. updating status to '${response.isValid ? 'valid' : 'invalid'}'`);
                         this.updateState({isValid: response.isValid});
                     }
                 }
             );
+    }
+
+    private _log(level: 'info'|'warn'|'error', message: string, context?: {}): void {
+        if (this._logger) {
+            switch (level) {
+                case 'info':
+                    this._logger.info(message,context);
+                    break;
+	            case 'warn':
+		            this._logger.warn(message,context);
+		            break;
+	            case 'error':
+		            this._logger.warn(message,context);
+		            break;
+
+            }
+        }
     }
 
     public _handleDataSaving(newData: TData, request: TRequest, originalData: TData): void {
@@ -164,7 +188,7 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
     public _reset(): void {
         this._verifyRegistered();
 
-        console.log(`[widget] widget '${this.key}': reset widget`);
+	    this._log('info',`reset widget`);
 
         if (this._activateSubscription)
         {
@@ -180,7 +204,7 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
     private _verifyRegistered(): void{
         if(!this.form)
         {
-            console.error(`[widget] widget '${this.key}': cannot perform action, widget is not registered to a manager (did you forgot to register it in the main route component?)`);
+	        this._log('error', `cannot perform action, widget is not registered to a manager (did you forgot to register it in the main route component?)`);
             throw new Error(`[widget] cannot perform action. widget with key \''${this.key}'\' is not registered to a manager`);
         }
     }
@@ -197,22 +221,22 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
               wasActivated : this.wasActivated
             };
 
-            console.log(`[widget] widget '${this.key}': activating widget (first time = ${!previousStatus.wasActivated})`);
+	        this._log('info', `activating widget (first time = ${!previousStatus.wasActivated})`);
             const activate$ = this.onActivate(!this.wasActivated);
             this._updateState({ isActive : true, wasActivated : true});
 
             if (activate$ instanceof Observable) {
-                console.log(`[widget] widget '${this.key}': widget requested for async activation operation. executing async operation.`);
+	            this._log('info', `widget requested for async activation operation. executing async operation.`);
                 this._activateSubscription = activate$
                     .monitor(`[widget] widget '${this.key}': activate widget (first time = ${!previousStatus.wasActivated})`)
                     .catch((error, caught) => Observable.of({failed: true, error}))
                     .subscribe(
                         response => {
                             if (response && response.failed) {
-                                console.log(`[widget] widget '${this.key}': async widget activation failed. revert state to ${JSON.stringify(previousStatus)})`);
+	                            this._log('info', `async widget activation failed. revert state to ${JSON.stringify(previousStatus)})`);
                                 this._updateState({ isActive : false, wasActivated : previousStatus.wasActivated});
                             }else {
-                                console.log(`[widget] widget '${this.key}': async widget activation completed`);
+	                            this._log('info', `async widget activation completed`);
                             }
                         },
                         () => {
@@ -229,9 +253,9 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
         this._verifyRegistered();
 
         if (this.isAttached) {
-            console.warn(`[widget] widget with key '${this.key}' is already attached (did you attached two components to the same widget? did you forgot to detach the widget upon ngOnDestroy?)`);
+	        this._log('warn', `widget is already attached (did you attached two components to the same widget? did you forgot to detach the widget upon ngOnDestroy?)`);
         }else {
-            console.log(`[widget] widget '${this.key}': attaching widget`);
+	        this._log('info', `attaching widget`);
             this._updateState({isAttached: true});
             this.activate();
         }
@@ -242,9 +266,9 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
         this._verifyRegistered();
 
         if (!this.isAttached) {
-            console.warn(`[widget] widget with key '${this.key}' is already detached (did you attached two components to the same widget? did you forgot to attach the widget upon ngOnInit?)`);
+	        this._log('warn', `widget is already detached (did you attached two components to the same widget? did you forgot to attach the widget upon ngOnInit?)`);
         }else {
-            console.log(`[widget] widget '${this.key}': detaching widget`);
+	        this._log('info', `detaching widget`);
             this._updateState({isAttached: false});
         }
     }

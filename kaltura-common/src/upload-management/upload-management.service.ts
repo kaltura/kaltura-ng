@@ -7,6 +7,7 @@ import 'rxjs/add/operator/groupBy';
 import { Observable } from 'rxjs/Observable';
 import { FriendlyHashId } from '../friendly-hash-id';
 import { TrackedFile, TrackedFileChanges, TrackedFileData, TrackedFileStatuses } from './tracked-file';
+import { KalturaLogger } from '../../../kaltura-logger/src/kaltura-logger.service';
 
 
 export interface TrackedFiles {
@@ -22,42 +23,24 @@ export class UploadManagement implements OnDestroy {
     private _maxUploadRequests: number = null;
     public onTrackedFileChanged$ = this._onTrackedFileChanged.asObservable();
     private _tokenGenerator = new FriendlyHashId();
+    private _logger: KalturaLogger;
     syncUploadQueueTimeoutId : number;
 
-    constructor(@Inject(UploadFileAdapterToken) @Optional() private _uploadFileAdapter: UploadFileAdapter<any>[]) {
-
+    constructor(@Inject(UploadFileAdapterToken) @Optional() private _uploadFileAdapter: UploadFileAdapter<any>[],
+                logger: KalturaLogger) {
+        this._logger = logger.subLogger('UploadManagement');
     }
 
     public setMaxUploadRequests(maxUploads?: number): void {
         if (maxUploads === null || maxUploads > 0) {
-            this._log('info', `limit max upload requests to ${maxUploads}`);
+            this._logger.info(`limit max upload requests`, { maxUploads });
             this._maxUploadRequests = maxUploads;
         } else {
-            this._log('info', `remove max upload limitation`);
+	        this._logger.info(`remove max upload limitation`);
             this._maxUploadRequests = null;
         }
     }
 
-    // TODO [kmcng] replace this function with log library
-    private _log(level: 'silly' | 'debug' | 'info' | 'warn' | 'error', message: string, fileId?: string): void {
-        const messageContext = fileId ? `file '${fileId}'` : '';
-        const origin = 'upload manager';
-        const formattedMessage = `log: [${level}] [${origin}] ${messageContext}: ${message}`;
-        switch (level) {
-            case 'silly':
-            case 'debug':
-            case 'info':
-                console.log(formattedMessage);
-                break;
-            case 'warn':
-                console.warn(formattedMessage);
-                break;
-            case 'error':
-                console.error(formattedMessage);
-                break;
-        }
-    }
-    
     public getTrackedFiles(): TrackedFileData[]
     {
         return Object.keys(this._trackedFiles).map(fileId => this._trackedFiles[fileId].asData());
@@ -82,7 +65,7 @@ export class UploadManagement implements OnDestroy {
 
             const newUploadId = this._tokenGenerator.generateUnique(Object.keys(this._trackedFiles));
 
-            this._log('info', `add new file '${fileData.getFileName()}' to queue with unique file id`,newUploadId);
+	        this._logger.info(`add new file to queue with unique file id`,{ fileName: fileData.getFileName(), newUploadId });
             this._createTrackedFile(newUploadId, fileData);
 
             result.push({id: newUploadId, data: fileData});
@@ -98,7 +81,7 @@ export class UploadManagement implements OnDestroy {
     }
 
     public cancelUploadWithError(id: string, reason: string) : void {
-        this._log('info', `cancel file upload with custom reason '${reason}'`,id);
+	    this._logger.info(`cancel file upload with custom reason`,{id, reason});
 
         const trackedFile = this._trackedFiles[id];
 
@@ -106,7 +89,7 @@ export class UploadManagement implements OnDestroy {
             {
                 if (trackedFile.canTransitionTo(TrackedFileStatuses.cancelled)) {
                     this.cancelUpload(id, false);
-  
+
                   if (trackedFile.canTransitionTo(TrackedFileStatuses.failure)) {
                     this._updateTrackedFile(trackedFile,
                       {
@@ -120,7 +103,7 @@ export class UploadManagement implements OnDestroy {
             }
         }else
         {
-            this._log('warn','cannot cancel upload, failed to find file with provided id',id);
+	        this._logger.warn('cannot cancel upload, failed to find file with provided id', {id});
         }
     }
 
@@ -133,7 +116,7 @@ export class UploadManagement implements OnDestroy {
         let syncUploadQueue = false;
 
         files.forEach(id => {
-            this._log('info', `resume file upload.`, id);
+	        this._logger.info(`resume file upload.`, { id });
             const trackedFile = this._trackedFiles[id];
 
             if (trackedFile) {
@@ -147,7 +130,7 @@ export class UploadManagement implements OnDestroy {
                     });
                 }
             } else {
-                this._log('warn', 'cannot resume upload, failed to find file with provided id', id);
+	            this._logger.warn('cannot resume upload, failed to find file with provided id', { id });
             }
         });
 
@@ -155,7 +138,7 @@ export class UploadManagement implements OnDestroy {
     }
 
     public cancelUpload(id: string, purge: boolean= true): void {
-        this._log('info', `cancel file upload.`, id);
+	    this._logger.info(`cancel file upload.`, { id });
 
         const trackedFile = this._trackedFiles[id];
 
@@ -181,13 +164,13 @@ export class UploadManagement implements OnDestroy {
             }
         }else
         {
-            this._log('warn', 'cannot cancel upload, failed to find file with provided id', id);
+	        this._logger.warn('cannot cancel upload, failed to find file with provided id', { id });
         }
     }
 
     public purgeUpload(id: string): void {
 
-        this._log('info', `purge file from queue.`, id);
+	    this._logger.info(`purge file from queue.`, { id });
 
         const trackedFile = this._trackedFiles[id];
 
@@ -203,12 +186,12 @@ export class UploadManagement implements OnDestroy {
             }
         }else
         {
-            this._log('warn', 'cannot purge upload, failed to find file with provided id', id);
+	        this._logger.warn('cannot purge upload, failed to find file with provided id', { id });
         }
     }
 
     private _removeTrackedFile(trackedFile: TrackedFile) {
-        this._log('info', `remove tracked file from queue`, trackedFile.id);
+	    this._logger.info(`remove tracked file from queue`, { id: trackedFile.id });
 
         // Developer notice - this is a cleanup function just in case.
         if (trackedFile.uploadSubscription) {
@@ -228,7 +211,7 @@ export class UploadManagement implements OnDestroy {
         // DEVELOPER NOTICE: This logic is delayed to the next event loop on purpose to prevent
         // collision between two sync requests
         this.syncUploadQueueTimeoutId = setTimeout(() => {
-            this._log('info', `syncing upload queue`);
+	        this._logger.info(`syncing upload queue`);
             this.syncUploadQueueTimeoutId = null;
             this._executePreparePhase();
             this._executeUploadPhase();
@@ -243,7 +226,7 @@ export class UploadManagement implements OnDestroy {
 
         if (files.length)
         {
-            this._log('info',`handling ${files.length} files, waiting to be prepared`);
+	        this._logger.info(`handling ${files.length} files, waiting to be prepared`);
 
             const groupedFiles = files.reduce((acc: { adapter: UploadFileAdapter<any>, files: TrackedFile[] }[], curr : TrackedFile) => {
                 const uploadAdapter = this._getUploadAdapter(curr.data) || null;
@@ -261,7 +244,7 @@ export class UploadManagement implements OnDestroy {
 
             groupedFiles.forEach(item => {
                 if (item.adapter) {
-                    this._log('debug', `executing prepare phase for ${item.files.length} files with adapter '${item.adapter.label}'`);
+	                this._logger.debug(`executing prepare phase for ${item.files.length} files`, { adapter: item.adapter.label });
 
                     item.files.forEach(file =>
                     {
@@ -272,14 +255,14 @@ export class UploadManagement implements OnDestroy {
                         .cancelOnDestroy(this)
                         .subscribe(
                             preparedFiles => {
-                                this._log('debug', `executing prepare phase succeeded for ${item.files.length} files with adapter '${item.adapter.label}'.`);
+	                            this._logger.debug(`executing prepare phase succeeded for ${item.files.length} files with adapter '${item.adapter.label}'.`);
                                 this._handlePrepareAdapterResponse(preparedFiles);
 
                                 this._syncUploadQueue();
                             },
                             reason => {
 
-                                this._log('error', `executing prepare phase failed for ${item.files.length} files with adapter '${item.adapter.label}'. error: ${reason.message}`);
+	                            this._logger.error(`executing prepare phase failed for ${item.files.length} files with adapter '${item.adapter.label}'. error: ${reason.message}`);
 
                                 this._handlePrepareAdapterResponse(
                                     item.files.map(file =>({ id: file.id, status:false}))
@@ -309,10 +292,10 @@ export class UploadManagement implements OnDestroy {
                 const trackedFile = this._trackedFiles[responseFile.id];
 
                 if (!trackedFile) {
-                    this._log('warn', `cannot handle prepare response for file '${responseFile.id}' since there is no tracking information for that file (did the user purge the file during the prepare execution?)`);
+	                this._logger.warn(`cannot handle prepare response for file '${responseFile.id}' since there is no tracking information for that file (did the user purge the file during the prepare execution?)`);
                 }
                 else if (trackedFile.status !== TrackedFileStatuses.preparing) {
-                    this._log('warn', `cannot handle file result from prepare action (did the user cancel the file upload during the prepare execution?)`, trackedFile.id);
+	                this._logger.warn(`cannot handle file result from prepare action (did the user cancel the file upload during the prepare execution?)`, trackedFile.id);
                 } else if (responseFile.status) {
                     const changedStatusToPrepared = this._updateTrackedFile(trackedFile,
                         {
@@ -360,7 +343,7 @@ export class UploadManagement implements OnDestroy {
         if (waitingFilesCount > 0) {
             let nextUploadFiles: TrackedFile[] = [];
 
-            this._log('silly', `active uploads: ${activeUploadsCount} | pending files: ${waitingFilesCount}`);
+	        this._logger.trace(`execution queue status`, () => { activeUploadsCount, waitingFilesCount });
 
             const availableUploadSlots = (this._maxUploadRequests && this._maxUploadRequests > 0) ? this._maxUploadRequests - activeUploadsCount : waitingFilesCount;
 
@@ -370,7 +353,7 @@ export class UploadManagement implements OnDestroy {
                 ].slice(0, availableUploadSlots);
             }
 
-            this._log('debug', `available upload slots to be used ${availableUploadSlots}`);
+	        this._logger.debug(`available upload slots to be used ${availableUploadSlots}`);
 
 
             nextUploadFiles.forEach(pendingFile => {
@@ -398,11 +381,11 @@ export class UploadManagement implements OnDestroy {
 
             if (trackedFile.canTransitionTo(changes.status))
             {
-                this._log('info', `notify file status changes from '${trackedFile.status}' to '${changes.status}'`,trackedFile.id);
+	            this._logger.info(`notify file status changes from '${trackedFile.status}' to '${changes.status}'`,{ id: trackedFile.id });
                 trackedFile.update(changes);
             }else
             {
-                this._log('error', `cannot update file data from '${trackedFile.status}' to '${changes.status}. target status is not allowed. update to status 'failure' instead.`,trackedFile.id);
+	            this._logger.error(`cannot update file data from '${trackedFile.status}' to '${changes.status}. target status is not allowed. update to status 'failure' instead.`, { id: trackedFile.id });
 
                 trackedFile.update({
                     status: TrackedFileStatuses.failure,
@@ -414,7 +397,6 @@ export class UploadManagement implements OnDestroy {
             }
         }else
         {
-            //this._log('info', `notify file data changes`,trackedFile.id);
             trackedFile.update(changes)
         }
 
@@ -433,10 +415,10 @@ export class UploadManagement implements OnDestroy {
         const {data, id} = trackedFile;
         const uploadAdapter: UploadFileAdapter<any> = this._getUploadAdapter(data);
 
-        this._log('info', `initiate new upload for file '${id}'`);
+	    this._logger.info(`initiate new upload for file '${id}'`);
 
         if (!uploadAdapter) {
-            this._log('warn', `cannot find destination adapter for requested file, failing upload request`);
+	        this._logger.warn(`cannot find destination adapter for requested file, failing upload request`);
             this._updateTrackedFile(trackedFile,
                 {
                     status: TrackedFileStatuses.failure,
@@ -448,7 +430,7 @@ export class UploadManagement implements OnDestroy {
 
         } else if (trackedFile.canTransitionTo(TrackedFileStatuses.uploading)) {
             if (trackedFile.uploadSubscription) {
-                this._log('warn', `an active upload was found while the status indicated no upload currently in progress. cancel previous upload`);
+	            this._logger.warn(`an active upload was found while the status indicated no upload currently in progress. cancel previous upload`);
                 trackedFile.uploadSubscription.unsubscribe();
                 trackedFile.uploadSubscription = null;
             }
@@ -465,9 +447,9 @@ export class UploadManagement implements OnDestroy {
                 const trackedFileStillExists = !!this._trackedFiles[id];
 
                 if (!trackedFileStillExists) {
-                    this._log('warn', `cannot handle file upload ${actionDescription}. There is no tracking file with the provided id (was the file purged?)`, id);
+	                this._logger.warn(`cannot handle file upload ${actionDescription}. There is no tracking file with the provided id (was the file purged?)`, { id });
                 } else if (trackedFile.status !== TrackedFileStatuses.uploading) {
-                    this._log('warn', `cannot handle file upload ${actionDescription}. The file status it not 'uploading' (was the file upload cancelled?)`, id);
+	                this._logger.warn(`cannot handle file upload ${actionDescription}. The file status it not 'uploading' (was the file upload cancelled?)`, { id });
                 }else {
                     result = true;
                 }
