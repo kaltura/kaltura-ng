@@ -177,8 +177,11 @@ export abstract class ServerPolls<TRequest, TError> {
 
                             this._logger.info(`got ${response.length} responses. propagate responses to relevant actions`);
                             requests.forEach(({pollItem}, index) => {
-
-                                this._propagateServerResponse(pollItem, response[index]);
+                                let result = response[index];
+                                if (Array.isArray(result)) {
+                                    result = { result, error: null }
+                                }
+                                this._propagateServerResponse(pollItem, result);
                             });
 
                             observer.next(undefined);
