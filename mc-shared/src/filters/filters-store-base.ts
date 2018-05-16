@@ -112,14 +112,15 @@ export abstract class FiltersStoreBase<T extends { [key: string]: any }> {
             return;
         }
 
+        let copyOfUpdates =  Object.assign({}, updates);
         let newFilters = this._filters;
         let hasChanges = false;
         const dataChanges: DataChanges<T> = { changes: {}, diff : {} };
         const result: UpdateResult<T> = {};
 
-        updates = this._preFilter(updates);
+        copyOfUpdates = this._preFilter(copyOfUpdates);
 
-        Object.keys(updates).forEach(filterName => {
+        Object.keys(copyOfUpdates).forEach(filterName => {
 
             const adapter = this._typeAdaptersMapping[filterName];
 
@@ -128,7 +129,7 @@ export abstract class FiltersStoreBase<T extends { [key: string]: any }> {
                 throw new Error(`cannot sync store, failed to extract type adapter for '${filterName}'`);
             }
 
-            const newValue = updates[filterName];
+            const newValue = copyOfUpdates[filterName];
             const previousValue = this._filters[filterName];
 
             if (adapter.hasChanges(newValue, previousValue)) {
@@ -146,7 +147,7 @@ export abstract class FiltersStoreBase<T extends { [key: string]: any }> {
         });
 
         if (hasChanges) {
-            this._logger.trace('update filters', {updates});
+            this._logger.trace('update filters', {copyOfUpdates});
             this._filters = newFilters;
             this._filtersChange.next(dataChanges);
         } else {

@@ -24,14 +24,20 @@ label {
 	color: $kTertiary;
 	text-decoration: underline;
 	cursor: pointer;
-	&:hover {
+	&:hover:not(.disabled) {
 		color: darken($kTertiary, 10%);
 	}
-	&:active {
+	&:active:not(.disabled) {
 		color: $kTertiary;
 	}
 	&:disabled {
-		cursor: none;
+		border: 0px solid white;
+		cursor: default;
+		color: $kGrayscale4;
+	}
+	&.disabled {
+		border: 0px solid white;
+		cursor: default;
 		color: $kGrayscale4;
 	}
 	text-overflow: ellipsis;

@@ -11,6 +11,7 @@ export interface DynamicFormControlArgs<T>
     validators? : Array<ValidatorFn>,
     errors? : {[key: string]: string},
     inputHelperConfig?: {title?: string, body: string}
+    styleClass?: string;
 };
 
 export abstract class DynamicFormControlBase<T>{
@@ -25,6 +26,7 @@ export abstract class DynamicFormControlBase<T>{
     validators : Array<ValidatorFn>;
     errors:  {[key: string]:  string};
     inputHelperConfig: {title?: string, body: string};
+    styleClass: string;
 
 
     constructor(options: DynamicFormControlArgs<T>) {
@@ -37,5 +39,6 @@ export abstract class DynamicFormControlBase<T>{
         this.validators = options.validators;
         this.errors = options.errors;
         this.inputHelperConfig = options.inputHelperConfig;
+        this.styleClass = options.styleClass;
     }
 }

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from 'ng2-translate/ng2-translate';
 
 import { KalturaUtils } from './utils/kaltura-utils';
-import { AppStorage } from './app-storage.service';
+import { APP_STORAGE_TOKEN, AppStorage } from './app-storage.service';
 import { AppLocalization, LocalizationPipe } from './localization/index';
 
 
@@ -34,7 +34,7 @@ export class KalturaCommonModule {
         return {
             ngModule: KalturaCommonModule,
             providers: [
-                AppStorage,
+                { provide: APP_STORAGE_TOKEN, useClass: AppStorage },
                 AppLocalization,
 	            KalturaUtils
             ]

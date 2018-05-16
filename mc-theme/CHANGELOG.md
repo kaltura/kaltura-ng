@@ -3,7 +3,107 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
- <a name="0.10.0"></a>
+       <a name="2.1.3"></a>
+## [2.1.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.1.2...@kaltura-ng/mc-theme@2.1.3) (2018-05-01)
+
+
+
+
+       <a name="2.1.2"></a>
+## [2.1.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.1.1...@kaltura-ng/mc-theme@2.1.2) (2018-04-30)
+
+
+
+
+<a name="2.1.1"></a>
+## [2.1.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.1.0...@kaltura-ng/mc-theme@2.1.1) (2018-04-12)
+
+
+### Bug Fixes
+
+* auto-complete items font weight ([6588583](https://github.com/kaltura/kaltura-ng/commit/6588583))
+* set max height for confirmation dialog boxes ([bd5a30d](https://github.com/kaltura/kaltura-ng/commit/bd5a30d))
+* update app background color ([545ecc9](https://github.com/kaltura/kaltura-ng/commit/545ecc9))
+
+
+
+
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.0.1...@kaltura-ng/mc-theme@2.1.0) (2018-04-02)
+
+
+### Features
+
+* update theme for anchor html element to support disabled class ([0b57093](https://github.com/kaltura/kaltura-ng/commit/0b57093))
+* updated icons font (add statistics icon) ([1fd9d4e](https://github.com/kaltura/kaltura-ng/commit/1fd9d4e))
+
+
+
+
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.0.0...@kaltura-ng/mc-theme@2.0.1) (2018-03-19)
+
+
+### Bug Fixes
+
+* fix style of menu items ([0890dda](https://github.com/kaltura/kaltura-ng/commit/0890dda))
+
+
+
+
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@1.0.0...@kaltura-ng/mc-theme@2.0.0) (2018-03-04)
+
+
+### Bug Fixes
+
+* fix style of scrollable datatable header ([8b2e3dc](https://github.com/kaltura/kaltura-ng/commit/8b2e3dc))
+* priming icons ([#84](https://github.com/kaltura/kaltura-ng/issues/84)) ([8d7096e](https://github.com/kaltura/kaltura-ng/commit/8d7096e))
+
+
+### Features
+
+* add time-spinner component ([b2b0bb0](https://github.com/kaltura/kaltura-ng/commit/b2b0bb0))
+* new icon in icomoon font ([0bed4ce](https://github.com/kaltura/kaltura-ng/commit/0bed4ce))
+* support PrimeNG Turbo table ([b614610](https://github.com/kaltura/kaltura-ng/commit/b614610))
+* upgrade stack to angular@5 ([80736ff](https://github.com/kaltura/kaltura-ng/commit/80736ff))
+
+
+### BREAKING CHANGES
+
+* upgrading from v4 to v5 required multiple changes in build scripts and some code adjustments
+
+
+
+
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@0.9.1...@kaltura-ng/mc-theme@1.0.0) (2018-02-05)
+
+
+### Bug Fixes
+
+* allow variable height for menu items ([f3d2dea](https://github.com/kaltura/kaltura-ng/commit/f3d2dea))
+* fix layout of active date in date picker ([fa19494](https://github.com/kaltura/kaltura-ng/commit/fa19494))
+* fixed new icons in icomoon font icons ([438f76d](https://github.com/kaltura/kaltura-ng/commit/438f76d))
+* ux fixes ([#78](https://github.com/kaltura/kaltura-ng/issues/78)) ([71b93a0](https://github.com/kaltura/kaltura-ng/commit/71b93a0))
+
+
+### Features
+
+* add list icon to icomoon font icons ([05a42c9](https://github.com/kaltura/kaltura-ng/commit/05a42c9))
+* improve server polling logic and extend kaltura logger ([#73](https://github.com/kaltura/kaltura-ng/issues/73)) ([bc11630](https://github.com/kaltura/kaltura-ng/commit/bc11630))
+* new icons in icomoon font icons ([17a97fa](https://github.com/kaltura/kaltura-ng/commit/17a97fa))
+* remove page horizontal scroll ([9385ab0](https://github.com/kaltura/kaltura-ng/commit/9385ab0))
+
+
+### BREAKING CHANGES
+
+* Server polling now requires an override of method '_canExecute'
+
+
+
+
+<a name="0.10.0"></a>
 # [0.10.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@0.9.1...@kaltura-ng/mc-theme@0.10.0) (2018-01-14)
 
 
@@ -14,7 +114,7 @@ See [standard-version](https://github.com/conventional-changelog/standard-versio
 
 
 
- <a name="0.9.1"></a>
+<a name="0.9.1"></a>
 ## [0.9.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@0.9.0...@kaltura-ng/mc-theme@0.9.1) (2018-01-09)
 
 

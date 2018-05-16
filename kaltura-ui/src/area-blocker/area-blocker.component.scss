@@ -15,7 +15,7 @@ k-area-blocker {
 		position: absolute;
 		top: 0;
 		left: 0;
-		z-index: 500;
+		z-index: 510;
 
 		/* loading spinner animation start */
 		$spinner-circle-radius: 4px;
@@ -110,6 +110,10 @@ k-area-blocker {
 			font-size: 26px;
 		}
 		.kErrorMessageText {
+			max-height: 250px;
+			min-height: 30px;
+			padding: 4px;
+			overflow-y: auto;
 			margin-top: 20px;
 			margin-left: 12px;
 			margin-right: 12px;

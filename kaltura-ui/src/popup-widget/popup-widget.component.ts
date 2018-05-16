@@ -101,7 +101,6 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
     @Output() onClose = new EventEmitter<any>();
 
 	private _targetRef: any;
-    private _saveOriginalScroll: string = "";
     private _saveScrollPosition: number;
 	public _popupWidgetHeight: string;
     private _modalOverlay: any;
@@ -129,6 +128,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	        {
 		        this._popupWidgetHeight = this.popupHeight + "px";
 	        }
+			this._saveScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
             // set location according to targetRef
 	        const parentLeft = this.appendTo && !this.modal ? this.appendTo.getBoundingClientRect().left : 0;
 	        const parentTop = this.appendTo && !this.modal ? this.appendTo.getBoundingClientRect().top : 0;
@@ -188,8 +188,6 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
             // prevent page scroll
 	        if (this.preventPageScroll){
-	        	this._saveOriginalScroll = window.getComputedStyle(document.body)["overflow-y"];
-	        	this._saveScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 	        	document.body.style.overflowY = 'hidden';
 	        	document.body.style.position = 'fixed';
 	        }
@@ -225,12 +223,8 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 				        popup.close();
 			        });
 		        }
-		        if (this.preventPageScroll){
-			        document.body.style.overflowY = this._saveOriginalScroll;
-			        document.body.style.position = '';
-			        window.scrollTo(0, this._saveScrollPosition);
-		        }
 		        this.removeClickOutsideSupport();
+		        this.restorePageScroll(true);
 		        this.onClose.emit(); // dispatch onClose event (API)
 		        let timeout = 0;
 		        if (this.slider){
@@ -325,6 +319,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
         }
 	    this._statechange.complete();
         this.removeClickOutsideSupport();
+        this.restorePageScroll(false);
 	    if (this.modal && this._modalOverlay) {
 		    document.body.removeChild(this._modalOverlay);
 		    this._modalOverlay = null;
@@ -360,6 +355,16 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		        this.targetRef.removeEventListener('mousedown', this.blockMouseDownHandler);
 	        }
         }
+    }
+
+    private restorePageScroll(restoreScrollPosition = true):void{
+	    if (this.preventPageScroll){
+		    document.body.style.overflowY = 'auto';
+		    document.body.style.position = '';
+		    if (restoreScrollPosition) {
+			    window.scrollTo(0, this._saveScrollPosition);
+		    }
+	    }
     }
 
     private validate(){

@@ -3,6 +3,74 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@2.1.0...@kaltura-ng/kaltura-logger@2.2.0) (2018-04-30)
+
+
+### Features
+
+* extended logger support ([#109](https://github.com/kaltura/kaltura-ng/issues/109)) ([3c51193](https://github.com/kaltura/kaltura-ng/commit/3c51193))
+
+
+
+
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@2.0.2...@kaltura-ng/kaltura-logger@2.1.0) (2018-04-12)
+
+
+### Features
+
+* simplify provider creation for KalturaLogger ([253b583](https://github.com/kaltura/kaltura-ng/commit/253b583))
+
+
+
+
+<a name="2.0.2"></a>
+## [2.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@2.0.1...@kaltura-ng/kaltura-logger@2.0.2) (2018-04-02)
+
+
+
+
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@2.0.0...@kaltura-ng/kaltura-logger@2.0.1) (2018-03-19)
+
+
+
+
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@1.0.0...@kaltura-ng/kaltura-logger@2.0.0) (2018-03-04)
+
+
+### Features
+
+* upgrade stack to angular@5 ([80736ff](https://github.com/kaltura/kaltura-ng/commit/80736ff))
+
+
+### BREAKING CHANGES
+
+* upgrading from v4 to v5 required multiple changes in build scripts and some code adjustments
+
+
+
+
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@0.1.0...@kaltura-ng/kaltura-logger@1.0.0) (2018-02-05)
+
+
+### Features
+
+* extend tooltip component api, logger api and filters service api ([fb8c332](https://github.com/kaltura/kaltura-ng/commit/fb8c332))
+* improve server polling logic and extend kaltura logger ([#73](https://github.com/kaltura/kaltura-ng/issues/73)) ([bc11630](https://github.com/kaltura/kaltura-ng/commit/bc11630))
+
+
+### BREAKING CHANGES
+
+* Server polling now requires an override of method '_canExecute'
+* previously the list filter item and group filter item held the tooltip and label of the filtered item. Now the list filter item hold the id/value only.
+
+
+
+
 <a name="0.1.0"></a>
 # 0.1.0 (2017-12-19)
 

@@ -3,6 +3,103 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.1.3"></a>
+## [5.1.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@5.1.2...@kaltura-ng/kaltura-ui@5.1.3) (2018-05-01)
+
+
+
+
+<a name="5.1.2"></a>
+## [5.1.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@5.1.1...@kaltura-ng/kaltura-ui@5.1.2) (2018-04-30)
+
+
+
+
+<a name="5.1.1"></a>
+## [5.1.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@5.1.0...@kaltura-ng/kaltura-ui@5.1.1) (2018-04-12)
+
+
+### Bug Fixes
+
+* fix tooltip support for HTML ([4ab5bb7](https://github.com/kaltura/kaltura-ng/commit/4ab5bb7))
+
+
+
+
+<a name="5.1.0"></a>
+# [5.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@5.0.1...@kaltura-ng/kaltura-ui@5.1.0) (2018-04-02)
+
+
+### Bug Fixes
+
+* position the tooltip above the text KMCNG-1461 ([#96](https://github.com/kaltura/kaltura-ng/issues/96)) ([fd669fd](https://github.com/kaltura/kaltura-ng/commit/fd669fd))
+* remove export that is causing errors during build with aot ([b69df94](https://github.com/kaltura/kaltura-ng/commit/b69df94))
+
+
+### Features
+
+* update theme for anchor html element to support disabled class ([0b57093](https://github.com/kaltura/kaltura-ng/commit/0b57093))
+
+
+
+
+<a name="5.0.1"></a>
+## [5.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@5.0.0...@kaltura-ng/kaltura-ui@5.0.1) (2018-03-19)
+
+
+### Bug Fixes
+
+* fix area blocker z-index to cover sticky elements ([b92b1e6](https://github.com/kaltura/kaltura-ng/commit/b92b1e6))
+
+
+
+
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@4.0.0...@kaltura-ng/kaltura-ui@5.0.0) (2018-03-04)
+
+
+### Features
+
+* add support for labels template in dynamic form item ([#74](https://github.com/kaltura/kaltura-ng/issues/74)) ([c2d8ba1](https://github.com/kaltura/kaltura-ng/commit/c2d8ba1))
+* added longDateOnly (MMMM D, YYYY) format to DatePipe ([#85](https://github.com/kaltura/kaltura-ng/issues/85)) ([81b4bc2](https://github.com/kaltura/kaltura-ng/commit/81b4bc2))
+* upgrade stack to angular@5 ([80736ff](https://github.com/kaltura/kaltura-ng/commit/80736ff))
+
+
+### BREAKING CHANGES
+
+* upgrading from v4 to v5 required multiple changes in build scripts and some code adjustments
+
+
+
+
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.4.0...@kaltura-ng/kaltura-ui@4.0.0) (2018-02-05)
+
+
+### Bug Fixes
+
+* ux fixes ([#78](https://github.com/kaltura/kaltura-ng/issues/78)) ([71b93a0](https://github.com/kaltura/kaltura-ng/commit/71b93a0))
+
+
+### Features
+
+* add http validator ([#76](https://github.com/kaltura/kaltura-ng/issues/76)) ([acafd14](https://github.com/kaltura/kaltura-ng/commit/acafd14))
+* allow html content in input helper in dynamic form ([9f583b3](https://github.com/kaltura/kaltura-ng/commit/9f583b3))
+* dynamic form add number type control ([7d7b6d2](https://github.com/kaltura/kaltura-ng/commit/7d7b6d2))
+* extend kDate pipe to support predefined formats and remove defa… ([#80](https://github.com/kaltura/kaltura-ng/issues/80)) ([b2f9f11](https://github.com/kaltura/kaltura-ng/commit/b2f9f11))
+* extend tooltip component api, logger api and filters service api ([fb8c332](https://github.com/kaltura/kaltura-ng/commit/fb8c332))
+* improve server polling logic and extend kaltura logger ([#73](https://github.com/kaltura/kaltura-ng/issues/73)) ([bc11630](https://github.com/kaltura/kaltura-ng/commit/bc11630))
+* modify tooltip position when dragging the target component ([#49](https://github.com/kaltura/kaltura-ng/issues/49)) ([e518cb0](https://github.com/kaltura/kaltura-ng/commit/e518cb0))
+
+
+### BREAKING CHANGES
+
+* Server polling now requires an override of method '_canExecute'
+* previously the list filter item and group filter item held the tooltip and label of the filtered item. Now the list filter item hold the id/value only.
+
+
+
+
 <a name="3.4.0"></a>
 # [3.4.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@3.3.0...@kaltura-ng/kaltura-ui@3.4.0) (2018-01-14)
 

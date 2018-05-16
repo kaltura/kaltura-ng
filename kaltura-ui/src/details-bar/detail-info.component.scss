@@ -15,6 +15,10 @@
         padding-right: 8px;
         padding-left: 8px;
         flex: 0 0 auto;
+        color: #cccccc;
+    }
+    .kIcon{
+        font-size: 16px;
     }
     .kLabel{
         margin-right: 4px;
@@ -37,39 +41,3 @@
         text-overflow: ellipsis;
     }
 }
-
-/*
-:host {
-    display: table-cell;
-}
-
-.kDetailInfo {
-    display: table-cell;
-    height: 24px;
-}
-
-.kDetail {
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    .kCaption {
-        flex: 0 0 auto;
-        margin-right: 4px;
-    }
-    .kValue {
-        overflow: hidden;
-        white-space: nowrap;
-        flex: 1 1 auto;
-    }
-}
-
-.kSeparator {
-    padding-right: 8px;
-    padding-left: 8px;
-    flex: 0 0 auto;
-}
-
-.kIconimage {
-    padding-right: 4px;
-}
-*/

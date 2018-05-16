@@ -66,7 +66,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
 
     @Input()
     suggestionLabelField : string = '';
-
+    
     get multiple() : boolean
     {
         // always return true to affect component ui of selected item.
@@ -351,7 +351,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
         let preventKeydown = false;
 
 
-        if ((event.which === 9 || event.which === 13) )
+        if ((event.which === 9 || event.which === 13 || event.which === 188) )
         {
             const status = this._addValueFromInput().status;
 
@@ -480,9 +480,8 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
                 }
         }, 0);
     }
-
+  
     public onItemClick(item: any){
         this.itemClick.emit(item);
     }
-
 }

@@ -3,6 +3,99 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.2.3"></a>
+## [2.2.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@2.2.2...@kaltura-ng/kaltura-primeng-ui@2.2.3) (2018-05-01)
+
+
+
+
+<a name="2.2.2"></a>
+## [2.2.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@2.2.1...@kaltura-ng/kaltura-primeng-ui@2.2.2) (2018-04-30)
+
+
+
+
+<a name="2.2.1"></a>
+## [2.2.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@2.2.0...@kaltura-ng/kaltura-primeng-ui@2.2.1) (2018-04-12)
+
+
+
+
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@2.1.0...@kaltura-ng/kaltura-primeng-ui@2.2.0) (2018-04-02)
+
+
+### Features
+
+* add multi-select dropdown component ([#102](https://github.com/kaltura/kaltura-ng/issues/102)) ([cf1a158](https://github.com/kaltura/kaltura-ng/commit/cf1a158))
+* use kaltura multi select component in dynamic form ([#103](https://github.com/kaltura/kaltura-ng/issues/103)) ([65a3218](https://github.com/kaltura/kaltura-ng/commit/65a3218))
+
+
+
+
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@2.0.0...@kaltura-ng/kaltura-primeng-ui@2.1.0) (2018-03-19)
+
+
+### Features
+
+* add item in autocomplete by pressing comma ([4a4b14e](https://github.com/kaltura/kaltura-ng/commit/4a4b14e))
+* support readonly in auto-complete multiple selection ([b05f55d](https://github.com/kaltura/kaltura-ng/commit/b05f55d))
+
+
+
+
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@1.0.0...@kaltura-ng/kaltura-primeng-ui@2.0.0) (2018-03-04)
+
+
+### Bug Fixes
+
+* priming icons ([#84](https://github.com/kaltura/kaltura-ng/issues/84)) ([8d7096e](https://github.com/kaltura/kaltura-ng/commit/8d7096e))
+
+
+### Features
+
+* add time-spinner component ([b2b0bb0](https://github.com/kaltura/kaltura-ng/commit/b2b0bb0))
+* support prime tiered menu with kMenuCloseOnScroll directive ([208f5dd](https://github.com/kaltura/kaltura-ng/commit/208f5dd))
+* support PrimeNG Turbo table ([b614610](https://github.com/kaltura/kaltura-ng/commit/b614610))
+* upgrade stack to angular@5 ([80736ff](https://github.com/kaltura/kaltura-ng/commit/80736ff))
+
+
+### BREAKING CHANGES
+
+* upgrading from v4 to v5 required multiple changes in build scripts and some code adjustments
+
+
+
+
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.8.1...@kaltura-ng/kaltura-primeng-ui@1.0.0) (2018-02-05)
+
+
+### Bug Fixes
+
+* show dynamic dropdown component with empty value ([79cf3d3](https://github.com/kaltura/kaltura-ng/commit/79cf3d3))
+* ux fixes ([#78](https://github.com/kaltura/kaltura-ng/issues/78)) ([71b93a0](https://github.com/kaltura/kaltura-ng/commit/71b93a0))
+
+
+### Features
+
+* dynamic form add number type control ([7d7b6d2](https://github.com/kaltura/kaltura-ng/commit/7d7b6d2))
+* extend tooltip component api, logger api and filters service api ([fb8c332](https://github.com/kaltura/kaltura-ng/commit/fb8c332))
+* improve server polling logic and extend kaltura logger ([#73](https://github.com/kaltura/kaltura-ng/issues/73)) ([bc11630](https://github.com/kaltura/kaltura-ng/commit/bc11630))
+* item clicked on autocomplete tag ([#71](https://github.com/kaltura/kaltura-ng/issues/71)) ([46f8932](https://github.com/kaltura/kaltura-ng/commit/46f8932))
+* modify tooltip position when dragging the target component ([#49](https://github.com/kaltura/kaltura-ng/issues/49)) ([e518cb0](https://github.com/kaltura/kaltura-ng/commit/e518cb0))
+
+
+### BREAKING CHANGES
+
+* Server polling now requires an override of method '_canExecute'
+* previously the list filter item and group filter item held the tooltip and label of the filtered item. Now the list filter item hold the id/value only.
+
+
+
+
 <a name="0.8.1"></a>
 ## [0.8.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@0.8.0...@kaltura-ng/kaltura-primeng-ui@0.8.1) (2018-01-14)
 

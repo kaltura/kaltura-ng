@@ -2,7 +2,7 @@
 
 .kOverrideFAIcons {
     .fa {
-        font-family: 'KMCng-icon-pack' !important;
+        font-family: 'kmcng-icon-pack' !important;
     }
     .ui-submenu-icon.fa-caret-right:before{
         @extend .kIcondropdown_arrow_right:before;
@@ -37,7 +37,7 @@
     }
     .ui-chkbox-icon.fa.fa-check:before{
         @extend .kIconcheck_small:before;
-        font-size: 12px;
+        font-size: 10px;
     }
     .ui-chkbox-icon.fa.fa-minus:before{
         @extend .kIconpartial_small:before;

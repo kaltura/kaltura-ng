@@ -1,4 +1,4 @@
-import { Directive, Input, Renderer, ElementRef, OnInit, AfterContentInit, OnDestroy, OnChanges, HostListener } from '@angular/core';
+import { Directive, Renderer, ElementRef } from '@angular/core';
 import { StickyScrollService } from '@kaltura-ng/kaltura-ui/sticky';
 import { StickyDirective } from '@kaltura-ng/kaltura-ui';
 
@@ -15,7 +15,7 @@ export class StickyDatatableHeaderDirective extends StickyDirective {
     }
 
     protected _getStickyElement(elementRef: ElementRef) :any{
-        const headers = elementRef.nativeElement.getElementsByClassName('ui-datatable-scrollable-header-box');
+        const headers = elementRef.nativeElement.querySelectorAll('.ui-table-scrollable-header-box,.ui-datatable-scrollable-header-box')
 
         if (headers && headers.length > 0) {
             // console.log("got primeng table header!");

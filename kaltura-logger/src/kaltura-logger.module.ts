@@ -1,16 +1,15 @@
-import { NgModule, ModuleWithProviders, Provider } from '@angular/core';
+import { NgModule, ModuleWithProviders, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { KalturaLogger } from './kaltura-logger.service';
+import { KalturaLogger, KalturaDefaultLogger } from './kaltura-logger.service';
 import { JL } from 'jsnlog';
+import { KalturaLoggerRecordService } from './kaltura-logger-record.service';
 
 
 var consoleAppender=JL.createConsoleAppender('consoleAppender');
+
 JL().setOptions({"appenders": [consoleAppender]});
-
-
-function createLoggerFactory(name: string) : Provider[]
-{
-    return KalturaLogger.createFactory(name);
+if (window && window.onerror) {
+    window.onerror = null;
 }
 
 @NgModule({
@@ -23,23 +22,37 @@ function createLoggerFactory(name: string) : Provider[]
     exports: <any[]>[
     ],
     providers: <any[]>[
-        ]
+    ]
 })
 export class KalturaLoggerModule {
-    // constructor(@Optional() @SkipSelf() module : KalturaCoreModule, private appBootstrap : AppBootstrap)
-    // {
-    //     if (module) {
-    //         throw new Error("KMCngCoreModule module imported twice.");
-    //     }
-    // }
 
-    static forRoot(name: string): ModuleWithProviders {
+    // TODO check why this doesn't work with AOT
+    // static forRoot(name: string): ModuleWithProviders {
+    //     return {
+    //         ngModule: KalturaLoggerModule,
+    //         providers: [
+    //             {
+    //                 provide: KalturaLogger,
+    //                 useFactory(parentLogger)
+    //                 {
+    //                     const logger = new KalturaLogger(name, parentLogger);
+    //
+    //                     KalturaDefaultLogger.set(logger.subLogger('general'));
+    //
+    //                     return logger;
+    //                 },
+    //                 deps: [[new Optional(), new SkipSelf(), KalturaLogger]]
+    //             }
+    //         ]
+    //     };
+    // }
+    static forRoot(): ModuleWithProviders {
         return {
-            ngModule: KalturaLoggerModule,
-            providers: [
-                createLoggerFactory(name)
-            ]
-        };
+          ngModule: KalturaLoggerModule,
+          providers: [
+            KalturaLoggerRecordService
+          ]
+        }
     }
 }
 

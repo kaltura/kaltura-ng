@@ -3,10 +3,10 @@
 @font-face {
   font-family: 'kmcng-icon-pack';
   src:
-          url('#{$mc-theme-font-path}/kmcng-icon-pack.woff2?hfxnrr') format('woff2'),
-          url('#{$mc-theme-font-path}/kmcng-icon-pack.ttf?hfxnrr') format('truetype'),
-          url('#{$mc-theme-font-path}/kmcng-icon-pack.woff?hfxnrr') format('woff'),
-          url('#{$mc-theme-font-path}/kmcng-icon-pack.svg?hfxnrr#kmcng-icon-pack') format('svg');
+          url('#{$mc-theme-font-path}/kmcng-icon-pack.woff2?qbt9b0') format('woff2'),
+          url('#{$mc-theme-font-path}/kmcng-icon-pack.ttf?qbt9b0') format('truetype'),
+          url('#{$mc-theme-font-path}/kmcng-icon-pack.woff?qbt9b0') format('woff'),
+          url('#{$mc-theme-font-path}/kmcng-icon-pack.svg?qbt9b0#kmcng-icon-pack') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -26,17 +26,41 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.kIconkaltura_logo:before {
+  content: "\e95f";
+}
+.kIconbulk:before {
+  content: "\e92e";
+}
+.kIconUsers:before {
+  content: "\e93f";
+}
+.kIconlive:before {
+  content: "\e958";
+}
+.kIconUpload:before {
+  content: "\e959";
+}
+.kIconstatistic:before {
+  content: "\e961";
+}
+.kIconplayback-file:before {
+  content: "\e955";
+}
+.kIconEdit:before {
+  content: "\e956";
+}
 .kIconShare:before {
   content: "\e94f";
 }
 .kIconlife_donut:before {
-  content: "\e950";
+  content: "\1f325";
 }
 .kIcontag:before {
-  content: "\e900";
+  content: "\e902";
 }
 .kIconduplicate:before {
-  content: "\e902";
+  content: "\e905";
 }
 .kIconlink:before {
   content: "\e934";
@@ -63,10 +87,10 @@
   content: "\e925";
 }
 .kIconconfirmation:before {
-  content: "\e915";
+  content: "\e918";
 }
 .kIconwarning:before {
-  content: "\e918";
+  content: "\e91a";
 }
 .kIconarrow_up:before {
   content: "\e933";
@@ -75,7 +99,7 @@
   content: "\e904";
 }
 .kIconreorder:before {
-  content: "\e901";
+  content: "\e903";
 }
 .kIconexternal_link:before {
   content: "\e913";
@@ -99,7 +123,7 @@
   content: "\e923";
 }
 .kIconCopy-to-clipboard:before {
-  content: "\e903";
+  content: "\e90b";
 }
 .kIconupload:before {
   content: "\e914";
@@ -108,7 +132,7 @@
   content: "\e917";
 }
 .kIconReport:before {
-  content: "\e905";
+  content: "\e906";
 }
 .kIconUnknown:before {
   content: "\e927";
@@ -117,25 +141,25 @@
   content: "\e928";
 }
 .kIconfolder_large:before {
-  content: "\e906";
+  content: "\e907";
 }
 .kIconsound:before {
   content: "\e909";
 }
 .kIconhelp:before {
-  content: "\e907";
+  content: "\e908";
 }
 .kIconimage:before {
-  content: "\e908";
+  content: "\e90a";
 }
 .kIconplay:before {
   content: "\e926";
 }
 .kIconrefresh:before {
-  content: "\e90a";
+  content: "\e90e";
 }
 .kIconuser:before {
-  content: "\e90b";
+  content: "\e910";
 }
 .kIconvideo:before {
   content: "\e930";
@@ -144,13 +168,25 @@
   content: "\e954";
 }
 .kIconfolder:before {
-  content: "\e929";
+  content: "\e93e";
 }
 .kIconPlaylist_Manual:before {
-  content: "\e92a";
+  content: "\e932";
 }
 .kIconPlaylist_RuleBased:before {
   content: "\e931";
+}
+.kIcondynamic-collection:before {
+  content: "\e92b";
+}
+.kIconadd-to-collection:before {
+  content: "\e901";
+}
+.kIconzoom:before {
+  content: "\e95a";
+}
+.kIconList:before {
+  content: "\e957";
 }
 .kIcondatabase_search:before {
   content: "\e953";
@@ -162,34 +198,37 @@
   content: "\e952";
 }
 .kIconepisodes:before {
-  content: "\e942";
-}
-.kIconmovies:before {
-  content: "\e943";
-}
-.kIconseries:before {
   content: "\e944";
 }
-.kIconmetadata-templates:before {
+.kIconmovies:before {
   content: "\e945";
 }
-.kIconcheckbox:before {
+.kIconseries:before {
   content: "\e946";
 }
-.kIcondate-and-time:before {
+.kIconmetadata-templates:before {
   content: "\e947";
 }
-.kIcondropdown:before {
+.kIconcheckbox:before {
   content: "\e948";
 }
-.kIconinput-field-numeric:before {
+.kIcondate-and-time:before {
   content: "\e949";
 }
-.kIconinput-field:before {
+.kIcondropdown:before {
   content: "\e94a";
 }
-.kIconswitch:before {
+.kIconinput-field-numeric:before {
   content: "\e94b";
+}
+.kIconinput-field:before {
+  content: "\e94c";
+}
+.kIconswitch:before {
+  content: "\e94d";
+}
+.kIconlive_transcoding:before {
+  content: "\e900";
 }
 .kIconfile-small:before {
   content: "\e93a";
@@ -207,16 +246,37 @@
   content: "\e92f";
 }
 .kIconcheck_large:before {
-  content: "\e90e";
+  content: "\e912";
 }
 .kIconpen:before {
-  content: "\e912";
+  content: "\e915";
 }
 .kIcontree-arrow-right:before {
   content: "\e919";
 }
 .kIcontree-arrow-down:before {
-  content: "\e910";
+  content: "\e91b";
+}
+.kIcontranscoding:before {
+  content: "\e940";
+}
+.kIconinactive:before {
+  content: "\e95b";
+}
+.kIconscheduled:before {
+  content: "\e95c";
+}
+.kIconcomplete:before {
+  content: "\e941";
+}
+.kIconerror:before {
+  content: "\e942";
+}
+.kIconsync:before {
+  content: "\e943";
+}
+.kIconupload2:before {
+  content: "\e950";
 }
 .kIconpartial_small:before {
   content: "\e922";
@@ -228,56 +288,38 @@
   content: "\e920";
 }
 .kIconcheck_small:before {
-  content: "\e91a";
+  content: "\e91c";
 }
 .kIconclose_small:before {
-  content: "\e91b";
+  content: "\e91d";
 }
 .kIcondropdown_arrow_bottom:before {
-  content: "\e91c";
+  content: "\e91e";
 }
 .kIcondropdown_arrow_right:before {
   content: "\e921";
 }
 .kIcondropdown_arrow_left:before {
-  content: "\e91d";
+  content: "\e929";
 }
 .kIcondropdown_arrow_top:before {
-  content: "\e91e";
+  content: "\e92a";
 }
-.kIconbulk:before {
-  content: "\e92b";
-}
-.kIconUsers:before {
-  content: "\e92e";
-}
-.kIconlive:before {
+.kIconsettings-upgrade-1:before {
   content: "\e92c";
 }
-.kIconUpload:before {
+.kIconsettings-upgrade-2:before {
   content: "\e92d";
 }
-.kIconcomplete:before {
-  content: "\e93e";
-}
-.kIconerror:before {
-  content: "\e93f";
-}
-.kIconsync:before {
-  content: "\e940";
-}
-.kIconupload2:before {
-  content: "\e941";
-}
 .kIconrefresh_small:before {
-  content: "\e932";
+  content: "\e960";
 }
 .kIconepisode-small:before {
-  content: "\e94c";
+  content: "\e94e";
 }
 .kIconmovies-small:before {
-  content: "\e94d";
+  content: "\e95d";
 }
 .kIconseries-small:before {
-  content: "\e94e";
+  content: "\e95e";
 }

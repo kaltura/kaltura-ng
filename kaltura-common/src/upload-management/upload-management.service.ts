@@ -1,11 +1,10 @@
 import { OnDestroy, Injectable, Inject, Optional, InjectionToken } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import '../rxjs/add/operators';
 import { UploadFileData } from './upload-file-data';
 import { UploadFileAdapter } from './upload-file-adapter';
 import { Subject } from 'rxjs/Subject';
-import { ISubscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/groupBy';
+import { Observable } from 'rxjs/Observable';
 import { FriendlyHashId } from '../friendly-hash-id';
 import { TrackedFile, TrackedFileChanges, TrackedFileData, TrackedFileStatuses } from './tracked-file';
 
@@ -61,7 +60,7 @@ export class UploadManagement implements OnDestroy {
     
     public getTrackedFiles(): TrackedFileData[]
     {
-        return Object.values(this._trackedFiles).map(file => file.asData());
+        return Object.keys(this._trackedFiles).map(fileId => this._trackedFiles[fileId].asData());
     }
 
     public getTrackedFile(fileId: string): TrackedFileData
@@ -237,11 +236,10 @@ export class UploadManagement implements OnDestroy {
     }
 
     private _executePreparePhase(): void {
-
-        let filesAlreadyInProcess = 0;
-        const files = Object.values(this._trackedFiles).filter(trackedFile =>
-            trackedFile.status === TrackedFileStatuses.pendingPrepare
-        && trackedFile.canTransitionTo(TrackedFileStatuses.preparing));
+        const files = Object.keys(this._trackedFiles).map(fileId => this._trackedFiles[fileId]).filter(trackedFile => {
+            return trackedFile.status === TrackedFileStatuses.pendingPrepare
+                && trackedFile.canTransitionTo(TrackedFileStatuses.preparing);
+        });
 
         if (files.length)
         {
@@ -342,8 +340,10 @@ export class UploadManagement implements OnDestroy {
         const waitingForUploadsFiles = [];
         const activeUploadFiles = [];
 
-        Object.values(this._trackedFiles).forEach(trackedFile =>
+        Object.keys(this._trackedFiles).forEach(fileId =>
         {
+            const trackedFile = this._trackedFiles[fileId];
+
             if (trackedFile.status === TrackedFileStatuses.uploading)
             {
                 activeUploadFiles.push(trackedFile);
