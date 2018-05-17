@@ -20,7 +20,7 @@ export class KTooltipDirective implements OnDestroy {
     @Input() escape: boolean = true;
     @Input() tooltipOffset: number = 8;
     @Input() placement: TooltipPositions = "top";
-    @Input() delay = 0;
+    @Input() delay = 300;
     @Input() maxWidth: number = 300;
     @Input() followTarget = false;
 
@@ -40,7 +40,7 @@ export class KTooltipDirective implements OnDestroy {
     {
         return typeof value !== 'undefined' && value !== '' && value !== null;
     }
-    
+
     private _updateTooltipElement(): void {
         if (!this._tooltipContent) {
             if (this._isShowingTooltip()) {
