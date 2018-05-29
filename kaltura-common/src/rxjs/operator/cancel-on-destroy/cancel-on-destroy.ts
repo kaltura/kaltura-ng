@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { Subscriber } from 'rxjs/Subscriber';
 import { Operator } from 'rxjs/Operator';
 import { OnDestroy } from '@angular/core';
-
+import 'rxjs/add/observable/merge';
 
 interface EnhancedOnDestroy extends OnDestroy
 {
