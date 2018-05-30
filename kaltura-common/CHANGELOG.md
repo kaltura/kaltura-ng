@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="6.0.0"></a>
+# [6.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@5.2.0...@kaltura-ng/kaltura-common@6.0.0) (2018-05-30)
+
+
+### Code Refactoring
+
+* move localization from kaltura-common into mc-shared ([#112](https://github.com/kaltura/kaltura-ng/issues/112)) ([30f0e05](https://github.com/kaltura/kaltura-ng/commit/30f0e05))
+
+
+### Features
+
+* allow parsing xsd/xml without groking values SUP-14470 ([bffe754](https://github.com/kaltura/kaltura-ng/commit/bffe754))
+
+
+### BREAKING CHANGES
+
+* import localization module,server and pipe was moved to mc-shared
+
+before:
+```
+import { AppLocalization } from '@kaltura-ng/kaltura-common';
+import {KalturaCommonModule} from '@kaltura-ng/kaltura-common';
+```
+after:
+```
+import { AppLocalization } from '@kaltura-ng/mc-shared/localization';
+import {LocalizationModule} from '@kaltura-ng/mc-shared/localization';
+```
+* calling `XmlParser.toJson()` requires new argument.
+Before:
+```
+XmlParser.toJson(xmlContent);
+```
+
+After:
+```
+XmlParser.toJson(xmlContent, true);
+```
+
+
+
+
 <a name="5.2.0"></a>
 # [5.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@5.1.0...@kaltura-ng/kaltura-common@5.2.0) (2018-05-01)
 

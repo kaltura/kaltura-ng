@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.3.0"></a>
+# [2.3.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@2.2.3...@kaltura-ng/kaltura-primeng-ui@2.3.0) (2018-05-30)
+
+
+### Features
+
+* add draggable table component ([#86](https://github.com/kaltura/kaltura-ng/issues/86)) ([f540323](https://github.com/kaltura/kaltura-ng/commit/f540323))
+
+
+
+
 <a name="2.2.3"></a>
 ## [2.2.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@2.2.2...@kaltura-ng/kaltura-primeng-ui@2.2.3) (2018-05-01)
 
