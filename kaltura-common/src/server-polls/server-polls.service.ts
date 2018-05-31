@@ -3,7 +3,7 @@ import { Subscriber } from 'rxjs/Subscriber';
 import { FriendlyHashId } from '../friendly-hash-id';
 import { ISubscription } from 'rxjs/Subscription';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { KalturaLogger } from '@kaltura-ng/kaltura-logger';
+import { EmptyLogger, KalturaLogger } from '../kaltura-logger';
 import { Optional } from '@angular/core';
 
 export type PollInterval = 10 | 30 | 60 | 300;
@@ -31,25 +31,23 @@ export abstract class ServerPolls<TRequest, TError> {
     private _logger: KalturaLogger;
   public state$ = this._state.asObservable();
   private _queueInterval: number = null;
-  
+
   protected abstract _executeRequests(requests: TRequest[]): Observable<{ error: TError, result: any }[]>;
-  
+
   protected abstract _createGlobalError(error?: Error): TError;
-  
+
   protected abstract _getOnDestroy$(): Observable<void>;
-  
+
   protected abstract _canExecute(): boolean;
-  
-  constructor(@Optional() kalturaLogger: KalturaLogger) {
-      
-      if (kalturaLogger)
-      {
-          this._logger = kalturaLogger.subLogger('ServerPolls');
-      }else
-      {
-          this._logger = new KalturaLogger('ServerPolls',null, null);
-      }
-    this._initialize();
+
+  constructor(kalturaLogger: KalturaLogger) {
+
+	  if (kalturaLogger) {
+		  this._logger = kalturaLogger;
+	  } else {
+		  this._logger = new EmptyLogger();
+	  }
+	  this._initialize();
   }
 
   private _warnAboutMissingDestory(): void {
@@ -78,11 +76,11 @@ export abstract class ServerPolls<TRequest, TError> {
           }
       });
   }
-  
+
   private _cancelQueueInterval(): void {
     clearTimeout(this._queueTimeout);
   }
-  
+
   private _getPollQueueList(): PollItem<TError>[] {
     return Object.keys(this._pollQueue).map(key => this._pollQueue[key]);
   }
@@ -273,7 +271,7 @@ export abstract class ServerPolls<TRequest, TError> {
   public isBusy(): boolean {
       return this._state.getValue().busy;
   }
-  
+
   public register<TResponse>(intervalInSeconds: PollInterval, requestFactory: RequestFactory<TRequest, TResponse>): Observable<{ error: TError, result: TResponse }> {
     return Observable.create(observer => {
       const newPollId = this._tokenGenerator.generateUnique(Object.keys(this._pollQueue));
@@ -303,7 +301,7 @@ export abstract class ServerPolls<TRequest, TError> {
                   this._setupQueueTimer();
               }
           );
-      
+
       return () => {
           this._logger.info(`stop polling for ${newPollId}`);
           if (initialRequest) {
