@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.1"></a>
+## [4.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@4.0.0...@kaltura-ng/mc-shared@4.0.1) (2018-05-31)
+
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@3.2.1...@kaltura-ng/mc-shared@4.0.0) (2018-05-30)
 
