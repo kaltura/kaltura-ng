@@ -9,27 +9,6 @@ See [standard-version](https://github.com/conventional-changelog/standard-versio
 ### Features
 * remove kaltura-ng/kaltura-logger dependency from kaltura-ng/kaltura-common
 
-BREAKING CHANGE:
-import kaltura logger module requires providing root namespace value
-
-before in `app.module.ts`:
-```
-@NgModule({
-  imports: <any>[
-      KalturaLoggerModule.forRoot(),
-  ]
-})
-```
-
-after in `app.module.ts`:
-```
-@NgModule({
-  imports: <any>[
-      KalturaLoggerModule.forRoot('kmc'),
-  ]
-})
-```
-
 
 <a name="6.0.0"></a>
 # [6.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@5.2.0...@kaltura-ng/kaltura-common@6.0.0) (2018-05-30)
