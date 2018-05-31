@@ -1,23 +1,17 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { TranslateModule } from 'ng2-translate/ng2-translate';
-
 import { KalturaUtils } from './utils/kaltura-utils';
 import { APP_STORAGE_TOKEN, AppStorage } from './app-storage.service';
-import { AppLocalization, LocalizationPipe } from './localization/index';
+import { EmptyLogger, KalturaLoggerInjectionToken } from './kaltura-logger';
 
 
 @NgModule({
     imports: <any[]>[
         CommonModule,
-        TranslateModule
     ],
     declarations: <any[]>[
-        LocalizationPipe
     ],
     exports: <any[]>[
-        LocalizationPipe
     ],
     providers: <any[]>[
         ]
@@ -35,8 +29,8 @@ export class KalturaCommonModule {
             ngModule: KalturaCommonModule,
             providers: [
                 { provide: APP_STORAGE_TOKEN, useClass: AppStorage },
-                AppLocalization,
-	            KalturaUtils
+	            KalturaUtils,
+                { provide: KalturaLoggerInjectionToken, useClass: EmptyLogger}
             ]
         };
     }

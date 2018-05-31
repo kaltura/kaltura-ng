@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.1"></a>
+## [4.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@4.0.0...@kaltura-ng/mc-shared@4.0.1) (2018-05-31)
+
+
+
+
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@3.2.1...@kaltura-ng/mc-shared@4.0.0) (2018-05-30)
+
+
+### Code Refactoring
+
+* move localization from kaltura-common into mc-shared ([#112](https://github.com/kaltura/kaltura-ng/issues/112)) ([30f0e05](https://github.com/kaltura/kaltura-ng/commit/30f0e05))
+
+
+### BREAKING CHANGES
+
+* import localization module,server and pipe was moved to mc-shared
+
+before:
+```
+import { AppLocalization } from '@kaltura-ng/kaltura-common';
+import {KalturaCommonModule} from '@kaltura-ng/kaltura-common';
+```
+after:
+```
+import { AppLocalization } from '@kaltura-ng/mc-shared/localization';
+import {LocalizationModule} from '@kaltura-ng/mc-shared/localization';
+```
+
+
+
+
 <a name="3.2.1"></a>
 ## [3.2.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@3.2.0...@kaltura-ng/mc-shared@3.2.1) (2018-05-01)
 

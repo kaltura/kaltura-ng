@@ -11,13 +11,13 @@ function convertAttributes(attributes: object): string {
       parsedAttributes += ` ${attributeName}="${value}"`;
     });
   }
-  
+
   return parsedAttributes;
 }
 
 function convertObjectToXml(prefix: string, propertyName: string, propertyValue: any): string {
     let result = ``;
-  
+
     const noPrefixPropertyName = (propertyName || '').indexOf('noprefix:') !== -1;
     if (noPrefixPropertyName) {
       propertyName = propertyName.replace('noprefix:', '');
@@ -61,7 +61,7 @@ function convertObjectToXml(prefix: string, propertyName: string, propertyValue:
 
 export class XmlParser
 {
-    static toJson(xml : string) : {}
+    static toJson(xml : string, grokValues: boolean) : {}
     {
         return XmlToJSON.parseString(xml,
             {
@@ -69,25 +69,27 @@ export class XmlParser
                 valueKey: 'value', 	// tag name for attribute values
                 attrKey: 'attr', 	// tag for attr groups
                 cdataKey: 'cdata',	// tag for cdata nodes (ignored if mergeCDATA is true)
-                childrenAsArray: false 	// force children into arrays
+                childrenAsArray: false, 	// force children into arrays
+	            grokText: grokValues,
+	            grokAttr: grokValues,
             });
     }
-  
+
     static toXml(data: object, root: string, prefix: string = ''): string {
         const parsedPrefix = prefix ? `${prefix}:` : '';
         let parsedObject = '';
         let parsedAttributes = '';
-      
+
         if (data) {
             parsedAttributes = convertAttributes(data['attr']);
-            
+
             Object.keys(data).forEach(property => {
                 if (property !== 'attr') {
                    parsedObject += convertObjectToXml(parsedPrefix, property, data[property])
                 }
             });
         }
-      
+
         return `<${parsedPrefix}${root}${parsedAttributes}>${parsedObject}</${parsedPrefix}${root}>`;
     }
 

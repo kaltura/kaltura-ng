@@ -11,19 +11,6 @@ export type LogLevels = 'All' | 'Trace' | 'Debug' | 'Info' | 'Warn' | 'Error' | 
 
 let randomLoggerNameNumber = 1;
 
-export class KalturaDefaultLogger {
-    private static _defaultLogger: KalturaLogger = null;
-
-    static get(): KalturaLogger
-    {
-        return KalturaDefaultLogger._defaultLogger;
-    }
-
-    static set(instance: KalturaLogger): void
-    {
-        KalturaDefaultLogger._defaultLogger = instance;
-    }
-}
 
 @Injectable()
 export class KalturaLogger implements OnDestroy{
@@ -59,25 +46,25 @@ export class KalturaLogger implements OnDestroy{
         this._logger = JL(this._name);
         this._logger.trace('logger created!');
     }
-    
+
     private _addLogToBuffer(logItem: any): void {
       if (this._loggerRecordInterceptor) {
         this._loggerRecordInterceptor.addLogItemToBuffer(logItem);
       }
     }
-    
+
     public startRecordingLogs(): void {
       if (this._loggerRecordInterceptor) {
         this._loggerRecordInterceptor.startRecord();
       }
     }
-  
+
     public getRecordedLogs(): any[] | void {
       if (this._loggerRecordInterceptor) {
         return this._loggerRecordInterceptor.getRecordedLogs();
       }
     }
-    
+
     public isValidLogLevel(level: LogLevels): boolean {
       const validLogLevels = ['All', 'Trace', 'Debug', 'Info', 'Warn', 'Error', 'Fatal', 'Off'];
       return validLogLevels.indexOf(level) !== -1;

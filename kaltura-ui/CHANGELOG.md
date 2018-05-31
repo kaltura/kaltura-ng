@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.2.1"></a>
+## [5.2.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@5.2.0...@kaltura-ng/kaltura-ui@5.2.1) (2018-05-31)
+
+
+### Bug Fixes
+
+* simplify url regex expression so the browser engine will not fail for long url values ([#113](https://github.com/kaltura/kaltura-ng/issues/113)) KMCNG-1792 ([ab50ce4](https://github.com/kaltura/kaltura-ng/commit/ab50ce4))
+
+
+
+
+<a name="5.2.0"></a>
+# [5.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@5.1.3...@kaltura-ng/kaltura-ui@5.2.0) (2018-05-30)
+
+
+### Bug Fixes
+
+* restore page scroll upon popup widget destroy ([678701b](https://github.com/kaltura/kaltura-ng/commit/678701b))
+
+
+### Features
+
+* add draggable table component ([#86](https://github.com/kaltura/kaltura-ng/issues/86)) ([f540323](https://github.com/kaltura/kaltura-ng/commit/f540323))
+
+
+
+
 <a name="5.1.3"></a>
 ## [5.1.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@5.1.2...@kaltura-ng/kaltura-ui@5.1.3) (2018-05-01)
 
