@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KalturaUtils } from './utils/kaltura-utils';
 import { APP_STORAGE_TOKEN, AppStorage } from './app-storage.service';
+import { EmptyLogger, KalturaLoggerInjectionToken } from './kaltura-logger';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ export class KalturaCommonModule {
             ngModule: KalturaCommonModule,
             providers: [
                 { provide: APP_STORAGE_TOKEN, useClass: AppStorage },
-	            KalturaUtils
+	            KalturaUtils,
+                { provide: KalturaLoggerInjectionToken, useClass: EmptyLogger}
             ]
         };
     }
