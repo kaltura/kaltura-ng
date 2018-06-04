@@ -21,3 +21,7 @@
     max-width: 800px;
   }
 }
+
+:host /deep/ .kHighlightedText {  
+  text-decoration: underline;
+}
