@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.4.0"></a>
+# [2.4.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@2.3.1...@kaltura-ng/kaltura-primeng-ui@2.4.0) (2018-06-11)
+
+
+### Features
+
+* allow adding multiple tags using clipboard ([#105](https://github.com/kaltura/kaltura-ng/issues/105)) KMCNG-674 ([276a955](https://github.com/kaltura/kaltura-ng/commit/276a955))
+* highlight selected text in auto-complete suggestions  ([#94](https://github.com/kaltura/kaltura-ng/issues/94)) KMCNG-706 ([63d059f](https://github.com/kaltura/kaltura-ng/commit/63d059f))
+
+
+
+
 <a name="2.3.1"></a>
 ## [2.3.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@2.3.0...@kaltura-ng/kaltura-primeng-ui@2.3.1) (2018-05-31)
 

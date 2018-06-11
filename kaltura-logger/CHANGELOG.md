@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-<a name="2.2.1"></a>
+      <a name="2.2.2"></a>
+## [2.2.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@2.2.1...@kaltura-ng/kaltura-logger@2.2.2) (2018-06-11)
+
+
+
+
+      <a name="2.2.1"></a>
 ## [2.2.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@2.2.0...@kaltura-ng/kaltura-logger@2.2.1) (2018-05-31)
 
 ### Features
@@ -14,18 +20,18 @@ See [standard-version](https://github.com/conventional-changelog/standard-versio
 before in `app.module.ts`:
 ```
 @NgModule({
-  imports: <any>[
-      KalturaLoggerModule.forRoot(),
-  ]
+imports: <any>[
+    KalturaLoggerModule.forRoot(),
+]
 })
 ```
 
 after in `app.module.ts`:
 ```
 @NgModule({
-  imports: <any>[
-      KalturaLoggerModule.forRoot('kmc'),
-  ]
+imports: <any>[
+    KalturaLoggerModule.forRoot('kmc'),
+]
 })
 ```
 

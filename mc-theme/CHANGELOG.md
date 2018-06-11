@@ -3,13 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-       <a name="2.1.5"></a>
+ <a name="2.1.6"></a>
+## [2.1.6](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.1.5...@kaltura-ng/mc-theme@2.1.6) (2018-06-11)
+
+
+### Bug Fixes
+
+* fix style for paginator dropdown ([f109f74](https://github.com/kaltura/kaltura-ng/commit/f109f74))
+
+
+
+
+ <a name="2.1.5"></a>
 ## [2.1.5](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.1.4...@kaltura-ng/mc-theme@2.1.5) (2018-05-31)
 
 
 
 
-       <a name="2.1.4"></a>
+<a name="2.1.4"></a>
 ## [2.1.4](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.1.3...@kaltura-ng/mc-theme@2.1.4) (2018-05-30)
 
 

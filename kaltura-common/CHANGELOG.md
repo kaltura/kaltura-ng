@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="6.0.2"></a>
+## [6.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@6.0.1...@kaltura-ng/kaltura-common@6.0.2) (2018-06-11)
+
+
+### Bug Fixes
+
+* enable server polls response for multirequest ([#111](https://github.com/kaltura/kaltura-ng/issues/111)) ([f8357cf](https://github.com/kaltura/kaltura-ng/commit/f8357cf))
+
+
+
+
 <a name="6.0.1"></a>
 ## [6.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@6.0.0...@kaltura-ng/kaltura-common@6.0.1) (2018-05-31)
 
