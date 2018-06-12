@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { TeardownLogic } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';
 import { Operator } from 'rxjs/Operator';

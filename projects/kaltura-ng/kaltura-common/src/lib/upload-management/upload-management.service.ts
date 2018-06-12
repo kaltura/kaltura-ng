@@ -2,9 +2,8 @@ import { OnDestroy, Injectable, Inject, Optional, InjectionToken } from '@angula
 import '../rxjs/add/operators';
 import { UploadFileData } from './upload-file-data';
 import { UploadFileAdapter } from './upload-file-adapter';
-import { Subject } from 'rxjs/Subject';
+import { Subject, Observable } from 'rxjs';
 import 'rxjs/add/operator/groupBy';
-import { Observable } from 'rxjs/Observable';
 import { FriendlyHashId } from '../friendly-hash-id';
 import { TrackedFile, TrackedFileChanges, TrackedFileData, TrackedFileStatuses } from './tracked-file';
 
@@ -57,7 +56,7 @@ export class UploadManagement implements OnDestroy {
                 break;
         }
     }
-    
+
     public getTrackedFiles(): TrackedFileData[]
     {
         return Object.keys(this._trackedFiles).map(fileId => this._trackedFiles[fileId].asData());
@@ -106,7 +105,7 @@ export class UploadManagement implements OnDestroy {
             {
                 if (trackedFile.canTransitionTo(TrackedFileStatuses.cancelled)) {
                     this.cancelUpload(id, false);
-  
+
                   if (trackedFile.canTransitionTo(TrackedFileStatuses.failure)) {
                     this._updateTrackedFile(trackedFile,
                       {

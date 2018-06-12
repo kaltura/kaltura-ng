@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { Subscriber } from 'rxjs/Subscriber';
 import { FriendlyHashId } from '../friendly-hash-id';
 import { ISubscription } from 'rxjs/Subscription';
