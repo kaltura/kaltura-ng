@@ -40,6 +40,12 @@
       ],
       "@kaltura-ng/kaltura-primeng-ui/*": [
         "dist/kaltura-ng/kaltura-primeng-ui/*"
+      ],
+      "@kaltura-ng/mc-shared": [
+        "dist/kaltura-ng/mc-shared"
+      ],
+      "@kaltura-ng/mc-shared/*": [
+        "dist/kaltura-ng/mc-shared/*"
       ]
     }
   }

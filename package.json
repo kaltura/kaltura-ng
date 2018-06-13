@@ -49,9 +49,11 @@
     "@angular/router": "^6.0.3",
     "core-js": "^2.5.4",
     "jsnlog": "^2.24.3",
+    "ng2-translate": "^5.0.0",
     "primeng": "^6.0.0-rc.1",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.2.0",
+    "seamless-immutable": "^7.1.2",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {

@@ -6,7 +6,7 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/mergeAll';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/from';
-import * as Immutable from 'seamless-immutable';
+import { Immutable } from 'seamless-immutable';
 
 enum CompareTypes
 {
@@ -101,7 +101,7 @@ export abstract class AppPermissionsServiceBase<T> {
 
         return result;
     }
-    
+
     public filterList(list: { id: string }[], permissionMapping: { [id: string]: T | T[] }): void {
         Object.keys(permissionMapping).forEach(key => {
             const permission = permissionMapping[key];
@@ -112,7 +112,7 @@ export abstract class AppPermissionsServiceBase<T> {
           if (!hasPermission) {
             const relevantItems = list.filter(({ id }) => id === key);
             const relevantItemIndex = relevantItems && relevantItems.length ? list.indexOf(relevantItems[0]) : -1;
-            
+
             if (relevantItemIndex !== -1) {
               list.splice(relevantItemIndex, 1);
             }

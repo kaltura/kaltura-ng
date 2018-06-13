@@ -281,6 +281,46 @@
           }
         }
       }
+    },
+    "@kaltura-ng/mc-shared": {
+      "root": "projects/kaltura-ng/mc-shared",
+      "sourceRoot": "projects/kaltura-ng/mc-shared/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/kaltura-ng/mc-shared/tsconfig.lib.json",
+            "project": "projects/kaltura-ng/mc-shared/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/kaltura-ng/mc-shared/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/kaltura-ng/mc-shared/src/test.ts",
+            "tsConfig": "projects/kaltura-ng/mc-shared/tsconfig.spec.json",
+            "karmaConfig": "projects/kaltura-ng/mc-shared/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/kaltura-ng/mc-shared/tsconfig.lib.json",
+              "projects/kaltura-ng/mc-shared/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "kaltura-ng"

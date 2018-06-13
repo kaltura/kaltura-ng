@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, Output, AfterViewInit, OnDestroy, ViewC
 import { TagComponent } from './tag.component';
 import { Subscription } from "rxjs/Subscription";
 
-import * as $ from 'jquery';
+import * as $NS from 'jquery';
+const $ = $NS;
 
 @Component({
     selector: 'kTags',

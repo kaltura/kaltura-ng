@@ -1,0 +1,20 @@
+{
+  "name": "@kaltura-ng/mc-shared",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@types/seamless-immutable": "^7.1.1"
+  },
+  "peerDependencies": {
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/forms": "^6.0.0-rc.0 || ^6.0.0",
+    "@kaltura-ng/kaltura-common": "^6.0.2",
+    "@kaltura-ng/kaltura-logger": "^2.2.2",
+    "@kaltura-ng/kaltura-ui": "^5.2.2",
+    "ng2-translate": "^5.0.0",
+    "primeng": "^5.2.0",
+    "rxjs": "^6.0.0",
+    "rxjs-compat": "^6.2.0",
+    "seamless-immutable": "^7.1.2"
+  }
+}
