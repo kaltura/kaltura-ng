@@ -201,6 +201,46 @@
           }
         }
       }
+    },
+    "@kaltura-ng/kaltura-logger": {
+      "root": "projects/kaltura-ng/kaltura-logger",
+      "sourceRoot": "projects/kaltura-ng/kaltura-logger/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/kaltura-ng/kaltura-logger/tsconfig.lib.json",
+            "project": "projects/kaltura-ng/kaltura-logger/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/kaltura-ng/kaltura-logger/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/kaltura-ng/kaltura-logger/src/test.ts",
+            "tsConfig": "projects/kaltura-ng/kaltura-logger/tsconfig.spec.json",
+            "karmaConfig": "projects/kaltura-ng/kaltura-logger/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/kaltura-ng/kaltura-logger/tsconfig.lib.json",
+              "projects/kaltura-ng/kaltura-logger/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "kaltura-ng"

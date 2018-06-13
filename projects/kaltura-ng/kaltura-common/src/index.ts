@@ -4,5 +4,5 @@ export * from './utils/kaltura-utils';
 export * from './upload-management';
 export * from './xml-parser';
 export * from './operation-tag';
-export * from './server-polls'
+export * from './server-polls';
 export { KalturaLoggerInjectionToken } from './kaltura-logger';

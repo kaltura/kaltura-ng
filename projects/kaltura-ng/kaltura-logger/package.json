@@ -1,12 +1,13 @@
 {
-  "name": "@kaltura-ng/kaltura-common",
-  "version": "6.0.2",
-  "dependencies": {
-
+  "name": "@kaltura-ng/kaltura-logger",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@types/jsnlog": "^2.17.2"
   },
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "jsnlog": "^2.24.3",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.2.0"
   }

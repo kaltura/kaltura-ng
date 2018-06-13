@@ -28,6 +28,12 @@
       ],
       "@kaltura-ng/kaltura-ui/*": [
         "dist/kaltura-ng/kaltura-ui/*"
+      ],
+      "@kaltura-ng/kaltura-logger": [
+        "dist/kaltura-ng/kaltura-logger"
+      ],
+      "@kaltura-ng/kaltura-logger/*": [
+        "dist/kaltura-ng/kaltura-logger/*"
       ]
     }
   }
