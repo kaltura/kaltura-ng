@@ -15,7 +15,7 @@
 		<li #token *ngFor="let val of value"
             [class]="'ui-autocomplete-token ui-state-highlight ui-corner-all ' + (classField && val ? val[classField] : '')"
             [kTooltip]="val" [tooltipResolver]="tooltipResolver">
-            <span class="ui-autocomplete-token-icon fa fa-fw fa-close" (click)="removeItem(token)"
+            <span class="ui-autocomplete-token-icon pi pi-fw pi-close" (click)="removeItem(token)"
                   *ngIf="!disabled"></span>
             <span *ngIf="!selectedItemTemplate" class="ui-autocomplete-token-label" (click)="onItemClick(val)">{{field ? objectUtils.resolveFieldData(val, field): val}}</span>
             <ng-template *ngIf="selectedItemTemplate" [pTemplateWrapper]="selectedItemTemplate"
@@ -29,7 +29,7 @@
                    autocomplete="off">
         </li>
     </ul
-    ><button type="button" pButton icon="fa-fw fa-caret-down" class="ui-autocomplete-dropdown" [disabled]="disabled"
+    ><button type="button" pButton icon="pi-fw pi-caret-down" class="ui-autocomplete-dropdown" [disabled]="disabled"
              (click)="handleDropdownClick($event)" *ngIf="dropdown"></button>
     <div #panel class="ui-autocomplete-panel ui-widget-content ui-corner-all ui-shadow"
          [style.display]="panelVisible ? 'block' : 'none'" [style.width]="appendTo ? 'auto' : '100%'"

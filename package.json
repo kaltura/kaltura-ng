@@ -49,6 +49,7 @@
     "@angular/router": "^6.0.3",
     "core-js": "^2.5.4",
     "jsnlog": "^2.24.3",
+    "primeng": "^6.0.0-rc.1",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.2.0",
     "zone.js": "^0.8.26"

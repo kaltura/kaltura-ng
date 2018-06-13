@@ -34,6 +34,12 @@
       ],
       "@kaltura-ng/kaltura-logger/*": [
         "dist/kaltura-ng/kaltura-logger/*"
+      ],
+      "@kaltura-ng/kaltura-primeng-ui": [
+        "dist/kaltura-ng/kaltura-primeng-ui"
+      ],
+      "@kaltura-ng/kaltura-primeng-ui/*": [
+        "dist/kaltura-ng/kaltura-primeng-ui/*"
       ]
     }
   }

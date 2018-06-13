@@ -2,7 +2,7 @@
 
 .kOverrideFAIcons {
 
-  .fa {
+  .pi {
     @extend .kPrimeUIIcon;
   }
 
@@ -72,7 +72,7 @@
       border: 0px none;
       box-shadow: none;
     }
-    .ui-autocomplete-token-icon.fa-close {
+    .ui-autocomplete-token-icon.pi-close {
       margin-right: 3px;
       font-size: 10px;
       padding-top: 5px;
@@ -82,7 +82,7 @@
         border-radius: 3px;
       }
     }
-    .ui-autocomplete-token-icon.fa-close:before {
+    .ui-autocomplete-token-icon.pi-close:before {
 
       content: $k-icon-close_small;
     }

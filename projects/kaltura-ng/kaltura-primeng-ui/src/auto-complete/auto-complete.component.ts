@@ -55,9 +55,9 @@ export const KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
 // [kmcng] upon upgrade: compare implemented interfaces in the original component (no need to include ControlValueAccessor)
 export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterViewInit, AfterViewChecked  {
     private _suggestionsProvider$ : ISubscription = null;
-    private _loading = false;
-    private _showNoItems = false;
-    private _errorMessage = '';
+    public _loading = false;
+    public _showNoItems = false;
+    public _errorMessage = '';
     private _allowMultiple = false;
     public _placeholder = '';
 
@@ -80,10 +80,10 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
 
     @Input()
     suggestionLabelField : string = '';
-    
+
     @Input()
     addOnPaste = true;
-    
+
     get multiple() : boolean
     {
         // always return true to affect component ui of selected item.
@@ -97,25 +97,25 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
 
     @Output()
     itemClick = new EventEmitter<any>();
-    
+
     @HostListener('paste', ['$event']) onPaste(event: ClipboardEvent) {
       if (!this.addOnPaste) {
         return;
       }
 
       const content = event.clipboardData.getData('text/plain');
-  
+
       if (content && content.indexOf(',') !== -1) {
         event.preventDefault();
         content.split(',')
           .map(item => item.trim())
           .forEach(tag => this._addValueFromInput(tag));
-  
+
         if (!this.panelVisible) {
           // primng fix: if the panel is not visible (!panelVisible) and we currently leaving the input field clear input content
           this._clearInputValue();
         }
-  
+
         this.onModelTouched();
       }
     }
@@ -252,8 +252,8 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     /**
      *
      * @param item
-     * @returns {any|boolean}
-     * @private
+     * returns {any|boolean}
+     * private
      */
     private _isItemSelected(item : any) : boolean
     {
@@ -268,8 +268,8 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
      * add value provided by user if the following conditions are confirmed:
      * - input component is in focus and its' content length is valid.
      * - no suggestion is currently highlighted
-     * @returns { {status} } status 'added' if valid value, 'invalid' if cannot add the value or 'not relevant' if the request should be ignored
-     * @private
+     * returns { {status} } status 'added' if valid value, 'invalid' if cannot add the value or 'not relevant' if the request should be ignored
+     * private
      */
     private _addValueFromInput(value = null) : { status : 'added' | 'invalid' | 'not relevant' | 'duplicated'}
     {
@@ -280,11 +280,11 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
         const isDuplicated = this.value && this.value.some(value => {
           return typeof value === 'string' && value.toLowerCase() === rawInputValue.toLowerCase();
         });
-        
+
         if (isDuplicated) {
           return { status : 'duplicated'};
         }
-        
+
         if (!this.limitToSuggestions && rawInputValue && !this.highlightOption && this.focus)
         {
             if ( rawInputValue.length >= 1 && !this._isItemSelected(rawInputValue)) {
@@ -519,7 +519,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
                 }
         }, 0);
     }
-  
+
     public onItemClick(item: any){
         this.itemClick.emit(item);
     }

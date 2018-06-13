@@ -1,0 +1,14 @@
+{
+  "name": "@kaltura-ng/kaltura-primeng-ui",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/forms": "^6.0.0-rc.0 || ^6.0.0",
+    "@kaltura-ng/kaltura-common": "^6.0.2",
+    "@kaltura-ng/kaltura-ui": "^5.2.2",
+    "primeng": "6.0.0-rc.1",
+    "rxjs": "^6.0.0",
+    "rxjs-compat": "^6.2.0"
+  }
+}

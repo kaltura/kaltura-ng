@@ -241,6 +241,46 @@
           }
         }
       }
+    },
+    "@kaltura-ng/kaltura-primeng-ui": {
+      "root": "projects/kaltura-ng/kaltura-primeng-ui",
+      "sourceRoot": "projects/kaltura-ng/kaltura-primeng-ui/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/kaltura-ng/kaltura-primeng-ui/tsconfig.lib.json",
+            "project": "projects/kaltura-ng/kaltura-primeng-ui/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/kaltura-ng/kaltura-primeng-ui/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/kaltura-ng/kaltura-primeng-ui/src/test.ts",
+            "tsConfig": "projects/kaltura-ng/kaltura-primeng-ui/tsconfig.spec.json",
+            "karmaConfig": "projects/kaltura-ng/kaltura-primeng-ui/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/kaltura-ng/kaltura-primeng-ui/tsconfig.lib.json",
+              "projects/kaltura-ng/kaltura-primeng-ui/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "kaltura-ng"
