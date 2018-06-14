@@ -1,7 +1,6 @@
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+import { Observable, Subject } from 'rxjs';
 import { OnDestroy } from '@angular/core';
-import 'rxjs/add/observable/merge';
+import { merge } from 'rxjs/observable/merge';
 
 interface EnhancedOnDestroy extends OnDestroy {
     __ngOnDestroySource__: Subject<string>;
@@ -29,7 +28,7 @@ export function cancelOnDestroy<T>(instance: OnDestroy, manualDestroy?: Observab
             }
             
             const sources = manualDestroy
-                ? Observable.merge(manualDestroy, (<EnhancedOnDestroy>instance).__ngOnDestroySource__)
+                ? merge(manualDestroy, (<EnhancedOnDestroy>instance).__ngOnDestroySource__)
                 : (<EnhancedOnDestroy>instance).__ngOnDestroySource__.asObservable();
             
             sources.subscribe(() => {

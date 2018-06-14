@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { OperationTagStoreMediator } from '../../operation-tag/operation-tag-store-mediator';
 
 export function tag<T>(action: string): (source: Observable<T>) => Observable<T> {
