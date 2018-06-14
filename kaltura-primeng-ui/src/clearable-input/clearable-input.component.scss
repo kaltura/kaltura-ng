@@ -1,0 +1,14 @@
+.k-clearable-input-wrapper {
+  position: relative;
+
+  .k-clearable-input-clear-btn {
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    top: -6px;
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #999999;
+    font-style: normal;
+  }
+}
