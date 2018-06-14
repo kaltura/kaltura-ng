@@ -12,7 +12,7 @@ export function cancelOnDestroy<T>(instance: OnDestroy, manualDestroy?: Observab
     return (source: Observable<T>) => {
         if (instance.ngOnDestroy) {
             return Observable.create(observer => {
-                const subscription = source.subscribe(observer);
+                let subscription = source.subscribe(observer);
                 
                 if (!(<EnhancedOnDestroy>instance).__ngOnDestroySource__) {
                     (<EnhancedOnDestroy>instance).__ngOnDestroySource__ = new Subject();
@@ -29,7 +29,19 @@ export function cancelOnDestroy<T>(instance: OnDestroy, manualDestroy?: Observab
                     ? Observable.merge(manualDestroy, (<EnhancedOnDestroy>instance).__ngOnDestroySource__)
                     : (<EnhancedOnDestroy>instance).__ngOnDestroySource__.asObservable();
                 
-                sources.subscribe(() => subscription.unsubscribe());
+                sources.subscribe(() => {
+                    if (subscription) {
+                        subscription.unsubscribe();
+                        subscription = null;
+                    }
+                });
+                
+                return () => {
+                    if (subscription) {
+                        subscription.unsubscribe();
+                        subscription = null;
+                    }
+                }
             });
         } else {
             return source;
