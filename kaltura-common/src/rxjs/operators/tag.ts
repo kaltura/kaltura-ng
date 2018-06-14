@@ -36,6 +36,7 @@ export function tag<T>(action: string): (source: Observable<T>) => Observable<T>
             
             if (subscription) {
                 subscription.unsubscribe();
+                subscription = null;
                 closed = true;
             }
         }
