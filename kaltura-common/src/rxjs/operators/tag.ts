@@ -8,7 +8,7 @@ export function tag<T>(action: string): (source: Observable<T>) => Observable<T>
     return (source: Observable<T>) => Observable.create(observer => {
         OperationTagStoreMediator.increase(action);
 
-        const subscription = source.subscribe(
+        let subscription = source.subscribe(
             (value) => {
                 observer.next(value);
             },
