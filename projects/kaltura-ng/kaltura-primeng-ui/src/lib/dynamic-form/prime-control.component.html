@@ -5,15 +5,11 @@
 
     <input *ngSwitchCase="'Number'"  type="number" [formControlName]="control.key" pInputText />
 
-    <p-dropdown *ngSwitchCase="'Dropdown'" [formControlName]="control.key"  [options]="control.values | kPrimeListOptions: true"></p-dropdown>
+    <p-dropdown *ngSwitchCase="'Dropdown'" [formControlName]="control.key"  [options]="asDynamicDropdownControl(control).values | kPrimeListOptions: true"></p-dropdown>
 
-    <kMultiSelect *ngSwitchCase="'List'" [resetFilterOnHide]="true" [formControlName]="control.key"  [options]="control.values | kPrimeListOptions : false"></kMultiSelect>
+    <kMultiSelect *ngSwitchCase="'List'" [resetFilterOnHide]="true" [formControlName]="control.key"  [options]="asListControl(control).values | kPrimeListOptions : false"></kMultiSelect>
 
-    <p-calendar *ngSwitchCase="'DatePicker'" [formControlName]="control.key"   icon="kIconcalendar" [showIcon]="true" [monthNavigator]="true" [yearNavigator]="true" [showTime]="control.showTime" yearRange="2005:2050"></p-calendar>
-
-    <select [id]="control.key" *ngSwitchCase="'dropdown'" [formControlName]="control.key">
-        <option *ngFor="let opt of control.options" [value]="opt.key">{{opt.value}}</option>
-    </select>
+    <p-calendar *ngSwitchCase="'DatePicker'" [formControlName]="control.key"   icon="kIconcalendar" [showIcon]="true" [monthNavigator]="true" [yearNavigator]="true" [showTime]="asDatePickerControl(control).showTime" yearRange="2005:2050"></p-calendar>
 
     <p-inputSwitch  *ngSwitchCase="'Switch'" [formControlName]="control.key"> </p-inputSwitch>
 

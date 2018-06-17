@@ -3,11 +3,11 @@
  */
 
 export { KalturaPrimeNgUIModule } from './lib/kaltura-primeng-ui.module';
-export * from './lib/auto-complete';
-export * from './lib/directives';
-export * from './lib/dynamic-form';
-export * from './lib/slider';
-export * from './lib/time-spinner';
-export * from './lib/k-p-table';
-export * from './lib/multi-select';
-export * from './lib/time-spinner';
+export * from './lib/auto-complete/index';
+export * from './lib/directives/index';
+export * from './lib/dynamic-form/index';
+export * from './lib/slider/index';
+export * from './lib/time-spinner/index';
+export * from './lib/k-p-table/index';
+export * from './lib/multi-select/index';
+export * from './lib/time-spinner/index';

@@ -2,18 +2,17 @@
  * Public API Surface of kaltura-ui
  */
 
-export * from './lib/area-blocker';
-export * from './lib/details-bar';
-
-export * from './lib/dynamic-form';
-export * from './lib/input-helper';
-export * from './lib/player';
-export * from './lib/popup-widget';
-export * from './lib/sticky';
-export * from './lib/tags';
-export * from './lib/tooltip';
-export * from './lib/validators';
-export * from './lib/widgets';
+export * from './lib/area-blocker/index';
+export * from './lib/details-bar/index';
+export * from './lib/dynamic-form/index';
+export * from './lib/input-helper/index';
+export * from './lib/player/index';
+export * from './lib/popup-widget/index';
+export * from './lib/sticky/index';
+export * from './lib/tags/index';
+export * from './lib/tooltip/index';
+export * from './lib/validators/index';
+export * from './lib/widgets/index';
 export * from './lib/date.pipe';
 export * from './lib/file-size.pipe';
 export * from './lib/input-autofocus';

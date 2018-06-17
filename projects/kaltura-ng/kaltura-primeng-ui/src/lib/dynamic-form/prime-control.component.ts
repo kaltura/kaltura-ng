@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, OnDestroy} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {DynamicFormControlBase} from '@kaltura-ng/kaltura-ui';
+import { DatePickerControl, DynamicDropdownControl, DynamicFormControlBase, ListControl } from '@kaltura-ng/kaltura-ui';
 
 @Component({
     selector: 'k-prime-control',
@@ -28,6 +28,18 @@ export class PrimeControl implements OnInit, OnDestroy {
         this.onFormStatusChanges();
 
     }
+
+  asDatePickerControl (control: any): DatePickerControl {
+    return (control instanceof DatePickerControl) ? control : null;
+  }
+
+  asDynamicDropdownControl (control: any): DynamicDropdownControl {
+    return (control instanceof DynamicDropdownControl) ? control : null;
+  }
+
+  asListControl (control: any): ListControl {
+    return (control instanceof ListControl) ? control : null;
+  }
 
     private onFormStatusChanges(): void {
         this.form.statusChanges

@@ -23,11 +23,11 @@ export class DynamicFormItem implements  OnInit {
 
     }
 
-    toDynamicSection(control: DynamicFormControlBase<any>): DynamicSectionControl {
+    asDynamicSection(control: DynamicFormControlBase<any>): DynamicSectionControl {
       return <DynamicSectionControl>control;
     }
 
-    toFormGroup(control: AbstractControl): FormGroup {
+    asFormGroup(control: AbstractControl): FormGroup {
       return <FormGroup>control;
     }
 

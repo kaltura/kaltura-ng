@@ -5,10 +5,10 @@
                 <span class="kGroupTitle" *ngIf="control.label">
                     <span [kTooltip]="control.description">{{control.label}}</span>
                 </span>
-                <div class="kGroupContainer"  *ngFor="let groupForm of toFormGroup(form.controls[control.key]).controls; let i=index">
+                <div class="kGroupContainer"  *ngFor="let groupForm of asFormGroup(form.controls[control.key]).controls; let i=index">
 
                     <div [formGroupName]="i">
-                        <k-dynamic-form-item *ngFor="let childControl of toDynamicSection(control).children"
+                        <k-dynamic-form-item *ngFor="let childControl of asDynamicSection(control).children"
                                           [control]="childControl"
                                           [form]="groupForm">
                             <ng-template let-item="item">
@@ -33,7 +33,7 @@
         <span class="kGroupTitle" *ngIf="control.label">
             <span [kTooltip]="control.description">{{control.label}}</span>
         </span>
-        <k-dynamic-form-item *ngFor="let childControl of toDynamicSection(control).children" [control]="childControl" [form]="form" [labelTemplate]="labelTemplate">
+        <k-dynamic-form-item *ngFor="let childControl of asDynamicSection(control).children" [control]="childControl" [form]="form" [labelTemplate]="labelTemplate">
             <ng-template let-item="item">
                 <ng-container *ngTemplateOutlet="_templates.first;context:{ item : item }"></ng-container>
             </ng-template>
@@ -54,7 +54,7 @@
         </div>
         <div class="kMultiple" *ngIf="control.allowMultiple" [formArrayName]="control.key">
 
-            <div class="kSingleItem" *ngFor="let itemFormGroup of toFormGroup(form.controls[control.key]).controls; let i=index" [formGroupName]="i">
+            <div class="kSingleItem" *ngFor="let itemFormGroup of asFormGroup(form.controls[control.key]).controls; let i=index" [formGroupName]="i">
                     <ng-container *ngTemplateOutlet="_templates.first;context:{item: { control : control, form : itemFormGroup }}"></ng-container>
                 <a (click)="!form.disabled && removeItem(control,i)" class="kDelete" [class.disabled]="form.disabled">Delete</a>
             </div>
