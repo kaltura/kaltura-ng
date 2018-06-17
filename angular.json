@@ -3,6 +3,46 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "@kaltura-ng/kaltura-logger": {
+      "root": "projects/kaltura-ng/kaltura-logger",
+      "sourceRoot": "projects/kaltura-ng/kaltura-logger/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/kaltura-ng/kaltura-logger/tsconfig.lib.json",
+            "project": "projects/kaltura-ng/kaltura-logger/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/kaltura-ng/kaltura-logger/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/kaltura-ng/kaltura-logger/src/test.ts",
+            "tsConfig": "projects/kaltura-ng/kaltura-logger/tsconfig.spec.json",
+            "karmaConfig": "projects/kaltura-ng/kaltura-logger/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/kaltura-ng/kaltura-logger/tsconfig.lib.json",
+              "projects/kaltura-ng/kaltura-logger/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
     "@kaltura-ng/kaltura-common": {
       "root": "projects/kaltura-ng/kaltura-common",
       "sourceRoot": "projects/kaltura-ng/kaltura-common/src",
@@ -75,46 +115,6 @@
             "tsConfig": [
               "projects/kaltura-ng/kaltura-ui/tsconfig.lib.json",
               "projects/kaltura-ng/kaltura-ui/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        }
-      }
-    },
-    "@kaltura-ng/kaltura-logger": {
-      "root": "projects/kaltura-ng/kaltura-logger",
-      "sourceRoot": "projects/kaltura-ng/kaltura-logger/src",
-      "projectType": "library",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "projects/kaltura-ng/kaltura-logger/tsconfig.lib.json",
-            "project": "projects/kaltura-ng/kaltura-logger/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "project": "projects/kaltura-ng/kaltura-logger/ng-package.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "projects/kaltura-ng/kaltura-logger/src/test.ts",
-            "tsConfig": "projects/kaltura-ng/kaltura-logger/tsconfig.spec.json",
-            "karmaConfig": "projects/kaltura-ng/kaltura-logger/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "projects/kaltura-ng/kaltura-logger/tsconfig.lib.json",
-              "projects/kaltura-ng/kaltura-logger/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

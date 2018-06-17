@@ -1,6 +1,6 @@
 {
   "name": "@kaltura-ng/mc-theme",
-  "private": true,
+  "private": false,
   "version": "2.1.6",
   "license": "AGPL-3.0",
   "description": "Kaltura theme for Angular management console applications",
@@ -14,21 +14,9 @@
       "email": "amir.chr@gmail.com"
     }
   ],
-  "dependencies": {
-    "@kaltura-ng/dev-workspace": "^2.0.2",
-    "@kaltura-ng/kaltura-primeng-ui": "^2.4.0",
-    "@kaltura-ng/kaltura-ui": "^5.2.2",
+  "peerDependencies": {
     "normalize.css": "^7.0.0",
-    "primeng": "^5.2.0"
-  },
-  "config": {
-    "publishDirectory": "dist"
-  },
-  "scripts": {
-    "kws": "kws",
-    "release:prepare": "standard-version && npm run build",
-    "release:publish": "npm run build && git push --follow-tags && cd dist && npm publish",
-    "build": "node ./scripts/build.js"
+    "primeng": "6.0.0-rc.1"
   },
   "repository": {
     "type": "git",
@@ -49,6 +37,9 @@
   "engines": {
     "node": ">= 6.11.0",
     "npm": ">= 5.0.0"
+  },
+  "scripts": {
+    "build": "node ./scripts/build.js"
   },
   "devDependencies": {
     "find-root": "^1.1.0",

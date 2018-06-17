@@ -1,7 +1,7 @@
 {
   "name": "kaltura-ng",
   "version": "0.0.0",
-  "private": true,
+  "private": false,
   "repository": {
     "type": "git",
     "url": "https://github.com/kaltura/kaltura-ng.git"
@@ -51,6 +51,7 @@
     "jquery": "^3.1.0",
     "jsnlog": "^2.24.3",
     "ng2-translate": "^5.0.0",
+    "normalize.css": "^7.0.0",
     "primeng": "^6.0.0-rc.1",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.2.0",
