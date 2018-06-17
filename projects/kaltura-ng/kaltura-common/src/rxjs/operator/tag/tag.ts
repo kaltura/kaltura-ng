@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { TeardownLogic } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';
 import { Operator } from 'rxjs/Operator';
-import {OperationTagStoreMediator} from "../../../operation-tag/operation-tag-store-mediator";
+import {OperationTagStoreMediator} from "../../../lib/operation-tag/operation-tag-store-mediator";
 
 
 export function _tag<T>(this: Observable<T>, action : string): Observable<T> {

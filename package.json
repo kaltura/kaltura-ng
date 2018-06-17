@@ -48,6 +48,7 @@
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
     "core-js": "^2.5.4",
+    "jquery": "^3.1.0",
     "jsnlog": "^2.24.3",
     "ng2-translate": "^5.0.0",
     "primeng": "^6.0.0-rc.1",
