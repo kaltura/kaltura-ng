@@ -1,1 +1,1 @@
-export {KalturaValidators} from './validators'
+export * from './validators';
