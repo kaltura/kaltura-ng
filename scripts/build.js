@@ -25,14 +25,16 @@ async function copyAssets(source, target) {
   const sourceFilePath = path.resolve(rootPath,source);
   const targetFilePath = path.resolve(distFolder,target);
   rimraf.sync(target);
-  const result = await copy(source, target);
+  const result = await copy(sourceFilePath, targetFilePath);
   console.log(`copied ${result.length} files`);
 }
 
 
 (async function () {
-  //buildLibrary('kaltura-ui');
+  buildLibrary('@kaltura-ng/kaltura-ui');
   await copyAssets('projects/kaltura-ng/kaltura-ui/src/styles', 'kaltura-ng/kaltura-ui/styles');
+
+  buildLibrary('@kaltura-ng/kaltura-primeng-ui');
   await copyAssets('projects/kaltura-ng/kaltura-primeng-ui/src/styles', 'kaltura-ng/kaltura-primeng-ui/styles');
 }());
 

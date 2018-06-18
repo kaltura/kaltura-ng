@@ -49,8 +49,8 @@ function deleteFolderRecursive(pathToDelete, rootPath) {
 	if( fs.existsSync(pathToDelete) ) {
 		rootPath = rootPath || findRoot(process.cwd());
 
-		if (pathToDelete.indexOf(rootPath) === 0)
-		{
+		// if (pathToDelete.indexOf(rootPath) === 0)
+		// {
 			fs.readdirSync(pathToDelete).forEach(function(file,index){
 				var curPath = path.join(pathToDelete, file);
 				if(fs.lstatSync(curPath).isDirectory()) { // recurse
@@ -61,10 +61,10 @@ function deleteFolderRecursive(pathToDelete, rootPath) {
 			});
 
 			fs.rmdirSync(pathToDelete);
-		}else
-		{
-			throw new Error("cannot delete folder (" +  pathToDelete + ") that is not child of root package (" + rootPath + ")");
-		}
+		// }else
+		// {
+		// 	throw new Error("cannot delete folder (" +  pathToDelete + ") that is not child of root package (" + rootPath + ")");
+		// }
 
 	}
 };
