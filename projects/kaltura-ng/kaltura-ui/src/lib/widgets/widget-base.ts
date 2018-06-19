@@ -1,10 +1,8 @@
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import 'rxjs/add/observable/of';
-import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/observable/of';
-import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import { WidgetsManagerBase } from './widgets-manager-base';

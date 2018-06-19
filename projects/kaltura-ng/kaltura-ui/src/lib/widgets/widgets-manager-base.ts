@@ -6,7 +6,6 @@ import 'rxjs/add/operator/share';
 import 'rxjs/add/operator/map';
 
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import { WidgetBase } from './widget-base';
 import { WidgetState } from './widget-state';
 import { KalturaLogger, EmptyLogger } from '@kaltura-ng/kaltura-common';
