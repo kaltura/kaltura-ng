@@ -1,22 +1,22 @@
 #!/usr/bin/env node
 
-var fs = require('fs');
-var path = require('path');
-var findRoot = require('./libs/find-root');
-var rimraf = require('./libs/rimraf');
-var spawnSync = require('child_process').spawnSync;
-var copy = require('recursive-copy');
-
+const fs = require('fs');
+const path = require('path');
+const findRoot = require('./libs/find-root');
+const rimraf = require('./libs/rimraf');
+const spawnSync = require('child_process').spawnSync;
+const copy = require('recursive-copy');
 
 // Use folder with nearest package.json as root
-var rootPath = findRoot(process.cwd());
+const rootPath = findRoot(process.cwd());
+const argv = require('minimist')(process.argv.slice(2));
 const distFolder = path.resolve(rootPath, 'dist');
 
 function buildLibrary(libraryName) {
   const buildCommand = 'ng';
   const buildArgs = ['build',libraryName];
 
-  console.log(`running ${buildCommand} ${buildArgs.join(' ')}`);
+  console.log(`run command '${buildCommand} ${buildArgs.join(' ')}'`);
   const result = spawnSync(buildCommand, buildArgs, { stdio: 'inherit', stderr: 'inherit' });
 
   if (result.status !== 0) {
@@ -55,17 +55,33 @@ async function copyAssets(source, target) {
 
 
 (async function () {
-  buildLibrary('@kaltura-ng/kaltura-logger');
-  buildLibrary('@kaltura-ng/kaltura-common');
-  buildLibrary('@kaltura-ng/kaltura-ui');
-  await copyAssets('projects/kaltura-ng/kaltura-ui/src/styles', 'kaltura-ng/kaltura-ui/styles');
+  const specificLibrary = argv['library'] ? `@kaltura-ng/${argv['library']}` : '';
+  console.log(`build repo (${specificLibrary || 'all libraries'})`);
 
-  buildLibrary('@kaltura-ng/kaltura-primeng-ui');
-  await copyAssets('projects/kaltura-ng/kaltura-primeng-ui/src/styles', 'kaltura-ng/kaltura-primeng-ui/styles');
+  if (!specificLibrary || specificLibrary === '@kaltura-ng/kaltura-logger') {
+    buildLibrary('@kaltura-ng/kaltura-logger');
+  }
 
-  buildLibrary('@kaltura-ng/mc-shared');
+  if (!specificLibrary || specificLibrary === '@kaltura-ng/kaltura-common') {
+    buildLibrary('@kaltura-ng/kaltura-common');
+  }
 
-  buildMCThemeLibrary();
+  if (!specificLibrary || specificLibrary === '@kaltura-ng/kaltura-ui') {
+    buildLibrary('@kaltura-ng/kaltura-ui');
+    await copyAssets('projects/kaltura-ng/kaltura-ui/src/styles', 'kaltura-ng/kaltura-ui/styles');
+  }
 
+  if (!specificLibrary || specificLibrary === '@kaltura-ng/kaltura-primeng-ui') {
+    buildLibrary('@kaltura-ng/kaltura-primeng-ui');
+    await copyAssets('projects/kaltura-ng/kaltura-primeng-ui/src/styles', 'kaltura-ng/kaltura-primeng-ui/styles');
+  }
+
+  if (!specificLibrary || specificLibrary === '@kaltura-ng/mc-shared') {
+    buildLibrary('@kaltura-ng/mc-shared');
+  }
+
+  if (!specificLibrary || specificLibrary === '@kaltura-ng/mc-theme') {
+    buildMCThemeLibrary();
+  }
 }());
 
