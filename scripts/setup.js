@@ -3,30 +3,46 @@
 const fs = require('fs');
 const path = require('path');
 const spawnSync = require('child_process').spawnSync;
-const { rootPath, copyFolders, grabSelectedlibraries } = require('./utils');
+const { deleteFolder, grabSelectedlibraries } = require('./lib/utils');
+const { buildLibrary } = require('./lib/build-library');
+
+function executeNPMLinkForLibrary(library) {
+  const buildCommand = 'npm';
+  const buildArgs = ['link'];
+
+  console.log(`execute npm link for library '${library.name}`);
+  const result = spawnSync(buildCommand, buildArgs, {cwd: library.distPath, stdio: 'inherit', stderr: 'inherit'});
+
+  if (result.status !== 0) {
+    throw new Error(`link failed for '${library.name}' with status ${result.status}`);
+  }
+}
 
 async function main() {
   console.log(`setup libraries`);
   const libraries = grabSelectedlibraries();
 
-    for (let i = 0; i < libraries.length; i++) {
-      const library = libraries[i];
-      const buildCommand = 'npm';
-      const buildArgs = ['install'];
-      const cwd = library.sourcePath;
+  for (let i = 0; i < libraries.length; i++) {
+    const library = libraries[i];
+    deleteFolder(library.distPath);
+  }
 
-      console.log(`npm intall library '${library.key}' (path = ${cwd})`);
-      // const result = spawnSync(buildCommand, buildArgs, {cwd: cwd, stdio: 'inherit', stderr: 'inherit'});
-      //
-      // if (result.status !== 0) {
-      //   throw new Error(`npm install failed for '${libraryName}' with status ${result.status}`);
-      // }
+  for (let i = 0; i < libraries.length; i++) {
+    const library = libraries[i];
+    const buildCommand = 'npm';
+    const buildArgs = ['install'];
+    const cwd = library.sourcePath;
 
-      const packageJsonPath = path.resolve(cwd, 'package.json');
-      var packageJson = fs.readFileSync(packageJsonPath, "utf8");
+    console.log(`npm intall library '${library.name}'`);
+    // const result = spawnSync(buildCommand, buildArgs, {cwd: cwd, stdio: 'inherit', stderr: 'inherit'});
+    //
+    // if (result.status !== 0) {
+    //   throw new Error(`npm install failed for '${libraryName}' with status ${result.status}`);
+    // }
 
-      console.log(packageJson);
-    }
+    await buildLibrary(library);
+    executeNPMLinkForLibrary(library);
+  }
 }
 
 (async function() {

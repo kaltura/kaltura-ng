@@ -1,6 +1,6 @@
 // credits to https://github.com/js-n/find-root
-var path = require('path')
-var fs = require('fs')
+var path = require('path');
+var fs = require('fs');
 module.exports = findRoot;
 
  function findRoot(start) {

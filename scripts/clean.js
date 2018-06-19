@@ -12,8 +12,12 @@ async function main() {
   for (let i = 0; i < libraries.length; i++) {
     const library = libraries[i];
     const nodeModulesPath = path.resolve(library.sourcePath,"nodeModules");
-    console.log(`delete folder 'nodeModules' for library '${library.key}'`);
+
+    console.log(`delete folder 'nodeModules' for library '${library.name}'`);
     deleteFolder(nodeModulesPath);
+
+    console.log(`delete dist folder for library '${library.name}'`);
+    deleteFolder(library.distPath);
   }
 }
 

@@ -1,5 +1,7 @@
-
-const { argv, libraries } = require('./definitions');
+const fs = require('fs');
+const copy = require('recursive-copy');
+const rimraf = require('./rimraf');
+const { argv, libraries } = require('../definitions');
 
 function deleteFolder(path)
 {
@@ -25,13 +27,13 @@ function deleteFolder(path)
 
 async function copyFolders(source, target) {
   try {
-    const sourceFilePath = path.resolve(rootPath, source);
-    const targetFilePath = path.resolve(distFolder, target);
-    rimraf.sync(target);
-    const result = await copy(sourceFilePath, targetFilePath);
-    console.log(`copied ${result.length} assets from '${source}' into '${target}'`);
+    if (source && target) {
+      rimraf.sync(target);
+      const result = await copy(source, target);
+      console.log(`copied ${result.length} files from '${source}' into '${target}'`);
+    }
   } catch (ex) {
-    console.log(`failed to copy assets from '${source}' into '${target}'`);
+    console.log(`failed to copy files from '${source}' into '${target}'`);
     throw ex;
   }
 }
@@ -42,7 +44,7 @@ function grabSelectedlibraries() {
 
   console.log(`grab user selected libraries (${specificLibrary || 'all libraries'})`);
   if (specificLibrary) {
-    const adapter = libraries.find(adapter => adapter.key === specificLibrary);
+    const adapter = libraries.find(adapter => adapter.name === specificLibrary);
 
     if (adapter) {
       adapters.push(adapter);
@@ -56,4 +58,4 @@ function grabSelectedlibraries() {
   return adapters;
 }
 
-module.exports = {  deleteFolder, copyFolders, grabSelectedlibraries }
+module.exports = {  deleteFolder, copyFolders, grabSelectedlibraries };
