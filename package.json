@@ -27,7 +27,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "setup": "node ./scripts/build.js --includeNodeModules --deleteDist",
+    "clean": "node ./scripts/clean.js",
+    "setup": "node ./scripts/setup.js",
     "build": "node ./scripts/build.js",
     "test": "ng test",
     "lint": "ng lint",
