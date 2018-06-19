@@ -2,10 +2,10 @@
  * Public API Surface of kaltura-common
  */
 
-export * from './lib/operation-tag';
-export * from './lib/server-polls';
-export * from './lib/upload-management';
-export * from './lib/utils';
+export * from './lib/operation-tag/index';
+export * from './lib/server-polls/index';
+export * from './lib/upload-management/index';
+export * from './lib/utils/index';
 export * from './lib/xml-parser';
 export * from './lib/app-storage.service';
 export * from './lib/friendly-hash-id';

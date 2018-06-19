@@ -3,6 +3,9 @@
   "version": "6.0.2",
   "private": false,
   "description": "Angular - commonly needed services within Kaltura projects",
+  "scripts": {
+    "build": "../../../npm run build -- --library=kaltura-common"
+  },
   "keywords": [
     "kaltura",
     "kaltura-ng"

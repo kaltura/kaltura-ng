@@ -111,6 +111,10 @@ export class MultiSelectComponent extends MultiSelect {
     this.updateLabel();
   }
 
+  public get footerFacetWorkaround(): any {
+    // NOTICE: workaround to allow AOT transpilation as for NG6
+    return this.footerFacet;
+  }
   public isPartiallyChecked(): boolean {
     return !this.isAllChecked() && (this.value || []).length > 0;
   }

@@ -7,7 +7,10 @@ import { KalturaLoggerRecordService } from './kaltura-logger-record.service';
 
 var consoleAppender=JL.createConsoleAppender('consoleAppender');
 
-JL().setOptions({"appenders": [consoleAppender]});
+JL().setOptions({
+  appenders: [consoleAppender]
+});
+
 if (window && window.onerror) {
     window.onerror = null;
 }
