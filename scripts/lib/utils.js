@@ -1,7 +1,17 @@
 const fs = require('fs');
+const spawnSync = require('child_process').spawnSync;
 const copy = require('recursive-copy');
 const rimraf = require('./rimraf');
 const { argv, libraries } = require('../definitions');
+
+async function executeCommand(command, commandArgs, cwd) {
+  console.log(`execute command '${command} ${commandArgs.join(' ')}' ${cwd ? `cwd = ${cwd}` : ''}`);
+  const result = spawnSync(command, commandArgs, {cwd, stdio: 'inherit', stderr: 'inherit'});
+
+  if (result.status !== 0) {
+    throw new Error(`execute command failed with status ${result.status}`);
+  }
+}
 
 function deleteFolder(path)
 {
@@ -58,4 +68,4 @@ function grabSelectedlibraries() {
   return adapters;
 }
 
-module.exports = {  deleteFolder, copyFolders, grabSelectedlibraries };
+module.exports = {  deleteFolder, copyFolders, grabSelectedlibraries, executeCommand };
