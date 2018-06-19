@@ -6,7 +6,7 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/operator/mergeAll';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/from';
-import { Immutable } from 'seamless-immutable';
+import Immutable from 'seamless-immutable';
 
 enum CompareTypes
 {
