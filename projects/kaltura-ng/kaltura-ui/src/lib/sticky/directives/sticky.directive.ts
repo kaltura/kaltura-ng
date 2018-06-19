@@ -1,5 +1,6 @@
 import { Directive, Input, Renderer, ElementRef, AfterViewInit, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { StickyScrollService } from '../services/sticky-scroll.service';
+import { cancelOnDestroy, tag } from '@kaltura-ng/kaltura-common';
 
 @Directive({
     selector: '[kSticky]'
@@ -48,20 +49,20 @@ export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
             this._stickyScrollService.attach(this.stickyId);
         }
 
-        this._stickyScrollService.scrollStatus$.cancelOnDestroy(this).subscribe(
+        this._stickyScrollService.scrollStatus$.pipe(cancelOnDestroy(this)).subscribe(
             event => {
                 // console.log(`[${this.stickyId}] - handle scroll`);
                 this._render();
             }
         );
 
-        this._stickyScrollService.resizeStatus$.cancelOnDestroy(this).subscribe(
+        this._stickyScrollService.resizeStatus$.pipe(cancelOnDestroy(this)).subscribe(
                 event => {
                     this.onResize();
                 }
             );
 
-        this._stickyScrollService.layoutSubject$.cancelOnDestroy(this).subscribe(
+        this._stickyScrollService.layoutSubject$.pipe(cancelOnDestroy(this)).subscribe(
             elements =>{
                 const data = this.sticksTo ? elements[this.sticksTo] : {height: 0, offset: 0};
                 if (data && (

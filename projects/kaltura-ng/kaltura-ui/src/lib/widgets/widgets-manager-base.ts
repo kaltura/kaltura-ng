@@ -10,6 +10,7 @@ import '@kaltura-ng/kaltura-common/rxjs/add/operators';
 import { WidgetBase } from './widget-base';
 import { WidgetState } from './widget-state';
 import { KalturaLogger, EmptyLogger } from '@kaltura-ng/kaltura-common';
+import { cancelOnDestroy, tag } from '@kaltura-ng/kaltura-common';
 
 export declare type FormWidgetsState = {
     [key : number] : WidgetState
@@ -134,7 +135,7 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
                 ready: false,
                 reason: OnDataSavingReasons.attachedWidgetBusy
             } : {ready: true} )
-            .cancelOnDestroy(this)
+            .pipe(cancelOnDestroy(this))
             .flatMap(response => {
                 if (response.ready) {
                     return this._validateWidgets()
@@ -171,7 +172,7 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
         const widgets = this._isNewData ? this._widgets : this._widgets.filter(widget => widget.isActive);
         const widgetsResults = widgets.map(widget => {
             return widget._validate()
-                .cancelOnDestroy(this)
+                .pipe(cancelOnDestroy(this))
                 .catch((err, caught) => Observable.of({isValid: false}));
         });
 

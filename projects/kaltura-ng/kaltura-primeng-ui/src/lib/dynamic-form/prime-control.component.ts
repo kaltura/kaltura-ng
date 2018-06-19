@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, OnDestroy} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import { DatePickerControl, DynamicDropdownControl, DynamicFormControlBase, ListControl } from '@kaltura-ng/kaltura-ui';
+import { cancelOnDestroy, tag } from '@kaltura-ng/kaltura-common';
 
 @Component({
     selector: 'k-prime-control',
@@ -43,7 +44,7 @@ export class PrimeControl implements OnInit, OnDestroy {
 
     private onFormStatusChanges(): void {
         this.form.statusChanges
-            .cancelOnDestroy(this)
+            .pipe(cancelOnDestroy(this))
             .subscribe(() => {
                 if (!this.isValid) {
                     this.errorMsg = this.getErrorMsg();

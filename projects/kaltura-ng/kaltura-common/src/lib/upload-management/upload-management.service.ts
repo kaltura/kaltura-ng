@@ -1,12 +1,11 @@
 import { OnDestroy, Injectable, Inject, Optional, InjectionToken } from '@angular/core';
-import '../../rxjs/add/operators';
 import { UploadFileData } from './upload-file-data';
 import { UploadFileAdapter } from './upload-file-adapter';
 import { Subject, Observable } from 'rxjs';
 import 'rxjs/add/operator/groupBy';
 import { FriendlyHashId } from '../friendly-hash-id';
 import { TrackedFile, TrackedFileChanges, TrackedFileData, TrackedFileStatuses } from './tracked-file';
-
+import { cancelOnDestroy } from '../rxjs/operators';
 
 export interface TrackedFiles {
     [id: string]: TrackedFile
@@ -268,7 +267,7 @@ export class UploadManagement implements OnDestroy {
                     });
 
                     item.adapter.prepare(item.files)
-                        .cancelOnDestroy(this)
+                        .pipe(cancelOnDestroy(this))
                         .subscribe(
                             preparedFiles => {
                                 this._log('debug', `executing prepare phase succeeded for ${item.files.length} files with adapter '${item.adapter.label}'.`);

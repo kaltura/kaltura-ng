@@ -11,5 +11,4 @@ export * from './lib/app-storage.service';
 export * from './lib/friendly-hash-id';
 export * from './lib/kaltura-common.module';
 export * from './lib/kaltura-logger';
-
-//export * from './rxjs/add/operators';
+export * from './lib/rxjs/operators/index';

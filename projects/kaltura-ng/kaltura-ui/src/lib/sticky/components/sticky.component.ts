@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, AfterViewInit, OnDestroy, ViewChild, Renderer2 } from '@angular/core';
 import { StickyScrollService } from '../services/sticky-scroll.service';
 import { StickyDirective } from '../directives/sticky.directive';
+import { cancelOnDestroy, tag } from '@kaltura-ng/kaltura-common';
 
 @Component({
 	selector: 'kSticky',
@@ -29,7 +30,7 @@ export class StickyComponent implements AfterViewInit, OnDestroy {
 		setTimeout(()=>{
 			this._updateLayout();
 		},0);
-		this._stickyScrollService.resizeStatus$.cancelOnDestroy(this).subscribe(
+		this._stickyScrollService.resizeStatus$.pipe(cancelOnDestroy(this)).subscribe(
 			event => {
 				this._updateDimensions();
 			}
