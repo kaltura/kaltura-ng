@@ -3,7 +3,7 @@ const { buildLibrary } = require('./lib/build-library');
 const { grabSelectedlibraries } = require('./lib/utils');
 
 async function main() {
-  console.log(`build libraries`);
+  console.log(`execute build command`);
   const libraries = grabSelectedlibraries();
 
   for (let i = 0; i < libraries.length; i++) {

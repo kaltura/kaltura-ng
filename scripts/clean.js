@@ -6,7 +6,7 @@ const spawnSync = require('child_process').spawnSync;
 const { deleteFolder, grabSelectedlibraries } = require('./lib/utils');
 
 async function main() {
-  console.log(`clean libraries`);
+  console.log(`execute clean command`);
   const libraries = grabSelectedlibraries();
 
   for (let i = 0; i < libraries.length; i++) {

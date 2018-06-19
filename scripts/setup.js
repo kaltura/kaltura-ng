@@ -11,7 +11,10 @@ async function executeNPMLinkForLibrary(library) {
 }
 
 async function main() {
-  console.log(`setup libraries`);
+  console.log(`execute setup command`);
+
+  await executeCommand('npm', ['install']);
+
   const libraries = grabSelectedlibraries();
 
   for (let i = 0; i < libraries.length; i++) {
