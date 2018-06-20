@@ -12,7 +12,7 @@
             ><ul *ngIf="multiple" #multiContainer
                  class="ui-autocomplete-multiple-container ui-widget ui-inputtext ui-state-default ui-corner-all"
                  [ngClass]="{'ui-state-disabled':disabled,'ui-state-focus':focus}" (click)="multiIn.focus()">
-                <li #token *ngFor="let val of value" [class]="'ui-autocomplete-token ui-state-highlight ui-corner-all' + (classField && val ? val[classField] : '')"
+                <li #token *ngFor="let val of value" [class]="'ui-autocomplete-token ui-state-highlight ui-corner-all ' + (classField && val ? val[classField] : '')"
                     [kTooltip]="val" [tooltipResolver]="tooltipResolver">
                     <span class="ui-autocomplete-token-icon pi pi-fw pi-times" (click)="removeItem(token)"
                           *ngIf="!disabled"></span>

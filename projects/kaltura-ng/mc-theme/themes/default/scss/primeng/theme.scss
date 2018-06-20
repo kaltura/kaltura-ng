@@ -119,6 +119,9 @@ textarea.ui-inputtext {
     line-height: 14px;
   }
 }
+.ui-chkbox{
+  margin-right: 6px;
+}
 .ui-chkbox-box:not(.ui-state-disabled):not(.ui-state-active):hover{
   border: 1px solid $kGrayscale4;
 }
@@ -128,7 +131,9 @@ textarea.ui-inputtext {
   border: 6px solid $kPrimary;
   color: #ffffff;
 }
-
+.ui-radiobutton{
+  margin-right: 6px;
+}
 /* data table */
 .ui-datatable {
   thead th, .ui-datatable tfoot td, .ui-datatable tbody td, .ui-datatable-data.ui-widget-content {
@@ -233,7 +238,7 @@ textarea.ui-inputtext {
     animation: progress 2s linear infinite;
   }
 
-  .ui-datatable-data .fa-chevron-circle-right {
+  .ui-datatable-data .pi-chevron-circle-right {
     display: block;
     width: 0;
     height: 0;
@@ -242,7 +247,7 @@ textarea.ui-inputtext {
     border-bottom: 8px solid transparent;
   }
 
-  .ui-datatable-data .fa-chevron-circle-down {
+  .ui-datatable-data .pi-chevron-circle-down {
     display: block;
     width: 0;
     height: 0;
@@ -309,9 +314,11 @@ textarea.ui-inputtext {
     cursor: auto;
   }
   */
-  .ui-sortable-column-icon.fa.fa-sort {
-    visibility: hidden;
-    &.fa-sort-asc, &.fa-sort-desc {
+  p-sorticon{
+    a{
+      text-decoration: none !important;
+    }
+    i{
       font-size: 10px;
       margin-left: 8px;
       visibility: visible;
@@ -478,7 +485,6 @@ body .ui-tieredmenu {
   width: 250px;
   .ui-menuitem-link .ui-submenu-icon {
     font-size: 10px;
-    margin-top: -.7em;
     right: 3px;
   }
 }
@@ -596,12 +602,12 @@ body .ui-tieredmenu {
       background-color: white;
       height: 100%;
 
-      &.fa-check {
+      &.pi-check {
         background-color: $kPrimary;
         border: 1px solid $kPrimary;
       }
 
-      &.fa-minus {
+      &.pi-minus {
         background-color: $kPrimary;
         border: 1px solid $kPrimary;
       }
@@ -786,7 +792,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
     box-sizing: border-box; /* Opera/IE 8+ */
   }
 }
-.ui-autocomplete-token-icon.fa-close{
+.ui-autocomplete-token-icon.pi-times{
   flex: 0 0 auto;
   margin-top: -10px;
   right: 0px;
@@ -838,8 +844,8 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
 }
 .ui-dropdown-trigger{
   border: 0px !important;
-  .fa.fa-caret-down {
-    margin-top: 0.4em;
+  .pi.pi-caret-down {
+    margin-top: -10px;
     position: absolute;
     color: $kGrayscale3;
   }
@@ -880,7 +886,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
     padding: .125em;
   }
 
-  .fa-search {
+  .pi-search {
     display: none;
   }
 }
@@ -930,23 +936,23 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   .ui-growl-title{
     display: none;
   }
-  .ui-growl-icon-close.fa.fa-close{
+  .ui-growl-icon-close.pi.pi-close{
     top: 9px;
     right: 9px;
     font-size: 14px;
   }
-  .ui-growl-icon-close.fa.fa-close:before{
+  .ui-growl-icon-close.pi.pi-close:before{
     @extend .kIconclose_small:before;
 
   }
   .ui-growl-image{
     margin-top: 5px;
     margin-left: 10px;
-    &.fa-check:before{
+    &.pi-check:before{
       @extend .kIconcheck_large:before;
     }
 
-    &.fa-minus:before{
+    &.pi-minus:before{
       @extend .kIconpen:before;
     }
   }
@@ -1119,6 +1125,8 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   }
   button{
     color: $kGrayscale1;
+    margin-right: 4px;
+    margin-left: 4px;
     &:hover{
       color: $kPrimary;
     }
