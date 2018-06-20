@@ -4,13 +4,6 @@ import { KalturaLogger, KalturaLoggerName } from './kaltura-logger.service';
 import { JL } from 'jsnlog';
 import { KalturaLoggerRecordService } from './kaltura-logger-record.service';
 
-
-var consoleAppender=JL.createConsoleAppender('consoleAppender');
-
-JL().setOptions({
-  appenders: [consoleAppender]
-});
-
 if (window && window.onerror) {
     window.onerror = null;
 }
@@ -28,6 +21,8 @@ if (window && window.onerror) {
     ]
 })
 export class KalturaLoggerModule {
+
+
     static forRoot(name: string): ModuleWithProviders {
         return {
           ngModule: KalturaLoggerModule,
