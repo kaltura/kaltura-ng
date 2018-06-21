@@ -359,6 +359,26 @@ textarea.ui-inputtext {
     -ms-animation: progress 2s linear infinite;
     animation: progress 2s linear infinite;
   }
+
+  .ui-table-tbody tr.uploadFailure {
+    background: lighten($kDandger, 45%);
+  }
+
+  .ui-table-tbody tr.uploading {
+    background: repeating-linear-gradient(
+        -75deg,
+        #ffffff,
+        #ffffff 15px,
+        $kGrayscale7 15px,
+        $kGrayscale7 30px
+    );
+    background-attachment: fixed;
+
+    -webkit-animation: progress 2s linear infinite;
+    -moz-animation: progress 2s linear infinite;
+    -ms-animation: progress 2s linear infinite;
+    animation: progress 2s linear infinite;
+  }
 }
 
 @-webkit-keyframes progress{
