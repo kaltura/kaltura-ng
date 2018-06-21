@@ -1,0 +1,47 @@
+{
+  "name": "@kaltura-ng/kaltura-ui",
+  "version": "5.2.2",
+  "private": false,
+  "description": "Angular - Kaltura UI directives, pipes and services",
+  "keywords": [
+    "kaltura",
+    "kaltura-ng"
+  ],
+  "license": "AGPL-3.0",
+  "homepage": "https://github.com/kaltura/kaltura-ng#readme",
+  "author": {
+    "name": "Kaltura Community",
+    "email": "community@kaltura.com"
+  },
+  "contributors": [
+    {
+      "name": "Eran Sakal",
+      "email": "eran@sakalim.com"
+    },
+    {
+      "name": "Amir Chervinsky",
+      "email": "amir.chr@gmail.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kaltura/kaltura-ng.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kaltura/kaltura-ng/issues"
+  },
+  "engines": {
+    "node": ">=8.9.1 <9.0.0",
+    "npm": ">= 5.0.0"
+  },
+  "peerDependencies": {
+    "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
+    "@angular/forms": "^6.0.0-rc.0 || ^6.0.0",
+    "@kaltura-ng/kaltura-common": "^6.0.2",
+    "jquery": "~3.1.0",
+    "moment": "^2.21.0",
+    "rxjs": "^6.0.0",
+    "rxjs-compat": "^6.2.0"
+  }
+}

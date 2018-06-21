@@ -1,0 +1,85 @@
+@import '../fonts/style';
+
+.kOverrideFAIcons {
+    .pi, .fa {
+        font-family: 'kmcng-icon-pack' !important;
+    }
+    .ui-submenu-icon.pi-caret-right:before{
+        @extend .kIcondropdown_arrow_right:before;
+    }
+    .ui-tree-toggler.pi-caret-right:before{
+        @extend .kIcontree-arrow-right:before;
+    }
+    .ui-tree-toggler.pi-caret-down:before{
+        @extend .kIcontree-arrow-down:before;
+    }
+    .ui-sortable-column-icon.fa-sort-asc:before{
+        @extend .kIcondropdown_arrow_top:before;
+    }
+    .ui-sortable-column-icon.fa-sort-desc:before{
+        @extend .kIcondropdown_arrow_bottom:before;
+    }
+    .ui-paginator-next.ui-paginator-element .pi.pi-forward:before{
+        @extend .kIcondropdown_arrow_right:before;
+        font-size: 12px;
+    }
+    .ui-paginator-prev.ui-paginator-element .pi.pi-backward:before{
+        @extend .kIcondropdown_arrow_left:before;
+        font-size: 12px;
+    }
+    .ui-paginator-last.ui-paginator-element .pi.pi-step-forward:before{
+        @extend .kIconpagination_end:before;
+        font-size: 12px;
+    }
+    .ui-paginator-first.ui-paginator-element .pi.pi-step-backward:before{
+        @extend .kIconpagination_start:before;
+        font-size: 12px;
+    }
+    .ui-chkbox-icon.pi.pi-check:before{
+        @extend .kIconcheck_small:before;
+        font-size: 10px;
+    }
+    .ui-chkbox-icon.pi.pi-minus:before{
+        @extend .kIconpartial_small:before;
+        font-size: 9px;
+    }
+    .ui-datepicker-prev .pi.pi-angle-left:before{
+        @extend .kIcondropdown_arrow_left:before;
+        font-size: 9px;
+    }
+    .ui-datepicker-next .pi.pi-angle-right:before{
+        @extend .kIcondropdown_arrow_right:before;
+        font-size: 9px;
+    }
+	.ui-dropdown-trigger .pi.pi-caret-down:before{
+		@extend .kIcondropdown_arrow_bottom:before;
+		font-size: 12px;
+	}
+	.ui-spinner.ui-widget .pi.pi-caret-down:before{
+		@extend .kIcondropdown_arrow_bottom:before;
+		font-size: 10px;
+	}
+	.ui-spinner.ui-widget .pi.pi-caret-up:before{
+		@extend .kIcondropdown_arrow_top:before;
+		font-size: 10px;
+	}
+	.ui-timepicker .pi.pi-angle-up{
+		@extend .kIcondropdown_arrow_top;
+	}
+	.ui-timepicker .pi.pi-angle-down{
+		@extend .kIcondropdown_arrow_bottom;
+	}
+  .pi-sort-down{
+    @extend .kIcondropdown_arrow_bottom;
+  }
+  .pi-sort-up{
+    @extend .kIcondropdown_arrow_top;
+  }
+	.ui-multiselect-trigger .pi.pi-caret-down:before{
+		@extend .kIcondropdown_arrow_bottom:before;
+		font-size: 12px;
+	}
+	.ui-multiselect-filter-container  .pi.pi-search:before{
+		@extend .kIconmagnifier:before;
+	}
+}

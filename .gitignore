@@ -1,21 +1,39 @@
-# Node
-node_modules
-npm-debug.log
+# See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# JetBrains
-.idea
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# dependencies
+/node_modules
+
+# IDEs and editors
+/.idea
 .project
-.settings
-.idea/*
-*.iml
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
 
-# Windows
-Thumbs.db
-Desktop.ini
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
-# Mac
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# System Files
 .DS_Store
-**/.DS_Store
-
-dist
-lerna-debug.log
+Thumbs.db
