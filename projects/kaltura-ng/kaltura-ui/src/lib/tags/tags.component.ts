@@ -16,6 +16,7 @@ export class TagsComponent implements AfterViewInit, OnDestroy{
 	@Input() disabled: boolean = false;
     @Input() labelField: string;
 	@Input() tooltipField: string;
+	@Input() disabledField: string;
 	@Input() removableTags: boolean = true;
 	@Input() showClear: boolean = true;
 	@Input() title: string;
