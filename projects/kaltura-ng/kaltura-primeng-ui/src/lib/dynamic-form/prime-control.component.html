@@ -7,7 +7,7 @@
 
     <p-dropdown *ngSwitchCase="'Dropdown'" [formControlName]="control.key"  [options]="asDynamicDropdownControl(control).values | kPrimeListOptions: true"></p-dropdown>
 
-    <kMultiSelect *ngSwitchCase="'List'" [resetFilterOnHide]="true" [formControlName]="control.key"  [options]="asListControl(control).values | kPrimeListOptions : false"></kMultiSelect>
+    <kMultiSelect *ngSwitchCase="'List'" defaultLabel="Select a value" [resetFilterOnHide]="true" [formControlName]="control.key"  [options]="asListControl(control).values | kPrimeListOptions : false"></kMultiSelect>
 
     <p-calendar *ngSwitchCase="'DatePicker'" [formControlName]="control.key"   icon="kIconcalendar" [showIcon]="true" [monthNavigator]="true" [yearNavigator]="true" [showTime]="asDatePickerControl(control).showTime" yearRange="2005:2050"></p-calendar>
 
