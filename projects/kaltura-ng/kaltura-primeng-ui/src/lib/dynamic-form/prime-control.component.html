@@ -5,7 +5,7 @@
 
     <input *ngSwitchCase="'Number'"  type="number" [formControlName]="control.key" pInputText />
 
-    <p-dropdown *ngSwitchCase="'Dropdown'" [formControlName]="control.key"  [options]="asDynamicDropdownControl(control).values | kPrimeListOptions: true"></p-dropdown>
+    <p-dropdown *ngSwitchCase="'Dropdown'" [filter]="true" [formControlName]="control.key"  [options]="asDynamicDropdownControl(control).values | kPrimeListOptions: true"></p-dropdown>
 
     <kMultiSelect *ngSwitchCase="'List'" [resetFilterOnHide]="true" [formControlName]="control.key"  [options]="asListControl(control).values | kPrimeListOptions : false"></kMultiSelect>
 
