@@ -2,7 +2,7 @@ import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/cor
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { DomHandler } from 'primeng/primeng';
 
-export const SPINNER_VALUE_ACCESSOR: any = {
+export const CLEARABLE_INPUT_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => ClearableInputComponent),
   multi: true
@@ -12,7 +12,7 @@ export const SPINNER_VALUE_ACCESSOR: any = {
   selector: 'kClearableInput',
   templateUrl: './clearable-input.component.html',
   styleUrls: ['./clearable-input.component.scss'],
-  providers: [DomHandler, SPINNER_VALUE_ACCESSOR],
+  providers: [DomHandler, CLEARABLE_INPUT_VALUE_ACCESSOR],
 })
 export class ClearableInputComponent implements ControlValueAccessor {
   @Input() disabled: boolean;
@@ -26,9 +26,11 @@ export class ClearableInputComponent implements ControlValueAccessor {
   
   public _disabled = false;
   public _value = '';
+  public _showClearBtn = false;
   
   public _clearInput(): void {
     this._value = '';
+    this._showClearBtn = false;
     this.onModelChange(this._value);
     this.onChange.emit(this._value);
     this.onClear.emit();
@@ -53,12 +55,22 @@ export class ClearableInputComponent implements ControlValueAccessor {
   }
   
   public writeValue(value: any): void {
-    this._value = value || '';
+    this._value = String(value || '');
+    
+    if (!this._value.trim()) {
+      this._showClearBtn = false;
+    }
   }
   
   public clearValue(): void {
     this._value = '';
+    this._showClearBtn = false;
     this.onModelChange(this._value);
     this.onChange.emit(this._value);
+  }
+  
+  public _enterPressed(): void {
+    this.onEnterKeyup.emit(this._value);
+    this._showClearBtn = !!this._value;
   }
 }

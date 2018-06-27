@@ -6,7 +6,7 @@
            (change)="onChange.emit($event)"
            (focus)="onFocus.emit($event)"
            (blur)="onBlur.emit($event)"
-           (keyup.enter)="onEnterKeyup.emit(_value)"
+           (keyup.enter)="_enterPressed()"
            [(ngModel)]="_value">
-    <i *ngIf="_value" class="k-clearable-input-clear-btn" title="Clear" (click)="_clearInput()">&times;</i>
+    <i *ngIf="_showClearBtn" class="k-clearable-input-clear-btn" title="Clear" (click)="_clearInput()">&times;</i>
 </span>
