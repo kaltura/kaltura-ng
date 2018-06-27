@@ -63,7 +63,8 @@ export class XmlParser
 {
     static toJson(xml : string, grokValues: boolean) : {}
     {
-        return XmlToJSON.parseString(xml,
+        const escapedString = String(xml).replace(/&/g, '&amp;'); // fix for Firefox
+        return XmlToJSON.parseString(escapedString,
             {
                 textKey: 'text', 	// tag name for text nodes
                 valueKey: 'value', 	// tag name for attribute values
