@@ -1,0 +1,12 @@
+<span class="k-clearable-input-wrapper">
+    <input pInputText
+           class="k-clearable-input-input"
+           [disabled]="disabled || _disabled"
+           [placeholder]="placeholder"
+           (change)="onChange.emit($event)"
+           (focus)="onFocus.emit($event)"
+           (blur)="onBlur.emit($event)"
+           (keyup.enter)="_enterPressed()"
+           [(ngModel)]="_value">
+    <i *ngIf="_showClearBtn" class="k-clearable-input-clear-btn" title="Clear" (click)="_clearInput()">&times;</i>
+</span>
