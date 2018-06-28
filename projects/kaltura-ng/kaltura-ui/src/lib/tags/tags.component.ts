@@ -1,4 +1,19 @@
-import { Component, EventEmitter, Input, Output, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList, HostListener, ElementRef, ContentChildren, TemplateRef } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  AfterViewInit,
+  OnDestroy,
+  ViewChild,
+  ViewChildren,
+  QueryList,
+  HostListener,
+  ElementRef,
+  ContentChildren,
+  TemplateRef,
+  OnChanges, SimpleChanges
+} from '@angular/core';
 import { TagComponent } from './tag.component';
 import { Subscription } from "rxjs/Subscription";
 
@@ -10,7 +25,7 @@ const $ = $NS;
     templateUrl: './tags.component.html',
     styleUrls: ['./tags.component.scss']
 })
-export class TagsComponent implements AfterViewInit, OnDestroy{
+export class TagsComponent implements AfterViewInit, OnDestroy, OnChanges {
 
 	@Input() data: any[] = [];
 	@Input() disabled: boolean = false;
@@ -44,6 +59,12 @@ export class TagsComponent implements AfterViewInit, OnDestroy{
 	@HostListener("window:resize", [])
 	onWindowResize() {
 		this.checkShowMore();
+	}
+	
+	ngOnChanges(changes: SimpleChanges) {
+    	if (changes['data'] && Array.isArray(changes['data'].currentValue)) {
+        	this.checkShowMore();
+			}
 	}
 
 	ngAfterViewInit(){

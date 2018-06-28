@@ -19,11 +19,11 @@
     .ui-sortable-column-icon.fa-sort-desc:before{
         @extend .kIcondropdown_arrow_bottom:before;
     }
-    .ui-paginator-next.ui-paginator-element .pi.pi-forward:before{
+    .ui-paginator-next.ui-paginator-element .ui-paginator-icon.pi.pi-caret-right:before{
         @extend .kIcondropdown_arrow_right:before;
         font-size: 12px;
     }
-    .ui-paginator-prev.ui-paginator-element .pi.pi-backward:before{
+    .ui-paginator-prev.ui-paginator-element .ui-paginator-icon.pi.pi-caret-left:before{
         @extend .kIcondropdown_arrow_left:before;
         font-size: 12px;
     }
@@ -35,7 +35,7 @@
         @extend .kIconpagination_start:before;
         font-size: 12px;
     }
-    .ui-chkbox-icon.pi.pi-check:before{
+    .ui-chkbox-icon.pi.pi-check:before, .ui-chkbox-icon.fa.fa-check:before{
         @extend .kIconcheck_small:before;
         font-size: 10px;
     }
