@@ -1,5 +1,5 @@
 <ng-content></ng-content>
-<div #areaBlockerContainer *ngIf="showLoader || _message" class="kAreaBlockerContainer" [ngClass]="classes">
+<div #areaBlockerContainer *ngIf="showLoader || _message" class="kAreaBlockerContainer" [class.kAreaBlockerContainerError]="_message" [ngClass]="classes">
   <div *ngIf="showLoader && !_message" class="loading-backdrop show">
     <div #spinnerContainer class='spinner-container' [class.bodyScroll]="bodyScroll" [style.marginTop]="spinnerMarginTop+'px'">
       <div class='spinner'><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
