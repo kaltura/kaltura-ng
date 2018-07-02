@@ -7,13 +7,13 @@ const { deleteFolder, grabSelectedlibraries, executeCommand } = require('./lib/u
 const { buildLibrary } = require('./lib/build-library');
 
 async function executeNPMLinkForLibrary(library) {
-  await executeCommand('npm', ['link'], library.distPath);
+  executeCommand('npm', ['link'], library.distPath);
 }
 
 async function main() {
   console.log(`execute setup command`);
 
-  await executeCommand('npm', ['install']);
+  executeCommand('npm', ['install']);
 
   const libraries = grabSelectedlibraries();
 
@@ -24,7 +24,7 @@ async function main() {
 
   for (let i = 0; i < libraries.length; i++) {
     const library = libraries[i];
-    await executeCommand('npm', ['install'], library.sourcePath);
+    executeCommand('npm', ['install'], library.sourcePath);
     await buildLibrary(library);
     await executeNPMLinkForLibrary(library);
   }

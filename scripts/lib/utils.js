@@ -4,7 +4,7 @@ const copy = require('recursive-copy');
 const rimraf = require('./rimraf');
 const { argv, libraries } = require('../definitions');
 
-async function executeCommand(command, commandArgs, cwd) {
+function executeCommand(command, commandArgs, cwd) {
   console.log(`execute command '${command} ${commandArgs.join(' ')}' ${cwd ? `cwd = ${cwd}` : ''}`);
   const result = spawnSync(command, commandArgs, {cwd, stdio: 'inherit', stderr: 'inherit'});
 

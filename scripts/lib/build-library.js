@@ -6,7 +6,7 @@ const { copyFolders, executeCommand } = require('./utils');
 const { rootPath, distPath } = require('../definitions');
 
 async function executeNGBuild(libraryName) {
-  await executeCommand('ng', ['build', libraryName]);
+  executeCommand('ng', ['build', libraryName]);
 }
 
 async function buildLibrary(library) {
@@ -37,7 +37,7 @@ async function buildLibrary(library) {
       break;
     case "@kaltura-ng/mc-theme":
       const cwd = path.resolve(rootPath, 'projects/kaltura-ng/mc-theme');
-      await executeCommand('npm', ['run', 'build'], cwd);
+      executeCommand('npm', ['run', 'build'], cwd);
       break;
     default:
       throw new Error(`missing build instructions for '${library.name}' (did you forget to add instructions in 'scripts/libs/build-library.js' file?)`);

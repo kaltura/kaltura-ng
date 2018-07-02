@@ -30,6 +30,7 @@
     "clean": "node ./scripts/clean.js",
     "setup": "node ./scripts/setup.js",
     "build": "node ./scripts/build.js",
+    "publish": "node ./scripts/publish.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -78,6 +79,7 @@
     "karma-coverage-istanbul-reporter": "~2.0.0",
     "karma-jasmine": "~1.1.1",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "npmlog": "^4.1.2",
     "minimist": "^1.2.0",
     "ng-packagr": "^3.0.0-rc.2",
     "protractor": "~5.3.0",
