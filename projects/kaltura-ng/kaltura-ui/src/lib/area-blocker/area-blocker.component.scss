@@ -43,7 +43,11 @@ k-area-blocker {
 				opacity: 1;
 			}
 		}
-
+    &.kAreaBlockerContainerError {
+    		background-color: rgba(38,50,68,0.9);
+    		position: fixed;
+    		z-index: 1000;
+    }
 		.loading-backdrop {
 			position: absolute;
 			top: 0;
@@ -97,47 +101,50 @@ k-area-blocker {
 			}
 		}
 		.kErrorMessage {
-			width: 420px;
+			width: 586px;
 			background-color: #ffffff;
-			border: 1px solid #cacaca;
-			border-radius: 8px;
-			box-shadow: 3px 3px #9c9c9c;
+      border-radius: 4px;
+    	box-shadow: 0 16px 20px 0 rgba(0,0,0,0.3);
+    	padding: 60px 32px 32px 32px;
+    	box-sizing: border-box;
 			text-align: center;
 		}
 		.kErrorMessageTitle {
-			margin-top: 40px;
-			color: #666666;
-			font-size: 26px;
+      color: #333333;
+    	font-size: 20px;
+    	font-weight: bold;
+    	line-height: 24px;
 		}
 		.kErrorMessageText {
 			max-height: 250px;
 			min-height: 30px;
 			padding: 4px;
 			overflow-y: auto;
-			margin-top: 20px;
-			margin-left: 12px;
-			margin-right: 12px;
-			color: #666666;
-			font-size: 18px;
+      color: #999999;
+    	font-size: 15px;
+    	font-weight: bold;
+    	line-height: 18px;
+    	margin-top: 26px;
 			white-space: pre-wrap;
 		}
 		.kErrorButtons {
-			margin-top: 20px;
-			margin-bottom: 20px;
+			margin-top: 44px;
 			button {
 				cursor: pointer;
-				border-radius: 3px;
+        min-width: 100px;
 				outline: none;
 				color: #333333;
-				background: #ffffff;
-				border: 1px solid #cccccc;
-				margin-left: 12px;
-				&:hover {
-					color: #00a784;
-				}
-				&:active {
-					box-shadow: inset 0px 1px 3px 0 rgba(0, 0, 0, 0.50);
-				}
+        font-size: 14px;
+      	font-weight: bold;
+      	line-height: 17px;
+      	text-align: center;
+      	height: 34px;
+      	border: 1px solid #CCCCCC;
+      	border-radius: 3px;
+      	background-color: #fff;
+      	box-sizing: border-box;
+      	padding: 0 12px;
+      	margin: 0 8px;
 			}
 		}
 	}
