@@ -359,6 +359,45 @@ textarea.ui-inputtext {
     -ms-animation: progress 2s linear infinite;
     animation: progress 2s linear infinite;
   }
+
+  .ui-table-tbody tr.uploadFailure {
+    background: lighten($kDandger, 45%);
+  }
+
+  .ui-table-tbody tr.uploading {
+    background: repeating-linear-gradient(
+        -75deg,
+        #ffffff,
+        #ffffff 15px,
+        $kGrayscale7 15px,
+        $kGrayscale7 30px
+    );
+    background-attachment: fixed;
+
+    -webkit-animation: progress 2s linear infinite;
+    -moz-animation: progress 2s linear infinite;
+    -ms-animation: progress 2s linear infinite;
+    animation: progress 2s linear infinite;
+  }
+
+  .ui-table-tbody .pi-chevron-circle-right {
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-left: 12px solid $kGrayscale4;
+    border-bottom: 8px solid transparent;
+  }
+
+  .ui-table-tbody .pi-chevron-circle-down {
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 12px solid $kGrayscale4;
+    margin-left: -3px;
+  }
 }
 
 @-webkit-keyframes progress{
