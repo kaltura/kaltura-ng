@@ -1,16 +1,14 @@
 const fs = require('fs');
-const spawnSync = require('child_process').spawnSync;
+const log = require("npmlog");
+const execa = require('execa');
 const copy = require('recursive-copy');
 const rimraf = require('./rimraf');
 const { argv, libraries } = require('../definitions');
 
-function executeCommand(command, commandArgs, cwd) {
-  console.log(`execute command '${command} ${commandArgs.join(' ')}' ${cwd ? `cwd = ${cwd}` : ''}`);
-  const result = spawnSync(command, commandArgs, {cwd, stdio: 'inherit', stderr: 'inherit'});
-
-  if (result.status !== 0) {
-    throw new Error(`execute command failed with status ${result.status}`);
-  }
+function executeCommand(command, commandArgs, opt) {
+  log.info('execute command',`${command} ${commandArgs.join(' ')}`);
+  const result = execa.sync(command, commandArgs, opt);
+  return result.stdout;
 }
 
 function deleteFolder(path)
