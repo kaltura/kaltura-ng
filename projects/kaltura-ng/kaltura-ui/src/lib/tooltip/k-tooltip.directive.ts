@@ -23,6 +23,7 @@ export class KTooltipDirective implements OnDestroy {
     @Input() delay = 300;
     @Input() maxWidth: number = 300;
     @Input() followTarget = false;
+    @Input() showOnEllipsis = false;
 
     @Input()
     set kTooltip(value: any) {
@@ -93,14 +94,21 @@ export class KTooltipDirective implements OnDestroy {
 
     @HostListener("mouseenter")
     onMouseEnter() {
-    	this._shouldBeVisible = true;
-    	this._updateTooltipElement();
+      if (!this.showOnEllipsis || this.isInEllipsis()) {
+        this._shouldBeVisible = true;
+        this._updateTooltipElement();
+      }
     }
 
     @HostListener("mouseleave")
     onMouseLeave() {
         this._shouldBeVisible = false;
         this._updateTooltipElement();
+    }
+
+    private isInEllipsis(): boolean {
+      // added the -1 threshold to support IE and edge which always show a 1px difference between offsetWidth and scrollWidth
+      return this.elementRef.nativeElement.offsetWidth < (this.elementRef.nativeElement.scrollWidth - 1);
     }
 
     private _removeTooltipElement() {
