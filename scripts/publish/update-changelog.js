@@ -1,11 +1,11 @@
 const log = require("npmlog");
-const { readFile, writeFile } = require('../lib/utils');
+const { readFile, writeFile } = require('../lib/fs');
 const conventionalChangelog = require('conventional-changelog');
 const path = require('path');
-const { readJsonFile, writeJsonFile } = require('../lib/utils');
+const { readJsonFile, writeJsonFile, createIfMissing } = require('../lib/fs');
 
-async function updateLibraries(updatedLibraries) {
-  updatedLibraries.forEach(({ library, newVersion }) => {
+async function updateLibraries(updates) {
+  updates.forEach(({ library, newVersion }) => {
     ['package.json', 'package-lock.json'].forEach(pkgFileName => {
       log.verbose(library.name, `update ${pkgFileName} version to ${newVersion}`);
       const pkgFilePath = path.resolve(library.sourcePath, pkgFileName);
@@ -15,7 +15,7 @@ async function updateLibraries(updatedLibraries) {
 
       if (pkgFileName === 'package.json') {
         library.dependencies.forEach(dependency => {
-          const updatedLibrary = updatedLibraries.get(dependency.name);
+          const updatedLibrary = updates.get(dependency.name);
           if (updatedLibrary) {
             const peerDependencies = pkgFileContent.peerDependencies;
 
@@ -84,14 +84,5 @@ function getChangelogContent(cwd) {
   return {filePath: changeLogPath, content};
 }
 
-function createIfMissing(file) {
-  try {
-    fsAccess.sync(file, fs.F_OK)
-  } catch (err) {
-    if (err.code === 'ENOENT') {
-      fs.writeFileSync(file, '\n');
-    }
-  }
-}
 
 module.exports = { updateLibraries };

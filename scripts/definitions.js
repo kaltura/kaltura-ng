@@ -1,6 +1,6 @@
 const path = require('path');
 const findRoot = require('./lib/find-root');
-const { readJsonFile } = require("./lib/utils");
+const { readJsonFile } = require("./lib/fs");
 const rootPath = findRoot(process.cwd());
 const argv = require('minimist')(process.argv.slice(2));
 const distPath = path.resolve(rootPath, 'dist');

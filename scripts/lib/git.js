@@ -1,5 +1,5 @@
 const log = require("npmlog");
-const { executeCommand } = require('./utils');
+const { executeCommand } = require('./fs');
 const tempWrite = require("temp-write");
 const os = require('os');
 

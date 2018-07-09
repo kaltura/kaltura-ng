@@ -1,12 +1,12 @@
 const log = require("npmlog");
-const { executeCommand, readJsonFile, writeJsonFile } = require('./lib/utils');
+const { executeCommand, readJsonFile, writeJsonFile } = require('./lib/fs');
 const { getCurrentBranch, hasUnCommittedChanges, hasTags } = require('./lib/git');
 const makeDiffPredicate = require("./publish/make-diff-predicate");
 const collectDependents = require("./publish/collect-dependents");
 const { argv, libraries } = require('./definitions');
 const { getVersionsForUpdates } = require('./publish/conventional-commits');
 const { updateLibraries } = require('./publish/update-changelog');
-const { commitUpdatesToGit } = require('./publish/commit-updates-to-git');
+const { commitAndTagUpdates } = require('./publish/commit-and-tag-updates');
 const path = require('path');
 
 // TODO get options
@@ -59,9 +59,9 @@ function collectUpdates() {
   return updates;
 }
 
-const updatedLibraries = new Map([]);
-
 async function prepare() {
+
+  const updates = new Map([]);
 
   // const pkg = loadJsonFile.sync(findUp.sync('package.json', { cwd: process.cwd() }));
   // const version = pkg.version;
@@ -85,32 +85,35 @@ async function prepare() {
 
   // TODO check `isBehindUpstream`
 
-  const updates = collectUpdates();
+  const updatedLibraries = collectUpdates();
 
-  if (updates.size === 0) {
+  if (updatedLibraries.size === 0) {
     log.info("No updated packages to publish");
     // still exits zero, aka "ok"
     process.exit(0);
     return;
   }
 
-  for(let i = 0; i<updates.length; i++) {
-    const library = updates[i];
+  for(let i = 0; i<updatedLibraries.length; i++) {
+    const library = updatedLibraries[i];
     const newVersion = await getVersionsForUpdates(library);
-    updatedLibraries.set(library.name, { newVersion, library});
+    updates.set(library.name, { newVersion, library});
   }
+
+  return updates;
 }
 
 async function main() {
 
-  await prepare();
+  const updates= await prepare();
 
   // TODO prompt Are you sure you want to publish the above changes?
-  updatedLibraries.forEach(update => log.info(update.library.name, update.newVersion));
+  log.warn('prompt', 'Are you sure you want to publish the above changes?');
+  //updates.forEach(update => log.info(update.library.name, update.newVersion));
 
-  await updateLibraries(updatedLibraries);
+  await updateLibraries(updates);
 
-  await commitUpdatesToGit(updatedLibraries);
+  await commitAndTagUpdates(updates);
 
   //await publishToNpm();
 

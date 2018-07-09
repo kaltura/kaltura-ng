@@ -1,6 +1,6 @@
 "use strict";
 
-const { executeCommand } = require('../lib/utils');
+const { executeCommand } = require('../lib/fs');
 const log = require("npmlog");
 const minimatch = require("minimatch");
 const path = require("path");

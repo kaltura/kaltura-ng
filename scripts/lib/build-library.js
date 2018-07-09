@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { copyFolders, executeCommand } = require('./utils');
+const { copyFolders, executeCommand } = require('./fs');
 const { rootPath, distPath } = require('../definitions');
 
 async function executeNGBuild(libraryName) {

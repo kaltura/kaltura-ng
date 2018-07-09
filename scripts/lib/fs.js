@@ -68,4 +68,14 @@ function writeFile(path, content) {
   return fs.writeFileSync(path, content);
 }
 
-module.exports = {  deleteFolder, copyFolders, executeCommand, readJsonFile, writeJsonFile, readFile, writeFile };
+function createIfMissing(path) {
+  try {
+    fsAccess.sync(path, fs.F_OK)
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      fs.writeFileSync(path, '\n');
+    }
+  }
+}
+
+module.exports = {  deleteFolder, copyFolders, executeCommand, readJsonFile, writeJsonFile, readFile, writeFile, createIfMissing };

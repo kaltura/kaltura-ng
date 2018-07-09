@@ -1,7 +1,7 @@
 const os = require("os");
 const { gitCommit, gitTag } = require('../lib/git');
 
-async function commitUpdatesToGit(updates) {
+async function commitAndTagUpdates(updates) {
   const tags = Array.from(updates).map(([,update])  => `${update.library.name}@${update.newVersion}`);
   const subject = "Publish";
   const message = tags.reduce((msg, tag) => `${msg}${os.EOL} - ${tag}`, `${subject}${os.EOL}`);
@@ -12,4 +12,4 @@ async function commitUpdatesToGit(updates) {
     .then(() => tags);
 }
 
-module.exports = { commitUpdatesToGit };
+module.exports = { commitAndTagUpdates };
