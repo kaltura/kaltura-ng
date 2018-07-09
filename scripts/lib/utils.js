@@ -4,6 +4,7 @@ const execa = require('execa');
 const copy = require('recursive-copy');
 const rimraf = require('./rimraf');
 const loadJsonFile = require("load-json-file");
+const doWriteJsonFile = require("write-json-file");
 
 function executeCommand(command, commandArgs, opt) {
   log.info('execute command',`${command} ${commandArgs.join(' ')}`);
@@ -55,4 +56,9 @@ function readJsonFile(path) {
   return loadJsonFile.sync(path);
 }
 
-module.exports = {  deleteFolder, copyFolders, executeCommand, readJsonFile };
+function writeJsonFile(path, content, indent = 2) {
+  log.silly('writeJsonFile', `path ${path}`);
+  return doWriteJsonFile.sync(path, content, {indent});
+}
+
+module.exports = {  deleteFolder, copyFolders, executeCommand, readJsonFile, writeJsonFile };

@@ -1,10 +1,11 @@
 const log = require("npmlog");
-const { executeCommand } = require('./lib/utils');
+const { executeCommand, readJsonFile, writeJsonFile } = require('./lib/utils');
 const { getCurrentBranch, hasUnCommittedChanges, hasTags } = require('./lib/git');
-const makeDiffPredicate = require("./lib/lerna/make-diff-predicate");
-const collectDependents = require("./lib/lerna/collect-dependents");
+const makeDiffPredicate = require("./publish/make-diff-predicate");
+const collectDependents = require("./publish/collect-dependents");
 const { argv, libraries } = require('./definitions');
-const { getVersionsForUpdates } = require('./lib/conventional-commits');
+const { getVersionsForUpdates } = require('./publish/conventional-commits');
+const path = require('path');
 
 // TODO get options
 const options = {
@@ -101,14 +102,13 @@ async function prepare() {
 async function updateLibraries() {
   updatedLibraries.forEach(({ library, newVersion }) => {
     ['package.json', 'package-lock.json'].forEach(pkgFileName => {
-      log.verbose(config, `update version to ${newVersion}`);
-      const configPath = path.resolve(library.sourcePath, pkgFileName);
-      const configFile = loadJsonFile.sync(configPath);
-      configFile.version = newVersion;
+      log.verbose(pkgFileName, `update version to ${newVersion}`);
+      const pkgFilePath = path.resolve(library.sourcePath, pkgFileName);
+      const pkgFileContent = readJsonFile(pkgFilePath)
+      pkgFileContent.version = newVersion;
       // TODO learn indentation from file
-      writeJsonFile.sync(configPath, configFile, {indent: 2});
+      writeJsonFile(pkgFilePath, pkgFileContent, 2);
     });
-
   });
 
 
