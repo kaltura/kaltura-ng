@@ -5,7 +5,8 @@ const makeDiffPredicate = require("./publish/make-diff-predicate");
 const collectDependents = require("./publish/collect-dependents");
 const { argv, libraries } = require('./definitions');
 const { getVersionsForUpdates } = require('./publish/conventional-commits');
-const { updateChangelog } = require('./publish/update-changelog');
+const { updateLibraries } = require('./publish/update-changelog');
+const { commitUpdatesToGit } = require('./publish/commit-updates-to-git');
 const path = require('path');
 
 // TODO get options
@@ -100,44 +101,6 @@ async function prepare() {
   }
 }
 
-async function updateLibraries() {
-  updatedLibraries.forEach(({ library, newVersion }) => {
-    ['package.json', 'package-lock.json'].forEach(pkgFileName => {
-      log.verbose(library.name, `update ${pkgFileName} version to ${newVersion}`);
-      const pkgFilePath = path.resolve(library.sourcePath, pkgFileName);
-      const pkgFileContent = readJsonFile(pkgFilePath);
-
-      pkgFileContent.version = newVersion;
-
-      if (pkgFileName === 'package.json') {
-        library.dependencies.forEach(dependency => {
-          const updatedLibrary = updatedLibraries.get(dependency.name);
-          if (updatedLibrary) {
-            const peerDependencies = pkgFileContent.peerDependencies;
-
-            if (!peerDependencies || !peerDependencies[dependency.name]) {
-              const errorMessage = `missing peerDependency for '${dependency.name}'`;
-              log.error(library.name, errorMessage);
-              throw new Error(errorMessage);
-            }
-
-            pkgFileContent.peerDependencies[dependency.name] = updatedLibrary.newVersion;
-          }
-        });
-      }
-
-      // TODO learn indentation from file
-      writeJsonFile(pkgFilePath, pkgFileContent, 2);
-    });
-
-
-    updateChangelog(library, newVersion);
-
-  });
-
-  // TOOD update changelogs
-}
-
 async function main() {
 
   await prepare();
@@ -145,7 +108,11 @@ async function main() {
   // TODO prompt Are you sure you want to publish the above changes?
   updatedLibraries.forEach(update => log.info(update.library.name, update.newVersion));
 
-  await updateLibraries();
+  await updateLibraries(updatedLibraries);
+
+  await commitUpdatesToGit(updatedLibraries);
+
+  //await publishToNpm();
 
   // push to git
   log.info('done');
