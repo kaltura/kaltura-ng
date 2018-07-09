@@ -88,7 +88,7 @@ function updateDependencies(library, dependencies) {
   })
 }
 
-// TODO should extract depenedencies and build order automatically from package.json of libraries
+// TODO should extract peer depenedencies and build order automatically from package.json of libraries
 updateDependencies(kalturaUI, [kalturaCommon]);
 updateDependencies(kalturaPrimeUI, [kalturaCommon, kalturaUI]);
 updateDependencies(mcShared, [kalturaCommon, kalturaUI, kalturaLogger]);

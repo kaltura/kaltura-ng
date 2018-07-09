@@ -109,13 +109,30 @@ async function updateLibraries() {
 
       pkgFileContent.version = newVersion;
 
-      // TODO update dependencies
+      if (pkgFileName === 'package.json') {
+        library.dependencies.forEach(dependency => {
+          const updatedLibrary = updatedLibraries.get(dependency.name);
+          if (updatedLibrary) {
+            const peerDependencies = pkgFileContent.peerDependencies;
 
-      updateChangelog(library, newVersion);
+            if (!peerDependencies || !peerDependencies[dependency.name]) {
+              const errorMessage = `missing peerDependency for '${dependency.name}'`;
+              log.error(library.name, errorMessage);
+              throw new Error(errorMessage);
+            }
+
+            pkgFileContent.peerDependencies[dependency.name] = updatedLibrary.newVersion;
+          }
+        });
+      }
 
       // TODO learn indentation from file
       writeJsonFile(pkgFilePath, pkgFileContent, 2);
     });
+
+
+    updateChangelog(library, newVersion);
+
   });
 
   // TOOD update changelogs
