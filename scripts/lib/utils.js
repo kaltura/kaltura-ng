@@ -3,7 +3,7 @@ const log = require("npmlog");
 const execa = require('execa');
 const copy = require('recursive-copy');
 const rimraf = require('./rimraf');
-const { argv, libraries } = require('../definitions');
+const loadJsonFile = require("load-json-file");
 
 function executeCommand(command, commandArgs, opt) {
   log.info('execute command',`${command} ${commandArgs.join(' ')}`);
@@ -46,24 +46,13 @@ async function copyFolders(source, target) {
   }
 }
 
-function grabSelectedlibraries() {
-  const specificLibrary = argv['library'] ? `@kaltura-ng/${argv['library']}` : '';
-  let adapters = [];
-
-  console.log(`grab user selected libraries (${specificLibrary || 'all libraries'})`);
-  if (specificLibrary) {
-    const adapter = libraries.find(adapter => adapter.name === specificLibrary);
-
-    if (adapter) {
-      adapters.push(adapter);
-    } else {
-      console.error(`unknown library requested '${specificLibrary}'`);
-    }
-  } else {
-    adapters = libraries;
+function readJsonFile(path) {
+  log.silly('readJsonFile', `path ${path}`);
+  if (!path) {
+    throw new Error(`failed to read json file content`);
   }
 
-  return adapters;
+  return loadJsonFile.sync(path);
 }
 
-module.exports = {  deleteFolder, copyFolders, grabSelectedlibraries, executeCommand };
+module.exports = {  deleteFolder, copyFolders, executeCommand, readJsonFile };

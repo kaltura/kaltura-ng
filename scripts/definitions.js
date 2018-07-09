@@ -1,9 +1,35 @@
 const path = require('path');
 const findRoot = require('./lib/find-root');
-
+const { readJsonFile } = require("./lib/utils");
 const rootPath = findRoot(process.cwd());
 const argv = require('minimist')(process.argv.slice(2));
 const distPath = path.resolve(rootPath, 'dist');
+
+function LoadPackageJsonFiles(libraries) {
+  libraries.forEach(library =>  {
+    library.pkg = readJsonFile(path.resolve(library.sourcePath, 'package.json'));
+  })
+}
+
+function grabSelectedlibraries() {
+  const specificLibrary = argv['library'] ? `@kaltura-ng/${argv['library']}` : '';
+  let adapters = [];
+
+  console.log(`grab user selected libraries (${specificLibrary || 'all libraries'})`);
+  if (specificLibrary) {
+    const adapter = libraries.find(adapter => adapter.name === specificLibrary);
+
+    if (adapter) {
+      adapters.push(adapter);
+    } else {
+      console.error(`unknown library requested '${specificLibrary}'`);
+    }
+  } else {
+    adapters = libraries;
+  }
+
+  return adapters;
+}
 
 const kalturaLogger = {
   name: '@kaltura-ng/kaltura-logger',
@@ -63,11 +89,12 @@ function updateDependencies(library, dependencies) {
 }
 
 // TODO should extract depenedencies and build order automatically from package.json of libraries
-
 updateDependencies(kalturaUI, [kalturaCommon]);
 updateDependencies(kalturaPrimeUI, [kalturaCommon, kalturaUI]);
 updateDependencies(mcShared, [kalturaCommon, kalturaUI, kalturaLogger]);
 
 const libraries = new Set([kalturaLogger, kalturaCommon, kalturaUI, kalturaPrimeUI, mcShared, mcTheme]);
 
-module.exports = { argv, rootPath, distPath, libraries };
+LoadPackageJsonFiles(libraries);
+
+module.exports = { argv, rootPath, distPath, libraries, grabSelectedlibraries };

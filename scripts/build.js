@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const { buildLibrary } = require('./lib/build-library');
-const { grabSelectedlibraries } = require('./lib/utils');
+const { grabSelectedlibraries } = require('./definitions');
 
 async function main() {
   console.log(`execute build command`);

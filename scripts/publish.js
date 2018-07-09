@@ -1,10 +1,10 @@
 const log = require("npmlog");
 const { executeCommand } = require('./lib/utils');
 const { getCurrentBranch, hasUnCommittedChanges, hasTags } = require('./lib/git');
-const conventionalRecommendedBump = require('conventional-recommended-bump');
 const makeDiffPredicate = require("./lib/lerna/make-diff-predicate");
 const collectDependents = require("./lib/lerna/collect-dependents");
 const { argv, libraries } = require('./definitions');
+const { getVersionsForUpdates } = require('./lib/conventional-commits');
 
 // TODO get options
 const options = {
@@ -56,28 +56,9 @@ function collectUpdates() {
   return updates;
 }
 
-function getVersionsForUpdates(library) {
-  return new Promise((resolve, reject) => {
-    conventionalRecommendedBump(
-      {
-        tagPrefix: `${library.name}@`,
-        path: library.sourcePath,
-        preset: 'angular'
-      },
-      (err, release) => {
-        if (err) {
-          return reject(err);
-        } else {
-          log.verbose('get version', `increment ${library.name} by level ${release.releaseType} (${release.reason})`);
-          resolve(release);
-        }
-      }
-    );
-  });
-}
+const updatedLibraries = new Map([]);
 
-async function main() {
-  console.log(`execute publish command`);
+async function prepare() {
 
   // const pkg = loadJsonFile.sync(findUp.sync('package.json', { cwd: process.cwd() }));
   // const version = pkg.version;
@@ -112,9 +93,40 @@ async function main() {
 
   for(let i = 0; i<updates.length; i++) {
     const library = updates[i];
-    const nextVersion = await getVersionsForUpdates(library);
+    const newVersion = await getVersionsForUpdates(library);
+    updatedLibraries.set(library.name, { newVersion, library});
   }
+}
 
+async function updateLibraries() {
+  updatedLibraries.forEach(({ library, newVersion }) => {
+    ['package.json', 'package-lock.json'].forEach(pkgFileName => {
+      log.verbose(config, `update version to ${newVersion}`);
+      const configPath = path.resolve(library.sourcePath, pkgFileName);
+      const configFile = loadJsonFile.sync(configPath);
+      configFile.version = newVersion;
+      // TODO learn indentation from file
+      writeJsonFile.sync(configPath, configFile, {indent: 2});
+    });
+
+  });
+
+
+  // TODO update package json files
+
+  // TOOD update changelogs
+}
+
+async function main() {
+
+  await prepare();
+
+  // TODO prompt Are you sure you want to publish the above changes?
+  updatedLibraries.forEach(update => log.info(update.library.name, update.newVersion));
+
+  await updateLibraries();
+
+  // push to git
   log.info('done');
 }
 
