@@ -1,6 +1,7 @@
 const log = require("npmlog");
 const { executeCommand } = require('./lib/utils');
 const { getCurrentBranch, hasUnCommittedChanges, hasTags } = require('./lib/git');
+const conventionalRecommendedBump = require('conventional-recommended-bump');
 const makeDiffPredicate = require("./lib/lerna/make-diff-predicate");
 const collectDependents = require("./lib/lerna/collect-dependents");
 const { argv, libraries } = require('./definitions');
@@ -39,23 +40,40 @@ function collectUpdates() {
   })
 
   const dependents = collectDependents(candidates);
-  log.warn('dependent', '',dependents.size + ' ' +  candidates.size);
-  // dependents.forEach(node => candidates.add(node));
-  //
-  // // The result should always be in the same order as the input
-  // const updates = [];
-  //
-  // packages.forEach((node, name) => {
-  //   if (candidates.has(node)) {
-  //     logger.verbose("updated", name);
-  //
-  //     updates.push(node);
-  //   }
-  // });
+  dependents.forEach(node => candidates.add(node));
 
-  //return updates;
+  // The result should always be in the same order as the input
+   const updates = [];
 
-  //log.info('hasDiff', test);
+  libraries.forEach((library) => {
+    if (candidates.has(library)) {
+      log.verbose("updated", library.name);
+
+      updates.push(library);
+    }
+  });
+
+  return updates;
+}
+
+function getVersionsForUpdates(library) {
+  return new Promise((resolve, reject) => {
+    conventionalRecommendedBump(
+      {
+        tagPrefix: `${library.name}@`,
+        path: library.sourcePath,
+        preset: 'angular'
+      },
+      (err, release) => {
+        if (err) {
+          return reject(err);
+        } else {
+          log.verbose('get version', `increment ${library.name} by level ${release.releaseType} (${release.reason})`);
+          resolve(release);
+        }
+      }
+    );
+  });
 }
 
 async function main() {
@@ -83,7 +101,19 @@ async function main() {
 
   // TODO check `isBehindUpstream`
 
-  collectUpdates();
+  const updates = collectUpdates();
+
+  if (updates.size === 0) {
+    log.info("No updated packages to publish");
+    // still exits zero, aka "ok"
+    process.exit(0);
+    return;
+  }
+
+  for(let i = 0; i<updates.length; i++) {
+    const library = updates[i];
+    const nextVersion = await getVersionsForUpdates(library);
+  }
 
   log.info('done');
 }

@@ -9,24 +9,24 @@ const kalturaLogger = {
   name: '@kaltura-ng/kaltura-logger',
   sourcePath: path.resolve(rootPath, 'projects/kaltura-ng/kaltura-logger'),
   distPath: path.resolve(distPath, 'kaltura-ng/kaltura-logger'),
-  dependencies: [],
-  dependents: []
+  dependencies: new Set(),
+  dependents: new Set()
 };
 
 const kalturaCommon = {
   name: '@kaltura-ng/kaltura-common',
   sourcePath: path.resolve(rootPath, 'projects/kaltura-ng/kaltura-common'),
   distPath: path.resolve(distPath, 'kaltura-ng/kaltura-common'),
-  dependencies: [],
-  dependents: []
+  dependencies: new Set(),
+  dependents: new Set()
 };
 
 const kalturaUI = {
   name: '@kaltura-ng/kaltura-ui',
   sourcePath: path.resolve(rootPath, 'projects/kaltura-ng/kaltura-ui'),
   distPath: path.resolve(distPath, 'kaltura-ng/kaltura-ui'),
-  dependencies: [],
-  dependents: []
+  dependencies: new Set(),
+  dependents: new Set()
 
 };
 
@@ -34,31 +34,31 @@ const kalturaPrimeUI = {
   name: '@kaltura-ng/kaltura-primeng-ui',
   sourcePath: path.resolve(rootPath, 'projects/kaltura-ng/kaltura-primeng-ui'),
   distPath: path.resolve(distPath, 'kaltura-ng/kaltura-primeng-ui'),
-  dependencies: [],
-  dependents: []
+  dependencies: new Set(),
+  dependents: new Set()
 }
 
 const mcShared = {
   name: '@kaltura-ng/mc-shared',
   sourcePath: path.resolve(rootPath, 'projects/kaltura-ng/mc-shared'),
   distPath: path.resolve(distPath, 'kaltura-ng/mc-shared'),
-  dependencies: [],
-  dependents: []
+  dependencies: new Set(),
+  dependents: new Set()
 }
 
 const mcTheme = {
   name: '@kaltura-ng/mc-theme',
   sourcePath: path.resolve(rootPath, 'projects/kaltura-ng/mc-theme'),
   distPath: path.resolve(distPath, 'kaltura-ng/mc-theme'),
-  dependencies: [],
-  dependents: []
+  dependencies: new Set(),
+  dependents: new Set()
 }
 
 function updateDependencies(library, dependencies) {
   library.dependencies = dependencies;
 
   dependencies.forEach(dependency => {
-    dependency.dependents.push(library);
+    dependency.dependents.add(library);
   })
 }
 
@@ -68,6 +68,6 @@ updateDependencies(kalturaUI, [kalturaCommon]);
 updateDependencies(kalturaPrimeUI, [kalturaCommon, kalturaUI]);
 updateDependencies(mcShared, [kalturaCommon, kalturaUI, kalturaLogger]);
 
-const libraries = [kalturaLogger, kalturaCommon, kalturaUI, kalturaPrimeUI, mcShared, mcTheme];
+const libraries = new Set([kalturaLogger, kalturaCommon, kalturaUI, kalturaPrimeUI, mcShared, mcTheme]);
 
 module.exports = { argv, rootPath, distPath, libraries };

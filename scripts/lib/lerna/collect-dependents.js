@@ -8,7 +8,7 @@ function collectDependents(libraries) {
 
 
   libraries.forEach(currentLibrary => {
-    if (currentLibrary.dependents.length === 0) {
+    if (currentLibrary.dependents.size === 0) {
       // no point diving into a non-existent tree
 
       return;
