@@ -5,6 +5,7 @@ const makeDiffPredicate = require("./publish/make-diff-predicate");
 const collectDependents = require("./publish/collect-dependents");
 const { argv, libraries } = require('./definitions');
 const { getVersionsForUpdates } = require('./publish/conventional-commits');
+const { updateChangelog } = require('./publish/update-changelog');
 const path = require('path');
 
 // TODO get options
@@ -38,7 +39,7 @@ function collectUpdates() {
     if(hasDiff({ location: library.sourcePath})) {
       candidates.add(library);
     }
-  })
+  });
 
   const dependents = collectDependents(candidates);
   dependents.forEach(node => candidates.add(node));
@@ -102,17 +103,20 @@ async function prepare() {
 async function updateLibraries() {
   updatedLibraries.forEach(({ library, newVersion }) => {
     ['package.json', 'package-lock.json'].forEach(pkgFileName => {
-      log.verbose(pkgFileName, `update version to ${newVersion}`);
+      log.verbose(library.name, `update ${pkgFileName} version to ${newVersion}`);
       const pkgFilePath = path.resolve(library.sourcePath, pkgFileName);
-      const pkgFileContent = readJsonFile(pkgFilePath)
+      const pkgFileContent = readJsonFile(pkgFilePath);
+
       pkgFileContent.version = newVersion;
+
+      // TODO update dependencies
+
+      updateChangelog(library, newVersion);
+
       // TODO learn indentation from file
       writeJsonFile(pkgFilePath, pkgFileContent, 2);
     });
   });
-
-
-  // TODO update package json files
 
   // TOOD update changelogs
 }

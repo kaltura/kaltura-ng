@@ -61,4 +61,11 @@ function writeJsonFile(path, content, indent = 2) {
   return doWriteJsonFile.sync(path, content, {indent});
 }
 
-module.exports = {  deleteFolder, copyFolders, executeCommand, readJsonFile, writeJsonFile };
+function readFile(path) {
+  return fs.readFileSync(path, 'utf-8');
+}
+function writeFile(path, content) {
+  return fs.writeFileSync(path, content);
+}
+
+module.exports = {  deleteFolder, copyFolders, executeCommand, readJsonFile, writeJsonFile, readFile, writeFile };
