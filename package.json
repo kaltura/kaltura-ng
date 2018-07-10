@@ -31,6 +31,9 @@
     "setup": "node ./scripts/setup.js",
     "build": "node ./scripts/build.js",
     "publish": "node ./scripts/publish.js",
+    "publish:continue": "node ./scripts/publish.js --continue",
+    "publish:abort": "node ./scripts/publish.js --abort",
+    "publish:ci": "node ./scripts/publish.js --ci",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

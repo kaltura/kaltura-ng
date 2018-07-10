@@ -12,14 +12,17 @@ const path = require('path');
 const inquirer = require('inquirer');
 const semver = require("semver");
 
-const INIT_PHASE = 'INIT_PHASE';
-const PREPARING_PHASE = 'PREPARING_PHASE';
-const PREPARED_PHASE = 'PREPARED_PHASE';
-const EXECUTING_PHASE = 'EXECUTING_PHASE';
-const ERROR_PHASE = 'ERROR_PHASE';
-const CONTINUE_FLAG = 'CONTINUE_FLAG';
-const ABORT_FLAG = 'ABORT_FLAG';
-const START_FLAG = 'START_FLAG';
+const INIT_STATUS = 'INIT_STATUS';
+const PREPARING_STATUS = 'PREPARING_STATUS';
+const PREPARED_STATUS = 'PREPARED_STATUS';
+const EXECUTING_STATUS = 'EXECUTING_STATUS';
+const ERROR_STATUS = 'ERROR_STATUS';
+
+const CONTINUE_MODE = 'CONTINUE_MODE';
+const ABORT_MODE = 'ABORT_MODE';
+const START_MODE = 'START_MODE';
+const CI_MODE = 'CI_MODE';
+
 
 if (argv['verbose']) {
   log.level = 'verbose';
@@ -30,7 +33,10 @@ const options = {
   forceBumpTo: argv['forceBumpTo'],
   publishStatusPath: path.resolve(__dirname, '.publish-status'),
   skipBuild: !!argv['skipBuild'] || false,
-  action: !!argv['continue'] ? CONTINUE_FLAG : !!argv['abort'] ? ABORT_FLAG : START_FLAG,
+  mode: !!argv['continue'] ? CONTINUE_MODE :
+    !!argv['abort'] ? ABORT_MODE :
+    !!argv['ci'] ? CI_MODE :
+      START_MODE,
   "ignoreChanges": [
     "ignored-file",
     "*.md"
@@ -39,18 +45,25 @@ const options = {
 
 log.verbose('options', '', options);
 
-function getCurrentPhase() {
-  const result = isExists(options.publishStatusPath) ? readFile(options.publishStatusPath) : INIT_PHASE;
-  log.verbose('getPublishPhase', result);
+function getInteractiveStatus() {
+  const result = isExists(options.publishStatusPath) ? readFile(options.publishStatusPath) : INIT_STATUS;
+  log.verbose('getInteractiveStatus', result);
   return result;
 }
 
-function setNewPhase(newPhase) {
-  if ([PREPARING_PHASE, PREPARED_PHASE, EXECUTING_PHASE, ERROR_PHASE].indexOf(newPhase) === -1) {
-    log.error('EPHASE', `provided phase is not supported '${newPhase}'`);
+function completeInteractivePublish() {
+  log.verbose('completeInteractivePublish', 'complete publish process');
+  if (isExists(options.publishStatusPath)) {
+    deleteFile(options.publishStatusPath);
   }
-  log.verbose('setNewPhase', `from ${getCurrentPhase()} to ${newPhase}`);
-  writeFile(options.publishStatusPath, newPhase);
+}
+
+function setNewInteractiveStatus(newStatus) {
+  if ([PREPARING_STATUS, PREPARED_STATUS, EXECUTING_STATUS, ERROR_STATUS].indexOf(newStatus) === -1) {
+    log.error('EINTERACTIVE', `provided status is not supported '${newStatus}'`);
+  }
+  log.verbose('setNewInteractiveStatus', `from ${getInteractiveStatus()} to ${newStatus}`);
+  writeFile(options.publishStatusPath, newStatus);
 }
 
 function validateOptions() {
@@ -61,14 +74,14 @@ function validateOptions() {
     }
   }
 
-  const currentPhase = getCurrentPhase();
-  if (options.action === START_FLAG && currentPhase !== INIT_PHASE) {
+  const currentInteractiveStatus = getInteractiveStatus();
+  if ((options.mode === START_MODE || options.mode === CI_MODE && currentInteractiveStatus !== INIT_STATUS) {
     log.error('EOPTIONS', `An active publish process was detected, should either '--continue' or '--abort' process`);
     process.exit(1);
-  } else if (options.action === CONTINUE_FLAG && currentPhase === INIT_PHASE) {
+  } else if (options.mode === CONTINUE_MODE && currentInteractiveStatus === INIT_STATUS) {
     log.error('EOPTIONS', `No active publish process found, nothing to continue`);
     process.exit(1);
-  } else if (options.action === CONTINUE_FLAG && currentPhase === ERROR_PHASE) {
+  } else if (options.mode === CONTINUE_MODE && currentInteractiveStatus === ERROR_STATUS) {
     log.error('EOPTIONS', `An error happend as part of active publish process, please '--abort' process`);
     process.exit(1);
   }
@@ -225,31 +238,39 @@ async function main() {
   validateOptions();
 
   try {
-    if (options.action === ABORT_FLAG) {
+    if (options.mode === ABORT_MODE) {
       log.info('main', `aborting process`);
-      if (isExists(options.publishStatusPath)) {
-        deleteFile(options.publishStatusPath);
-      }
+      completeInteractivePublish();
       log.info('main', `process aborted, please review your branch`);
       process.exit(0);
     }
 
+    const lastInteractiveStatus = getInteractiveStatus();
 
-    setNewPhase(PREPARING_PHASE);
-    const updates = await prepare();
+    if (lastInteractiveStatus === INIT_STATUS) {
+      setNewInteractiveStatus(PREPARING_STATUS);
+      const updates = await prepare();
 
-    if (!updates || updates.size === 0) {
-      log.info('main', 'no libraries selected to publish, action aborted');
+      if (!updates || updates.size === 0) {
+        log.info('main', 'no libraries selected to publish, action aborted');
+        completeInteractivePublish();
+        process.exit(0);
+      }
+
+      setNewInteractiveStatus(PREPARED_STATUS);
+      log.info('main', 'please review changes in libraries and then continue the publish process');
       process.exit(0);
     }
 
-    setNewPhase(PREPARED_PHASE);
-    setNewPhase(P_PHASE);
-    await execute(updates);
+    if (lastInteractiveStatus === PREPARED_STATUS) {
+      setNewInteractiveStatus(EXECUTING_STATUS);
+      await execute(updates);
+      completeInteractivePublish();
+    }
   }catch(err) {
     try {
       log.error('EGENERAL', err);
-      setNewPhase(ERROR_PHASE);
+      setNewInteractiveStatus(ERROR_STATUS);
     } catch(updateErr) {
       log.error(updateErr);
     }
