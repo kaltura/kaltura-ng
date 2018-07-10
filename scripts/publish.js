@@ -1,6 +1,6 @@
 const log = require("npmlog");
 const { executeCommand, readJsonFile, writeJsonFile } = require('./lib/fs');
-const { getCurrentBranch, hasUnCommittedChanges, hasTags } = require('./lib/git');
+const { getCurrentBranch, hasUnCommittedChanges, gitPush, hasTags } = require('./lib/git');
 const makeDiffPredicate = require("./publish/make-diff-predicate");
 const collectDependents = require("./publish/collect-dependents");
 const { argv, libraries, buildLibraries } = require('./definitions');
@@ -20,11 +20,7 @@ const options = {
   ]
 };
 
-const execOpts = {
-  cwd: process.cwd()
-};
-
-log.level = 'verbose';
+//log.level = 'verbose';
 
 function collectUpdates() {
 
@@ -37,7 +33,9 @@ function collectUpdates() {
   const committish = executeCommand("git", ["describe", "--abbrev=0"]);
   log.verbose("collect updates", `comparing changes between head and commit ${committish}`);
   const candidates = new Set();
-  const hasDiff = makeDiffPredicate(committish, execOpts, options.ignoreChanges);
+  const hasDiff = makeDiffPredicate(committish, {
+    cwd: process.cwd()
+  }, options.ignoreChanges);
 
   libraries.forEach(library => {
     if(hasDiff({ location: library.sourcePath})) {
@@ -161,7 +159,9 @@ async function main() {
   await publishLibrariesToNpm(updates);
 
   log.info('execute', `push updates to git`);
-  log.info('done');
+  const currentBranch = getCurrentBranch();
+
+  gitPush('origin', currentBranch);
 }
 
 (async function() {

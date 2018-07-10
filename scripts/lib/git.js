@@ -41,7 +41,7 @@ function gitCommit(message) {
   }
 
   // TODO remove log and uncomment command
-  log.verbose("git", JSON.stringify(args));
+  log.verbose("git", args.join(' '));
   //return executeCommand("git", args);
 }
 
@@ -51,9 +51,20 @@ function gitTag(tag) {
   const args = ["tag", tag, "-m", tag];
 
   // TODO remove log and uncomment command
-  log.verbose("git", JSON.stringify(args));
+  log.verbose("git", args.join(' '));
   //return executeCommand("git", args);
 }
 
 
-module.exports = { getCurrentBranch, hasUnCommittedChanges, hasTags, gitCommit, gitTag }
+function gitPush(remote, branch) {
+  log.silly("gitPush", remote, branch);
+  const args = ["push", "--follow-tags", "--no-verify", remote, branch];
+
+  // TODO remove log and uncomment command
+  log.verbose("git", args.join(' '));
+  //return executeCommand("git", args);
+}
+
+
+
+module.exports = { getCurrentBranch, hasUnCommittedChanges, hasTags, gitCommit, gitTag, gitPush }
