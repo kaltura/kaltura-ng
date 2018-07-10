@@ -13,9 +13,9 @@ async function publishLibrariesToNpm(updates) {
   chain = chain.then(() => npmPublishLibraries(libraries));
 
   return chain.then(() => {
-    const message = Array.from(libraries.values()).map(library => ` - ${library.pkg.name}@${library.pkg.version}`);
-
-    log.info("Successfully published to npmjs", `${message.join(os.EOL)}`);
+    Array.from(libraries.values()).forEach(library => {
+      log.info('publish', `published ${library.pkg.name}@${library.pkg.version} to npmJS`);
+    });
   });
 }
 
@@ -30,7 +30,7 @@ function npmPublishLibraries(libraries) {
     chain.then(() => {
       tracker.verbose("publishing", library.pkg.name);
       npmPublishLibrary(library.name, library.distPath);
-      tracker.info("published", library.pkg.name);
+      tracker.verbose("published", library.pkg.name);
       tracker.completeWork(1);
     });
   });

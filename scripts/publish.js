@@ -9,6 +9,7 @@ const { updateLibrariesAssets } = require('./publish/update-libraries-assets');
 const { publishLibrariesToNpm } = require('./publish/publish-libraries-to-npm');
 const { commitAndTagUpdates } = require('./publish/commit-and-tag-updates');
 const path = require('path');
+const inquirer = require('inquirer');
 
 // TODO get options
 const options = {
@@ -23,7 +24,7 @@ const execOpts = {
   cwd: process.cwd()
 };
 
-//log.level = 'verbose';
+log.level = 'verbose';
 
 function collectUpdates() {
 
@@ -44,8 +45,7 @@ function collectUpdates() {
     }
   });
 
-  log.info(`collect updates`, `found ${candidates.size} libraries to publish`);
-  log.verbose('collect updates', Array.from(candidates.values()).map(library => library.name).join(', '));
+  log.verbose(`collect updates`, `found ${candidates.size} libraries to publish`, Array.from(candidates.values()).map(library => library.name).join(', '));
 
   const dependents = collectDependents(candidates);
   dependents.forEach(node => candidates.add(node));
@@ -61,10 +61,30 @@ function collectUpdates() {
     }
   });
 
-  log.info(`collect updates`, `found ${updates.size} libraries including dependents to publish`);
+  log.info(`collect updates`, `found ${updates.size} libraries **including dependents** to publish`);
   log.verbose('collect updates', Array.from(updates.values()).map(library => library.name).join(', '));
 
   return updates;
+}
+
+function confirm(message) {
+  log.pause();
+
+  return inquirer
+    .prompt([
+      {
+        type: "expand",
+        name: "confirm",
+        message,
+        default: 2, // default to help in order to avoid clicking straight through
+        choices: [{ key: "y", name: "Yes", value: true }, { key: "n", name: "No", value: false }],
+      },
+    ])
+    .then(answers => {
+      log.resume();
+
+      return answers.confirm;
+    });
 }
 
 async function prepare() {
@@ -107,23 +127,29 @@ async function prepare() {
   log.info('prepare', `rebuild all libraries (not only those who were updated)`);
   await buildLibraries(libraries);
 
-  log.info('prepare', `get new versions for libraries`);
-  for(let i = 0; i<updatedLibraries.length; i++) {
-    const library = updatedLibraries[i];
+  log.info('prepare', `find next versions`);
+  for (let it = updatedLibraries.values(), library= null; library=it.next().value; ) {
     const newVersion = await getVersionsForUpdates(library);
     updates.set(library.name, { newVersion, library});
   }
 
-  return updates;
+  updates.forEach(({library, newVersion }) => {
+    log.info('prepare', `${library.name} from ${library.pkg.version} to ${newVersion}`);
+  });
+
+  if (updates )
+
+  return (await confirm("Are you sure you want to publish the above changes?"))  ? updates : null;
 }
 
 async function main() {
 
   const updates = await prepare();
 
-  // TODO prompt Are you sure you want to publish the above changes?
-  log.warn('prompt', 'Are you sure you want to publish the above changes?');
-  //updates.forEach(update => log.info(update.library.name, update.newVersion));
+  if (!updates || updates.size === 0) {
+    log.info('execute', 'no libraries selected to publish, action aborted');
+    process.exit(0);
+  }
 
   log.info('execute', `update libraries assets`);
   await updateLibrariesAssets(updates);
