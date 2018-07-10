@@ -269,7 +269,9 @@ textarea.ui-inputtext {
       border-top: 1px solid #ffffff;
     }
   }
-
+  .ui-table-tbody > tr:hover{
+    background-color: $kGrayscale6;
+  }
   .ui-widget-header.ui-table-scrollable-header {
     background: transparent;
     height: 40px;
