@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 const log = require("npmlog");
-const { grabSelectedlibraries, buildLibraries } = require('./definitions');
+const { grabSelectedlibraries, buildLibraries } = require('./libraries');
 
 async function main() {
   log.info('build command', `execute build command`);

@@ -3,7 +3,7 @@ const log = require("npmlog");
 const fs = require('fs');
 const path = require('path');
 const spawnSync = require('child_process').spawnSync;
-const { deleteFolder, grabSelectedlibraries } = require('./definitions');
+const { deleteFolder, grabSelectedlibraries } = require('./libraries');
 
 async function main() {
   log.info('clean command', `execute clean command`);

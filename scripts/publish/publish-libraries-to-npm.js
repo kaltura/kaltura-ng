@@ -1,15 +1,19 @@
 const log = require("npmlog");
-const { argv, buildLibraries } = require('../definitions');
+const { argv, buildLibraries } = require('../libraries');
 const { npmPublishLibrary } = require('../lib/npm');
 const os = require('os');
 
 async function publishLibrariesToNpm(updates) {
-  log.info("publish", "Publishing packages to npm...");
+  log.info("publish", "publishing libraries to npmJS");
 
   let chain = Promise.resolve();
 
   const libraries = Array.from(updates.values()).reduce((result, {library}) => {result.add(library); return result;},new Set());
-  chain = chain.then(() => buildLibraries(libraries));
+  chain = chain.then(() => {
+    log.info("publish", "rebuild updated libraries to include changes assets");
+
+    buildLibraries(libraries);
+  });
   chain = chain.then(() => npmPublishLibraries(libraries));
 
   return chain.then(() => {

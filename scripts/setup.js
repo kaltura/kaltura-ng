@@ -3,8 +3,8 @@ const log = require("npmlog");
 const fs = require('fs');
 const path = require('path');
 const spawnSync = require('child_process').spawnSync;
-const { deleteFolder, grabSelectedlibraries, executeCommand } = require('./definitions');
-const { buildLibrary } = require('./definitions');
+const { deleteFolder, grabSelectedlibraries, executeCommand } = require('./libraries');
+const { buildLibrary } = require('./libraries');
 
 async function executeNPMLinkForLibrary(library) {
   executeCommand('npm', ['link'], library.distPath);

@@ -3,25 +3,42 @@ const { executeCommand, readJsonFile, writeJsonFile } = require('./lib/fs');
 const { getCurrentBranch, hasUnCommittedChanges, gitPush, hasTags } = require('./lib/git');
 const makeDiffPredicate = require("./publish/make-diff-predicate");
 const collectDependents = require("./publish/collect-dependents");
-const { argv, libraries, buildLibraries } = require('./definitions');
+const { argv, libraries, buildLibraries } = require('./libraries');
 const { getVersionsForUpdates } = require('./publish/conventional-commits');
 const { updateLibrariesAssets } = require('./publish/update-libraries-assets');
 const { publishLibrariesToNpm } = require('./publish/publish-libraries-to-npm');
 const { commitAndTagUpdates } = require('./publish/commit-and-tag-updates');
 const path = require('path');
 const inquirer = require('inquirer');
+const semver = require("semver");
 
-// TODO get options
+if (argv['verbose']) {
+  log.level = 'verbose';
+}
+
 const options = {
-  branch: 'devop',
+  branch: argv['branch'] || 'master',
+  forceBumpTo: argv['forceBumpTo'],
+  skipBuild: argv['skipBuild'] || false,
   "ignoreChanges": [
     "ignored-file",
     "*.md"
   ]
 };
+log.verbose('options', '', options);
 
-//log.level = 'verbose';
+function validateOptions() {
+  if (options.forceBumpTo) {
+    if ((['major','minor'].indexOf(options.forceBumpTo)) === -1) {
+      log.error('EOPTIONS', `expected 'options.forceBumpTo' to be '' (default), 'major' or 'minor', got '${options.forceBumpTo}'`);
+      process.exit(1);
+    }
+  }
 
+  if (options.skipBuild) {
+    log.error('EOPTIONS', `option 'skipBuild' should not be in use, please abort and execute without this option`);
+  }
+}
 function collectUpdates() {
 
   if (!hasTags())
@@ -59,7 +76,7 @@ function collectUpdates() {
     }
   });
 
-  log.info(`collect updates`, `found ${updates.size} libraries **including dependents** to publish`);
+  log.info(`collect updates`, `found ${updates.size} libraries to publish`);
   log.verbose('collect updates', Array.from(updates.values()).map(library => library.name).join(', '));
 
   return updates;
@@ -97,8 +114,7 @@ async function prepare() {
 
   log.info('prepare', `verify current branch is accepted`, { currentBranch, acceptedBranch: options.branch});
   if (options.branch !== currentBranch) {
-    log.error('Specified branch is different from active. Please checkout to specified branch or provide relevant branch name.');
-    log.error(`Specified branch: ${options.branch}. Active branch: ${currentBranch}`);
+    log.error('EBRANCH','Specified branch is different from current. Please checkout to specified branch or provide relevant branch name.');
     process.exit(1);
   }
 
@@ -122,17 +138,24 @@ async function prepare() {
     return;
   }
 
-  log.info('prepare', `rebuild all libraries (not only those who were updated)`);
-  await buildLibraries(libraries);
+  if (!options.skipBuild) {
+    log.info('prepare', `rebuild all libraries (not only those who were updated)`);
+    await buildLibraries(libraries);
+  }
 
-  log.info('prepare', `find next versions`);
+  log.info('prepare', `find next versions`, { forceBumpTo: options.forceBumpTo || '(default)'});
   for (let it = updatedLibraries.values(), library= null; library=it.next().value; ) {
-    const newVersion = await getVersionsForUpdates(library);
+    let newVersion = null;
+    if (options.forceBumpTo) {
+      newVersion = semver.inc(library.pkg.version, options.forceBumpTo);
+    }else {
+      newVersion = await getVersionsForUpdates(library);
+    }
     updates.set(library.name, { newVersion, library});
   }
 
   updates.forEach(({library, newVersion }) => {
-    log.info('prepare', `${library.name} from ${library.pkg.version} to ${newVersion}`);
+    log.info('prepare', `update ${library.name} from ${library.pkg.version} to ${newVersion}`);
   });
 
   if (updates )
@@ -140,15 +163,7 @@ async function prepare() {
   return (await confirm("Are you sure you want to publish the above changes?"))  ? updates : null;
 }
 
-async function main() {
-
-  const updates = await prepare();
-
-  if (!updates || updates.size === 0) {
-    log.info('execute', 'no libraries selected to publish, action aborted');
-    process.exit(0);
-  }
-
+async function execute(updates) {
   log.info('execute', `update libraries assets`);
   await updateLibrariesAssets(updates);
 
@@ -162,6 +177,21 @@ async function main() {
   const currentBranch = getCurrentBranch();
 
   gitPush('origin', currentBranch);
+}
+
+async function main() {
+
+  log.info('main', 'validate options');
+  validateOptions();
+
+  const updates = await prepare();
+
+  if (!updates || updates.size === 0) {
+    log.info('main', 'no libraries selected to publish, action aborted');
+    process.exit(0);
+  }
+
+  await execute(updates);
 }
 
 (async function() {

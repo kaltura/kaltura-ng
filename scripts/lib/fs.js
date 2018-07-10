@@ -29,7 +29,7 @@ function deleteFolder(path)
   };
 
   if (path) {
-    log.info('delete folder', `delete folder ${path}`);
+    log.verbose('delete folder', `delete folder ${path}`);
     deleteFolderRecursive(path);
   }
 }
@@ -39,7 +39,7 @@ async function copyFolders(source, target) {
     if (source && target) {
       rimraf.sync(target);
       const result = await copy(source, target);
-      log.info('copy', `copied ${result.length} files from '${source}' into '${target}'`);
+      log.verbose('copy', `copied ${result.length} files from '${source}' into '${target}'`);
     }
   } catch (ex) {
     log.error(`failed to copy files from '${source}' into '${target}'`);
