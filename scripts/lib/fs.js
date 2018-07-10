@@ -7,7 +7,7 @@ const loadJsonFile = require("load-json-file");
 const doWriteJsonFile = require("write-json-file");
 
 function executeCommand(command, commandArgs, opt) {
-  log.info('execute command',`${command} ${commandArgs.join(' ')}`);
+  log.verbose('execute command',`${command} ${commandArgs.join(' ')}`,opt || '');
   const result = execa.sync(command, commandArgs, opt);
   return result.stdout;
 }
@@ -29,7 +29,7 @@ function deleteFolder(path)
   };
 
   if (path) {
-    console.log(`delete folder ${path}`);
+    log.info('delete folder', `delete folder ${path}`);
     deleteFolderRecursive(path);
   }
 }
@@ -39,10 +39,10 @@ async function copyFolders(source, target) {
     if (source && target) {
       rimraf.sync(target);
       const result = await copy(source, target);
-      console.log(`copied ${result.length} files from '${source}' into '${target}'`);
+      log.info('copy', `copied ${result.length} files from '${source}' into '${target}'`);
     }
   } catch (ex) {
-    console.log(`failed to copy files from '${source}' into '${target}'`);
+    log.error(`failed to copy files from '${source}' into '${target}'`);
     throw ex;
   }
 }

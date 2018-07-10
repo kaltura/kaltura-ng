@@ -3,9 +3,10 @@ const { executeCommand, readJsonFile, writeJsonFile } = require('./lib/fs');
 const { getCurrentBranch, hasUnCommittedChanges, hasTags } = require('./lib/git');
 const makeDiffPredicate = require("./publish/make-diff-predicate");
 const collectDependents = require("./publish/collect-dependents");
-const { argv, libraries } = require('./definitions');
+const { argv, libraries, buildLibraries } = require('./definitions');
 const { getVersionsForUpdates } = require('./publish/conventional-commits');
-const { updateLibraries } = require('./publish/update-changelog');
+const { updateLibrariesAssets } = require('./publish/update-libraries-assets');
+const { publishLibrariesToNpm } = require('./publish/publish-libraries-to-npm');
 const { commitAndTagUpdates } = require('./publish/commit-and-tag-updates');
 const path = require('path');
 
@@ -25,6 +26,7 @@ const execOpts = {
 log.level = 'verbose';
 
 function collectUpdates() {
+  log.info(`collect updates`, 'find libraries that were updated');
   if (!hasTags())
   {
     log.error('ENOTAGS','this script does not support new branches');
@@ -32,7 +34,7 @@ function collectUpdates() {
   }
 
   const committish = executeCommand("git", ["describe", "--abbrev=0"]);
-  log.info("", `Comparing with ${committish}`);
+  log.info("", `Comparing with commit ${committish}`);
   const candidates = new Set();
   const hasDiff = makeDiffPredicate(committish, execOpts, options.ignoreChanges);
 
@@ -88,11 +90,15 @@ async function prepare() {
   const updatedLibraries = collectUpdates();
 
   if (updatedLibraries.size === 0) {
-    log.info("No updated packages to publish");
+    log.info("No updated libraries to publish");
     // still exits zero, aka "ok"
     process.exit(0);
     return;
   }
+
+  // build all libraries not only those who were updated
+  // TODO uncomment this
+  await buildLibraries(libraries);
 
   for(let i = 0; i<updatedLibraries.length; i++) {
     const library = updatedLibraries[i];
@@ -105,17 +111,17 @@ async function prepare() {
 
 async function main() {
 
-  const updates= await prepare();
+  const updates = await prepare();
 
   // TODO prompt Are you sure you want to publish the above changes?
   log.warn('prompt', 'Are you sure you want to publish the above changes?');
   //updates.forEach(update => log.info(update.library.name, update.newVersion));
 
-  await updateLibraries(updates);
+  await updateLibrariesAssets(updates);
 
   await commitAndTagUpdates(updates);
 
-  //await publishToNpm();
+  await publishLibrariesToNpm(updates);
 
   // push to git
   log.info('done');

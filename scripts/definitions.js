@@ -1,9 +1,11 @@
+const log = require("npmlog");
 const path = require('path');
 const findRoot = require('./lib/find-root');
 const { readJsonFile } = require("./lib/fs");
 const rootPath = findRoot(process.cwd());
 const argv = require('minimist')(process.argv.slice(2));
 const distPath = path.resolve(rootPath, 'dist');
+const { copyFolders, executeCommand } = require('./lib/fs');
 
 function LoadPackageJsonFiles(libraries) {
   libraries.forEach(library =>  {
@@ -13,16 +15,16 @@ function LoadPackageJsonFiles(libraries) {
 
 function grabSelectedlibraries() {
   const specificLibrary = argv['library'] ? `@kaltura-ng/${argv['library']}` : '';
-  let adapters = [];
+  let adapters = new Set();
 
-  console.log(`grab user selected libraries (${specificLibrary || 'all libraries'})`);
+  log.verbose('', `grab user selected libraries (${specificLibrary || 'all libraries'})`);
   if (specificLibrary) {
-    const adapter = libraries.find(adapter => adapter.name === specificLibrary);
+    const adapter = Array.from(libraries).find(adapter => adapter.name === specificLibrary);
 
     if (adapter) {
-      adapters.push(adapter);
+      adapters.add(adapter);
     } else {
-      console.error(`unknown library requested '${specificLibrary}'`);
+      log.error(`unknown library requested '${specificLibrary}'`);
     }
   } else {
     adapters = libraries;
@@ -30,6 +32,58 @@ function grabSelectedlibraries() {
 
   return adapters;
 }
+
+async function executeNGBuild(libraryName) {
+  executeCommand('ng', ['build', libraryName]);
+}
+
+async function buildLibraries(libraries) {
+  const librariesNames = Array.from(libraries).reduce((result, {name}) => {result.push(name); return result;}, []).join(', ');
+  log.verbose('build libraries', librariesNames);
+  for (var it = libraries.values(), library= null; library=it.next().value; ) {
+    await buildLibrary(library);
+
+  }
+  return Promise.resolve();
+}
+
+async function buildLibrary(library) {
+  const libraryName = library? library.name : null;
+  log.info(`build library '${libraryName}'`);
+  switch (libraryName) {
+    case "@kaltura-ng/kaltura-logger":
+      await executeNGBuild('@kaltura-ng/kaltura-logger');
+      break;
+    case "@kaltura-ng/kaltura-common":
+      await executeNGBuild('@kaltura-ng/kaltura-common');
+      break;
+    case "@kaltura-ng/kaltura-ui": {
+      await executeNGBuild('@kaltura-ng/kaltura-ui');
+      const source = path.resolve(rootPath, 'projects/kaltura-ng/kaltura-ui/src/styles');
+      const target = path.resolve(distPath, 'kaltura-ng/kaltura-ui/styles');
+      await copyFolders(source, target);
+    }
+      break;
+    case "@kaltura-ng/kaltura-primeng-ui": {
+      await executeNGBuild('@kaltura-ng/kaltura-primeng-ui');
+      const source = path.resolve(rootPath, 'projects/kaltura-ng/kaltura-primeng-ui/src/styles');
+      const target = path.resolve(distPath, 'kaltura-ng/kaltura-primeng-ui/styles');
+      await copyFolders(source, target);
+    }
+      break;
+    case "@kaltura-ng/mc-shared":
+      await executeNGBuild('@kaltura-ng/mc-shared');
+      break;
+    case "@kaltura-ng/mc-theme":
+      const cwd = path.resolve(rootPath, 'projects/kaltura-ng/mc-theme');
+      executeCommand('node', ['./scripts/build.js'], {cwd});
+      break;
+    default:
+      throw new Error(`missing build instructions for '${libraryName}' (did you forget to add instructions in 'scripts/libraries.js' file?)`);
+      break;
+  }
+}
+
 
 const kalturaLogger = {
   name: '@kaltura-ng/kaltura-logger',
@@ -97,4 +151,4 @@ const libraries = new Set([kalturaLogger, kalturaCommon, kalturaUI, kalturaPrime
 
 LoadPackageJsonFiles(libraries);
 
-module.exports = { argv, rootPath, distPath, libraries, grabSelectedlibraries };
+module.exports = { argv, rootPath, distPath, libraries, grabSelectedlibraries, buildLibrary, buildLibraries};

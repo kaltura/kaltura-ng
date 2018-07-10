@@ -4,39 +4,42 @@ const conventionalChangelog = require('conventional-changelog');
 const path = require('path');
 const { readJsonFile, writeJsonFile, createIfMissing } = require('../lib/fs');
 
-async function updateLibraries(updates) {
-  updates.forEach(({ library, newVersion }) => {
-    ['package.json', 'package-lock.json'].forEach(pkgFileName => {
-      log.verbose(library.name, `update ${pkgFileName} version to ${newVersion}`);
-      const pkgFilePath = path.resolve(library.sourcePath, pkgFileName);
-      const pkgFileContent = readJsonFile(pkgFilePath);
 
-      pkgFileContent.version = newVersion;
+function updatePackageLockFile(library, newVersion) {
+  log.verbose(library.name, `update package-lock.json version to ${newVersion}`);
+  const pkgLockFilePath = path.resolve(library.sourcePath, 'package-lock.json');
+  const pkgLockFileContent = readJsonFile(pkgLockFilePath);
+  pkgLockFileContent.version = newVersion;
+  // TODO learn indentation from file
+  writeJsonFile(pkgLockFilePath, pkgLockFileContent, 2);
+}
 
-      if (pkgFileName === 'package.json') {
-        library.dependencies.forEach(dependency => {
-          const updatedLibrary = updates.get(dependency.name);
-          if (updatedLibrary) {
-            const peerDependencies = pkgFileContent.peerDependencies;
+function updatePackageFile(library, newVersion, updates) {
+  const pkg = library.pkg;
+  pkg.version = newVersion; //make sure the in-memory package is synced as well.
+  library.dependencies.forEach(dependency => {
+    const updatedLibrary = updates.get(dependency.name);
+    if (updatedLibrary) {
+      const peerDependencies = pkg.peerDependencies;
 
-            if (!peerDependencies || !peerDependencies[dependency.name]) {
-              const errorMessage = `missing peerDependency for '${dependency.name}'`;
-              log.error(library.name, errorMessage);
-              throw new Error(errorMessage);
-            }
-
-            pkgFileContent.peerDependencies[dependency.name] = updatedLibrary.newVersion;
-          }
-        });
+      if (!peerDependencies || !peerDependencies[dependency.name]) {
+        const errorMessage = `missing peerDependency for '${dependency.name}'`;
+        log.error(library.name, errorMessage);
+        throw new Error(errorMessage);
       }
 
-      // TODO learn indentation from file
-      writeJsonFile(pkgFilePath, pkgFileContent, 2);
-    });
+      pkg.peerDependencies[dependency.name] = updatedLibrary.newVersion;
+    }
+  });
+  // TODO learn indentation from file
+  writeJsonFile(path.resolve(library.sourcePath, 'package.json'), pkg, 2);
+}
 
-
+async function updateLibrariesAssets(updates) {
+  updates.forEach(({ library, newVersion }) => {
+    updatePackageFile(library, newVersion, updates);
+    updatePackageLockFile(library, newVersion);
     updateChangelog(library, newVersion);
-
   });
 }
 
@@ -85,4 +88,4 @@ function getChangelogContent(cwd) {
 }
 
 
-module.exports = { updateLibraries };
+module.exports = { updateLibrariesAssets };
