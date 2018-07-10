@@ -23,18 +23,18 @@ const execOpts = {
   cwd: process.cwd()
 };
 
-log.level = 'verbose';
+//log.level = 'verbose';
 
 function collectUpdates() {
-  log.info(`collect updates`, 'find libraries that were updated');
+
   if (!hasTags())
   {
-    log.error('ENOTAGS','this script does not support new branches');
+    log.error('ENOTAGS','no tags found, this script does not support new repositories');
     process.exit(1);
   }
 
   const committish = executeCommand("git", ["describe", "--abbrev=0"]);
-  log.info("", `Comparing with commit ${committish}`);
+  log.verbose("collect updates", `comparing changes between head and commit ${committish}`);
   const candidates = new Set();
   const hasDiff = makeDiffPredicate(committish, execOpts, options.ignoreChanges);
 
@@ -44,19 +44,25 @@ function collectUpdates() {
     }
   });
 
+  log.info(`collect updates`, `found ${candidates.size} libraries to publish`);
+  log.verbose('collect updates', Array.from(candidates.values()).map(library => library.name).join(', '));
+
   const dependents = collectDependents(candidates);
   dependents.forEach(node => candidates.add(node));
 
   // The result should always be in the same order as the input
-   const updates = [];
+   const updates = new Set();
 
   libraries.forEach((library) => {
     if (candidates.has(library)) {
       log.verbose("updated", library.name);
 
-      updates.push(library);
+      updates.add(library);
     }
   });
+
+  log.info(`collect updates`, `found ${updates.size} libraries including dependents to publish`);
+  log.verbose('collect updates', Array.from(updates.values()).map(library => library.name).join(', '));
 
   return updates;
 }
@@ -64,15 +70,14 @@ function collectUpdates() {
 async function prepare() {
 
   const updates = new Map([]);
-
-  // const pkg = loadJsonFile.sync(findUp.sync('package.json', { cwd: process.cwd() }));
-  // const version = pkg.version;
   const currentBranch = getCurrentBranch();
 
+  log.info('prepare', `verify current branch is not detached`, { currentBranch});
   if (currentBranch === "HEAD") {
     throw new Error("Detached git HEAD, please checkout a branch to publish changes.");
   }
 
+  log.info('prepare', `verify current branch is accepted`, { currentBranch, acceptedBranch: options.branch});
   if (options.branch !== currentBranch) {
     log.error('Specified branch is different from active. Please checkout to specified branch or provide relevant branch name.');
     log.error(`Specified branch: ${options.branch}. Active branch: ${currentBranch}`);
@@ -80,26 +85,29 @@ async function prepare() {
   }
 
   // TODO uncomment this
+  log.info('prepare', `verify everything is commited`);
   // if (hasUnCommittedChanges()) {
   //   log.error('It seems that you have uncommitted changes. To perform this command you should either commit your changes or reset them. Abort.')
   //   process.exit(1);
   // }
 
   // TODO check `isBehindUpstream`
+  //log.info('prepare', `verify branch is not behind upstream`);
 
+  log.info('prepare', `find libraries with updates`);
   const updatedLibraries = collectUpdates();
 
   if (updatedLibraries.size === 0) {
-    log.info("No updated libraries to publish");
+    log.info("Not found libraries to publish");
     // still exits zero, aka "ok"
     process.exit(0);
     return;
   }
 
-  // build all libraries not only those who were updated
-  // TODO uncomment this
+  log.info('prepare', `rebuild all libraries (not only those who were updated)`);
   await buildLibraries(libraries);
 
+  log.info('prepare', `get new versions for libraries`);
   for(let i = 0; i<updatedLibraries.length; i++) {
     const library = updatedLibraries[i];
     const newVersion = await getVersionsForUpdates(library);
@@ -117,13 +125,16 @@ async function main() {
   log.warn('prompt', 'Are you sure you want to publish the above changes?');
   //updates.forEach(update => log.info(update.library.name, update.newVersion));
 
+  log.info('execute', `update libraries assets`);
   await updateLibrariesAssets(updates);
 
+  log.info('execute', `git commit and tag libraries`);
   await commitAndTagUpdates(updates);
 
+  log.info('execute', `publish libraries to npmjs`);
   await publishLibrariesToNpm(updates);
 
-  // push to git
+  log.info('execute', `push updates to git`);
   log.info('done');
 }
 

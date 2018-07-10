@@ -39,11 +39,11 @@ async function executeNGBuild(libraryName) {
 
 async function buildLibraries(libraries) {
   const librariesNames = Array.from(libraries).reduce((result, {name}) => {result.push(name); return result;}, []).join(', ');
-  log.verbose('build libraries', librariesNames);
-  for (var it = libraries.values(), library= null; library=it.next().value; ) {
-    await buildLibrary(library);
-
-  }
+  // log.verbose('build libraries', librariesNames);
+  // for (var it = libraries.values(), library= null; library=it.next().value; ) {
+  //   await buildLibrary(library);
+  //
+  // }
   return Promise.resolve();
 }
 
