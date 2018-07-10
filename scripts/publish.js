@@ -1,5 +1,5 @@
 const log = require("npmlog");
-const { executeCommand, readJsonFile, writeJsonFile } = require('./lib/fs');
+const { executeCommand, readFile, writeFile, deleteFile, isExists } = require('./lib/fs');
 const { getCurrentBranch, hasUnCommittedChanges, gitPush, hasTags } = require('./lib/git');
 const makeDiffPredicate = require("./publish/make-diff-predicate");
 const collectDependents = require("./publish/collect-dependents");
@@ -12,6 +12,15 @@ const path = require('path');
 const inquirer = require('inquirer');
 const semver = require("semver");
 
+const INIT_PHASE = 'INIT_PHASE';
+const PREPARING_PHASE = 'PREPARING_PHASE';
+const PREPARED_PHASE = 'PREPARED_PHASE';
+const EXECUTING_PHASE = 'EXECUTING_PHASE';
+const ERROR_PHASE = 'ERROR_PHASE';
+const CONTINUE_FLAG = 'CONTINUE_FLAG';
+const ABORT_FLAG = 'ABORT_FLAG';
+const START_FLAG = 'START_FLAG';
+
 if (argv['verbose']) {
   log.level = 'verbose';
 }
@@ -19,13 +28,30 @@ if (argv['verbose']) {
 const options = {
   branch: argv['branch'] || 'master',
   forceBumpTo: argv['forceBumpTo'],
-  skipBuild: argv['skipBuild'] || false,
+  publishStatusPath: path.resolve(__dirname, '.publish-status'),
+  skipBuild: !!argv['skipBuild'] || false,
+  action: !!argv['continue'] ? CONTINUE_FLAG : !!argv['abort'] ? ABORT_FLAG : START_FLAG,
   "ignoreChanges": [
     "ignored-file",
     "*.md"
   ]
 };
+
 log.verbose('options', '', options);
+
+function getCurrentPhase() {
+  const result = isExists(options.publishStatusPath) ? readFile(options.publishStatusPath) : INIT_PHASE;
+  log.verbose('getPublishPhase', result);
+  return result;
+}
+
+function setNewPhase(newPhase) {
+  if ([PREPARING_PHASE, PREPARED_PHASE, EXECUTING_PHASE, ERROR_PHASE].indexOf(newPhase) === -1) {
+    log.error('EPHASE', `provided phase is not supported '${newPhase}'`);
+  }
+  log.verbose('setNewPhase', `from ${getCurrentPhase()} to ${newPhase}`);
+  writeFile(options.publishStatusPath, newPhase);
+}
 
 function validateOptions() {
   if (options.forceBumpTo) {
@@ -33,6 +59,18 @@ function validateOptions() {
       log.error('EOPTIONS', `expected 'options.forceBumpTo' to be '' (default), 'major' or 'minor', got '${options.forceBumpTo}'`);
       process.exit(1);
     }
+  }
+
+  const currentPhase = getCurrentPhase();
+  if (options.action === START_FLAG && currentPhase !== INIT_PHASE) {
+    log.error('EOPTIONS', `An active publish process was detected, should either '--continue' or '--abort' process`);
+    process.exit(1);
+  } else if (options.action === CONTINUE_FLAG && currentPhase === INIT_PHASE) {
+    log.error('EOPTIONS', `No active publish process found, nothing to continue`);
+    process.exit(1);
+  } else if (options.action === CONTINUE_FLAG && currentPhase === ERROR_PHASE) {
+    log.error('EOPTIONS', `An error happend as part of active publish process, please '--abort' process`);
+    process.exit(1);
   }
 
   if (options.skipBuild) {
@@ -164,6 +202,8 @@ async function prepare() {
 }
 
 async function execute(updates) {
+  log.info('publish command', `execute command`);
+
   log.info('execute', `update libraries assets`);
   await updateLibrariesAssets(updates);
 
@@ -184,14 +224,36 @@ async function main() {
   log.info('main', 'validate options');
   validateOptions();
 
-  const updates = await prepare();
+  try {
+    if (options.action === ABORT_FLAG) {
+      log.info('main', `aborting process`);
+      if (isExists(options.publishStatusPath)) {
+        deleteFile(options.publishStatusPath);
+      }
+      log.info('main', `process aborted, please review your branch`);
+      process.exit(0);
+    }
 
-  if (!updates || updates.size === 0) {
-    log.info('main', 'no libraries selected to publish, action aborted');
-    process.exit(0);
+
+    setNewPhase(PREPARING_PHASE);
+    const updates = await prepare();
+
+    if (!updates || updates.size === 0) {
+      log.info('main', 'no libraries selected to publish, action aborted');
+      process.exit(0);
+    }
+
+    setNewPhase(PREPARED_PHASE);
+    setNewPhase(P_PHASE);
+    await execute(updates);
+  }catch(err) {
+    try {
+      log.error('EGENERAL', err);
+      setNewPhase(ERROR_PHASE);
+    } catch(updateErr) {
+      log.error(updateErr);
+    }
   }
-
-  await execute(updates);
 }
 
 (async function() {

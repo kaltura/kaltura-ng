@@ -34,6 +34,10 @@ function deleteFolder(path)
   }
 }
 
+function deleteFile(path) {
+  return fs.unlinkSync(path);
+}
+
 async function copyFolders(source, target) {
   try {
     if (source && target) {
@@ -64,8 +68,13 @@ function writeJsonFile(path, content, indent = 2) {
 function readFile(path) {
   return fs.readFileSync(path, 'utf-8');
 }
+
 function writeFile(path, content) {
   return fs.writeFileSync(path, content);
+}
+
+function isExists(path) {
+  return fs.existsSync(path);
 }
 
 function createIfMissing(path) {
@@ -78,4 +87,4 @@ function createIfMissing(path) {
   }
 }
 
-module.exports = {  deleteFolder, copyFolders, executeCommand, readJsonFile, writeJsonFile, readFile, writeFile, createIfMissing };
+module.exports = {  deleteFolder, copyFolders, executeCommand, readJsonFile, writeJsonFile, readFile, writeFile, createIfMissing, isExists, deleteFile };
