@@ -4,7 +4,7 @@
   "private": false,
   "description": "Angular - javascript logger",
   "scripts": {
-    "build": "node ../../../scripts/build.js --library=kaltura-logger"
+    "build": "node ../../../scripts/build.js --library=@kaltura-ng/kaltura-logger"
   },
   "keywords": [
     "kaltura",

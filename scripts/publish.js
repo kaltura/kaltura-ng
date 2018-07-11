@@ -20,8 +20,9 @@ const { INIT_STATUS,
   resetInteractivePublish,
   setNewInteractiveStatus
 } = require('./publish/interactive');
+const { setupLibraries } = require('./setup/setup-libraries');
 
-function collectUpdates() {
+function getLibrariesToPublish() {
 
   if (!hasTags())
   {
@@ -85,19 +86,10 @@ function confirm(message) {
 }
 
 async function prepare() {
-
-  const updates = new Map([]);
   const currentBranch = getCurrentBranch();
-
   log.info('prepare', `verify current branch is not detached`, { currentBranch});
   if (currentBranch === "HEAD") {
     throw new Error("Detached git HEAD, please checkout a branch to publish changes.");
-  }
-
-  log.info('prepare', `verify current branch is accepted`, { currentBranch, acceptedBranch: options.branch});
-  if (options.branch !== currentBranch) {
-    log.error('EBRANCH','Specified branch is different from current. Please checkout to specified branch or provide relevant branch name.');
-    process.exit(1);
   }
 
   // TODO uncomment this
@@ -110,10 +102,10 @@ async function prepare() {
   // TODO check `isBehindUpstream`
   //log.info('prepare', `verify branch is not behind upstream`);
 
-  log.info('prepare', `find libraries with updates`);
-  const updatedLibraries = collectUpdates();
+  const updates = new Map();
+  const libraries = getLibrariesToPublish();
 
-  if (updatedLibraries.size === 0) {
+  if (libraries.size === 0) {
     log.info("Not found libraries to publish");
     // still exits zero, aka "ok"
     process.exit(0);
@@ -126,7 +118,7 @@ async function prepare() {
   }
 
   log.info('prepare', `find next versions`, { forceBumpTo: options.forceBumpTo || '(default)'});
-  for (let it = updatedLibraries.values(), library= null; library=it.next().value; ) {
+  for (let it = libraries.values(), library= null; library=it.next().value; ) {
     let newVersion = null;
     if (options.forceBumpTo) {
       newVersion = semver.inc(library.pkg.version, options.forceBumpTo);
@@ -140,19 +132,38 @@ async function prepare() {
     log.info('prepare', `update ${library.name} from ${library.pkg.version} to ${newVersion}`);
   });
 
-  return (await confirm("Are you sure you want to publish the above changes?"))  ? updates : null;
+  const userConfirmed = await confirm("Are you sure you want to publish the above changes?");
+
+  if (userConfirmed) {
+    log.info('main', `update libraries assets`);
+    await updateLibrariesAssets(updates);
+  }
+
+  return userConfirmed;
+
 }
 
-async function execute(updates) {
+async function execute() {
+
+  const libraries = getLibrariesToPublish();
+
+  if (libraries.size === 0) {
+    log.error("EEXECUTE", "Cannot find libraries to update");
+    process.exit(1);
+    return;
+  }
+
   log.info('execute', `git commit and tag libraries`);
-  await commitAndTagUpdates(updates);
+  await commitAndTagUpdates(libraries);
+
+  log.info("execute", "setup repository libraries to include publish changes");
+  await setupLibraries();
 
   log.info('execute', `publish libraries to npmjs`);
-  await publishLibrariesToNpm(updates);
+  await publishLibrariesToNpm(libraries);
 
   log.info('execute', `push updates to git`);
   const currentBranch = getCurrentBranch();
-
   gitPush('origin', currentBranch);
 }
 
@@ -184,6 +195,13 @@ async function main() {
   log.info('main', 'validate options');
   validateOptions();
 
+  const currentBranch = getCurrentBranch();
+  log.info('prepare', `verify current branch is accepted`, { currentBranch, acceptedBranch: options.branch});
+  if (options.branch !== currentBranch) {
+    log.error('EBRANCH','Specified branch is different from current. Please checkout to specified branch or provide relevant branch name.');
+    process.exit(1);
+  }
+
   try {
     if (options.mode === ABORT_MODE) {
       log.info('main', `aborting process`);
@@ -197,26 +215,23 @@ async function main() {
 
     if (lastInteractiveStatus === INIT_STATUS) {
       setNewInteractiveStatus(PREPARING_STATUS);
-      const updates = await prepare();
+      const status = await prepare();
 
-      if (!updates || updates.size === 0) {
+      if (!status) {
         log.info('main', 'no libraries selected to publish, action aborted');
         resetInteractivePublish();
-        process.exit(0);
+      } else {
+        setNewInteractiveStatus(PREPARED_STATUS);
+        log.info('main', `please review changes in libraries and then --continue the publish process`);
+        log.info('main', 'NOTE: you should not commit anything, it will be done by the publish process once you continue');
       }
 
-      log.info('main', `update libraries assets`);
-      await updateLibrariesAssets(updates);
-
-      setNewInteractiveStatus(PREPARED_STATUS);
-      log.info('main', `please review changes in libraries and then --continue the publish process`);
-      log.info('main', 'NOTE: you should not commit anything, it will be done by the publish process once you continue');
       process.exit(0);
     }
 
     if (lastInteractiveStatus === PREPARED_STATUS) {
       setNewInteractiveStatus(EXECUTING_STATUS);
-      await execute(updates);
+      await execute();
       resetInteractivePublish();
     }
   }catch(err) {

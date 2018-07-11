@@ -10,18 +10,17 @@ function LoadPackageJsonFiles(libraries) {
   })
 }
 
-function grabSelectedlibraries() {
-  const specificLibrary = argv['library'] ? `@kaltura-ng/${argv['library']}` : '';
+function grabSelectedlibraries(filterByName = null) {
   let adapters = new Set();
 
-  log.verbose('', `grab user selected libraries (${specificLibrary || 'all libraries'})`);
-  if (specificLibrary) {
-    const adapter = Array.from(libraries).find(adapter => adapter.name === specificLibrary);
+  log.verbose('', `grab user selected libraries (${filterByName || 'all libraries'})`);
+  if (filterByName) {
+    const adapter = Array.from(libraries).find(adapter => adapter.name === filterByName);
 
     if (adapter) {
       adapters.add(adapter);
     } else {
-      log.error(`unknown library requested '${specificLibrary}'`);
+      log.error(`unknown library requested '${filterByName}'`);
     }
   } else {
     adapters = libraries;

@@ -1,8 +1,8 @@
 const os = require("os");
 const { gitCommit, gitTag } = require('../lib/git');
 
-async function commitAndTagUpdates(updates) {
-  const tags = Array.from(updates).map(([,update])  => `${update.library.name}@${update.newVersion}`);
+async function commitAndTagUpdates(libraries) {
+  const tags = Array.from(libraries).map(library  => `${library.pkg.name}@${library.pkg.version}`);
   const subject = "Publish";
   const message = tags.reduce((msg, tag) => `${msg}${os.EOL} - ${tag}`, `${subject}${os.EOL}`);
 

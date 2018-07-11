@@ -1,7 +1,7 @@
-const findRoot = require('./lib/find-root');
+const log = require("npmlog");
 const path = require('path');
 
-const rootPath = findRoot(process.cwd());
+const rootPath = path.resolve(__dirname,'../');
 const distPath = path.resolve(rootPath, 'dist');
 
 module.exports = { distPath, rootPath };
