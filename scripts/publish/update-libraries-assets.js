@@ -15,6 +15,8 @@ function updatePackageLockFile(library, newVersion) {
 }
 
 function updatePackageFile(library, newVersion, updates) {
+  log.verbose(library.name, `update package.json version to ${newVersion}`);
+
   const pkg = library.pkg;
   pkg.version = newVersion; //make sure the in-memory package is synced as well.
   library.dependencies.forEach(dependency => {
