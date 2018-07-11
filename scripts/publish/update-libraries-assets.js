@@ -3,7 +3,7 @@ const { readFile, writeFile } = require('../lib/fs');
 const conventionalChangelog = require('conventional-changelog');
 const path = require('path');
 const { readJsonFile, writeJsonFile, createIfMissing } = require('../lib/fs');
-
+const { EOL } = require('os');
 
 function updatePackageLockFile(library, newVersion) {
   log.verbose(library.name, `update package-lock.json version to ${newVersion}`);
@@ -36,18 +36,19 @@ function updatePackageFile(library, newVersion, updates) {
 }
 
 async function updateLibrariesAssets(updates) {
-  updates.forEach(({ library, newVersion }) => {
+  for (var it = updates.values(), update = null; update = it.next().value;) {
+    const { library, newVersion } = update;
     updatePackageFile(library, newVersion, updates);
     updatePackageLockFile(library, newVersion);
-    updateChangelog(library, newVersion);
-  });
+    await updateChangelog(library, newVersion);
+  }
 }
 
 function updateChangelog(library, newVersion) {
   return new Promise((resolve, reject) => {
     let { filePath, content: oldContent } = getChangelogContent(library.sourcePath);
 
-    log.verbose(library.name, 'update file changelog.md');
+    log.verbose(library.name, 'update file changelog.md', { filePath });
     if (oldContent.indexOf('<a name=') !== -1) {
       oldContent = oldContent.substring(oldContent.indexOf('<a name='));
     }
@@ -72,7 +73,16 @@ function updateChangelog(library, newVersion) {
     });
 
     changelogStream.on('end', function () {
-      const changelog = (content + oldContent).replace(/\n+$/, '\n');
+      content = content.replace(/[\n\r]+$/, "");
+      if (content.split('\n').length === 2) {
+        content += `${EOL}${EOL}* update dependent libraries versions`;
+      }
+
+      const changelog = `# Change Log
+${content}
+
+
+${oldContent}`.replace(/\n+$/, '\n');
       writeFile(filePath, changelog);
       return resolve(changelog);
     })
