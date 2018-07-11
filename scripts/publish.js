@@ -153,11 +153,11 @@ async function execute() {
     return;
   }
 
-  log.info('execute', `git commit and tag libraries`);
-  await commitAndTagUpdates(libraries);
-
   log.info("execute", "setup repository libraries to include publish changes");
   await setupLibraries();
+
+  log.info('execute', `git commit and tag libraries`);
+  await commitAndTagUpdates(libraries);
 
   log.info('execute', `publish libraries to npmjs`);
   await publishLibrariesToNpm(libraries);
