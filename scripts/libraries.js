@@ -1,11 +1,8 @@
 const log = require("npmlog");
 const path = require('path');
-const findRoot = require('./lib/find-root');
 const { readJsonFile } = require("./lib/fs");
-const rootPath = findRoot(process.cwd());
-const argv = require('minimist')(process.argv.slice(2));
-const distPath = path.resolve(rootPath, 'dist');
 const { copyFolders, executeCommand } = require('./lib/fs');
+const { rootPath, distPath } = require('./definitions');
 
 function LoadPackageJsonFiles(libraries) {
   libraries.forEach(library =>  {
@@ -151,4 +148,4 @@ const libraries = new Set([kalturaLogger, kalturaCommon, kalturaUI, kalturaPrime
 
 LoadPackageJsonFiles(libraries);
 
-module.exports = { argv, rootPath, distPath, libraries, grabSelectedlibraries, buildLibrary, buildLibraries};
+module.exports = { libraries, grabSelectedlibraries, buildLibrary, buildLibraries };

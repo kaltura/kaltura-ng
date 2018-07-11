@@ -1,95 +1,26 @@
 const log = require("npmlog");
-const { executeCommand, readFile, writeFile, deleteFile, isExists } = require('./lib/fs');
+const { executeCommand } = require('./lib/fs');
 const { getCurrentBranch, hasUnCommittedChanges, gitPush, hasTags } = require('./lib/git');
 const makeDiffPredicate = require("./publish/make-diff-predicate");
 const collectDependents = require("./publish/collect-dependents");
-const { argv, libraries, buildLibraries } = require('./libraries');
+const { libraries, buildLibraries } = require('./libraries');
 const { getVersionsForUpdates } = require('./publish/conventional-commits');
 const { updateLibrariesAssets } = require('./publish/update-libraries-assets');
 const { publishLibrariesToNpm } = require('./publish/publish-libraries-to-npm');
 const { commitAndTagUpdates } = require('./publish/commit-and-tag-updates');
-const path = require('path');
 const inquirer = require('inquirer');
 const semver = require("semver");
+const { options, ABORT_MODE, CI_MODE, START_MODE, CONTINUE_MODE} = require('./publish/definitions');
+const { INIT_STATUS,
+  PREPARING_STATUS,
+  PREPARED_STATUS,
+  EXECUTING_STATUS,
+  ERROR_STATUS,
+  getInteractiveStatus,
+  resetInteractivePublish,
+  setNewInteractiveStatus
+} = require('./publish/interactive');
 
-const INIT_STATUS = 'INIT_STATUS';
-const PREPARING_STATUS = 'PREPARING_STATUS';
-const PREPARED_STATUS = 'PREPARED_STATUS';
-const EXECUTING_STATUS = 'EXECUTING_STATUS';
-const ERROR_STATUS = 'ERROR_STATUS';
-
-const CONTINUE_MODE = 'CONTINUE_MODE';
-const ABORT_MODE = 'ABORT_MODE';
-const START_MODE = 'START_MODE';
-const CI_MODE = 'CI_MODE';
-
-
-if (argv['verbose']) {
-  log.level = 'verbose';
-}
-
-const options = {
-  branch: argv['branch'] || 'master',
-  forceBumpTo: argv['forceBumpTo'],
-  publishStatusPath: path.resolve(__dirname, '.publish-status'),
-  skipBuild: !!argv['skipBuild'] || false,
-  mode: !!argv['continue'] ? CONTINUE_MODE :
-    !!argv['abort'] ? ABORT_MODE :
-    !!argv['ci'] ? CI_MODE :
-      START_MODE,
-  "ignoreChanges": [
-    "ignored-file",
-    "*.md"
-  ]
-};
-
-log.verbose('options', '', options);
-
-function getInteractiveStatus() {
-  const result = isExists(options.publishStatusPath) ? readFile(options.publishStatusPath) : INIT_STATUS;
-  log.verbose('getInteractiveStatus', result);
-  return result;
-}
-
-function completeInteractivePublish() {
-  log.verbose('completeInteractivePublish', 'complete publish process');
-  if (isExists(options.publishStatusPath)) {
-    deleteFile(options.publishStatusPath);
-  }
-}
-
-function setNewInteractiveStatus(newStatus) {
-  if ([PREPARING_STATUS, PREPARED_STATUS, EXECUTING_STATUS, ERROR_STATUS].indexOf(newStatus) === -1) {
-    log.error('EINTERACTIVE', `provided status is not supported '${newStatus}'`);
-  }
-  log.verbose('setNewInteractiveStatus', `from ${getInteractiveStatus()} to ${newStatus}`);
-  writeFile(options.publishStatusPath, newStatus);
-}
-
-function validateOptions() {
-  if (options.forceBumpTo) {
-    if ((['major','minor'].indexOf(options.forceBumpTo)) === -1) {
-      log.error('EOPTIONS', `expected 'options.forceBumpTo' to be '' (default), 'major' or 'minor', got '${options.forceBumpTo}'`);
-      process.exit(1);
-    }
-  }
-
-  const currentInteractiveStatus = getInteractiveStatus();
-  if ((options.mode === START_MODE || options.mode === CI_MODE && currentInteractiveStatus !== INIT_STATUS) {
-    log.error('EOPTIONS', `An active publish process was detected, should either '--continue' or '--abort' process`);
-    process.exit(1);
-  } else if (options.mode === CONTINUE_MODE && currentInteractiveStatus === INIT_STATUS) {
-    log.error('EOPTIONS', `No active publish process found, nothing to continue`);
-    process.exit(1);
-  } else if (options.mode === CONTINUE_MODE && currentInteractiveStatus === ERROR_STATUS) {
-    log.error('EOPTIONS', `An error happend as part of active publish process, please '--abort' process`);
-    process.exit(1);
-  }
-
-  if (options.skipBuild) {
-    log.error('EOPTIONS', `option 'skipBuild' should not be in use, please abort and execute without this option`);
-  }
-}
 function collectUpdates() {
 
   if (!hasTags())
@@ -209,17 +140,10 @@ async function prepare() {
     log.info('prepare', `update ${library.name} from ${library.pkg.version} to ${newVersion}`);
   });
 
-  if (updates )
-
   return (await confirm("Are you sure you want to publish the above changes?"))  ? updates : null;
 }
 
 async function execute(updates) {
-  log.info('publish command', `execute command`);
-
-  log.info('execute', `update libraries assets`);
-  await updateLibrariesAssets(updates);
-
   log.info('execute', `git commit and tag libraries`);
   await commitAndTagUpdates(updates);
 
@@ -232,6 +156,29 @@ async function execute(updates) {
   gitPush('origin', currentBranch);
 }
 
+function validateOptions() {
+  if (options.mode === CI_MODE) {
+    log.error('EOPTIONS', `ci mode is not supported yet by design, will be added if needed`);
+    process.exit(1);
+  }
+
+  const currentInteractiveStatus = getInteractiveStatus();
+  if ((options.mode === START_MODE || options.mode === CI_MODE) && currentInteractiveStatus !== INIT_STATUS) {
+    log.error('EOPTIONS', `An active publish process was detected, should either '--continue' or '--abort' process`);
+    process.exit(1);
+  } else if (options.mode === CONTINUE_MODE && currentInteractiveStatus === INIT_STATUS) {
+    log.error('EOPTIONS', `No active publish process found, nothing to continue`);
+    process.exit(1);
+  }  else if (options.mode === ABORT_MODE && currentInteractiveStatus === INIT_STATUS) {
+    log.error('EOPTIONS', `No active publish process found, nothing to abort`);
+    process.exit(1);
+  } else if (options.mode === CONTINUE_MODE && currentInteractiveStatus !== PREPARED_STATUS) {
+    log.error('EOPTIONS', `An active publish process stopped unexpectedly and cannot be recovered, please '--abort' process`);
+    process.exit(1);
+  }
+
+}
+
 async function main() {
 
   log.info('main', 'validate options');
@@ -240,8 +187,9 @@ async function main() {
   try {
     if (options.mode === ABORT_MODE) {
       log.info('main', `aborting process`);
-      completeInteractivePublish();
-      log.info('main', `process aborted, please review your branch`);
+      resetInteractivePublish();
+      log.info('main', `publish process aborted`);
+      log.info('main', `NOTE: you should revert uncommited changes in the branch`);
       process.exit(0);
     }
 
@@ -253,19 +201,23 @@ async function main() {
 
       if (!updates || updates.size === 0) {
         log.info('main', 'no libraries selected to publish, action aborted');
-        completeInteractivePublish();
+        resetInteractivePublish();
         process.exit(0);
       }
 
+      log.info('main', `update libraries assets`);
+      await updateLibrariesAssets(updates);
+
       setNewInteractiveStatus(PREPARED_STATUS);
-      log.info('main', 'please review changes in libraries and then continue the publish process');
+      log.info('main', `please review changes in libraries and then --continue the publish process`);
+      log.info('main', 'NOTE: you should not commit anything, it will be done by the publish process once you continue');
       process.exit(0);
     }
 
     if (lastInteractiveStatus === PREPARED_STATUS) {
       setNewInteractiveStatus(EXECUTING_STATUS);
       await execute(updates);
-      completeInteractivePublish();
+      resetInteractivePublish();
     }
   }catch(err) {
     try {

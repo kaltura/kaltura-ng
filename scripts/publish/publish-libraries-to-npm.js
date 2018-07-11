@@ -1,5 +1,6 @@
 const log = require("npmlog");
-const { argv, buildLibraries } = require('../libraries');
+const { buildLibraries } = require('../libraries');
+const { argv } = require('../definitions');
 const { npmPublishLibrary } = require('../lib/npm');
 const os = require('os');
 
