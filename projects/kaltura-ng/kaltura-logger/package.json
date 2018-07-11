@@ -2,7 +2,10 @@
   "name": "@kaltura-ng/kaltura-logger",
   "version": "2.2.2",
   "private": false,
-  "description": "Angular - javascript logger ",
+  "description": "Angular - javascript logger",
+  "scripts": {
+    "build": "node ../../../scripts/build.js --library=@kaltura-ng/kaltura-logger"
+  },
   "keywords": [
     "kaltura",
     "kaltura-ng"

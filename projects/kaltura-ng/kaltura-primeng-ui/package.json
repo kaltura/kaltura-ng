@@ -3,6 +3,9 @@
   "version": "2.4.0",
   "private": false,
   "description": "Angular - Kaltura UI directives, pipes and services that utilizes PrimeNG suite",
+  "scripts": {
+    "build": "node ../../../scripts/build.js --library=@kaltura-ng/kaltura-primeng-ui"
+  },
   "keywords": [
     "kaltura",
     "kaltura-ng"
