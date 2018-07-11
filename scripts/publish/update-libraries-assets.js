@@ -54,8 +54,7 @@ function updateChangelog(library, newVersion) {
     }
 
     let content = '';
-
-    // TODO check if can set header to "Change Log"
+    
     let changelogStream = conventionalChangelog(
       {
         preset: 'angular',

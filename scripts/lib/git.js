@@ -39,30 +39,21 @@ function gitCommit(message) {
   } else {
     args.push("-m", message);
   }
-
-  // TODO remove log and uncomment command
-  log.verbose("git", args.join(' '));
-  //return executeCommand("git", args);
+  return executeCommand("git", args);
 }
 
 
 function gitTag(tag) {
   log.silly("gitTag", tag);
   const args = ["tag", tag, "-m", tag];
-
-  // TODO remove log and uncomment command
-  log.verbose("git", args.join(' '));
-  //return executeCommand("git", args);
+  return executeCommand("git", args);
 }
 
 
 function gitPush(remote, branch) {
   log.silly("gitPush", remote, branch);
   const args = ["push", "--follow-tags", "--no-verify", remote, branch];
-
-  // TODO remove log and uncomment command
-  log.verbose("git", args.join(' '));
-  //return executeCommand("git", args);
+  return executeCommand("git", args);
 }
 
 

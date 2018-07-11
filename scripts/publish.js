@@ -92,12 +92,11 @@ async function prepare() {
     throw new Error("Detached git HEAD, please checkout a branch to publish changes.");
   }
 
-  // TODO uncomment this
   log.info('prepare', `verify everything is commited`);
-  // if (hasUnCommittedChanges()) {
-  //   log.error('It seems that you have uncommitted changes. To perform this command you should either commit your changes or reset them. Abort.')
-  //   process.exit(1);
-  // }
+  if (hasUnCommittedChanges()) {
+    log.error('It seems that you have uncommitted changes. To perform this command you should either commit your changes or reset them. Abort.')
+    process.exit(1);
+  }
 
   // TODO check `isBehindUpstream`
   //log.info('prepare', `verify branch is not behind upstream`);
