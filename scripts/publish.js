@@ -3,7 +3,7 @@ const { executeCommand } = require('./lib/fs');
 const { getCurrentBranch, hasUnCommittedChanges, gitPush, hasTags } = require('./lib/git');
 const makeDiffPredicate = require("./publish/make-diff-predicate");
 const collectDependents = require("./publish/collect-dependents");
-const { libraries, buildLibraries } = require('./libraries');
+const { repositoryLibraries } = require('./libraries');
 const { getVersionsForUpdates } = require('./publish/conventional-commits');
 const { updateLibrariesAssets } = require('./publish/update-libraries-assets');
 const { publishLibrariesToNpm } = require('./publish/publish-libraries-to-npm');
@@ -31,19 +31,19 @@ function getLibrariesToPublish() {
   }
 
   const committish = executeCommand("git", ["describe", "--abbrev=0"]);
-  log.verbose("collect updates", `comparing changes between head and commit ${committish}`);
+  log.verbose("getLibrariesToPublish", `comparing changes between head and commit ${committish}`);
   const candidates = new Set();
   const hasDiff = makeDiffPredicate(committish, {
     cwd: process.cwd()
   }, options.ignoreChanges);
 
-  libraries.forEach(library => {
+  repositoryLibraries.forEach(library => {
     if(hasDiff({ location: library.sourcePath})) {
       candidates.add(library);
     }
   });
 
-  log.verbose(`collect updates`, `found ${candidates.size} libraries to publish`, Array.from(candidates.values()).map(library => library.name).join(', '));
+  log.verbose(`getLibrariesToPublish`, `found ${candidates.size} libraries to publish`, Array.from(candidates.values()).map(library => library.name).join(', '));
 
   const dependents = collectDependents(candidates);
   dependents.forEach(node => candidates.add(node));
@@ -51,16 +51,16 @@ function getLibrariesToPublish() {
   // The result should always be in the same order as the input
    const updates = new Set();
 
-  libraries.forEach((library) => {
+  repositoryLibraries.forEach((library) => {
     if (candidates.has(library)) {
-      log.verbose("updated", library.name);
+      log.verbose("getLibrariesToPublish", `library updated ${library.name}`);
 
       updates.add(library);
     }
   });
 
-  log.info(`collect updates`, `found ${updates.size} libraries to publish`);
-  log.verbose('collect updates', Array.from(updates.values()).map(library => library.name).join(', '));
+  log.info(`getLibrariesToPublish`, `found ${updates.size} libraries to publish`);
+  log.verbose('getLibrariesToPublish', Array.from(updates.values()).map(library => library.name).join(', '));
 
   return updates;
 }
@@ -85,35 +85,44 @@ function confirm(message) {
     });
 }
 
-async function prepare() {
+function prePrepare() {
   const currentBranch = getCurrentBranch();
-  log.info('prepare', `verify current branch is not detached`, { currentBranch});
+  log.info('prePrepare', `verify current branch is not detached`, {currentBranch});
   if (currentBranch === "HEAD") {
     throw new Error("Detached git HEAD, please checkout a branch to publish changes.");
   }
 
-  log.info('prepare', `verify everything is commited`);
-  if (hasUnCommittedChanges()) {
-    log.error('It seems that you have uncommitted changes. To perform this command you should either commit your changes or reset them. Abort.')
-    process.exit(1);
-  }
+  if (options.diagnostic) {
+    log.warn('prePrepare', `'hasUnCommittedChanges' check skipped (diagnostic mode)`);
+  } else {
+    log.info('prePrepare', `verify everything is commited`);
+    if (hasUnCommittedChanges()) {
+      log.error('it seems that you have uncommitted changes. To perform this command you should either commit your changes or reset them. Abort.')
+      process.exit(1);
+  }}
 
   // TODO check `isBehindUpstream`
   //log.info('prepare', `verify branch is not behind upstream`);
+}
+
+async function prepare() {
 
   const updates = new Map();
   const libraries = getLibrariesToPublish();
 
   if (libraries.size === 0) {
-    log.info("Not found libraries to publish");
+    log.info("did not found any libraries to publish");
+    resetInteractivePublish();
     // still exits zero, aka "ok"
     process.exit(0);
     return;
   }
 
-  if (!options.skipBuild) {
-    log.info('prepare', `rebuild all libraries (not only those who were updated)`);
-    await buildLibraries(libraries);
+  if (options.diagnostic) {
+    log.warn('prepare', `'setupLibraries' skipped (diagnostic mode)`);
+  } else {
+      log.info('prepare', `setup environment`);
+      await await setupLibraries()
   }
 
   log.info('prepare', `find next versions`, { forceBumpTo: options.forceBumpTo || '(default)'});
@@ -155,15 +164,27 @@ async function execute() {
   log.info("execute", "setup repository libraries to include publish changes");
   await setupLibraries();
 
-  log.info('execute', `git commit and tag libraries`);
-  await commitAndTagUpdates(libraries);
+  if (options.diagnostic) {
+    log.warn('execute', `'commitAndTagUpdates' skipped (diagnostic mode)`);
+  } else {
+    log.info('execute', `git commit and tag libraries`);
+    await commitAndTagUpdates(libraries);
+  }
 
-  log.info('execute', `publish libraries to npmjs`);
-  await publishLibrariesToNpm(libraries);
+  if (options.diagnostic) {
+    log.warn('execute', `'publishLibrariesToNpm' skipped (diagnostic mode)`);
+  } else {
+    log.info('execute', `publish libraries to npmjs`);
+    await publishLibrariesToNpm(libraries);
+  }
 
-  log.info('execute', `push updates to git`);
-  const currentBranch = getCurrentBranch();
-  gitPush('origin', currentBranch);
+  if (options.diagnostic) {
+    log.warn('execute', `'gitPush' skipped (diagnostic mode)`);
+  } else {
+    log.info('execute', `push updates to git`);
+    const currentBranch = getCurrentBranch();
+    gitPush('origin', currentBranch);
+  }
 }
 
 function validateOptions() {
@@ -212,6 +233,9 @@ async function main() {
     const lastInteractiveStatus = getInteractiveStatus();
 
     if (lastInteractiveStatus === INIT_STATUS) {
+      log.info('main', 'execute pre prepare verifications');
+      prePrepare();
+
       setNewInteractiveStatus(PREPARING_STATUS);
       const status = await prepare();
 

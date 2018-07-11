@@ -37,7 +37,7 @@ var cliArgs = argv.option( [
     description: "Start publish process for CI"
   },
   {
-    name: 'skipBuild',
+    name: 'diagnostic',
     type: 'boolean',
     description: "Diagnostic flag used to debug this script, avoid using"
   },
@@ -62,7 +62,7 @@ const options = {
   branch: cliArgs['branch'] || 'master',
   forceBumpTo: cliArgs['forceBumpTo'],
   publishStatusPath: path.resolve(__dirname, '.publish-status'),
-  skipBuild: !!cliArgs['skipBuild'] || false,
+  diagnostic: !!cliArgs['diagnostic'] || false,
   mode,
   "ignoreChanges": [
     "ignored-file",
@@ -82,8 +82,8 @@ function validateOptions() {
     }
   }
 
-  if (options.skipBuild) {
-    log.error('EOPTIONS', `option 'skipBuild' should not be in use, please abort and execute without this option`);
+  if (options.diagnostic) {
+    log.error('EOPTIONS', `option 'diagnostic' should not be in use, please abort and execute without this option`);
   }
 }
 

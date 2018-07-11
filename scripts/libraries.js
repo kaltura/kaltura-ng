@@ -143,8 +143,8 @@ updateDependencies(kalturaUI, [kalturaCommon]);
 updateDependencies(kalturaPrimeUI, [kalturaCommon, kalturaUI]);
 updateDependencies(mcShared, [kalturaCommon, kalturaUI, kalturaLogger]);
 
-const libraries = new Set([kalturaLogger, kalturaCommon, kalturaUI, kalturaPrimeUI, mcShared, mcTheme]);
+const repositoryLibraries = new Set([kalturaLogger, kalturaCommon, kalturaUI, kalturaPrimeUI, mcShared, mcTheme]);
 
-LoadPackageJsonFiles(libraries);
+LoadPackageJsonFiles(repositoryLibraries);
 
-module.exports = { libraries, grabSelectedlibraries, buildLibrary, buildLibraries };
+module.exports = { repositoryLibraries, grabSelectedlibraries, buildLibrary, buildLibraries };
