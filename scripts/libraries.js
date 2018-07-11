@@ -15,7 +15,7 @@ function grabSelectedlibraries(filterByName = null) {
 
   log.verbose('', `grab user selected libraries (${filterByName || 'all libraries'})`);
   if (filterByName) {
-    const adapter = Array.from(libraries).find(adapter => adapter.name === filterByName);
+    const adapter = Array.from(repositoryLibraries).find(adapter => adapter.name === filterByName);
 
     if (adapter) {
       adapters.add(adapter);
@@ -23,7 +23,7 @@ function grabSelectedlibraries(filterByName = null) {
       log.error(`unknown library requested '${filterByName}'`);
     }
   } else {
-    adapters = libraries;
+    adapters = repositoryLibraries;
   }
 
   return adapters;
