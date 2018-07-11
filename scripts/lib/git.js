@@ -31,7 +31,7 @@ function hasTags(opts) {
 
 function gitCommit(message) {
   log.silly("gitCommit", message);
-  const args = ["commit", "--no-verify"];
+  const args = ["commit", "--no-verify", "-a"];
 
   if (message.indexOf(os.EOL) > -1) {
     // Use tempfile to allow multi\nline strings.

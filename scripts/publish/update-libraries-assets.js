@@ -54,7 +54,7 @@ function updateChangelog(library, newVersion) {
     }
 
     let content = '';
-    
+
     let changelogStream = conventionalChangelog(
       {
         preset: 'angular',

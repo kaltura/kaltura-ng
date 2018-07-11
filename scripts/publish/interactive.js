@@ -10,9 +10,10 @@ const ERROR_STATUS = 'ERROR_STATUS';
 
 
 function getInteractiveStatus() {
-  const publishStatus = isExists(options.publishStatusPath) ? readFile(options.publishStatusPath) : null;
+  const fileExists = isExists(options.publishStatusPath);
+  const publishStatus = fileExists ? readFile(options.publishStatusPath) : null;
   const result = publishStatus || INIT_STATUS;
-  log.verbose('getInteractiveStatus', result);
+  log.verbose('getInteractiveStatus', result, { fileExists, path: options.publishStatusPath});
   return result;
 }
 

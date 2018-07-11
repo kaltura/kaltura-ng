@@ -190,7 +190,6 @@ function validateOptions() {
 }
 
 async function main() {
-
   log.info('main', 'validate options');
   validateOptions();
 

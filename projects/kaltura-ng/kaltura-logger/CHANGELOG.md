@@ -1,9 +1,26 @@
 # Change Log
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@2.2.2...3.0.0) (2018-07-11)
 
-All notable changes to this project will be documented in this file.
-See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+### BREAKING CHANGES
 
-      <a name="2.2.2"></a>
+* upgrade Angular stack from v5 to v6 which affected library public API
+
+before
+nested imports were supported
+```
+import { ExampleService } from '@kaltura-ng/mc-theme/sub/location/example-service'
+```
+
+after
+all imports should be done against the library entry point
+```
+import { ExampleService } from '@kaltura-ng/mc-theme'
+```
+
+
+
+<a name="2.2.2"></a>
 ## [2.2.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@2.2.1...@kaltura-ng/kaltura-logger@2.2.2) (2018-06-11)
 
 
