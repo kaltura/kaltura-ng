@@ -238,23 +238,23 @@ textarea.ui-inputtext {
     animation: progress 2s linear infinite;
   }
 
-  .ui-datatable-data .pi-chevron-circle-right {
+  .ui-datatable-data .pi-chevron-circle-right, .ui-datatable-data .fa-chevron-circle-right {
     display: block;
     width: 0;
     height: 0;
     border-top: 8px solid transparent;
     border-left: 12px solid $kGrayscale4;
     border-bottom: 8px solid transparent;
+    margin-left: 3px;
   }
 
-  .ui-datatable-data .pi-chevron-circle-down {
+  .ui-datatable-data .pi-chevron-circle-down, .ui-datatable-data .fa-chevron-circle-down {
     display: block;
     width: 0;
     height: 0;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
     border-top: 12px solid $kGrayscale4;
-    margin-left: -3px;
   }
 }
 
@@ -358,6 +358,45 @@ textarea.ui-inputtext {
     -moz-animation: progress 2s linear infinite;
     -ms-animation: progress 2s linear infinite;
     animation: progress 2s linear infinite;
+  }
+
+  .ui-table-tbody tr.uploadFailure {
+    background: lighten($kDandger, 45%);
+  }
+
+  .ui-table-tbody tr.uploading {
+    background: repeating-linear-gradient(
+        -75deg,
+        #ffffff,
+        #ffffff 15px,
+        $kGrayscale7 15px,
+        $kGrayscale7 30px
+    );
+    background-attachment: fixed;
+
+    -webkit-animation: progress 2s linear infinite;
+    -moz-animation: progress 2s linear infinite;
+    -ms-animation: progress 2s linear infinite;
+    animation: progress 2s linear infinite;
+  }
+
+  .ui-table-tbody .pi-chevron-circle-right {
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-left: 12px solid $kGrayscale4;
+    border-bottom: 8px solid transparent;
+  }
+
+  .ui-table-tbody .pi-chevron-circle-down {
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 12px solid $kGrayscale4;
+    margin-left: -3px;
   }
 }
 
@@ -493,6 +532,7 @@ body .ui-tieredmenu {
 }
 /* paginator */
 .ui-paginator{
+  padding-top: 4px;
   p-dropdown{
     float: right;
     .ui-dropdown{
@@ -502,6 +542,11 @@ body .ui-tieredmenu {
       color: $kGrayscale1;
       margin-left: 8px;
       font-size: 14px;
+      padding-top: 1px;
+      height: 28px;
+    }
+    .ui-dropdown-trigger .pi.pi-caret-down{
+      margin-top: -12px;
     }
   }
 }
@@ -539,16 +584,19 @@ body .ui-tieredmenu {
   border: none;
 }
 .ui-paginator .ui-paginator-page, .ui-paginator .ui-paginator-next, .ui-paginator .ui-paginator-prev, .ui-paginator .ui-paginator-first, .ui-paginator .ui-paginator-last{
-  margin-left: -2px;
   margin-right: -2px;
   border-radius: 0px;
+  width: 23px;
+  height: 23px;
 }
 .ui-paginator .ui-paginator-page.ui-state-active{
   background: $kGrayscale6;
   color: $kGrayscale2;
   font-weight: 400;
 }
-
+.ui-paginator .ui-paginator-icon{
+  margin-top: -0.55em;
+}
 /* tree */
 .ui-tree .ui-tree-container{
   padding-left: 0px;

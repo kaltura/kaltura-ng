@@ -488,9 +488,11 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 			}
 		}
 		else if (this.placement.y === 'bottom') {
-			if (popupBox.top + popupHeight > clientHeight - WINDOW_GUTTER) {
+			if (popupBox.top + popupHeight > clientHeight - WINDOW_GUTTER && popupBox.top > clientHeight) {
 				popupMarginTop = popupTopMargins.top;
-			}
+			}else {
+        popupMarginTop = popupTopMargins.bottom;
+      }
 		}
 		else if (this.placement.y === 'center') {
 			if (popupBox.top < WINDOW_GUTTER) {
