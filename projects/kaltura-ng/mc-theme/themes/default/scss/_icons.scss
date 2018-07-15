@@ -63,10 +63,10 @@
 		@extend .kIcondropdown_arrow_top:before;
 		font-size: 10px;
 	}
-	.ui-timepicker .pi.pi-angle-up{
+	.ui-timepicker .pi.pi-chevron-up{
 		@extend .kIcondropdown_arrow_top;
 	}
-	.ui-timepicker .pi.pi-angle-down{
+	.ui-timepicker .pi.pi-chevron-down{
 		@extend .kIcondropdown_arrow_bottom;
 	}
   .pi-sort-down{
