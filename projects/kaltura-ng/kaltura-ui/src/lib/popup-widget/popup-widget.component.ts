@@ -1,9 +1,23 @@
-import { Component, AfterViewInit, EventEmitter, OnDestroy, Input, Output, ElementRef, HostListener, TemplateRef, ContentChild, Renderer2 } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  EventEmitter,
+  OnDestroy,
+  Input,
+  Output,
+  ElementRef,
+  HostListener,
+  TemplateRef,
+  ContentChild,
+  Renderer2,
+  HostBinding
+} from "@angular/core";
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 import { PopupWidgetLayout } from './popup-widget-layout';
 import 'rxjs/add/observable/fromEvent';
+import { cancelOnDestroy } from '@kaltura-ng/kaltura-common';
 
 export const PopupWidgetStates = {
     "Open": "open",
@@ -50,6 +64,8 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() placement: {x: PopupWidgetXPositions, y: PopupWidgetYPositions} = {x: 'right', y: 'bottom'}
 
 	@ContentChild(TemplateRef) public _template: TemplateRef<any>;
+  @HostBinding('class.opened') opened = false;
+  @HostBinding('class.closed') closed = false;
 
 	private readonly _toggleFunc = this.toggle.bind(this);
 	private readonly _openFunc = this.open.bind(this);
@@ -112,6 +128,12 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
     constructor(public popup: ElementRef, private renderer: Renderer2) {
 	    this._statechange.next({state: PopupWidgetStates.Close});
+      this.state$
+        .pipe(cancelOnDestroy(this))
+        .subscribe(({ state }) => {
+          this.closed = state === PopupWidgetStates.Close;
+          this.opened = state === PopupWidgetStates.Open;
+        });
     }
 
     // public API methods

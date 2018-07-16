@@ -1,10 +1,10 @@
 {
   "name": "@kaltura-ng/kaltura-common",
-  "version": "6.0.2",
+  "version": "7.0.0",
   "private": false,
   "description": "Angular - commonly needed services within Kaltura projects",
   "scripts": {
-    "build": "../../../npm run build -- --library=kaltura-common"
+    "build": "node ../../../scripts/build.js --library=@kaltura-ng/kaltura-common"
   },
   "keywords": [
     "kaltura",

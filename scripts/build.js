@@ -1,15 +1,13 @@
 #!/usr/bin/env node
-const { buildLibrary } = require('./lib/build-library');
-const { grabSelectedlibraries } = require('./lib/utils');
+const log = require("npmlog");
+const { grabSelectedlibraries, buildLibraries } = require('./libraries');
+const { options } = require('./build/definitions');
 
 async function main() {
-  console.log(`execute build command`);
-  const libraries = grabSelectedlibraries();
+  log.info('build command', `execute command`, options );
+  const libraries = grabSelectedlibraries(options.specificLibrary);
 
-  for (let i = 0; i < libraries.length; i++) {
-    const library = libraries[i];
-    await buildLibrary(library);
-  }
+  await buildLibraries(libraries);
 }
 
 (async function() {
