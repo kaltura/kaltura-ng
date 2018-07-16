@@ -1,8 +1,8 @@
-<div class="kTags" *ngIf="data?.length">
+<div class="kTags" *ngIf="_data?.length">
     <span *ngIf="title" class="kTagsTitle">{{title}}</span>
     <div #scroller class="kScroller">
         <div class="kTagsWrapper">
-            <kTag *ngFor="let tag of data"
+            <kTag *ngFor="let tag of _data"
                   [data]="tag"
                   [template]="templates ? templates.first : undefined"
                   [showRemove]="removableTags"
