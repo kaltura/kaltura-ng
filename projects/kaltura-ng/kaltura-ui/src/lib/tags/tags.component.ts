@@ -11,7 +11,7 @@ import {
   HostListener,
   ElementRef,
   ContentChildren,
-  TemplateRef,
+  TemplateRef, SimpleChanges, OnChanges,
 } from '@angular/core';
 import { TagComponent } from './tag.component';
 import { Subscription } from "rxjs/Subscription";
@@ -24,13 +24,9 @@ const $ = $NS;
     templateUrl: './tags.component.html',
     styleUrls: ['./tags.component.scss']
 })
-export class TagsComponent implements AfterViewInit, OnDestroy {
+export class TagsComponent implements AfterViewInit, OnDestroy, OnChanges {
 
-  @Input() set data(value: any[]) {
-    this._data = (Array.isArray(value) ? value : [])
-      .sort((a, b) => Number(b.disabled || 0) - Number(a.disabled || 0));
-    this.checkShowMore();
-  }
+  @Input() data: any[];
   @Input() disabled: boolean = false;
   @Input() labelField: string;
 	@Input() tooltipField: string;
@@ -57,7 +53,6 @@ export class TagsComponent implements AfterViewInit, OnDestroy {
 	public _scrollLeftEnabled: boolean = false;
 	public _scrollRightEnabled: boolean = true;
 
-  public _data: any[] = [];
     constructor() {
     }
 
@@ -66,10 +61,20 @@ export class TagsComponent implements AfterViewInit, OnDestroy {
 		this.checkShowMore();
 	}
 
+  ngOnChanges(changes: SimpleChanges) {
+      if (changes['data'] && Array.isArray(this.data)) {
+        this.checkShowMore();
+
+        if (changes['disabledField']) {
+            this.data.sort((a, b) => Number(b[this.disabledField] || 0) - Number(a[this.disabledField] || 0));
+        }
+      }
+  }
+
 	ngAfterViewInit(){
 		this.tagsListObserver = this.tagsList.changes.subscribe((comps: QueryList <any>) =>
 		{
-			this.onTagsChange.emit({tagsCount: (this._data ? this._data.length : 0) });
+			this.onTagsChange.emit({tagsCount: (this.data ? this.data.length : 0) });
 			this.checkShowMore();
 		});
 	}
@@ -96,7 +101,7 @@ export class TagsComponent implements AfterViewInit, OnDestroy {
 			this.showMoreCheckIntervalID = null;
 		}
 		this.showMoreCheckIntervalID = setTimeout(() => {
-			if (this._data && this._data.length && this.scroller){
+			if (this.data && this.data.length && this.scroller){
 				this._showMore = this.scroller.nativeElement.scrollWidth > (this.scroller.nativeElement.getBoundingClientRect().width + 1);
 			}
 			this.showMoreCheckIntervalID = null;
