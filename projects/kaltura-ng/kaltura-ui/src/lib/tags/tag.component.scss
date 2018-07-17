@@ -11,8 +11,18 @@
   font-weight: bold;
   padding-left: 8px;
   padding-right: 2px;
-  &:hover{
-    background-color: darken(#00A784, 10%);
+  &.kTagDisabled {
+    background-color: transparent;
+    color: #CCCCCC;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+
+    &:hover {
+      background-color: transparent;
+      color: #CCCCCC;
+      border: 1px solid #CCCCCC;
+      border-radius: 3px;
+    }
   }
 }
 .kTagContent{
