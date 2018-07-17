@@ -1,7 +1,29 @@
 # Change Log
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@2.4.0...3.0.0) (2018-07-11)
 
-All notable changes to this project will be documented in this file.
-See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### Features
+
+* add filter to dynamic drop down control  KMCNG-1262 ([cf29d65](https://github.com/kaltura/kaltura-ng/commit/cf29d65))
+
+
+### BREAKING CHANGES
+
+* upgrade Angular stack from v5 to v6 which affected library public API
+
+before
+nested imports were supported
+```
+import { ExampleService } from '@kaltura-ng/mc-theme/sub/location/example-service'
+```
+
+after
+all imports should be done against the library entry point
+```
+import { ExampleService } from '@kaltura-ng/mc-theme'
+```
+
 
 <a name="2.4.0"></a>
 # [2.4.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@2.3.1...@kaltura-ng/kaltura-primeng-ui@2.4.0) (2018-06-11)

@@ -1,7 +1,24 @@
 # Change Log
+<a name="7.0.0"></a>
+# [7.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@6.0.2...7.0.0) (2018-07-11)
 
-All notable changes to this project will be documented in this file.
-See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+### BREAKING CHANGES
+
+* upgrade Angular stack from v5 to v6 which affected library public API
+
+before
+nested imports were supported
+```
+import { ExampleService } from '@kaltura-ng/mc-theme/sub/location/example-service'
+```
+
+after
+all imports should be done against the library entry point
+```
+import { ExampleService } from '@kaltura-ng/mc-theme'
+```
+
+
 
 <a name="6.0.2"></a>
 ## [6.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@6.0.1...@kaltura-ng/kaltura-common@6.0.2) (2018-06-11)

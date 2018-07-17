@@ -965,6 +965,9 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
     padding-top: 28px;
     padding-bottom: 28px;
     max-height: 450px;
+    .ui-confirmdialog-message{
+      word-break: break-word;
+    }
   }
   .ui-dialog-buttonpane{
     text-align: center;

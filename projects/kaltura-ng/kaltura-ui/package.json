@@ -1,8 +1,11 @@
 {
   "name": "@kaltura-ng/kaltura-ui",
-  "version": "5.2.2",
+  "version": "6.0.0",
   "private": false,
   "description": "Angular - Kaltura UI directives, pipes and services",
+  "scripts": {
+    "build": "node ../../../scripts/build.js --library=@kaltura-ng/kaltura-ui"
+  },
   "keywords": [
     "kaltura",
     "kaltura-ng"
@@ -38,7 +41,7 @@
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/forms": "^6.0.0-rc.0 || ^6.0.0",
-    "@kaltura-ng/kaltura-common": "^6.0.2",
+    "@kaltura-ng/kaltura-common": "7.0.0",
     "jquery": "~3.1.0",
     "moment": "^2.21.0",
     "rxjs": "^6.0.0",

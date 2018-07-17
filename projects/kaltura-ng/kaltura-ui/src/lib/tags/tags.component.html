@@ -2,7 +2,14 @@
     <span *ngIf="title" class="kTagsTitle">{{title}}</span>
     <div #scroller class="kScroller">
         <div class="kTagsWrapper">
-            <kTag *ngFor="let tag of data" [data]="tag" (onRemoved)="removeTag($event)" [template]="templates ? templates.first : undefined" [showRemove]="removableTags" [label]="labelField ? tag[labelField] : tag" [tooltip]="tooltipField ? tag[tooltipField] : tag"></kTag>
+            <kTag *ngFor="let tag of data"
+                  [data]="tag"
+                  [template]="templates ? templates.first : undefined"
+                  [showRemove]="removableTags"
+                  [label]="labelField ? tag[labelField] : tag"
+                  [tooltip]="tooltipField ? tag[tooltipField] : tag"
+                  [disabled]="disabledField ? tag[disabledField] : false"
+                  (onRemoved)="removeTag($event)"></kTag>
         </div>
     </div>
     <div class="kTagsMore">

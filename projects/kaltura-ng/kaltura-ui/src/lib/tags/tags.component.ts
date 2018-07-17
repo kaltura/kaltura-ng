@@ -11,8 +11,7 @@ import {
   HostListener,
   ElementRef,
   ContentChildren,
-  TemplateRef,
-  OnChanges, SimpleChanges
+  TemplateRef, SimpleChanges, OnChanges,
 } from '@angular/core';
 import { TagComponent } from './tag.component';
 import { Subscription } from "rxjs/Subscription";
@@ -27,10 +26,11 @@ const $ = $NS;
 })
 export class TagsComponent implements AfterViewInit, OnDestroy, OnChanges {
 
-	@Input() data: any[] = [];
-	@Input() disabled: boolean = false;
-    @Input() labelField: string;
+  @Input() data: any[];
+  @Input() disabled: boolean = false;
+  @Input() labelField: string;
 	@Input() tooltipField: string;
+	@Input() disabledField: string;
 	@Input() removableTags: boolean = true;
 	@Input() showClear: boolean = true;
 	@Input() title: string;
@@ -47,7 +47,7 @@ export class TagsComponent implements AfterViewInit, OnDestroy, OnChanges {
 	@ViewChildren(TagComponent)
 	private tagsList: QueryList<any>
 	private tagsListObserver: Subscription;
-
+  
 	public _showMore: boolean = false;
 	private showMoreCheckIntervalID: number;
 	public _scrollLeftEnabled: boolean = false;
@@ -60,12 +60,16 @@ export class TagsComponent implements AfterViewInit, OnDestroy, OnChanges {
 	onWindowResize() {
 		this.checkShowMore();
 	}
-	
-	ngOnChanges(changes: SimpleChanges) {
-    	if (changes['data'] && Array.isArray(changes['data'].currentValue)) {
-        	this.checkShowMore();
-			}
-	}
+
+  ngOnChanges(changes: SimpleChanges) {
+      if (changes['data']) {
+        if (this.disabledField && Array.isArray(this.data)) {
+            this.data.sort((a, b) => Number(b[this.disabledField] || 0) - Number(a[this.disabledField] || 0));
+        }
+
+        this.checkShowMore();
+      }
+  }
 
 	ngAfterViewInit(){
 		this.tagsListObserver = this.tagsList.changes.subscribe((comps: QueryList <any>) =>

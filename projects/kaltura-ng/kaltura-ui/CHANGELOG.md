@@ -1,7 +1,30 @@
 # Change Log
+<a name="6.0.0"></a>
+# [6.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@5.2.2...6.0.0) (2018-07-11)
 
-All notable changes to this project will be documented in this file.
-See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### Features
+
+* add showOnEllipsis property to tooltip allowing the tooltip to show only when the text is truncated and in ellipsis mode ([79a3d19](https://github.com/kaltura/kaltura-ng/commit/79a3d19))
+* add state class for popupwidget component ([d7787d3](https://github.com/kaltura/kaltura-ng/commit/d7787d3))
+
+
+### BREAKING CHANGES
+
+* upgrade Angular stack from v5 to v6 which affected library public API
+
+before
+nested imports were supported
+```
+import { ExampleService } from '@kaltura-ng/mc-theme/sub/location/example-service'
+```
+
+after
+all imports should be done against the library entry point
+```
+import { ExampleService } from '@kaltura-ng/mc-theme'
+```
+
 
 <a name="5.2.2"></a>
 ## [5.2.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@5.2.1...@kaltura-ng/kaltura-ui@5.2.2) (2018-06-11)
