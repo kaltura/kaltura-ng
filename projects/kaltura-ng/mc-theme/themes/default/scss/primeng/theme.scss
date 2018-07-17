@@ -516,6 +516,7 @@ textarea.ui-inputtext {
     padding-left: 12px;
   }
   .ui-menuitem .ui-menuitem-link:hover{
+    border-radius: 0px;
     background-color: $kGrayscale6;
   }
   .ui-menuitem.kDanger .ui-menuitem-text{
@@ -531,6 +532,11 @@ body .ui-tieredmenu {
 }
 .ui-menu .ui-menuitem-text {
   vertical-align: middle;
+}
+.ui-submenu{
+  .ui-submenu-list{
+    padding: 0px;
+  }
 }
 /* paginator */
 .ui-paginator{
