@@ -48,6 +48,7 @@ export class TagsComponent implements AfterViewInit, OnDestroy, OnChanges {
 	private tagsList: QueryList<any>
 	private tagsListObserver: Subscription;
 
+	public _data: any[];
 	public _showMore: boolean = false;
 	private showMoreCheckIntervalID: number;
 	public _scrollLeftEnabled: boolean = false;
@@ -62,12 +63,12 @@ export class TagsComponent implements AfterViewInit, OnDestroy, OnChanges {
 	}
 
   ngOnChanges(changes: SimpleChanges) {
-      if (changes['data'] && Array.isArray(this.data)) {
-        this.checkShowMore();
-
-        if (changes['disabledField']) {
+      if (changes['data']) {
+        if (this.disabledField && Array.isArray(this.data)) {
             this.data.sort((a, b) => Number(b[this.disabledField] || 0) - Number(a[this.disabledField] || 0));
         }
+
+        this.checkShowMore();
       }
   }
 
