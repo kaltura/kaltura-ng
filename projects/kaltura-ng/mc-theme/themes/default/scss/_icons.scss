@@ -43,11 +43,11 @@
         @extend .kIconpartial_small:before;
         font-size: 9px;
     }
-    .ui-datepicker-prev .pi.pi-angle-left:before{
+    .ui-datepicker-prev .pi.pi-chevron-left:before{
         @extend .kIcondropdown_arrow_left:before;
         font-size: 9px;
     }
-    .ui-datepicker-next .pi.pi-angle-right:before{
+    .ui-datepicker-next .pi.pi-chevron-right:before{
         @extend .kIcondropdown_arrow_right:before;
         font-size: 9px;
     }
