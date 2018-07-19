@@ -43,11 +43,6 @@ k-area-blocker {
 				opacity: 1;
 			}
 		}
-    &.kAreaBlockerContainerError {
-    		background-color: rgba(38,50,68,0.9);
-    		position: fixed;
-    		z-index: 1000;
-    }
 		.loading-backdrop {
 			position: absolute;
 			top: 0;
