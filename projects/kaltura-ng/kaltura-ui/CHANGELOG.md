@@ -1,4 +1,18 @@
 # Change Log
+<a name="6.1.0"></a>
+# [6.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@6.0.0...6.1.0) (2018-07-19)
+
+
+### Bug Fixes
+
+* style fixes ([#127](https://github.com/kaltura/kaltura-ng/issues/127)) ([6b66f00](https://github.com/kaltura/kaltura-ng/commit/6b66f00))
+
+
+### Features
+
+* support tag with disable mode  ([#121](https://github.com/kaltura/kaltura-ng/issues/121)) KMCNG-1903 ([17839cf](https://github.com/kaltura/kaltura-ng/commit/17839cf))
+
+
 <a name="6.0.0"></a>
 # [6.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@5.2.2...6.0.0) (2018-07-11)
 

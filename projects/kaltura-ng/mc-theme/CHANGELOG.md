@@ -1,4 +1,16 @@
 # Change Log
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.0...3.0.1) (2018-07-19)
+
+
+### Bug Fixes
+
+* break words in confirmation dialog text messages ([a4e8aa9](https://github.com/kaltura/kaltura-ng/commit/a4e8aa9))
+* fix calendar months navigation arrows ([84ccd0a](https://github.com/kaltura/kaltura-ng/commit/84ccd0a))
+* fix time picker arrow up and down icons ([8b675d7](https://github.com/kaltura/kaltura-ng/commit/8b675d7))
+* style fixes ([#127](https://github.com/kaltura/kaltura-ng/issues/127)) ([6b66f00](https://github.com/kaltura/kaltura-ng/commit/6b66f00))
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@2.1.6...3.0.0) (2018-07-11)
 
