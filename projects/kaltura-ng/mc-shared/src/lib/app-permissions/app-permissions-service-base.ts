@@ -102,12 +102,17 @@ export abstract class AppPermissionsServiceBase<T> {
         return result;
     }
 
-    public filterList(list: { id: string }[], permissionMapping: { [id: string]: T | T[] }): void {
+    public filterList(list: { id: string }[], permissionMapping: { [id: string]: T | T[] | boolean }): void {
         Object.keys(permissionMapping).forEach(key => {
             const permission = permissionMapping[key];
-            const hasPermission = Array.isArray(permission)
-              ? this.hasAnyPermissions(permission)
-              : this.hasPermission(permission);
+            let hasPermission = false;
+            if (typeof permission === 'boolean') {
+              hasPermission = permission;
+            } else {
+              hasPermission = Array.isArray(permission)
+                ? this.hasAnyPermissions(permission)
+                : this.hasPermission(permission);
+            }
 
           if (!hasPermission) {
             const relevantItems = list.filter(({ id }) => id === key);
