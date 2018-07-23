@@ -332,6 +332,9 @@ textarea.ui-inputtext {
   .ui-table-scrollable-body {
     max-height: none !important;
   }
+  .ui-table-scrollable-body>table>.ui-table-tbody>tr:first-child>td{
+    border-top: 1px solid white;
+  }
 
   .emptymessage{
     text-align: center;
