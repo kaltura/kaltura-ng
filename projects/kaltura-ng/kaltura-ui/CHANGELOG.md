@@ -1,4 +1,13 @@
 # Change Log
+<a name="6.1.1"></a>
+## [6.1.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@6.1.0...6.1.1) (2018-07-24)
+
+
+### Bug Fixes
+
+* prevent area blocker error message from blocking the entire screen ([c1d5a4c](https://github.com/kaltura/kaltura-ng/commit/c1d5a4c))
+
+
 <a name="6.1.0"></a>
 # [6.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@6.0.0...6.1.0) (2018-07-19)
 

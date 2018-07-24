@@ -1,4 +1,13 @@
 # Change Log
+<a name="5.1.0"></a>
+# [5.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@5.0.1...5.1.0) (2018-07-24)
+
+
+### Features
+
+* allow passing boolean to permission filters action ([#128](https://github.com/kaltura/kaltura-ng/issues/128)) ([44bdd5a](https://github.com/kaltura/kaltura-ng/commit/44bdd5a))
+
+
 <a name="5.0.1"></a>
 ## [5.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@5.0.0...5.0.1) (2018-07-19)
 

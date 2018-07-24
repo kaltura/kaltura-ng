@@ -1,4 +1,13 @@
 # Change Log
+<a name="3.0.2"></a>
+## [3.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.1...3.0.2) (2018-07-24)
+
+
+### Bug Fixes
+
+* fix turbo table layout break in IE11 and Edge ([9178dc2](https://github.com/kaltura/kaltura-ng/commit/9178dc2))
+
+
 <a name="3.0.1"></a>
 ## [3.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.0...3.0.1) (2018-07-19)
 
