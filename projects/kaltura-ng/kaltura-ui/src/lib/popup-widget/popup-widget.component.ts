@@ -59,7 +59,6 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() closeOnResize: boolean = false;
 	@Input() targetOffset: any = {'x':0, 'y': 0};
 	@Input() childrenPopups: PopupWidgetComponent[] = [];
-	@Input() closeOnScroll: boolean = false;
 	@Input() trigger: 'click' | 'hover' = 'click';
 	@Input() placement: {x: PopupWidgetXPositions, y: PopupWidgetYPositions} = {x: 'right', y: 'bottom'}
 
@@ -297,13 +296,6 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 			this.close();
 		}else{
 			this.setPosition();
-		}
-	}
-
-	@HostListener("window:scroll", [])
-	onWindowScroll() {
-		if (this.closeOnScroll && this.isShow) {
-			this.close();
 		}
 	}
 
