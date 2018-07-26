@@ -46,7 +46,7 @@
     "@kaltura-ng/kaltura-logger": "3.0.0",
     "@kaltura-ng/kaltura-ui": "6.1.1",
     "ng2-translate": "^5.0.0",
-    "primeng": "^5.2.0",
+    "primeng": "^6.0.1",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.2.0",
     "seamless-immutable": "^7.1.2"
