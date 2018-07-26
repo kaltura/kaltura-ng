@@ -299,8 +299,11 @@ textarea.ui-inputtext {
     background-color: white;
     border-bottom: 1px solid $kGrayscale5;
   }
-  th.ui-state-active {
+  th.ui-state-highlight {
     color: $kGrayscale1;
+    p-sorticon{
+      display: inline;
+    }
   }
 
   .ui-table-tbody > tr > td {
@@ -316,6 +319,7 @@ textarea.ui-inputtext {
   }
   */
   p-sorticon{
+    display: none;
     a{
       text-decoration: none !important;
     }
