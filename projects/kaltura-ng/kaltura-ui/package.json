@@ -42,8 +42,8 @@
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/forms": "^6.0.0-rc.0 || ^6.0.0",
     "@kaltura-ng/kaltura-common": "7.0.0",
-    "jquery": "~3.1.0",
-    "moment": "^2.21.0",
+    "jquery": "^3.3.1",
+    "moment": "^2.22.0",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.2.0"
   }

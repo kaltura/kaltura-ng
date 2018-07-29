@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { TranslateService } from 'ng2-translate/ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 
-import { TranslateStaticLoader } from 'ng2-translate';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 
 
@@ -21,7 +21,7 @@ export class AppLocalization {
     }
 
     public setFilesHash(hash: string, prefix?: string) : void{
-        if (this.translate.currentLoader instanceof TranslateStaticLoader)
+        if (this.translate.currentLoader instanceof TranslateHttpLoader)
         {
             // This is a dirty workaround until we upgrade to ngx-translate.
             if (prefix) {
