@@ -3,10 +3,7 @@ import { Download } from './download';
 const _xmlCharMap = {
     '<': '&lt;',
     '>': '&gt;',
-    '&': '&amp;',
-    '"': '&quot;',
-    "'": '&apos;',
-    "`": "&#x60;"
+    '&': '&amp;'
 };
 
 export class KalturaUtils
@@ -25,7 +22,7 @@ export class KalturaUtils
                 break;
         }
 
-        return String(parsedValue).replace(/[&<>"'`]/g, char => _xmlCharMap[char]);
+        return String(parsedValue).replace(/[&<>]/g, char => _xmlCharMap[char]);
     }
 
 	static getStartDateValue(value : Date) : Date

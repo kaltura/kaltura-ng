@@ -61,7 +61,7 @@ function convertObjectToXml(prefix: string, propertyName: string, propertyValue:
 
 export class XmlParser
 {
-    static toJson(xml : string, grokValues: boolean) : {}
+    static toJson(xml : string) : {}
     {
         return XmlToJSON.parseString(xml,
             {
@@ -70,8 +70,9 @@ export class XmlParser
                 attrKey: 'attr', 	// tag for attr groups
                 cdataKey: 'cdata',	// tag for cdata nodes (ignored if mergeCDATA is true)
                 childrenAsArray: false, 	// force children into arrays
-	            grokText: grokValues,
-	            grokAttr: grokValues,
+	            grokText: false,
+	            grokAttr: false,
+              normalize: false,
             });
     }
 
