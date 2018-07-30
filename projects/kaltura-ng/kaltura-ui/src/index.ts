@@ -20,3 +20,4 @@ export * from './lib/line-break.pipe';
 export * from './lib/safe.pipe';
 export * from './lib/scroll-to-top-container.component';
 export * from './lib/time.pipe';
+export * from './lib/input-range/index';
