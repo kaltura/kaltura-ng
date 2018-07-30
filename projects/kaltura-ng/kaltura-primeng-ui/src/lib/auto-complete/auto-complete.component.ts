@@ -11,7 +11,7 @@ import {
   IterableDiffers,
   Output,
   EventEmitter,
-  HostListener
+  HostListener, AfterContentInit, DoCheck
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
@@ -53,7 +53,7 @@ export const KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     /* tslint:enable */
 })
 // [kmcng] upon upgrade: compare implemented interfaces in the original component (no need to include ControlValueAccessor)
-export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterViewInit, AfterViewChecked  {
+export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterViewChecked, AfterContentInit,DoCheck  {
     private _suggestionsProvider$ : ISubscription = null;
     public _loading = false;
     public _showNoItems = false;
