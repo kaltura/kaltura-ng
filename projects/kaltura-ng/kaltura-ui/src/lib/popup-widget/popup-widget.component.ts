@@ -61,10 +61,12 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() childrenPopups: PopupWidgetComponent[] = [];
 	@Input() trigger: 'click' | 'hover' = 'click';
 	@Input() placement: {x: PopupWidgetXPositions, y: PopupWidgetYPositions} = {x: 'right', y: 'bottom'}
+  @Input() closeOnScroll: boolean = false;
 
-	@ContentChild(TemplateRef) public _template: TemplateRef<any>;
+  @ContentChild(TemplateRef) public _template: TemplateRef<any>;
   @HostBinding('class.opened') opened = false;
   @HostBinding('class.closed') closed = false;
+
 
 	private readonly _toggleFunc = this.toggle.bind(this);
 	private readonly _openFunc = this.open.bind(this);
@@ -219,6 +221,11 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
             this.onOpen.emit(); // dispatch onOpen event (API)
             this._statechange.next({state: PopupWidgetStates.Open});
+
+            if (this.closeOnScroll && this.isShow) {
+              window.addEventListener('scroll', this._closeFunc);
+            }
+
 		}
 	    if (!this.modal && !this.slider && !this.fullScreen && this.popup.nativeElement) {
 		    this.popup.nativeElement.style.opacity = 0;
@@ -231,6 +238,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 
     close(context: any = null, reason: string = null){
         if (this.isEnabled && this.isShow) {
+          window.removeEventListener('scroll', this._closeFunc);
 	        if (this.fullScreen){
 		        this.renderer.removeClass(this.popup.nativeElement, 'fullScreen');
 	        }
@@ -290,6 +298,8 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
     }
 
 
+
+
 	@HostListener("window:resize", [])
 	onWindowResize() {
 		if (this.closeOnResize) {
@@ -345,6 +355,8 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
           document.body.removeChild(this.popup.nativeElement);
 				}
 	    }
+
+      window.removeEventListener('scroll', this._closeFunc);
     }
 
     // private methods
@@ -528,4 +540,5 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 		this.popup.nativeElement.style.marginLeft = Math.round(popupMarginLeft) + 'px';
 		this.popup.nativeElement.style.opacity = 1;
 	}
+
 }
