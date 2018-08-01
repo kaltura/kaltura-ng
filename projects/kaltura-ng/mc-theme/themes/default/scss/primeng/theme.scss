@@ -447,6 +447,10 @@ textarea.ui-inputtext {
   border-radius: 3px;
   height: 34px;
   font-size: 14px;
+
+  .ui-button-icon-left{
+    font-size: 24px;
+  }
 }
 .disabled:not(a){
   color: $kGrayscale4;
