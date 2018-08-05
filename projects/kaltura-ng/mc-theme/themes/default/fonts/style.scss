@@ -26,6 +26,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+
 .kIconkaltura_logo:before {
   content: "\e95f";
 }
@@ -187,6 +188,18 @@
 }
 .kIconPlaylist_RuleBased:before {
   content: "\e931";
+}
+.kIconassets:before {
+  content: "\e97b";
+}
+.kIconadmin-user:before {
+  content: "\e97c";
+}
+.kIconprogram:before {
+  content: "\e977";
+}
+.kIconcustom:before {
+  content: "\e978";
 }
 .kIconclose:before {
   content: "\e973";
@@ -377,6 +390,12 @@
 .kIconrefresh_small:before {
   content: "\e960";
 }
+.kIconprogram-small:before {
+  content: "\e979";
+}
+.kIconcustom-small:before {
+  content: "\e97a";
+}
 .kIconepisode-small:before {
   content: "\e94e";
 }
@@ -386,3 +405,4 @@
 .kIconseries-small:before {
   content: "\e95e";
 }
+
