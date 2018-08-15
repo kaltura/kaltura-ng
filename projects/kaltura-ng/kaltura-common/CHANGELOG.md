@@ -1,4 +1,13 @@
 # Change Log
+<a name="7.0.1"></a>
+## [7.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@7.0.0...7.0.1) (2018-08-15)
+
+
+### Bug Fixes
+
+* custom metadata xml parsing and serializing ([85f0a62](https://github.com/kaltura/kaltura-ng/commit/85f0a62))
+
+
 <a name="7.0.0"></a>
 # [7.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@6.0.2...7.0.0) (2018-07-11)
 

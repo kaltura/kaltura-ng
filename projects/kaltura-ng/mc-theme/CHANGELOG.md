@@ -1,4 +1,14 @@
 # Change Log
+<a name="3.0.3"></a>
+## [3.0.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.2...3.0.3) (2018-08-15)
+
+
+### Bug Fixes
+
+* fix data table row hover color ([f006376](https://github.com/kaltura/kaltura-ng/commit/f006376))
+* fix data table sort icon layout ([7454a2a](https://github.com/kaltura/kaltura-ng/commit/7454a2a))
+
+
 <a name="3.0.2"></a>
 ## [3.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.1...3.0.2) (2018-07-24)
 
