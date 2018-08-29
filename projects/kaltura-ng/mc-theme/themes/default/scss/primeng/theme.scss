@@ -1023,9 +1023,19 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
 }
 
 // messages
+.ui-growl-item {
+  padding: 12px;
+}
 .ui-growl-item-container.ui-state-highlight{
-
   color: white;
+  font-size: 15px;
+  line-height: 18px;
+
+  .ui-growl-message {
+    padding: 0;
+    margin-left: 32px;
+  }
+
   .ui-growl-title{
     display: none;
   }
@@ -1038,9 +1048,13 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
     @extend .kIconclose_small:before;
 
   }
-  .ui-growl-image{
-    margin-top: 5px;
-    margin-left: 10px;
+
+  .ui-growl-image {
+    margin-left: 2px;
+    margin-right: 14px;
+    margin-top: 6px;
+    font-size: 20px;
+
     &.pi-check:before{
       @extend .kIconcheck_large:before;
     }
@@ -1049,8 +1063,9 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
       @extend .kIconpen:before;
     }
   }
+
   &.ui-growl-message-success{
-    background-color: $kSecondary;
+    background-color: $kSuccess;
   }
   &.ui-growl-message-error{
     background-color: $kDandger;
