@@ -1,23 +1,32 @@
-<div class="kTags" *ngIf="data?.length">
-    <span *ngIf="title" class="kTagsTitle">{{title}}</span>
-    <div #scroller class="kScroller">
-        <div class="kTagsWrapper">
-            <kTag *ngFor="let tag of data"
-                  [data]="tag"
-                  [template]="templates ? templates.first : undefined"
-                  [showRemove]="removableTags"
-                  [label]="labelField ? tag[labelField] : tag"
-                  [tooltip]="tooltipField ? tag[tooltipField] : tag"
-                  [disabled]="disabledField ? tag[disabledField] : false"
-                  (onRemoved)="removeTag($event)"></kTag>
-        </div>
+<div class="kTags" [class.kAlternativeLayout]="layout === 'button'" *ngIf="data?.length">
+  <span *ngIf="title" class="kTagsTitle">{{title}}</span>
+  <div #scroller class="kScroller">
+    <div #tagsWrapper class="kTagsWrapper">
+      <kTag *ngFor="let tag of _visibleTags"
+            [data]="tag"
+            [template]="templates ? templates.first : undefined"
+            [showRemove]="removableTags"
+            [label]="labelField ? tag[labelField] : tag"
+            [tooltip]="tooltipField ? tag[tooltipField] : tag"
+            [disabled]="disabledField ? tag[disabledField] : false"
+            (onRemoved)="removeTag($event)"></kTag>
+      <ng-container *ngIf="layout === 'button' && _hiddenCount !== null">
+        <button class="kTagButton" *ngIf="_hiddenCount !== 0" (click)="_showAll()">
+          +{{_hiddenCount}}
+        </button>
+        <button class="kTagButton" *ngIf="_hiddenCount === 0" (click)="_calculateRows()">
+          {{showLessLabel}}
+        </button>
+      </ng-container>
     </div>
-    <div class="kTagsMore">
-        <div class="kScrollArrows" [style.visibility]="_showMore ? 'visible' : 'hidden'">
-            <i class="kIcondropdown_arrow_left kScrollArrow" [class.disable]="!_scrollLeftEnabled" (click)="scroll('left')"></i>
-            <i class="kIcondropdown_arrow_right kScrollArrow" [class.disable]="!_scrollRightEnabled" (click)="scroll('right')"></i>
-        </div>
-        <span *ngIf="showClear" class="kTagsClear" (click)="clearAll()">{{clearAllLabel}}</span>
+
+  </div>
+  <div class="kTagsMore" *ngIf="layout === 'arrows'">
+    <div class="kScrollArrows" [style.visibility]="_showMore ? 'visible' : 'hidden'">
+      <i class="kIcondropdown_arrow_left kScrollArrow" [class.disable]="!_scrollLeftEnabled" (click)="scroll('left')"></i>
+      <i class="kIcondropdown_arrow_right kScrollArrow" [class.disable]="!_scrollRightEnabled" (click)="scroll('right')"></i>
     </div>
+    <span *ngIf="showClear" class="kTagsClear" (click)="clearAll()">{{clearAllLabel}}</span>
+  </div>
 
 </div>
