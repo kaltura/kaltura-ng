@@ -1,5 +1,5 @@
 <div #container [ngClass]="{'ui-dropdown ui-widget ui-state-default ui-corner-all ui-helper-clearfix':true,
-            'ui-state-disabled':disabled,'ui-dropdown-open':panelVisible,'ui-state-focus':focused, 'ui-dropdown-clearable': showClear && !disabled}"
+            'ui-state-disabled':disabled,'ui-dropdown-open':overlayVisible,'ui-state-focus':focused, 'ui-dropdown-clearable': showClear && !disabled}"
      (click)="onMouseclick($event)" [ngStyle]="style" [class]="styleClass">
   <div class="ui-helper-hidden-accessible" *ngIf="autoWidth">
     <select [required]="required" [attr.name]="name" [attr.aria-label]="selectedOption ? selectedOption.label : ' '" tabindex="-1" aria-hidden="true">
@@ -29,15 +29,15 @@
   <div class="ui-dropdown-trigger ui-state-default ui-corner-right">
     <span class="ui-dropdown-trigger-icon ui-clickable" [ngClass]="dropdownIcon"></span>
   </div>
-  <div #panel [ngClass]="'ui-dropdown-panel ui-widget-content ui-corner-all ui-shadow'" [@panelState]="panelVisible ? 'visible' : 'hidden'"
-       [style.display]="panelVisible ? 'block' : 'none'" [ngStyle]="panelStyle" [class]="panelStyleClass">
+  <div #panel [ngClass]="'ui-dropdown-panel ui-widget-content ui-corner-all ui-shadow'" [@panelState]="overlayVisible ? 'visible' : 'hidden'"
+       [style.display]="overlayVisible ? 'block' : 'none'" [ngStyle]="panelStyle" [class]="panelStyleClass">
     <div *ngIf="filter" class="ui-dropdown-filter-container" (input)="onFilter($event)" (click)="$event.stopPropagation()">
       <input #filter type="text" autocomplete="off" class="ui-dropdown-filter ui-inputtext ui-widget ui-state-default ui-corner-all" [attr.placeholder]="filterPlaceholder"
              (keydown.enter)="$event.preventDefault()" (keydown)="onKeydown($event)">
       <span class="ui-dropdown-filter-icon pi pi-search"></span>
     </div>
     <div #itemswrapper class="ui-dropdown-items-wrapper" [style.max-height]="scrollHeight||'auto'">
-      <ul class="ui-dropdown-items ui-dropdown-list ui-widget-content ui-widget ui-corner-all ui-helper-reset" *ngIf="lazy ? panelVisible : true">
+      <ul class="ui-dropdown-items ui-dropdown-list ui-widget-content ui-widget ui-corner-all ui-helper-reset">
         <ng-container *ngIf="group">
           <ng-template ngFor let-optgroup [ngForOf]="optionsToDisplay">
             <li class="ui-dropdown-item-group">

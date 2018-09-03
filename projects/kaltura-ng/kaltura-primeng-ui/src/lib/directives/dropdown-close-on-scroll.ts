@@ -31,11 +31,11 @@ export class DropdownCloseOnScroll implements AfterViewInit, OnDestroy {
 		if (this.scrollTarget && this.dropdown){
 			setTimeout(()=>{
 				if (!this._isDestroyed) {
-					if (this.dropdown.panelVisible && !this._registered) {
+					if (this.dropdown.overlayVisible && !this._registered) {
 						this.scrollTarget.addEventListener('scroll', this._closeDropdownFunc);
 						this._registered = true;
 					}
-					if (!this.dropdown.panelVisible && this._registered) {
+					if (!this.dropdown.overlayVisible && this._registered) {
 						this.scrollTarget.removeEventListener('scroll', this._closeDropdownFunc);
 						this._registered = false;
 					}
