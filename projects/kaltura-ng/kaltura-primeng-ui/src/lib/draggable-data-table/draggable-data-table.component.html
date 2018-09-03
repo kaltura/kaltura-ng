@@ -1,0 +1,53 @@
+<table [ngClass]="{ 'onDragMode' : !dragModeOff }">
+  <thead>
+  <tr>
+    <th class="draggable-row-icon-placeholder"></th>
+    <th *ngIf="selectable" class="draggable-row-check-box">
+      <p-checkbox (onChange)="selectAll($event)"></p-checkbox>
+    </th>
+    <td *ngIf="showIndex" class="draggable-row-index"></td>
+    <th *ngFor="let col of columns" [ngStyle]="col.style">{{col.header}}</th>
+  </tr>
+  </thead>
+  <tbody #tableBody>
+
+  <tr *ngFor="let row of draggableItems;index as i;" [class]="row.class" [ngClass]="{ 'draggable-row' : true }"
+      (mouseover)="onMouseOver($event, i)" (mouseup)="onMouseUp()">
+
+    <td class="draggable-row-icon-placeholder" (mousedown)="onMouseDown($event, i)">
+      <span class="draggable-row-icon"></span>
+      <span class="draggable-row-icon"></span>
+      <span class="draggable-row-icon"></span>
+      <span class="draggable-row-icon"></span>
+    </td>
+    <td *ngIf="selectable" class="draggable-row-check-box">
+      <p-checkbox [value]="getItemIndex(i)" [(ngModel)]="selectedIndexes" (onChange)="onSelectionChange()">
+      </p-checkbox>
+    </td>
+    <td *ngIf="showIndex" class="draggable-row-index" (mousedown)="onMouseDown($event, i)">
+      <span>{{getItemIndex(i) + 1}}</span>
+    </td>
+    <td *ngFor="let col of columns" [ngStyle]="col.style" (mousedown)="onMouseDown($event, i)">
+      <ng-container
+        *ngTemplateOutlet="col.template; context: { $implicit: col, rowData: row, rowIndex: getItemIndex(i)}"></ng-container>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<div *ngIf="(!!draggableItems && draggableItems.length === 0) || !draggableItems"
+     class="empty-state-placeholder">
+  <ng-container *ngTemplateOutlet="emptyStateTemplate"></ng-container>
+</div>
+
+<p-paginator *ngIf="paginator" [rows]="rows" [totalRecords]="value ? value.length : 0"
+             [rowsPerPageOptions]="rowsPerPageOptions" (onPageChange)="paginate($event)">
+</p-paginator>
+
+<div #draggable [hidden]="dragModeOff"
+     [ngClass]="{ 'multiple-drag-and-drop' : (multipleDragAndDrop && selectedIndexes.length > 1) }"
+     (mouseup)="onMouseUp()" (mousemove)="onMouseMove($event)">
+  <span *ngIf="multipleDragAndDrop && selectedIndexes.length > 1" class="selected-items-counter">{{selectedIndexes.length}}</span>
+  <ng-container *ngTemplateOutlet="draggableViewTemplate; context: {currentDraggableItem: currentDraggableItem}">
+  </ng-container>
+</div>

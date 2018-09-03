@@ -11,8 +11,10 @@ import {
   IterableDiffers,
   Output,
   EventEmitter,
-  HostListener
+  ViewChild,
+  HostListener, AfterContentInit, DoCheck
 } from '@angular/core';
+import {trigger,state,style,transition,animate,AnimationEvent} from '@angular/animations';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
 import { AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR } from "primeng/components/autocomplete/autocomplete";
@@ -46,6 +48,20 @@ export const KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     styleUrls: [ './auto-complete.component.scss' ],
     templateUrl: './auto-complete.component.html',
     providers: [DomHandler,ObjectUtils,KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR],
+    animations: [
+      trigger('overlayAnimation', [
+        state('void', style({
+          transform: 'translateY(5%)',
+          opacity: 0
+        })),
+        state('visible', style({
+          transform: 'translateY(0)',
+          opacity: 1
+        })),
+        transition('void => visible', animate('225ms ease-out')),
+        transition('visible => void', animate('195ms ease-in'))
+      ])
+    ],
     host: {
         '[class.ui-inputwrapper-filled]': 'filled',
         '[class.ui-inputwrapper-focus]': 'focus'
@@ -53,7 +69,7 @@ export const KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     /* tslint:enable */
 })
 // [kmcng] upon upgrade: compare implemented interfaces in the original component (no need to include ControlValueAccessor)
-export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterViewInit, AfterViewChecked  {
+export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterViewChecked, AfterContentInit,DoCheck  {
     private _suggestionsProvider$ : ISubscription = null;
     public _loading = false;
     public _showNoItems = false;
@@ -98,6 +114,8 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     @Output()
     itemClick = new EventEmitter<any>();
 
+    @ViewChild('panel') panelEL: ElementRef;
+
     @HostListener('paste', ['$event']) onPaste(event: ClipboardEvent) {
       if (!this.addOnPaste) {
         return;
@@ -111,8 +129,8 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
           .map(item => item.trim())
           .forEach(tag => this._addValueFromInput(tag));
 
-        if (!this.panelVisible) {
-          // primng fix: if the panel is not visible (!panelVisible) and we currently leaving the input field clear input content
+        if (!this.overlayVisible) {
+          // primng fix: if the panel is not visible (!overlayVisible) and we currently leaving the input field clear input content
           this._clearInputValue();
         }
 
@@ -321,8 +339,8 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
 
         this._addValueFromInput();
 
-        if (!this.panelVisible) {
-            // primng fix: if the panel is not visible (!panelVisible) and we currently leaving the input field clear input content
+        if (!this.overlayVisible) {
+            // primng fix: if the panel is not visible (!overlayVisible) and we currently leaving the input field clear input content
             this._clearInputValue();
         }
         super.onInputBlur(event);
@@ -347,7 +365,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
 
     hide()
     {
-        if (this.panelVisible)
+        if (this.overlayVisible)
         {
             this.panelEL.nativeElement.scrollTop = 0; // primeng fix: scroll suggestions list to top (otherwise the scroll will be persist)
             this.highlightOption = null; // primeng fix: the last selection using keyboard is not being cleared when selecting using 'enter'
@@ -398,7 +416,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
                 preventKeydown = true;
 
                 if (status === 'duplicated') {
-                    if (this.panelVisible) {
+                    if (this.overlayVisible) {
                         this.hide();
                     }
                     this._clearInputValue();
@@ -406,7 +424,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
             }
         }
 
-        if(!preventKeydown && this.panelVisible) {
+        if(!preventKeydown && this.overlayVisible) {
             switch (event.which) {
                 case 9:  //tab
                     // primeng fix: pressing 'tab' move the focus from the component but doesn't hide the suggestions.

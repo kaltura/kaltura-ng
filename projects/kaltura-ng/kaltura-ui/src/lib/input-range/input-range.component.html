@@ -1,0 +1,24 @@
+<div class="kRangeContainer">
+  <div [style.width]="width">
+    <div class="kRangeInput kRangeInputBlock">
+      <div class="kBbar">
+        <div class="kBarProgress"
+             [style.width]="getProgressBarStyle() + '%'"></div>
+        <div class="kBarPoints">
+          <div class="kBarPointCol" (mouseout)="pointOvered[i]=false" (mouseover)="pointOvered[i]=true" [style.width]="100 / (options.length-1) + '%'"
+               *ngFor="let option of options; index as i">
+            <div class="kPoint"
+                 [ngClass]="{
+                 'kSelected': (pointOvered.length > 0 && pointOvered[i]) || i == selectedOptionIndex,
+                 'kBgPrimary':  i <= selectedOptionIndex
+               }"></div>
+            <div class="kPointClickArea"
+                 (click) = "pointSelected(i)"
+                 [kTooltip] = "option.tooltip"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="kSelectedLabel">{{selectedText}}</span>
+</div>
