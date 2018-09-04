@@ -1,4 +1,18 @@
 # Change Log
+<a name="7.0.0"></a>
+# [7.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@6.1.1...7.0.0) (2018-08-15)
+
+
+### Code Refactoring
+
+* remove closeOnScroll input ([cab5a7b](https://github.com/kaltura/kaltura-ng/commit/cab5a7b))
+
+
+### BREAKING CHANGES
+
+* remove closeOnScroll API property as it is not used anywhere in the application and causing performances decrease
+
+
 <a name="6.1.1"></a>
 ## [6.1.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@6.1.0...6.1.1) (2018-07-24)
 

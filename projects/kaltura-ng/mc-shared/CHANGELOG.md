@@ -1,4 +1,10 @@
 # Change Log
+<a name="5.1.1"></a>
+## [5.1.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@5.1.0...5.1.1) (2018-08-15)
+
+* update dependent libraries versions
+
+
 <a name="5.1.0"></a>
 # [5.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@5.0.1...5.1.0) (2018-07-24)
 

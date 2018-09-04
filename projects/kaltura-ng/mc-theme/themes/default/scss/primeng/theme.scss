@@ -719,6 +719,7 @@ body .ui-tieredmenu {
   }
   .ui-datepicker{
     padding: 0;
+    width: 17em;
   }
   .ui-datepicker-calendar{
     margin: 0;
@@ -760,11 +761,13 @@ body .ui-tieredmenu {
   .ui-state-default{
     color: $kGrayscale1;
     &.ui-state-active{
-      background-color: $kPrimary;
       color: white;
-      height: 100%;
-      padding-top: 3px;
+      padding-top: 7px;
+      background: transparent;
     }
+  }
+  .ui-datepicker-current-day{
+    background-color: $kPrimary;
   }
   .ui-timepicker.ui-widget-header{
     color: $kGrayscale1;

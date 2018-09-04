@@ -1,6 +1,6 @@
 {
   "name": "@kaltura-ng/mc-shared",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "private": false,
   "description": "Angular - Kaltura Managemenet consoles UI directives, pipes and services",
   "scripts": {
@@ -42,9 +42,9 @@
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/forms": "^6.0.0-rc.0 || ^6.0.0",
-    "@kaltura-ng/kaltura-common": "7.0.0",
+    "@kaltura-ng/kaltura-common": "7.0.1",
     "@kaltura-ng/kaltura-logger": "3.0.0",
-    "@kaltura-ng/kaltura-ui": "6.1.1",
+    "@kaltura-ng/kaltura-ui": "7.0.0",
     "@ngx-translate/core": "^10.0.2",
     "primeng": "^6.0.1",
     "rxjs": "^6.0.0",
