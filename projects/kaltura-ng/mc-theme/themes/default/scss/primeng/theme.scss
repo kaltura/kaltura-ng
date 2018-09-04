@@ -1308,12 +1308,22 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   }
 
   &.ui-inputswitch-checked {
-    background-color: $kPrimary;
-    border: none;
+    .ui-inputswitch-slider {
+      background-color: $kPrimary;
+    }
 
     .ui-inputswitch-handle {
       left: 23px !important;
     }
+  }
+  &.ui-inputswitch-checked:not(.ui-state-disabled):hover{
+    .ui-inputswitch-slider {
+      background-color: $kPrimary;
+    }
+  }
+  .ui-inputswitch-slider:before{
+    left: .15em;
+    top: 0.15em;
   }
 
 }
