@@ -1,4 +1,10 @@
 # Change Log
+<a name="7.0.2"></a>
+## [7.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@7.0.1...7.0.2) (2018-09-17)
+
+* update dependent libraries versions
+
+
 <a name="7.0.1"></a>
 ## [7.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@7.0.0...7.0.1) (2018-08-15)
 

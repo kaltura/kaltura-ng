@@ -1,7 +1,7 @@
 {
   "name": "@kaltura-ng/mc-theme",
   "private": false,
-  "version": "3.0.3",
+  "version": "3.0.4",
   "license": "AGPL-3.0",
   "description": "Kaltura theme for Angular management console applications",
   "contributors": [

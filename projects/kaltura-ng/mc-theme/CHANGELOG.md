@@ -1,4 +1,13 @@
 # Change Log
+<a name="3.0.4"></a>
+## [3.0.4](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.3...3.0.4) (2018-09-17)
+
+
+### Bug Fixes
+
+* upgrade primeng to v6.1.2 and update our components accordingly ([746eeeb](https://github.com/kaltura/kaltura-ng/commit/746eeeb))
+
+
 <a name="3.0.3"></a>
 ## [3.0.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.2...3.0.3) (2018-08-15)
 

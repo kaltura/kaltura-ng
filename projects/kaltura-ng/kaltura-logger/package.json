@@ -1,6 +1,6 @@
 {
   "name": "@kaltura-ng/kaltura-logger",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "private": false,
   "description": "Angular - javascript logger",
   "scripts": {
