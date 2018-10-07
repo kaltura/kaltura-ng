@@ -1,4 +1,13 @@
 # Change Log
+<a name="3.0.6"></a>
+## [3.0.6](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@3.0.5...3.0.6) (2018-10-07)
+
+
+### Bug Fixes
+
+* display "all selected" label in multi-select component prompt text when all items are selected ([c877d15](https://github.com/kaltura/kaltura-ng/commit/c877d15))
+
+
 <a name="3.0.5"></a>
 ## [3.0.5](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@3.0.4...3.0.5) (2018-10-03)
 
