@@ -173,7 +173,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 					        this.popup.nativeElement.style.bottom = 0 + "px"; // use timeout to invoke animation
 				        }, 0);
 			        } else {
-				        const marginTop = this.popupHeight !== 'auto' ? (window.innerHeight / 2 - this.popupHeight / 2) : 100;
+                const marginTop = (window.innerHeight / 2 - 100 / 2);
 				        this.popup.nativeElement.style.marginTop = marginTop + 'px';
 				        this.popup.nativeElement.style.position = "fixed";
 			        }
@@ -227,7 +227,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
             }
 
 		}
-	    if (!this.modal && !this.slider && !this.fullScreen && this.popup.nativeElement) {
+	    if (!this.slider && !this.fullScreen && this.popup.nativeElement) {
 		    this.popup.nativeElement.style.opacity = 0;
 	    }
 	    // auto positioning need first the dom to render
@@ -425,14 +425,24 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	}
 
 	private setPosition() {
-		if (this.modal || this.slider) {
-			this.popup.nativeElement.style.marginLeft = window.innerWidth / 2 - this.popupWidth / 2 + 'px';
+    const popupHeight = this.popup.nativeElement.clientHeight;
+		const popupWidth = this.popup.nativeElement.clientWidth;
+
+    if (this.modal || this.slider) {
+      this.popup.nativeElement.style.marginLeft = window.innerWidth / 2 - this.popupWidth / 2 + 'px';
+
+      if (this.modal) {
+        const modalMarginTop = (
+          window.innerHeight / 2 -
+          popupHeight / 2
+        );
+        this.popup.nativeElement.style.marginTop = Math.round(modalMarginTop) + 'px';
+        this.popup.nativeElement.style.opacity = 1;
+      }
 			return;
 		}
 		if (!this._targetRef) return;
 
-		const popupHeight = this.popup.nativeElement.clientHeight;
-		const popupWidth = this.popup.nativeElement.clientWidth;
 		const popupBox = this.popup.nativeElement.getBoundingClientRect();
 		const targetRefBox = this._targetRef.getBoundingClientRect();
 		const parentTop = this.appendTo && !this.modal ? this.appendTo.getBoundingClientRect().top : 0;
