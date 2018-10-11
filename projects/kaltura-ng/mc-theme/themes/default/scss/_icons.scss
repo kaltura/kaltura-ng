@@ -82,4 +82,12 @@
 	.ui-multiselect-filter-container  .pi.pi-search:before{
 		@extend .kIconmagnifier:before;
 	}
+
+  .ui-table-tbody .pi.pi-chevron-right:before{
+    @extend .kIcontree-arrow-right;
+  }
+
+  .ui-table-tbody .pi.pi-chevron-down{
+    @extend .kIcontree-arrow-down;
+  }
 }
