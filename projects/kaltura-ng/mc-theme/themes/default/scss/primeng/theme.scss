@@ -135,6 +135,7 @@ textarea.ui-inputtext {
   margin-right: 6px;
 }
 
+
 /* data table */
 .ui-datatable {
   thead th, .ui-datatable tfoot td, .ui-datatable tbody td, .ui-datatable-data.ui-widget-content {
@@ -1334,13 +1335,12 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
 .ui-selectbutton.ui-buttonset{
   display: flex;
   .ui-button.ui-state-default {
-    border: 1px solid $kGrayscale4;
     background: white;
     font-weight: normal;
     color: $kGrayscale1;
+    border-left-width: 0;
   }
   .ui-button.ui-state-hover, .ui-button.ui-state-focus, .ui-button:focus {
-    border: 1px solid $kGrayscale4;
     background: white;
     font-weight: normal;
     color: $kGrayscale1;
@@ -1357,14 +1357,18 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
     border-bottom-left-radius: 0px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
+    border-left-width: 0;
+    border: 1px solid $kGrayscale4;
+
     .ui-button-text {
-      padding: 7px 16px;
+      padding: 8px 16px;
     }
     &:first-child {
       border-top-left-radius: 3px;
       border-bottom-left-radius: 3px;
       border-top-right-radius: 0px;
       border-bottom-right-radius: 0px;
+      border-left-width: 1px;
     }
     &:last-child {
       border-top-left-radius: 0px;
