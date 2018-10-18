@@ -134,35 +134,6 @@ textarea.ui-inputtext {
 .ui-radiobutton{
   margin-right: 6px;
 }
-/* select button */
-.ui-selectbutton {
-  .ui-button-text-only .ui-button-text {
-    padding: 7px;
-  }
-  .ui-button {
-    height: 34px;
-    font-weight: bold;
-    color: $kGrayscale3;
-    border-left-width: 0;
-    border-radius: 0;
-
-    &:first-child {
-      border-left-width: 1px;
-      border-top-left-radius: 3px;
-      border-bottom-left-radius: 3px;
-    }
-    &:last-child {
-      border-top-right-radius: 3px;
-      border-bottom-right-radius: 3px;
-    }
-
-    &.ui-state-active {
-      background-color: $kPrimary;
-      border-color: $kPrimary;
-      color: #fff;
-    }
-  }
-}
 
 /* data table */
 .ui-datatable {
