@@ -1,4 +1,13 @@
 # Change Log
+<a name="7.0.1"></a>
+## [7.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@7.0.0...7.0.1) (2018-09-17)
+
+
+### Bug Fixes
+
+* upgrade primeng to v6.1.2 and update our components accordingly ([746eeeb](https://github.com/kaltura/kaltura-ng/commit/746eeeb))
+
+
 <a name="7.0.0"></a>
 # [7.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@6.1.1...7.0.0) (2018-08-15)
 

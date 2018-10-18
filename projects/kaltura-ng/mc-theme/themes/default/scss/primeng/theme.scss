@@ -1357,3 +1357,49 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   }
 
 }
+
+/* ButtonSet */
+
+.ui-selectbutton.ui-buttonset{
+  display: flex;
+  .ui-button.ui-state-default {
+    border: 1px solid $kGrayscale4;
+    background: white;
+    font-weight: normal;
+    color: $kGrayscale1;
+  }
+  .ui-button.ui-state-hover, .ui-button.ui-state-focus, .ui-button:focus {
+    border: 1px solid $kGrayscale4;
+    background: white;
+    font-weight: normal;
+    color: $kGrayscale1;
+  }
+
+  .ui-button.ui-state-active {
+    border: 1px solid $kPrimary;
+    background: $kPrimary;
+    color: white;
+  }
+
+  .ui-button {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    .ui-button-text {
+      padding: 7px 16px;
+    }
+    &:first-child {
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+    }
+    &:last-child {
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+  }
+}

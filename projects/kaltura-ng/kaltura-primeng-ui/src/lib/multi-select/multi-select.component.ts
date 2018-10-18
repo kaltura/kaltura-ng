@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, forwardRef, Input, Renderer2 } from '@angular/core';
+import {trigger,state,style,transition,animate,AnimationEvent} from '@angular/animations';
 import { DomHandler } from 'primeng/components/dom/domhandler';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MultiSelect } from 'primeng/primeng';
@@ -22,6 +23,24 @@ export interface KalturaSelectItem extends SelectItem {
   selector: 'kMultiSelect',
   styleUrls: ['./multi-select.component.scss'],
   templateUrl: './multi-select.component.html',
+  animations: [
+    trigger('overlayAnimation', [
+      state('void', style({
+        transform: 'translateY(5%)',
+        opacity: 0
+      })),
+      state('visible', style({
+        transform: 'translateY(0)',
+        opacity: 1
+      })),
+      transition('void => visible', animate('225ms ease-out')),
+      transition('visible => void', animate('195ms ease-in'))
+    ])
+  ],
+  host: {
+    '[class.ui-inputwrapper-filled]': 'filled',
+    '[class.ui-inputwrapper-focus]': 'focus'
+  },
   providers: [DomHandler, ObjectUtils, KALTURA_MULTISELECT_VALUE_ACCESSOR]
   /* tslint:enable */
 })

@@ -1,4 +1,10 @@
 # Change Log
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@3.0.0...3.0.1) (2018-09-17)
+
+* update dependent libraries versions
+
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@2.2.2...3.0.0) (2018-07-11)
 
