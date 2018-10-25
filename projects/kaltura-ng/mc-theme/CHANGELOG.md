@@ -1,4 +1,12 @@
 # Change Log
+<a name="3.0.6"></a>
+## [3.0.6](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.5...3.0.6) (2018-10-25)
+
+* update dependent libraries versions
+* update icons library
+* fix theme style for button set selector
+
+
 <a name="3.0.5"></a>
 ## [3.0.5](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.4...3.0.5) (2018-10-03)
 

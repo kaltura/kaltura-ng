@@ -1,6 +1,6 @@
 {
   "name": "@kaltura-ng/kaltura-primeng-ui",
-  "version": "3.0.6",
+  "version": "3.0.7",
   "private": false,
   "description": "Angular - Kaltura UI directives, pipes and services that utilizes PrimeNG suite",
   "scripts": {
@@ -44,7 +44,7 @@
     "rxjs-compat": "^6.2.0",
     "@angular/forms": "^6.1.6",
     "@kaltura-ng/kaltura-common": "7.0.2",
-    "@kaltura-ng/kaltura-ui": "7.0.1",
+    "@kaltura-ng/kaltura-ui": "7.0.2",
     "primeng": "^6.1.3"
   }
 }

@@ -1,4 +1,11 @@
 # Change Log
+<a name="7.0.2"></a>
+## [7.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@7.0.1...7.0.2) (2018-10-25)
+
+* update dependent libraries versions
+* fix popup widget positioning for modal popups with auto height
+
+
 <a name="7.0.1"></a>
 ## [7.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@7.0.0...7.0.1) (2018-09-17)
 
