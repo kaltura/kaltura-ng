@@ -3,7 +3,7 @@
       <div #ref>
         <ng-content select="[input-helper-content]"></ng-content>
       </div>
-      <a *ngIf="ref.childNodes.length == 0" class="kIconhelpLink" [class.kActive]="helperPopup.isShow">
+      <a *ngIf="ref.childNodes.length === 0" class="kIconhelpLink" [class.kActive]="helperPopup.isShow">
         <i class="kIconhelp_full"></i>
       </a>
     </div>
