@@ -1,11 +1,18 @@
 <div class="kInputHelper" #inputHelperContainer>
-    <a class="kIconhelpLink" [class.kActive]="helperPopup.isShow" #helperLink><i class="kIconhelp_full"></i></a>
+    <div #helperLink>
+      <div #ref>
+        <ng-content select="[input-helper-content]"></ng-content>
+      </div>
+      <a *ngIf="ref.childNodes.length == 0" class="kIconhelpLink" [class.kActive]="helperPopup.isShow">
+        <i class="kIconhelp_full"></i>
+      </a>
+    </div>
 
     <kPopupWidget
                   #helperPopup
                   class="kInputHelperPopup"
                   [appendTo]="inputHelperContainer"
-                  [targetOffset]="{x: 0, y: 20}"
+                  [targetOffset]="{x: offsetX, y: offsetY}"
                   [popupWidth]="width"
                   [closeBtn]="false"
                   [trigger]="trigger"

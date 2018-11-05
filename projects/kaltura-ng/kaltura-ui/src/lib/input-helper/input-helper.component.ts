@@ -12,6 +12,8 @@ export class InputHelperComponent implements OnInit {
     @Input() icon: string = 'kIconhelp';
     @Input() width: number = 300;
     @Input() placement: {x: PopupWidgetXPositions, y: PopupWidgetYPositions} = {x: 'right', y: 'top'};
+    @Input() offsetX = 0;
+    @Input() offsetY = 20;
 
     constructor() {}
 
