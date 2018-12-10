@@ -51,9 +51,13 @@
         @extend .kIcondropdown_arrow_right:before;
         font-size: 9px;
     }
+  .ui-dropdown-open .ui-dropdown-trigger-icon {
+    transform: rotate(180deg) translateY(-50%);
+    margin-top: -11px;
+  }
 	.ui-dropdown-trigger .pi.pi-caret-down:before{
 		@extend .kIcondropdown_arrow_bottom:before;
-		font-size: 12px;
+		font-size: 10px;
 	}
 	.ui-spinner.ui-widget .pi.pi-caret-down:before{
 		@extend .kIcondropdown_arrow_bottom:before;
