@@ -1,74 +1,55 @@
-<div #container
-     [ngClass]="{'ui-multiselect ui-widget ui-state-default ui-corner-all':true,'ui-multiselect-open':overlayVisible,'ui-state-focus':focus,'ui-state-disabled': disabled}"
-     [ngStyle]="style" [class]="styleClass"
+<div #container [ngClass]="{'ui-multiselect ui-widget ui-state-default ui-corner-all':true,'ui-multiselect-open':overlayVisible,'ui-state-focus':focus,'ui-state-disabled': disabled}" [ngStyle]="style" [class]="styleClass"
      (click)="onMouseclick($event,in)">
   <div class="ui-helper-hidden-accessible">
-    <input #in type="text" readonly="readonly" [attr.id]="inputId" [attr.name]="name" (focus)="onInputFocus($event)"
-           (blur)="onInputBlur($event)" [disabled]="disabled" [attr.tabindex]="tabindex"
-           (keydown)="onInputKeydown($event)">
+    <input #in type="text" readonly="readonly" [attr.id]="inputId" [attr.name]="name" (focus)="onInputFocus($event)" (blur)="onInputBlur($event)"
+           [disabled]="disabled" [attr.tabindex]="tabindex" (keydown)="onKeydown($event)">
   </div>
   <div class="ui-multiselect-label-container" [title]="valuesAsString">
     <label class="ui-multiselect-label ui-corner-all">
-      <ng-container *ngIf="!selectedItemsTemplate">{{isAllChecked() ? (allSelectedLabel || valuesAsString) : valuesAsString}}</ng-container>
+      <ng-container *ngIf="!selectedItemsTemplate">{{valuesAsString}}</ng-container>
       <ng-container *ngTemplateOutlet="selectedItemsTemplate; context: {$implicit: value}"></ng-container>
     </label>
   </div>
   <div [ngClass]="{'ui-multiselect-trigger ui-state-default ui-corner-right':true}">
     <span class="ui-multiselect-trigger-icon ui-clickable" [ngClass]="dropdownIcon"></span>
   </div>
-  <div *ngIf="overlayVisible" [ngClass]="['ui-multiselect-panel ui-widget ui-widget-content ui-corner-all ui-shadow']"
-       [@overlayAnimation]="'visible'" (@overlayAnimation.start)="onOverlayAnimationStart($event)"
+  <div *ngIf="overlayVisible" [ngClass]="['ui-multiselect-panel ui-widget ui-widget-content ui-corner-all ui-shadow']" [@overlayAnimation]="{value: 'visible', params: {showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions}}" (@overlayAnimation.start)="onOverlayAnimationStart($event)"
        [ngStyle]="panelStyle" [class]="panelStyleClass" (click)="panelClick=true">
-    <div class="ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix"
-         [ngClass]="{'ui-multiselect-header-no-toggleall': showToggleAll}" *ngIf="showHeader">
+    <div class="ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix" [ngClass]="{'ui-multiselect-header-no-toggleall': !showToggleAll}" *ngIf="showHeader">
+      <div class="ui-chkbox ui-widget" *ngIf="showToggleAll && !selectionLimit">
+        <div class="ui-helper-hidden-accessible">
+          <input type="checkbox" readonly="readonly" [checked]="isAllChecked()" (focus)="onHeaderCheckboxFocus()" (blur)="onHeaderCheckboxBlur()" (keydown.space)="toggleAll($event)">
+        </div>
+        <div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default" [ngClass]="{'ui-state-active':isAllChecked(), 'ui-state-focus': headerCheckboxFocus}" (click)="toggleAll($event)">
+          <span class="ui-chkbox-icon ui-clickable pi"
+                [ngClass]="{'pi-check':isAllChecked(), 'pi-minus':isPartiallyChecked()}"></span>
+        </div>
+      </div>
       <div class="ui-multiselect-filter-container" *ngIf="filter">
-        <input #filterInput type="text" role="textbox" [value]="filterValue||''" (input)="onFilter($event)"
-               class="ui-inputtext ui-widget ui-state-default ui-corner-all" [attr.placeholder]="filterPlaceHolder">
+        <input #filterInput type="text" role="textbox" [value]="filterValue||''" (input)="onFilter()" class="ui-inputtext ui-widget ui-state-default ui-corner-all" [attr.placeholder]="filterPlaceHolder">
         <span class="ui-multiselect-filter-icon pi pi-search"></span>
       </div>
-      <a class="ui-multiselect-close ui-corner-all" href="#" (click)="close($event)">
+      <a class="ui-multiselect-close ui-corner-all" tabindex="0" (click)="close($event)" (keydown.enter)="close($event)">
         <span class="pi pi-times"></span>
       </a>
+      <ng-content select="p-header"></ng-content>
     </div>
-    <div class="ui-multiselect-items-wrapper" [style.max-height]="scrollHeight||'auto'">
+    <div class="ui-multiselect-items-wrapper" [style.max-height]="virtualScroll ? 'auto' : (scrollHeight||'auto')">
       <ul class="ui-multiselect-items ui-multiselect-list ui-widget-content ui-widget ui-corner-all ui-helper-reset">
-        <li *ngIf="showToggleAll && !filterValue"
-            class="ui-multiselect-item ui-corner-all ui-select-all"
-            (click)="toggleAll($event,cb)">
-          <div class="ui-chkbox ui-widget">
-            <div class="ui-helper-hidden-accessible">
-              <input #cb type="checkbox" readonly="readonly"
-                     [attr.aria-label]="selectAllLabel"
-                     [checked]="isAllChecked()">
-            </div>
-            <div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"
-                 [ngClass]="{'ui-state-active':isAllChecked()}">
-              <span class="ui-chkbox-icon ui-clickable pi"
-                    [ngClass]="{'pi-check':isAllChecked(), 'pi-minus':isPartiallyChecked()}"></span>
-            </div>
-          </div>
-          <label>{{selectAllLabel}}</label>
-        </li>
-        <li *ngFor="let option of options; let i = index" class="ui-multiselect-item ui-corner-all"
-            (click)="onItemClick($event,option)"
-            [style.display]="isItemVisible(option) ? 'block' : 'none'"
-            [ngClass]="{'ui-state-highlight': isSelected(option), 'ui-state-disabled': option.disabled || (maxSelectionLimitReached && !isSelected(option))}">
-          <div class="ui-chkbox ui-widget">
-            <div class="ui-helper-hidden-accessible">
-              <input #itemcb type="checkbox" readonly="readonly" [checked]="isSelected(option)"
-                     (focus)="focusedItemCheckbox=itemcb" (blur)="focusedItemCheckbox=null"
-                     [attr.aria-label]="option.label"
-                     [disabled]="option.disabled || (maxSelectionLimitReached && !isSelected(option))">
-            </div>
-            <div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"
-                 [ngClass]="{'ui-state-active': isSelected(option),
-                                                  'ui-state-focus': (focusedItemCheckbox === itemcb)}">
-              <span class="ui-chkbox-icon ui-clickable" [ngClass]="{'pi pi-check':isSelected(option)}"></span>
-            </div>
-          </div>
-          <label *ngIf="!itemTemplate">{{option.label}}</label>
-          <ng-container *ngTemplateOutlet="itemTemplate; context: {$implicit: option, index: i}"></ng-container>
-        </li>
+        <ng-container *ngIf="!virtualScroll; else virtualScrollList">
+          <ng-template ngFor let-option let-i="index" [ngForOf]="options">
+            <p-multiSelectItem [option]="option" [selected]="isSelected(option.value)" (onClick)="onOptionClick($event)" (onKeydown)="onOptionKeydown($event)"
+                               [maxSelectionLimitReached]="maxSelectionLimitReached" [visible]="isItemVisible(option)" [template]="itemTemplate"></p-multiSelectItem>
+          </ng-template>
+        </ng-container>
+        <ng-template #virtualScrollList>
+          <cdk-virtual-scroll-viewport #viewport [ngStyle]="{'height': scrollHeight}" [itemSize]="itemSize" *ngIf="virtualScroll">
+            <ng-container *cdkVirtualFor="let option of options; let i = index; let c = count; let f = first; let l = last; let e = even; let o = odd">
+              <p-multiSelectItem [option]="option" [selected]="isSelected(option.value)" (onClick)="onOptionClick($event)" (onKeydown)="onOptionKeydown($event)"
+                                 [maxSelectionLimitReached]="maxSelectionLimitReached" [visible]="isItemVisible(option)" [template]="itemTemplate" [itemSize]="itemSize"></p-multiSelectItem>
+            </ng-container>
+          </cdk-virtual-scroll-viewport>
+        </ng-template>
       </ul>
     </div>
     <div class="ui-multiselect-footer ui-widget-content" *ngIf="footerFacet">

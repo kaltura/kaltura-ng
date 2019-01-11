@@ -16,7 +16,7 @@
   </div>
   <div class="ui-helper-hidden-accessible">
     <input #in [attr.id]="inputId" type="text" [attr.aria-label]="selectedOption ? selectedOption.label : ' '" readonly (focus)="onInputFocus($event)" role="listbox"
-           (blur)="onInputBlur($event)" (keydown)="onKeydown($event)" [disabled]="disabled" [attr.tabindex]="tabindex" [attr.autofocus]="autofocus">
+           (blur)="onInputBlur($event)" (keydown)="onKeydown($event, true)" [disabled]="disabled" [attr.tabindex]="tabindex" [attr.autofocus]="autofocus">
   </div>
   <label [ngClass]="{'ui-dropdown-label ui-inputtext ui-corner-all':true,'ui-dropdown-label-empty':(label == null || label.length === 0)}" *ngIf="!editable && (label != null)">
     <ng-container *ngIf="!selectedItemTemplate">{{label||'empty'}}</ng-container>
@@ -33,7 +33,7 @@
        [style.display]="overlayVisible ? 'block' : 'none'" [ngStyle]="panelStyle" [class]="panelStyleClass">
     <div *ngIf="filter" class="ui-dropdown-filter-container" (input)="onFilter($event)" (click)="$event.stopPropagation()">
       <input #filter type="text" autocomplete="off" class="ui-dropdown-filter ui-inputtext ui-widget ui-state-default ui-corner-all" [attr.placeholder]="filterPlaceholder"
-             (keydown.enter)="$event.preventDefault()" (keydown)="onKeydown($event)">
+             (keydown.enter)="$event.preventDefault()" (keydown)="onKeydown($event, false)">
       <span class="ui-dropdown-filter-icon pi pi-search"></span>
     </div>
     <div #itemswrapper class="ui-dropdown-items-wrapper" [style.max-height]="scrollHeight||'auto'">

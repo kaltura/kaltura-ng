@@ -2,8 +2,6 @@ import { Component, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Dropdown } from 'primeng/components/dropdown/dropdown';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { DomHandler } from 'primeng/components/dom/domhandler';
-import { ObjectUtils } from 'primeng/components/utils/objectutils';
 import { SelectItem } from 'primeng/components/common/selectitem';
 
 export const DROPDOWN_VALUE_ACCESSOR: any = {
@@ -33,7 +31,7 @@ export const DROPDOWN_VALUE_ACCESSOR: any = {
     '[class.ui-inputwrapper-filled]': 'filled',
     '[class.ui-inputwrapper-focus]': 'focused'
   },
-  providers: [DomHandler, ObjectUtils, DROPDOWN_VALUE_ACCESSOR]
+  providers: [DROPDOWN_VALUE_ACCESSOR]
 })
 
 export class DropdownComponent extends Dropdown {

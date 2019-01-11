@@ -47,7 +47,7 @@ export const KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     // [kmcng] upon upgrade: sync with original component
     styleUrls: [ './auto-complete.component.scss' ],
     templateUrl: './auto-complete.component.html',
-    providers: [DomHandler,ObjectUtils,KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR],
+    providers: [KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR],
     animations: [
       trigger('overlayAnimation', [
         state('void', style({
@@ -76,6 +76,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     public _errorMessage = '';
     private _allowMultiple = false;
     public _placeholder = '';
+    public ObjectUtils = ObjectUtils;
 
     @Input()
     onItemAdding : (value : any) => any;
@@ -352,14 +353,13 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
      * This is a workaround since according to NG2 documentation the parent constructor should be called even if
      * this component doesn't need a constructor.
      * @param el
-     * @param domHandler
      * @param differs
      * @param renderer
-     * @param objectUtils
+     * @param cd
      */
-    constructor(public el: ElementRef, public domHandler: DomHandler, public renderer: Renderer2, public objectUtils: ObjectUtils, public cd: ChangeDetectorRef, public differs: IterableDiffers)
+    constructor(public el: ElementRef, public renderer: Renderer2, public cd: ChangeDetectorRef, public differs: IterableDiffers)
     {
-        super(el,domHandler, renderer, objectUtils, cd, differs);
+        super(el, renderer, cd, differs);
     }
 
 

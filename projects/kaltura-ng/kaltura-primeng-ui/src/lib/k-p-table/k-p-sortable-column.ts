@@ -6,7 +6,6 @@ import { DomHandler } from 'primeng/api';
 
 @Directive({
     selector: '[kpSortableColumn]',
-    providers: [DomHandler],
     host: {
         '[class.ui-sortable-column]': 'isEnabled',
         '[class.ui-state-highlight]': 'sorted'
@@ -21,7 +20,7 @@ export class KPSortableColumn implements OnInit, OnDestroy {
 
     subscription: Subscription;
 
-    constructor(public dt: Table, public domHandler: DomHandler) {
+    constructor(public dt: Table) {
         this.subscription = this.dt.tableService.sortSource$.subscribe(sortMeta => {
             this.updateSortState();
         });
@@ -46,7 +45,7 @@ export class KPSortableColumn implements OnInit, OnDestroy {
                 field: this.field
             });
 
-            this.domHandler.clearSelection();
+          DomHandler.clearSelection();
         }
     }
 

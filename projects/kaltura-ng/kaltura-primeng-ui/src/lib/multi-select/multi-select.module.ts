@@ -4,6 +4,7 @@ import { TooltipModule } from '@kaltura-ng/kaltura-ui';
 import { SharedModule } from 'primeng/components/common/shared';
 import { MultiSelectComponent } from './multi-select.component';
 import { MultiSelectModule as PrimeMultiSelectModule } from 'primeng/primeng';
+import { MultiSelectItem } from './multi-select-item.component';
 
 @NgModule({
   imports: [
@@ -12,9 +13,8 @@ import { MultiSelectModule as PrimeMultiSelectModule } from 'primeng/primeng';
     SharedModule,
     TooltipModule
   ],
-  declarations: [MultiSelectComponent],
+  declarations: [MultiSelectComponent, MultiSelectItem],
   exports: [MultiSelectComponent],
-  
 })
 export class MultiSelectModule {
 }
