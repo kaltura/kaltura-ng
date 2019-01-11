@@ -5,13 +5,15 @@ import { SharedModule } from 'primeng/components/common/shared';
 import { MultiSelectComponent } from './multi-select.component';
 import { MultiSelectModule as PrimeMultiSelectModule } from 'primeng/primeng';
 import { MultiSelectItem } from './multi-select-item.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
     PrimeMultiSelectModule,
     CommonModule,
     SharedModule,
-    TooltipModule
+    TooltipModule,
+    ScrollingModule
   ],
   declarations: [MultiSelectComponent, MultiSelectItem],
   exports: [MultiSelectComponent],
