@@ -1,4 +1,13 @@
 # Change Log
+<a name="3.0.7"></a>
+## [3.0.7](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.6...3.0.7) (2018-12-10)
+
+
+### Bug Fixes
+
+* ui bug blitz ([#141](https://github.com/kaltura/kaltura-ng/issues/141)) ([41853b0](https://github.com/kaltura/kaltura-ng/commit/41853b0))
+
+
 <a name="3.0.6"></a>
 ## [3.0.6](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.5...3.0.6) (2018-10-25)
 
