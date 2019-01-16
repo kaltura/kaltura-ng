@@ -407,8 +407,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     onKeydown(event)  {
         let preventKeydown = false;
 
-
-        if ((event.which === 9 || event.which === 13 || event.which === 188) )
+        if ((event.which === 9 || event.which === 13 || event.key === ',') )
         {
             const status = this._addValueFromInput().status;
 
