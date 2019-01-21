@@ -932,13 +932,14 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   height: 32px;
   line-height: 22px;
   padding-left: 8px;
+  color: $kGrayscale1;
 }
 .ui-dropdown-trigger{
   border: 0px !important;
   .pi.pi-caret-down {
     margin-top: -10px;
     position: absolute;
-    color: $kGrayscale3;
+    color: $kGrayscale2;
   }
 }
 // multi select
