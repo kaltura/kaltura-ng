@@ -1,4 +1,13 @@
 # Change Log
+<a name="3.0.8"></a>
+## [3.0.8](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@3.0.7...3.0.8) (2019-01-22)
+
+
+### Bug Fixes
+
+* **auto-complete:** better detection of comma key to support Hebrew ([b0ea015](https://github.com/kaltura/kaltura-ng/commit/b0ea015))
+
+
 <a name="3.0.7"></a>
 ## [3.0.7](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@3.0.6...3.0.7) (2018-10-25)
 
