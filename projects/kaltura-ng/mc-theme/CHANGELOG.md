@@ -1,4 +1,13 @@
 # Change Log
+<a name="3.0.8"></a>
+## [3.0.8](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.7...3.0.8) (2019-01-22)
+
+
+### Bug Fixes
+
+* drop-down style fix ([b6a6937](https://github.com/kaltura/kaltura-ng/commit/b6a6937))
+
+
 <a name="3.0.7"></a>
 ## [3.0.7](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.6...3.0.7) (2018-12-10)
 
