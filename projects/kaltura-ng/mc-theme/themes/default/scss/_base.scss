@@ -12,6 +12,7 @@ body {
 	overflow-x: hidden;
 	overflow-y: scroll;
 	text-rendering: geometricPrecision;
+  -webkit-backface-visibility: hidden;
 }
 
 label {
