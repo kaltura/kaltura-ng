@@ -27,6 +27,7 @@
 }
 
 
+
 .kIconkaltura_logo:before {
   content: "\e95f";
 }
@@ -189,6 +190,9 @@
 .kIconPlaylist_RuleBased:before {
   content: "\e931";
 }
+.kIconPin:before {
+  content: "\e901";
+}
 .kIconpersonal-collection:before {
   content: "\e983";
 }
@@ -274,7 +278,7 @@
   content: "\e92b";
 }
 .kIconadd-to-collection:before {
-  content: "\e901";
+  content: "\e944";
 }
 .kIconzoom:before {
   content: "\e95a";
@@ -292,34 +296,34 @@
   content: "\e952";
 }
 .kIconepisodes:before {
-  content: "\e944";
-}
-.kIconmovies:before {
   content: "\e945";
 }
-.kIconseries:before {
+.kIconmovies:before {
   content: "\e946";
 }
-.kIconmetadata-templates:before {
+.kIconseries:before {
   content: "\e947";
 }
-.kIconcheckbox:before {
+.kIconmetadata-templates:before {
   content: "\e948";
 }
-.kIcondate-and-time:before {
+.kIconcheckbox:before {
   content: "\e949";
 }
-.kIcondropdown:before {
+.kIcondate-and-time:before {
   content: "\e94a";
 }
-.kIconinput-field-numeric:before {
+.kIcondropdown:before {
   content: "\e94b";
 }
-.kIconinput-field:before {
+.kIconinput-field-numeric:before {
   content: "\e94c";
 }
-.kIconswitch:before {
+.kIconinput-field:before {
   content: "\e94d";
+}
+.kIconswitch:before {
+  content: "\e94e";
 }
 .kIconInfo_Full:before {
   content: "\e96d";
@@ -418,12 +422,12 @@
   content: "\e97a";
 }
 .kIconepisode-small:before {
-  content: "\e94e";
-}
-.kIconmovies-small:before {
   content: "\e95d";
 }
-.kIconseries-small:before {
+.kIconmovies-small:before {
   content: "\e95e";
+}
+.kIconseries-small:before {
+  content: "\e984";
 }
 
