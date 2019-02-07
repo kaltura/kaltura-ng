@@ -73,6 +73,26 @@
 	.ui-timepicker .pi.pi-chevron-down{
 		@extend .kIcondropdown_arrow_bottom;
 	}
+  .ui-dropdown-trigger .pi.pi-chevron-up{
+    @extend .kIcondropdown_arrow_top;
+    color: #666;
+    font-size: .8em;
+  }
+  .ui-dropdown-trigger .pi.pi-chevron-down {
+    @extend .kIcondropdown_arrow_bottom;
+    color: #666;
+    font-size: .8em;
+  }
+  .ui-multiselect-trigger .pi.pi-chevron-up {
+    @extend .kIcondropdown_arrow_top;
+    color: #666;
+    font-size: .8em;
+  }
+  .ui-multiselect-trigger .pi.pi-chevron-down {
+    @extend .kIcondropdown_arrow_bottom;
+    color: #666;
+    font-size: .8em;
+  }
   .pi-sort-down{
     @extend .kIcondropdown_arrow_bottom;
   }

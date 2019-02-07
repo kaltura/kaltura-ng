@@ -3,7 +3,7 @@
             <input *ngIf="!multiple" #in [attr.type]="type" [attr.id]="inputId" [ngStyle]="inputStyle"
                    [class]="inputStyleClass" autocomplete="off" [attr.required]="required"
                    [ngClass]="'ui-inputtext ui-widget ui-state-default ui-corner-all ui-autocomplete-input'"
-                   [value]="inputFieldValue ? (field ? objectUtils.resolveFieldData(inputFieldValue, field) || inputFieldValue : value) : null"
+                   [value]="inputFieldValue ? (field ? ObjectUtils.resolveFieldData(inputFieldValue, field) || inputFieldValue : value) : null"
                    (click)="onInputClick($event)" (input)="onInput($event)" (keydown)="onKeydown($event)"
                    (keyup)="onKeyup($event)" (focus)="onInputFocus($event)" (blur)="onInputBlur($event)"
                    (change)="onInputChange($event)"
@@ -16,7 +16,7 @@
                     [kTooltip]="val" [tooltipResolver]="tooltipResolver">
                     <span class="ui-autocomplete-token-icon pi pi-fw pi-times" (click)="removeItem(token)"
                           *ngIf="!disabled"></span>
-                    <span *ngIf="!selectedItemTemplate" class="ui-autocomplete-token-label" (click)="onItemClick(val)">{{field ? objectUtils.resolveFieldData(val, field): val}}</span>
+                    <span *ngIf="!selectedItemTemplate" class="ui-autocomplete-token-label" (click)="onItemClick(val)">{{field ? ObjectUtils.resolveFieldData(val, field): val}}</span>
                     <ng-container *ngTemplateOutlet="selectedItemTemplate; context: {$implicit: val}"></ng-container>
                 </li>
                 <li class="ui-autocomplete-input-token">

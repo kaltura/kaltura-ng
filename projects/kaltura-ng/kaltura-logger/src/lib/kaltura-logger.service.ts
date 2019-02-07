@@ -115,7 +115,7 @@ export class KalturaLogger implements OnDestroy {
   public trace(message: string, context?: DefferedContext): void;
   public trace(message: string, context?: Context | DefferedContext): void {
     if (context && typeof context === 'function') {
-      this._logger.trace(() => this._createLogObject('trace', message, context()));
+      this._logger.trace(() => this._createLogObject('trace', message, (<Function>context)()));
     } else {
       this._logger.trace(this._createLogObject('trace', message, <Context>context));
     }
@@ -125,7 +125,7 @@ export class KalturaLogger implements OnDestroy {
   public debug(message: string, context?: DefferedContext): void;
   public debug(message: string, context?: Context | DefferedContext): void {
     if (context && typeof context === 'function') {
-      this._logger.debug(() => this._createLogObject('debug', message, context()));
+      this._logger.debug(() => this._createLogObject('debug', message, (<Function>context)()));
     } else {
       this._logger.debug(this._createLogObject('debug', message, <Context>context));
     }
@@ -135,7 +135,7 @@ export class KalturaLogger implements OnDestroy {
   public info(message: string, context?: DefferedContext): void;
   public info(message: string, context?: Context | DefferedContext): void {
     if (context && typeof context === 'function') {
-      this._logger.info(() => this._createLogObject('info', message, context()));
+      this._logger.info(() => this._createLogObject('info', message, (<Function>context)()));
     } else {
       this._logger.info(this._createLogObject('info', message, <Context>context));
     }
@@ -145,7 +145,7 @@ export class KalturaLogger implements OnDestroy {
   public warn(message: string, context?: DefferedContext): void;
   public warn(message: string, context?: Context | DefferedContext): void {
     if (context && typeof context === 'function') {
-      this._logger.warn(() => this._createLogObject('warn', message, context()));
+      this._logger.warn(() => this._createLogObject('warn', message, (<Function>context)()));
     } else {
       this._logger.warn(this._createLogObject('warn', message, <Context>context));
     }
