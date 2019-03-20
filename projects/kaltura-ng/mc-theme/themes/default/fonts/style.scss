@@ -28,6 +28,9 @@
 
 
 
+.kIconUpload:before {
+  content: "\e943";
+}
 .kIconkaltura_logo:before {
   content: "\e95f";
 }
@@ -46,7 +49,7 @@
 .kIconlive:before {
   content: "\e958";
 }
-.kIconUpload:before {
+.kIconImport:before {
   content: "\e959";
 }
 .kIconmetadata:before {
@@ -193,6 +196,9 @@
 .kIconPlaylist_RuleBased:before {
   content: "\e931";
 }
+.kIconshopfront:before {
+  content: "\e988";
+}
 .kIconrole:before {
   content: "\e986";
 }
@@ -331,6 +337,9 @@
 .kIconswitch:before {
   content: "\e94e";
 }
+.kIconsync:before {
+  content: "\e987";
+}
 .kIconInfo_Full:before {
   content: "\e96d";
 }
@@ -378,9 +387,6 @@
 }
 .kIconerror:before {
   content: "\e942";
-}
-.kIconsync:before {
-  content: "\e943";
 }
 .kIconupload2:before {
   content: "\e950";
