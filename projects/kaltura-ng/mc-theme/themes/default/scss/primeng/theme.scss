@@ -273,7 +273,7 @@ textarea.ui-inputtext {
       border-top: 1px solid #ffffff;
     }
   }
-  .ui-table-tbody > tr:hover{
+  .ui-table-tbody > tr:not(.kEmptymessageBorder):hover{
     background-color: $kGrayscale7;
   }
   .ui-widget-header.ui-table-scrollable-header {
@@ -355,7 +355,6 @@ textarea.ui-inputtext {
     line-height: 200px;
     font-size: 28px;
     color: $kGrayscale3;
-    border-bottom: 1px solid $kGrayscale4;
   }
 
   .ui-table-data tr.uploadFailure {
@@ -1353,16 +1352,16 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
 /* ButtonSet */
 
 .ui-selectbutton.ui-buttonset{
+  font-weight: bold;
   display: flex;
+
   .ui-button.ui-state-default {
     background: white;
-    font-weight: normal;
-    color: $kGrayscale1;
+    color: $kGrayscale3;
     border-left-width: 0;
   }
   .ui-button.ui-state-hover, .ui-button.ui-state-focus, .ui-button:focus {
     background: white;
-    font-weight: normal;
     color: $kGrayscale1;
   }
 
