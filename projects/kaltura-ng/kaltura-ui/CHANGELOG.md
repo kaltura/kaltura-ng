@@ -1,4 +1,13 @@
 # Change Log
+<a name="7.1.0"></a>
+# [7.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@7.0.3...7.1.0) (2019-04-18)
+
+
+### Features
+
+* support date format in dynamic date picker ([#146](https://github.com/kaltura/kaltura-ng/issues/146)) ([4718f4a](https://github.com/kaltura/kaltura-ng/commit/4718f4a))
+
+
 <a name="7.0.3"></a>
 ## [7.0.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@7.0.2...7.0.3) (2019-02-07)
 

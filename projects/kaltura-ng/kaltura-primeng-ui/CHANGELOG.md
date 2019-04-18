@@ -1,4 +1,13 @@
 # Change Log
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@3.0.9...3.1.0) (2019-04-18)
+
+
+### Features
+
+* support date format in dynamic date picker ([#146](https://github.com/kaltura/kaltura-ng/issues/146)) ([4718f4a](https://github.com/kaltura/kaltura-ng/commit/4718f4a))
+
+
 <a name="3.0.9"></a>
 ## [3.0.9](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@3.0.8...3.0.9) (2019-02-07)
 
