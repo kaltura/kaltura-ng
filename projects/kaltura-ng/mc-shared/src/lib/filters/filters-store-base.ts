@@ -151,7 +151,7 @@ export abstract class FiltersStoreBase<T extends { [key: string]: any }> {
             this._filters = newFilters;
             this._filtersChange.next(dataChanges);
         } else {
-            this._logger.warn('store data already reflect the requested filters values. ignoring update request');
+            this._logger.warn('store data already reflect the requested filters values. ignoring update request. Did you remember to update local query of the component in _updateComponentState?');
         }
 
         return result;
