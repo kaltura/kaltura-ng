@@ -37,7 +37,8 @@
                                                                                                  *ngIf="dropdown"></button>
             <div #panel class="ui-autocomplete-panel ui-widget-content ui-corner-all ui-shadow"
                  [style.display]="overlayVisible ? 'block' : 'none'" [style.width]="appendTo ? 'auto' : '100%'"
-                 [style.max-height]="scrollHeight" [@overlayAnimation]="'visible'" (@overlayAnimation.start)="onOverlayAnimationStart($event)" (@overlayAnimation.done)="onOverlayAnimationDone($event)">
+                 [style.max-height]="scrollHeight" [@overlayAnimation]="'visible'" (@overlayAnimation.start)="onOverlayAnimationStart($event)" (@overlayAnimation.done)="onOverlayAnimationDone($event)"
+                 (mouseenter)="overlayHovered=true" (mouseleave)="overlayHovered=false">
                 <ul
                   class="ui-autocomplete-items ui-autocomplete-list ui-widget-content ui-widget ui-corner-all ui-helper-reset"
                   *ngIf="overlayVisible">

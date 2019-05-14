@@ -77,6 +77,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     private _allowMultiple = false;
     public _placeholder = '';
     public ObjectUtils = ObjectUtils;
+    public overlayHovered = false;
 
     @Input()
     onItemAdding : (value : any) => any;
@@ -304,7 +305,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
           return { status : 'duplicated'};
         }
 
-        if (!this.limitToSuggestions && rawInputValue && !this.highlightOption && this.focus)
+        if (!this.limitToSuggestions && rawInputValue && !this.highlightOption && !this.overlayHovered && this.focus)
         {
             if ( rawInputValue.length >= 1 && !this._isItemSelected(rawInputValue)) {
 
