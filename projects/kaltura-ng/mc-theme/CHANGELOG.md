@@ -1,4 +1,13 @@
 # Change Log
+<a name="3.0.11"></a>
+## [3.0.11](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.10...3.0.11) (2019-05-15)
+
+
+### Bug Fixes
+
+* paginator label style fix ([0b1be1a](https://github.com/kaltura/kaltura-ng/commit/0b1be1a))
+
+
 <a name="3.0.10"></a>
 ## [3.0.10](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.9...3.0.10) (2019-04-18)
 
