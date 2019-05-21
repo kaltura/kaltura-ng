@@ -1,4 +1,13 @@
 # Change Log
+<a name="3.1.2"></a>
+## [3.1.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@3.1.1...3.1.2) (2019-05-21)
+
+
+### Bug Fixes
+
+* fix multi-select "all" label ([e78b621](https://github.com/kaltura/kaltura-ng/commit/e78b621))
+
+
 <a name="3.1.1"></a>
 ## [3.1.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@3.1.0...3.1.1) (2019-05-15)
 
