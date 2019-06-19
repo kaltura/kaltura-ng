@@ -1,9 +1,9 @@
 <div [formGroup]="form" [ngSwitch]="control.controlType">
-    <textarea  *ngSwitchCase="'TextArea'" [formControlName]="control.key"  pInputTextarea ></textarea>
+    <textarea  *ngSwitchCase="'TextArea'" [formControlName]="control.key"   [class.hasError]="errorMsg && form.controls[control.key].touched" pInputTextarea ></textarea>
 
-    <input *ngSwitchCase="'Textbox'" [formControlName]="control.key" pInputText/>
+    <input *ngSwitchCase="'Textbox'" [formControlName]="control.key"  [class.hasError]="errorMsg && form.controls[control.key].touched" pInputText/>
 
-    <input *ngSwitchCase="'Number'"  type="number" [formControlName]="control.key" pInputText />
+    <input *ngSwitchCase="'Number'"  type="number" [formControlName]="control.key"  [class.hasError]="errorMsg && form.controls[control.key].touched" pInputText />
 
     <p-dropdown *ngSwitchCase="'Dropdown'" [filter]="true" [formControlName]="control.key"  [options]="asDynamicDropdownControl(control).values | kPrimeListOptions: true"></p-dropdown>
 
@@ -15,7 +15,7 @@
 
     <span *ngSwitchDefault="">Missing control for {{control.controlType}}</span>
 
-    <p *ngIf="errorMsg"
+    <p *ngIf="errorMsg && form.controls[control.key].touched"
        class="kFormError">{{errorMsg}}
     </p>
 </div>
