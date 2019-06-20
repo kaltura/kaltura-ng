@@ -40,6 +40,7 @@ export abstract class DynamicFormControlBase<T>{
         this.order = options.order === undefined ? 1 : options.order;
         this.description = options.description || '';
         this.validators = options.validators;
+        this.validateOn = options.validateOn || 'change';
         this.errors = options.errors;
         this.inputHelperConfig = options.inputHelperConfig;
         this.styleClass = options.styleClass;
