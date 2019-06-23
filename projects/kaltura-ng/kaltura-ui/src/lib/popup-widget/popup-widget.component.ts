@@ -57,6 +57,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() closeBtnInside: boolean = false;
 	@Input() closeOnClickOutside: boolean = true;
 	@Input() closeOnResize: boolean = false;
+	@Input() closeOnBrowserNav: boolean = true;
 	@Input() targetOffset: any = {'x':0, 'y': 0};
 	@Input() childrenPopups: PopupWidgetComponent[] = [];
 	@Input() trigger: 'click' | 'hover' = 'click';
@@ -308,6 +309,13 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 			this.setPosition();
 		}
 	}
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event) {
+    if (this.closeOnBrowserNav) {
+      this.close();
+    }
+  }
 
     // component lifecycle events
     ngAfterViewInit() {
