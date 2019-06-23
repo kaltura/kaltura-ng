@@ -40,7 +40,7 @@ export class DynamicFormService {
                             result = this.toFormGroup(formControl.children, {formValue: config.formValue});
                         }
                     } else {
-                        result[formControl.key] = new FormControl(formControl.defaultValue || null, formControl.validators);
+                        result[formControl.key] = new FormControl(formControl.defaultValue || null, {validators: formControl.validators, updateOn: formControl.validateOn ? formControl.validateOn : 'change'} );
                     }
                 }
 
