@@ -58,7 +58,7 @@
                 'ui-dropdown-item-empty':!option.label||option.label.length === 0,
                 'ui-state-disabled': option.disabled
               }"
-              (click)="onItemClick($event, option)">
+              (click)="onItemClick($event)">
             <span *ngIf="!itemTemplate">{{option.label||'empty'}}</span>
             <ng-container *ngTemplateOutlet="itemTemplate; context: {$implicit: option}"></ng-container>
           </li>

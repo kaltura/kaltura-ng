@@ -35,9 +35,10 @@ export const DROPDOWN_VALUE_ACCESSOR: any = {
 })
 
 export class DropdownComponent extends Dropdown {
-  public onItemClick(event: MouseEvent, option: SelectItem): void {
+  public onItemClick(event): void {
+    const option = event.option;
     if (!option['disabled']) {
-      super.onItemClick(event, option);
+      super.onItemClick(event);
     } else {
       event.stopPropagation();
     }

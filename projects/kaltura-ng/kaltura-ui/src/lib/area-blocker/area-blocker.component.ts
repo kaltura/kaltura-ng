@@ -13,8 +13,8 @@ export class AreaBlockerComponent implements OnInit  {
   public _message : AreaBlockerMessage;
   private _showLoaderHandler: number;
 
-  @ViewChild('areaBlockerContainer') areaBlockerContainer: ElementRef;
-  @ViewChild('spinnerContainer') spinnerContainer: ElementRef;
+  @ViewChild('areaBlockerContainer', { static: true }) areaBlockerContainer: ElementRef;
+  @ViewChild('spinnerContainer', { static: true }) spinnerContainer: ElementRef;
 
   @Input() bodyScroll : boolean = false;
   @Input() spinnerMarginTop : number = 0;

@@ -1,4 +1,4 @@
-:host /deep/ .ui-autocomplete-token-label{
+:host ::ng-deep .ui-autocomplete-token-label{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -22,6 +22,6 @@
   }
 }
 
-:host /deep/ .kHighlightedText {  
+:host ::ng-deep .kHighlightedText {
   text-decoration: underline;
 }
