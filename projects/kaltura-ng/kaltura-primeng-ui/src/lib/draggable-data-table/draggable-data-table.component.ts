@@ -1,11 +1,21 @@
 import {
-  AfterContentInit, Component, ContentChildren, ElementRef, EventEmitter, Input, OnInit, Output,
-  QueryList, Renderer2, TemplateRef, ViewChild
+  AfterContentInit,
+  Component,
+  ContentChildren,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  QueryList,
+  Renderer2,
+  TemplateRef,
+  ViewChild
 } from '@angular/core';
-import {ColumnComponent} from './column.component';
-import {Subscription} from 'rxjs/Subscription';
-import "rxjs/add/operator/delay";
-import {Observable} from "rxjs/Observable";
+import { ColumnComponent } from './column.component';
+import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/delay';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
 
 const sortingFunction = (a, b) => {
