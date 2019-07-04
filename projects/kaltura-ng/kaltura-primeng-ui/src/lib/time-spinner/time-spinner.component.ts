@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, forwardRef, Output, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { DomHandler } from 'primeng/primeng';
+import { DomHandler } from 'primeng/components/dom/domhandler';
 
 export type InputType = 'minutes' | 'seconds';
 

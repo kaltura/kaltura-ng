@@ -1,5 +1,5 @@
 import { Directive, OnDestroy, AfterViewInit, ContentChild, Input } from '@angular/core';
-import { Dropdown } from 'primeng/primeng';
+import { Dropdown } from 'primeng/dropdown';
 import { ISubscription } from 'rxjs/Subscription';
 
 @Directive({

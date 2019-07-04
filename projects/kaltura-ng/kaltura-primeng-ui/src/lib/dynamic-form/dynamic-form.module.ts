@@ -2,9 +2,13 @@ import { NgModule } from '@angular/core';
 import { PrimeControl } from './prime-control.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {  InputTextModule, InputTextareaModule,  CalendarModule,  DropdownModule, InputSwitchModule } from 'primeng/primeng';
 import { PrimeListOptionsPipe } from './prime-list-options.pipe';
-import { MultiSelectModule } from '../multi-select/multi-select.module';
+import { MultiSelectModule } from '../multi-select';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { CalendarModule } from 'primeng/calendar';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @NgModule(
     {
@@ -12,7 +16,7 @@ import { MultiSelectModule } from '../multi-select/multi-select.module';
             ReactiveFormsModule,
             CommonModule,
             DropdownModule,
-	        MultiSelectModule,
+            MultiSelectModule,
             InputTextModule,
             InputTextareaModule,
             CalendarModule,

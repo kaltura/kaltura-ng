@@ -1,5 +1,6 @@
 import { Directive, ContentChild, HostListener, Input, Optional } from '@angular/core';
-import { Menu, TieredMenu } from 'primeng/primeng';
+import { Menu } from 'primeng/menu';
+import { TieredMenu } from 'primeng/tieredmenu';
 
 @Directive({
 	selector: '[kMenuCloseOnScroll]',
