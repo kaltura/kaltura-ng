@@ -8,7 +8,7 @@ import { ISubscription } from 'rxjs/Subscription';
 export class DropdownCloseOnScroll implements AfterViewInit, OnDestroy {
 
 	@Input() scrollTarget: any;
-	@ContentChild(Dropdown, { static: true }) public dropdown: Dropdown;
+	@ContentChild(Dropdown, { static: false }) public dropdown: Dropdown;
 
 	private _registered = false;
 	private _dropdownChangesSubscription: ISubscription;

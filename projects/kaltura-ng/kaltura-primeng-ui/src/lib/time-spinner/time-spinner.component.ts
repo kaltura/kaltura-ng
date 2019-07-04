@@ -17,8 +17,8 @@ export const SPINNER_VALUE_ACCESSOR: any = {
   providers: [DomHandler, SPINNER_VALUE_ACCESSOR],
 })
 export class TimeSpinnerComponent implements ControlValueAccessor {
-  @ViewChild('minutes', { static: true }) minutesInputField: ElementRef;
-  @ViewChild('seconds', { static: true }) secondsInputField: ElementRef;
+  @ViewChild('minutes', { static: false }) minutesInputField: ElementRef;
+  @ViewChild('seconds', { static: false }) secondsInputField: ElementRef;
   
   @Output() onChange: EventEmitter<any> = new EventEmitter();
   @Output() onFocus: EventEmitter<any> = new EventEmitter();

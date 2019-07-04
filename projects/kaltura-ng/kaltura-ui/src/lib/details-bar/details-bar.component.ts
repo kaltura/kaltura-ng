@@ -23,8 +23,8 @@ export class DetailsBarComponent implements AfterContentInit,AfterViewChecked, O
     this.reset();
   }
 
-  @ViewChild('dataPanel', { static: true }) dataPanel: ElementRef;
-  @ViewChild('dataWrapper', { static: true }) dataWrapper: ElementRef;
+  @ViewChild('dataPanel', { static: false }) dataPanel: ElementRef;
+  @ViewChild('dataWrapper', { static: false }) dataWrapper: ElementRef;
   public _showMore: boolean = false;
   public _showBasic: boolean = false;
   private showMoreCheckIntervalID: any;
