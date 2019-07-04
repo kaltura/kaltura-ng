@@ -20,9 +20,9 @@ export class StickyComponent implements AfterViewInit, OnDestroy {
 	@Input() stickyId: string;
 	@Input() sticksTo: string;
 
-	@ViewChild('contentWrapper', { static: false }) content: ElementRef;
-	@ViewChild('stickyDiv', { static: false }) stickyDiv: ElementRef;
-	@ViewChild(StickyDirective, { static: false }) _sticky: StickyDirective;
+	@ViewChild('contentWrapper', { static: true }) content: ElementRef;
+	@ViewChild('stickyDiv', { static: true }) stickyDiv: ElementRef;
+	@ViewChild(StickyDirective, { static: true }) _sticky: StickyDirective;
 
 	constructor(private _stickyScrollService: StickyScrollService, private _renderer: Renderer2) {}
 

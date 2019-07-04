@@ -42,7 +42,7 @@ export class TagsComponent implements AfterViewInit, OnDestroy, OnChanges {
     @Output() onRemoveAll = new EventEmitter<any>();
 	@Output() onTagsChange = new EventEmitter<{tagsCount: number}>();
 
-	@ViewChild('scroller', { static: false }) scroller: ElementRef;
+	@ViewChild('scroller', { static: true }) scroller: ElementRef;
 
 	@ViewChildren(TagComponent)
 	private tagsList: QueryList<any>

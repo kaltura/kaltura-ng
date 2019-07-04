@@ -24,8 +24,8 @@ const Events = {
 export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     @Input() draggableViewTemplate: TemplateRef<any>;
     @Output() valueChange: EventEmitter<any[]> = new EventEmitter<any[]>();
-    @ViewChild('draggable', { static: false }) private draggableElement: ElementRef;
-    @ViewChild('tableBody', { static: false }) private tableBody: ElementRef;
+    @ViewChild('draggable', { static: true }) private draggableElement: ElementRef;
+    @ViewChild('tableBody', { static: true }) private tableBody: ElementRef;
     @ContentChildren(ColumnComponent) cols: QueryList<ColumnComponent>;
     currentDraggableItem: any;
     draggable: any;

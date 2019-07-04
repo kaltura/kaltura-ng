@@ -49,9 +49,9 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
 
   @Output() valueChange: EventEmitter<any[]> = new EventEmitter<any[]>();
 
-  @ViewChild('draggable', { static: false }) private draggableElement: ElementRef;
+  @ViewChild('draggable', { static: true }) private draggableElement: ElementRef;
 
-  @ViewChild('tableBody', { static: false }) private tableBody: ElementRef;
+  @ViewChild('tableBody', { static: true }) private tableBody: ElementRef;
 
   @ContentChildren(ColumnComponent) cols: QueryList<ColumnComponent>;
 
