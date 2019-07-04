@@ -56,7 +56,7 @@ $inputTextColor: #333333;
 $invalidInputBorderColor: #cd0a0a;
 $inputGroupTextColor: #222222;
 
-@import '~primeng/resources/themes/theme';
+@import './default-theme';
 
 /* input */
 .ui-inputtext, .ui-inputtext:enabled{
