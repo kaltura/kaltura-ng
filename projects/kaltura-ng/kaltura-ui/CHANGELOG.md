@@ -1,4 +1,18 @@
 # Change Log
+<a name="7.2.0"></a>
+# [7.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@7.1.0...7.2.0) (2019-07-11)
+
+
+### Bug Fixes
+
+* close popups on browser navigation (next/back buttons) ([a08b4f1](https://github.com/kaltura/kaltura-ng/commit/a08b4f1))
+
+
+### Features
+
+* dynamic forms validation - provide custom validation trigger ([#150](https://github.com/kaltura/kaltura-ng/issues/150)) ([b4418aa](https://github.com/kaltura/kaltura-ng/commit/b4418aa))
+
+
 <a name="7.1.0"></a>
 # [7.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@7.0.3...7.1.0) (2019-04-18)
 
