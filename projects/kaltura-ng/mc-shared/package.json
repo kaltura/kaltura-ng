@@ -39,18 +39,18 @@
   },
   "devDependencies": {},
   "peerDependencies": {
-    "@angular/common": "^7.2.0",
-    "@angular/core": "^7.2.0",
-    "@angular/cdk": "^7.1.1",
-    "rxjs": "^6.3.3",
-    "rxjs-compat": "^6.2.0",
-    "@angular/forms": "^6.1.6",
+    "@angular/common": "^8.2.6",
+    "@angular/core": "^8.2.6",
+    "@angular/cdk": "^8.2.0",
+    "rxjs": "^6.5.3",
+    "rxjs-compat": "^6.5.3",
+    "@angular/forms": "^8.2.6",
     "@kaltura-ng/kaltura-common": "7.0.3",
     "@kaltura-ng/kaltura-logger": "3.0.2",
     "@kaltura-ng/kaltura-ui": "7.2.0",
-    "@ngx-translate/core": "^10.0.2",
+    "@ngx-translate/core": "^11.0.1",
     "primeng": "^8.0.3",
-    "seamless-immutable": "^7.1.2"
+    "seamless-immutable": "^7.1.4"
   },
   "dependencies": {}
 }

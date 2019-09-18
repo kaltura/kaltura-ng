@@ -55,9 +55,9 @@ export class DropdownCloseOnScroll implements AfterViewInit, OnDestroy {
 		this._isDestroyed = true;
 	}
 
-	private closeDropdown():void{
+	private closeDropdown(event):void{
 		if (this.dropdown && typeof this.dropdown.hide !== "undefined"){
-			this.dropdown.hide();
+			this.dropdown.hide(event);
 			this.scrollTarget.removeEventListener('scroll', this._closeDropdownFunc);
 			this._registered = false;
 		}

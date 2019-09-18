@@ -39,10 +39,10 @@
   },
   "devDependencies": {},
   "peerDependencies": {
-    "@angular/common": "^7.2.0",
-    "@angular/core": "^7.2.0",
-    "rxjs": "^6.3.3",
-    "rxjs-compat": "^6.2.0",
-    "jsnlog": "^2.24.3"
+    "@angular/common": "^8.2.6",
+    "@angular/core": "^8.2.6",
+    "rxjs": "^6.5.3",
+    "rxjs-compat": "^6.5.3",
+    "jsnlog": "^2.29.0"
   }
 }
