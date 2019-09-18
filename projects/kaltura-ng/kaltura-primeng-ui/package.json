@@ -46,6 +46,6 @@
     "@angular/forms": "^6.1.6",
     "@kaltura-ng/kaltura-common": "7.0.3",
     "@kaltura-ng/kaltura-ui": "7.2.0",
-    "primeng": "^8.0.0"
+    "primeng": "^8.0.3"
   }
 }
