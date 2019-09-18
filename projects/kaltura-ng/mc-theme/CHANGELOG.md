@@ -1,4 +1,16 @@
 # Change Log
+<a name="3.0.13"></a>
+## [3.0.13](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.12...3.0.13) (2019-09-08)
+
+* update dependent libraries versions
+
+
+<a name="3.0.12"></a>
+## [3.0.12](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.11...3.0.12) (2019-08-20)
+
+* update dependent libraries versions
+
+
 <a name="3.0.11"></a>
 ## [3.0.11](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.10...3.0.11) (2019-05-15)
 

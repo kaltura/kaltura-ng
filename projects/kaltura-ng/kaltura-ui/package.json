@@ -1,6 +1,6 @@
 {
   "name": "@kaltura-ng/kaltura-ui",
-  "version": "7.1.0",
+  "version": "7.2.0",
   "private": false,
   "description": "Angular - Kaltura UI directives, pipes and services",
   "scripts": {

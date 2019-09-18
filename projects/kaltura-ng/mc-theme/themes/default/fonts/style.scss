@@ -28,6 +28,9 @@
 
 
 
+.kIconUpload:before {
+  content: "\e943";
+}
 .kIconkaltura_logo:before {
   content: "\e95f";
 }
@@ -46,7 +49,7 @@
 .kIconlive:before {
   content: "\e958";
 }
-.kIconUpload:before {
+.kIconImport:before {
   content: "\e959";
 }
 .kIconmetadata:before {
@@ -88,6 +91,9 @@
 .kIconmore:before {
   content: "\e916";
 }
+.kIconPin:before {
+  content: "\e985";
+}
 .kIconcheck-medium:before {
   content: "\e938";
 }
@@ -96,9 +102,6 @@
 }
 .kIconhouse:before {
   content: "\e924";
-}
-.kIconuser_small:before {
-  content: "\e925";
 }
 .kIconconfirmation:before {
   content: "\e918";
@@ -190,7 +193,22 @@
 .kIconPlaylist_RuleBased:before {
   content: "\e931";
 }
-.kIconPin:before {
+.kIconmegaphone:before {
+  content: "\e98b";
+}
+.kIcontarget:before {
+  content: "\e98a";
+}
+.kIconConfiguration:before {
+  content: "\e989";
+}
+.kIconshopfront:before {
+  content: "\e988";
+}
+.kIconrole:before {
+  content: "\e986";
+}
+.kIconPin1:before {
   content: "\e901";
 }
 .kIconpersonal-collection:before {
@@ -325,6 +343,12 @@
 .kIconswitch:before {
   content: "\e94e";
 }
+.kIconuser_small:before {
+  content: "\e925";
+}
+.kIconsync:before {
+  content: "\e987";
+}
 .kIconInfo_Full:before {
   content: "\e96d";
 }
@@ -372,9 +396,6 @@
 }
 .kIconerror:before {
   content: "\e942";
-}
-.kIconsync:before {
-  content: "\e943";
 }
 .kIconupload2:before {
   content: "\e950";

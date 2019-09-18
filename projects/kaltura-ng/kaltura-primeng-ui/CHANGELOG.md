@@ -1,4 +1,13 @@
 # Change Log
+<a name="3.2.0"></a>
+# [3.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@3.1.2...3.2.0) (2019-07-11)
+
+
+### Features
+
+* dynamic forms validation - provide custom validation trigger ([#150](https://github.com/kaltura/kaltura-ng/issues/150)) ([b4418aa](https://github.com/kaltura/kaltura-ng/commit/b4418aa))
+
+
 <a name="3.1.2"></a>
 ## [3.1.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@3.1.1...3.1.2) (2019-05-21)
 
