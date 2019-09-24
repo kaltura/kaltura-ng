@@ -131,7 +131,7 @@
   content: "\e90d";
 }
 .kIconmagnifier:before {
-  content: "\e911";
+  content: $iconMagnifierContent;
 }
 .kIconplus:before {
   content: "\e937";
@@ -371,16 +371,16 @@
   content: "\e92f";
 }
 .kIconcheck_large:before {
-  content: "\e912";
+  content: $iconCheckLargeContent;
 }
 .kIconpen:before {
-  content: "\e915";
+  content: $iconOpenContent;
 }
 .kIcontree-arrow-right:before {
-  content: "\e919";
+  content: $iconTreeArrowRightContent;
 }
 .kIcontree-arrow-down:before {
-  content: "\e91b";
+  content: $iconTreeArrowDownContent;
 }
 .kIcontranscoding:before {
   content: "\e940";
@@ -401,31 +401,31 @@
   content: "\e950";
 }
 .kIconpartial_small:before {
-  content: "\e922";
+  content: $iconPartialSmallContent;
 }
 .kIconpagination_end:before {
-  content: "\e91f";
+  content: $iconPaginationEndContent;
 }
 .kIconpagination_start:before {
-  content: "\e920";
+  content: $iconPaginationStartContent;
 }
 .kIconcheck_small:before {
-  content: "\e91c";
+  content: $iconCheckSmallContent;
 }
 .kIconclose_small:before {
-  content: "\e91d";
+  content: $iconCloseSmallContent;
 }
 .kIcondropdown_arrow_bottom:before {
-  content: "\e91e";
+  content: $iconDropdownArrowBottomContent;
 }
 .kIcondropdown_arrow_right:before {
-  content: "\e921";
+  content: $iconDropdownArrowRightContent;
 }
 .kIcondropdown_arrow_left:before {
-  content: "\e929";
+  content: $iconDropdownArrowLeftContent;
 }
 .kIcondropdown_arrow_top:before {
-  content: "\e92a";
+  content: $iconDropdownArrowTopContent;
 }
 .kIconsettings-upgrade-1:before {
   content: "\e92c";
