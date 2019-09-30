@@ -10,6 +10,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ButtonModule } from 'primeng/button';
+import { action } from '@storybook/addon-actions';
+import { CalendarModule } from 'primeng/calendar';
 
 const styles = `:host { display: flex; flex-direction: column; }`;
 const suggestions = new Subject<SuggestionsProviderData>();
@@ -53,6 +55,7 @@ storiesOf('Inputs', module)
         AutoCompleteModule,
         RadioButtonModule,
         CheckboxModule,
+        CalendarModule,
       ],
     })
   )
@@ -166,5 +169,23 @@ storiesOf('Inputs', module)
     props: {
       value: false,
       disabled: false,
+    }
+  }))
+  .add('Calendar', () => ({
+    styles: [styles],
+    template: `
+        <p-calendar class="fix-calendar-input"
+                    icon="kIconcalendar"
+                    yearRange="2005:2050"
+                    [showIcon]="true"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    [(ngModel)]="value"
+                    (onSelect)="onSelect($event)"></p-calendar>
+        <span class="input-value">{{value}}</span>
+    `,
+    props: {
+      value: null,
+      onSelect: action('onCalendarSelect'),
     }
   }));
