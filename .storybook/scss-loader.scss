@@ -1,0 +1,49 @@
+$mc-theme-font-path : '../projects/kaltura-ng/mc-theme/themes/default/fonts';
+
+@import '../projects/kaltura-ng/kaltura-ui/src/styles/scss/theme';
+@import '../projects/kaltura-ng/kaltura-primeng-ui/src/styles/scss/theme';
+
+@import '../projects/kaltura-ng/mc-theme/themes/default/scss/variables';
+@import '../projects/kaltura-ng/mc-theme/themes/default/scss/index';
+
+#root {
+  padding: 1em;
+}
+
+.ui-button-icon-left.kIconplus {
+  font-size: 18px !important;
+}
+
+.icons-list {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 2.5em;
+  color: #333333;
+  margin: .5em .25em;
+
+  i {
+    display: flex;
+    justify-content: center;
+    min-width: 2em;
+    min-height: 2em;
+  }
+}
+
+.input-value {
+  font-size: .9em;
+  margin-top: .5em;
+  color: $kGrayscale2;
+}
+
+.has-error {
+  border-color: $kDandger !important;
+}
+
+.input-error {
+  color: $kDandger !important;
+}
+
+.search-text-input {
+  background: $kMagnifyingGlassBkg;
+  padding-left: 2.375em;
+}
