@@ -2,7 +2,7 @@ import { moduleMetadata, storiesOf } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { AutoCompleteModule, ClearableInputModule, SuggestionsProviderData } from '@kaltura-ng/kaltura-primeng-ui';
+import { AutoCompleteModule, ClearableInputModule, SuggestionsProviderData, SliderModule } from '@kaltura-ng/kaltura-primeng-ui';
 import { of, Subject } from 'rxjs';
 import { SelectItem } from 'primeng/api';
 import { delay, map } from 'rxjs/operators';
@@ -61,6 +61,7 @@ storiesOf('Inputs', module)
         CalendarModule,
         ClearableInputModule,
         KalturaUIModule,
+        SliderModule,
       ],
     })
   )
@@ -288,4 +289,17 @@ storiesOf('Inputs', module)
         `
       }
     }
-  );
+  )
+  .add('Slider-input', () => ({
+    styles: [styles],
+    template: `
+        <div style="padding-top: 1.5em">
+            <kSlider [min]="1" [max]="200" [step]="1" (onChange)="onChange($event)" [(ngModel)]="value"></kSlider>
+            <span class="input-value">{{value}}</span>
+        </div>
+    `,
+    props: {
+      value: 200,
+      onChange: action('onChange'),
+    }
+  }));
