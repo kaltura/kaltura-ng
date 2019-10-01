@@ -9,17 +9,47 @@ const data = [
   {
     value: 1,
     label: 'First',
-    tooltip: 'First',
+    tooltip: '1st',
   },
   {
     value: 2,
     label: 'Second',
-    tooltip: 'Second',
+    tooltip: '2nd',
   },
   {
     value: 3,
     label: 'Third',
-    tooltip: 'Third',
+    tooltip: '3rd',
+  },
+  {
+    value: 4,
+    label: 'Fourth',
+    tooltip: '4th',
+  },
+  {
+    value: 5,
+    label: 'Fifth',
+    tooltip: '5th',
+  },
+  {
+    value: 6,
+    label: 'Sixth',
+    tooltip: '6th',
+  },
+  {
+    value: 7,
+    label: 'Seventh',
+    tooltip: '7th',
+  },
+  {
+    value: 8,
+    label: 'Eighth',
+    tooltip: '8th',
+  },
+  {
+    value: 9,
+    label: 'Ninth',
+    tooltip: '9th',
   },
 ];
 
