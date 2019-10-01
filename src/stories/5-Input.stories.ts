@@ -85,22 +85,35 @@ storiesOf('Inputs', module)
       value: '',
     }
   }))
-  .add('With Icon', () => ({
-    styles: [styles],
-    template: `
+  .add(
+    'With Icon',
+    () => ({
+      styles: [styles],
+      template: `
         <input type="text" class="search-text-input" pInputText placeholder="Search" [(ngModel)]="value">
         <span class="input-value">{{value}}</span>
     `,
-    props: {
-      value: '',
+      props: {
+        value: '',
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+          There's no special property for icon. Just add a style class to an input which has icon as a background.
+
+          For example: \` .search-text-input { background: url('data:image/png;base64,...); padding-left: 2.375em; }\`
+        `
+      }
     }
-  }))
+  )
   .add('Autocomplete', () => ({
     styles: [styles],
     template: `
         <kAutoComplete [(ngModel)]="value"
                      suggestionLabelField="label"
                      field="label"
+                     placeholder="First, Second, Third"
                      [multiple]="true"
                      [limitToSuggestions]="true"
                      [minLength]="3"
