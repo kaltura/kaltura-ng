@@ -49,10 +49,34 @@ storiesOf('Menus', module)
   )
   .add('Default', () => ({
     template: `
-        <button pButton class="kButtonDefault more-btn" icon="kIconmore" (click)="menu.toggle($event)"></button>
-        <p-menu #menu [popup]="true" [model]="items" [appendTo]="'body'" kMenuCloseOnScroll></p-menu>
+        <button pButton class="kButtonDefault" icon="kIconmore" (click)="menu.toggle($event)"></button>
+        <p-menu #menu [popup]="true" [model]="items" [appendTo]="'body'"></p-menu>
     `,
     props: {
       items,
     }
-  }));
+  }))
+  .add(
+    'Auto-close upon scrolling',
+    () => ({
+      template: `
+        <div style="padding-top: 5em; min-height: calc(100vh + 100px)">
+            <button pButton class="kButtonDefault" label="Toggle Menu" (click)="menu.toggle($event)"></button>
+            <p-menu #menu [popup]="true" [model]="items" [appendTo]="'body'" kMenuCloseOnScroll></p-menu>
+        </div>
+    `,
+      props: {
+        items,
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+          In order to add auto-close ability for a menu:
+
+          1. Import \`KalturaPrimeNgUIModule\` from \`@kaltura-ng/kaltura-primeng-ui\`
+          2. Add \`kMenuCloseOnScroll\` directive to \`p-menu\` element on a page
+        `
+      }
+    }
+  );
