@@ -13,6 +13,7 @@ import { ButtonModule } from 'primeng/button';
 import { action } from '@storybook/addon-actions';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
+import { KalturaUIModule } from '@kaltura-ng/kaltura-ui';
 
 const styles = `:host { display: flex; flex-direction: column; }`;
 const suggestions = new Subject<SuggestionsProviderData>();
@@ -59,6 +60,7 @@ storiesOf('Inputs', module)
         CheckboxModule,
         CalendarModule,
         ClearableInputModule,
+        KalturaUIModule,
       ],
     })
   )
@@ -254,4 +256,35 @@ storiesOf('Inputs', module)
       value: null,
       onSelect: action('onSelect'),
     }
-  }));
+  }))
+  .add(
+    'File-input',
+    () => ({
+      styles: [styles],
+      template: `
+        <kFileDialog #fileDialog
+                    [allowMultiple]="allowMultiple"
+                    [filter]="filter ? '.png' : ''"
+                    (onFileSelected)="onFileSelected($event)"></kFileDialog>
+        <div style="display: flex; align-items: center">
+            <button pButton style="margin-right: 1em;" class="kButtonDefault" label="Browse files"
+                    (click)="fileDialog.open($event)"></button>
+            <p-checkbox label="Allow only png files" [binary]="true" [(ngModel)]="filter"></p-checkbox>
+            <div style="width: 1em"></div>
+            <p-checkbox label="Allow multiple" [binary]="true" [(ngModel)]="allowMultiple"></p-checkbox>
+        </div>
+    `,
+      props: {
+        filter: false,
+        allowMultiple: false,
+        onFileSelected: action('onFileSelected'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `The component is not visible on the page.
+          You should use \`open($event)\` method of the component in order to open file dialog.
+        `
+      }
+    }
+  );
