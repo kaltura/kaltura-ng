@@ -282,7 +282,8 @@ storiesOf('Inputs', module)
     }),
     {
       notes: {
-        markdown: `The component is not visible on the page.
+        markdown: `
+          The component is not visible on the page.
           You should use \`open($event)\` method of the component in order to open file dialog.
         `
       }
