@@ -80,8 +80,7 @@ storiesOf('Dropdowns', module)
                     [maxSelectedLabels]="0"
                     [resetFilterOnHide]="true"
                     (onChange)="onChange($event)"
-                    [(ngModel)]="selected">
-          </kMultiSelect>
+                    [(ngModel)]="selected"></kMultiSelect>
     `,
     props: {
       options,
