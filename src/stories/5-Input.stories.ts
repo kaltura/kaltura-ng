@@ -47,7 +47,7 @@ const options: SelectItem[] = [
   }
 ];
 
-storiesOf('Inputs', module)
+storiesOf('Input', module)
   .addDecorator(story => {
     document.body.classList.add('kOverrideFAIcons');
     return story();

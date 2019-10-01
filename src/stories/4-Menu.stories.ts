@@ -31,7 +31,7 @@ const items: MenuItem[] = [
   }
 ];
 
-storiesOf('Menus', module)
+storiesOf('Menu', module)
   .addDecorator(story => {
     document.body.classList.add('kOverrideFAIcons');
     return story();

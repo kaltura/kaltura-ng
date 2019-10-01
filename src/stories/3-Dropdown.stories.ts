@@ -30,7 +30,7 @@ const options: SelectItem[] = [
   }
 ];
 
-storiesOf('Dropdowns', module)
+storiesOf('Dropdown', module)
   .addDecorator(story => {
     document.body.classList.add('kOverrideFAIcons');
     return story();

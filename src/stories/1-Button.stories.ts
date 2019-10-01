@@ -4,7 +4,7 @@ import { ButtonModule } from 'primeng/button';
 import { action } from '@storybook/addon-actions';
 import { TooltipModule } from '@kaltura-ng/kaltura-ui';
 
-storiesOf('Buttons', module)
+storiesOf('Button', module)
   .addDecorator(
     moduleMetadata({
       imports: [

@@ -2,7 +2,7 @@ import { moduleMetadata, storiesOf } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
 import { TooltipModule } from '@kaltura-ng/kaltura-ui';
 
-storiesOf('Icons', module)
+storiesOf('Icon', module)
   .addDecorator(
     moduleMetadata({
       imports: [
