@@ -4,6 +4,7 @@ import { SelectItem } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { action } from '@storybook/addon-actions';
+import { MultiSelectModule } from '@kaltura-ng/kaltura-primeng-ui';
 
 const options: SelectItem[] = [
   {
@@ -40,6 +41,7 @@ storiesOf('Dropdowns', module)
         CommonModule,
         BrowserAnimationsModule,
         DropdownModule,
+        MultiSelectModule,
       ],
     })
   )
@@ -61,6 +63,26 @@ storiesOf('Dropdowns', module)
                     [filter]="true"
                     (onChange)="onChange($event)"
                     [(ngModel)]="selected"></p-dropdown>`,
+    props: {
+      options,
+      selected: null,
+      onChange: action('onChange'),
+    }
+  }))
+  .add('Multiselect', () => ({
+    template: `
+      <kMultiSelect menuItemDisplayStyle="flex"
+                    defaultLabel="Select Items"
+                    allSelectedLabel="All Selected"
+                    selectAllLabel="Select All"
+                    [options]="options"
+                    [showToggleAll]="true"
+                    [maxSelectedLabels]="0"
+                    [resetFilterOnHide]="true"
+                    (onChange)="onChange($event)"
+                    [(ngModel)]="selected">
+          </kMultiSelect>
+    `,
     props: {
       options,
       selected: null,
