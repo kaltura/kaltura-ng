@@ -11,8 +11,10 @@ storiesOf('Icons', module)
       ],
     })
   )
-  .add('Icons pack', () => ({
-    template: `
+  .add(
+    'Icons pack',
+    () => ({
+      template: `
         <div class="icons-list">
           <i class="kIconUpload" kTooltip="kIconUpload"></i>
           <i class="kIconkaltura_logo" kTooltip="kIconkaltura_logo"></i>
@@ -157,4 +159,9 @@ storiesOf('Icons', module)
           <i class="kIconseries-small" kTooltip="kIconseries-small"></i>
         </div>
     `,
-  }));
+    }),
+    {
+      notes: {
+        markdown: 'Please add `kOverrideFAIcons` class to the document `body` in order to overwrite the default primeng icons'
+      }
+    });

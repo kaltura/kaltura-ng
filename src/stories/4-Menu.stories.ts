@@ -50,10 +50,12 @@ storiesOf('Menus', module)
   .add('Default', () => ({
     template: `
         <button pButton class="kButtonDefault" icon="kIconmore" (click)="menu.toggle($event)"></button>
-        <p-menu #menu [popup]="true" [model]="items" [appendTo]="'body'"></p-menu>
+        <p-menu #menu [popup]="true" [model]="items" [appendTo]="'body'" (onShow)="onShow($event)" (onHide)="onHide($event)"></p-menu>
     `,
     props: {
       items,
+      onShow: action('onShow'),
+      onHide: action('onHide'),
     }
   }))
   .add(
@@ -62,11 +64,18 @@ storiesOf('Menus', module)
       template: `
         <div style="padding-top: 5em; min-height: calc(100vh + 100px)">
             <button pButton class="kButtonDefault" label="Toggle Menu" (click)="menu.toggle($event)"></button>
-            <p-menu #menu [popup]="true" [model]="items" [appendTo]="'body'" kMenuCloseOnScroll></p-menu>
+            <p-menu #menu kMenuCloseOnScroll
+                    [popup]="true"
+                    [model]="items"
+                    [appendTo]="'body'"
+                    (onShow)="onShow($event)"
+                    (onHide)="onHide($event)"></p-menu>
         </div>
     `,
       props: {
         items,
+        onShow: action('onShow'),
+        onHide: action('onHide'),
       }
     }),
     {

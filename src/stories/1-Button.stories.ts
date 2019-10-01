@@ -19,7 +19,7 @@ storiesOf('Buttons', module)
       <button pButton class="kButtonDefault" label="Default" (click)="onClick($event)"></button>
     `,
     props: {
-      onClick: action('clicked'),
+      onClick: action('click'),
     }
   }))
   .add('Branded', () => ({
@@ -27,7 +27,7 @@ storiesOf('Buttons', module)
       <button pButton class="kButtonBranded" label="Branded" (click)="onClick($event)"></button>
     `,
     props: {
-      onClick: action('clicked'),
+      onClick: action('click'),
     }
   }))
   .add('Danger', () => ({
@@ -35,7 +35,7 @@ storiesOf('Buttons', module)
       <button pButton class="kButtonDanger" label="Danger" (click)="onClick($event)"></button>
     `,
     props: {
-      onClick: action('clicked'),
+      onClick: action('click'),
     }
   }))
   .add('Disabled', () => ({
@@ -43,7 +43,7 @@ storiesOf('Buttons', module)
       <button pButton class="kButtonDefault" label="Disabled" [disabled]="true" (click)="onClick($event)"></button>
     `,
     props: {
-      onClick: action('clicked'),
+      onClick: action('click'),
     }
   }))
   .add(
@@ -53,7 +53,7 @@ storiesOf('Buttons', module)
       <button pButton class="kButtonDefault" label="With Icon" icon="kIconplus" iconPos="left"></button>
     `,
       props: {
-        onClick: action('clicked'),
+        onClick: action('click'),
       }
     }),
     {
@@ -71,7 +71,7 @@ storiesOf('Buttons', module)
               [style.width.px]="34" (click)="onClick($event)"></button>
     `,
     props: {
-      onClick: action('clicked'),
+      onClick: action('click'),
     }
   }))
   .add('Link', () => ({
@@ -81,7 +81,7 @@ storiesOf('Buttons', module)
     props: {
       onClick: (e) => {
         e.preventDefault();
-        action('clicked')(e);
+        action('click')(e);
       },
     }
   }));

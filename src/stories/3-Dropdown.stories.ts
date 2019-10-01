@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SelectItem } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { action } from '@storybook/addon-actions';
 
 const options: SelectItem[] = [
   {
@@ -43,10 +44,14 @@ storiesOf('Dropdowns', module)
     })
   )
   .add('Default', () => ({
-    template: `<p-dropdown placeholder="Select an item" [options]="options" [(ngModel)]="selected"></p-dropdown>`,
+    template: `<p-dropdown placeholder="Select an item"
+                            [options]="options"
+                            (onChange)="onChange($event)"
+                            [(ngModel)]="selected"></p-dropdown>`,
     props: {
       options,
       selected: null,
+      onChange: action('onChange'),
     }
   }))
   .add('With Filter', () => ({
@@ -54,9 +59,11 @@ storiesOf('Dropdowns', module)
                     filterBy="label,value.name"
                     [options]="options"
                     [filter]="true"
+                    (onChange)="onChange($event)"
                     [(ngModel)]="selected"></p-dropdown>`,
     props: {
       options,
       selected: null,
+      onChange: action('onChange'),
     }
   }));

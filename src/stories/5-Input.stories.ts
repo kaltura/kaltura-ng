@@ -62,11 +62,12 @@ storiesOf('Inputs', module)
   .add('Default', () => ({
     styles: [styles],
     template: `
-        <input type="text" pInputText placeholder="Enter text" [(ngModel)]="value">
+        <input type="text" pInputText placeholder="Enter text" (input)="onChange($event)" [(ngModel)]="value">
         <span class="input-value">{{value}}</span>
     `,
     props: {
       value: '',
+      onChange: action('input'),
     }
   }))
   .add('Disabled', () => ({
@@ -78,11 +79,15 @@ storiesOf('Inputs', module)
   .add('With Error', () => ({
     styles: [styles],
     template: `
-        <input type="text" [class.has-error]="!value" pInputText placeholder="Has error" [(ngModel)]="value">
+        <input type="text" pInputText placeholder="Has error"
+               [class.has-error]="!value"
+               (input)="onChange($event)"
+               [(ngModel)]="value">
         <span *ngIf="!value" class="input-value input-error">Error message</span>
     `,
     props: {
       value: '',
+      onChange: action('input'),
     }
   }))
   .add(
@@ -90,11 +95,14 @@ storiesOf('Inputs', module)
     () => ({
       styles: [styles],
       template: `
-        <input type="text" class="search-text-input" pInputText placeholder="Search" [(ngModel)]="value">
+        <input type="text" class="search-text-input" pInputText placeholder="Search"
+               (input)="onChange($event)"
+               [(ngModel)]="value">
         <span class="input-value">{{value}}</span>
     `,
       props: {
         value: '',
+        onChange: action('input'),
       }
     }),
     {
@@ -110,8 +118,7 @@ storiesOf('Inputs', module)
   .add('Autocomplete', () => ({
     styles: [styles],
     template: `
-        <kAutoComplete [(ngModel)]="value"
-                     suggestionLabelField="label"
+        <kAutoComplete suggestionLabelField="label"
                      field="label"
                      placeholder="First, Second, Third"
                      [multiple]="true"
@@ -119,17 +126,20 @@ storiesOf('Inputs', module)
                      [minLength]="3"
                      [tooltipResolver]="tooltipResolver"
                      [suggestionsProvider]="suggestions"
-                     (completeMethod)="search($event)">
+                     (completeMethod)="search($event)"
+                     [(ngModel)]="value">
       </kAutoComplete>
     `,
     props: {
       value: '',
       tooltipResolver: (value: SelectItem) => `${value.label}: ${value.value}`,
       suggestions: suggestions,
-      search: ({ query }) => {
+      search: (event) => {
+        action('completeMethod')(event);
+
         suggestions.next({ suggestions: [], isLoading: true });
 
-        const searchTerm = (query || '').trim().toLowerCase();
+        const searchTerm = (event.query || '').trim().toLowerCase();
         of(options.filter(item => item.label.toLowerCase().startsWith(searchTerm) && !item.disabled))
           .pipe(
             map(result => ({ suggestions: result, isLoading: false })),
@@ -145,29 +155,31 @@ storiesOf('Inputs', module)
     styles: [styles],
     template: `
         <div style="display: flex; width: 15em; justify-content: space-between">
-          <p-radioButton name="radioButton" value="this" label="This" [(ngModel)]="value"></p-radioButton>
-          <p-radioButton name="radioButton" value="that" label="That" [(ngModel)]="value"></p-radioButton>
+          <p-radioButton name="radioButton" value="this" label="This" (change)="onChange($event)" [(ngModel)]="value"></p-radioButton>
+          <p-radioButton name="radioButton" value="that" label="That" (change)="onChange($event)" [(ngModel)]="value"></p-radioButton>
           <p-radioButton name="radioButton" value="whatever" label="Disabled" [disabled]="true" [(ngModel)]="value"></p-radioButton>
         </div>
         <span class="input-value">{{value}}</span>
     `,
     props: {
       value: 'this',
+      onChange: action('change'),
     }
   }))
   .add('Checkbox', () => ({
     styles: [styles],
     template: `
         <div style="display: flex; width: 20em; justify-content: space-between">
-          <p-checkbox label="First" name="checkbox" value="1" [(ngModel)]="value"></p-checkbox>
-          <p-checkbox label="Second" name="checkbox" value="2" [(ngModel)]="value"></p-checkbox>
-          <p-checkbox label="Third" name="checkbox" value="3" [(ngModel)]="value"></p-checkbox>
+          <p-checkbox label="First" name="checkbox" value="1" (onChange)="onChange($event)" [(ngModel)]="value"></p-checkbox>
+          <p-checkbox label="Second" name="checkbox" value="2" (onChange)="onChange($event)" [(ngModel)]="value"></p-checkbox>
+          <p-checkbox label="Third" name="checkbox" value="3" (onChange)="onChange($event)" [(ngModel)]="value"></p-checkbox>
           <p-checkbox label="Disabled" name="checkbox" value="4" [disabled]="true" [(ngModel)]="value"></p-checkbox>
         </div>
         <span class="input-value">{{value}}</span>
     `,
     props: {
       value: null,
+      onChange: action('onChange'),
     }
   }))
   .add('Switch', () => ({
@@ -176,12 +188,13 @@ storiesOf('Inputs', module)
         <button pButton style="width: 6em; margin-bottom: 1em"
                 [label]="disabled ? 'Enable' : 'Disable'"
                 (click)="disabled = !disabled"></button>
-        <p-inputSwitch [disabled]="disabled" [(ngModel)]="value"></p-inputSwitch>
+        <p-inputSwitch [disabled]="disabled" (onChange)="onChange($event)" [(ngModel)]="value"></p-inputSwitch>
         <span class="input-value">{{value}}</span>
     `,
     props: {
       value: false,
       disabled: false,
+      onChange: action('onChange'),
     }
   }))
   .add('Calendar', () => ({
@@ -199,6 +212,6 @@ storiesOf('Inputs', module)
     `,
     props: {
       value: null,
-      onSelect: action('onCalendarSelect'),
+      onSelect: action('onSelect'),
     }
   }));
