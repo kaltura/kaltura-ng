@@ -12,6 +12,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { ButtonModule } from 'primeng/button';
 import { action } from '@storybook/addon-actions';
 import { CalendarModule } from 'primeng/calendar';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 const styles = `:host { display: flex; flex-direction: column; }`;
 const suggestions = new Subject<SuggestionsProviderData>();
@@ -51,6 +52,7 @@ storiesOf('Inputs', module)
         BrowserAnimationsModule,
         ButtonModule,
         InputTextModule,
+        InputTextareaModule,
         InputSwitchModule,
         AutoCompleteModule,
         RadioButtonModule,
@@ -112,6 +114,30 @@ storiesOf('Inputs', module)
 
           For example: \` .search-text-input { background: url('data:image/png;base64,...); padding-left: 2.375em; }\`
         `
+      }
+    }
+  )
+  .add(
+    'Textarea',
+    () => ({
+      styles: [styles],
+      template: `
+        <textarea pInputTextarea placeholder="Enter text"
+                  [style.height.em]="9"
+                  [rows]="6"
+                  [cols]="60"
+                  (input)="onChange($event)"
+                  [(ngModel)]="value"></textarea>
+        <span class="input-value">{{value}}</span>
+    `,
+      props: {
+        value: '',
+        onChange: action('input'),
+      }
+    }),
+    {
+      notes: {
+        markdown: 'In addition to `rows` property use `height` style-property to style `textarea` height'
       }
     }
   )
