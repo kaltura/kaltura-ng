@@ -2,7 +2,13 @@ import { moduleMetadata, storiesOf } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { AutoCompleteModule, ClearableInputModule, SuggestionsProviderData, SliderModule } from '@kaltura-ng/kaltura-primeng-ui';
+import {
+  AutoCompleteModule,
+  ClearableInputModule,
+  SliderModule,
+  SuggestionsProviderData,
+  TimeSpinnerModule
+} from '@kaltura-ng/kaltura-primeng-ui';
 import { of, Subject } from 'rxjs';
 import { SelectItem } from 'primeng/api';
 import { delay, map } from 'rxjs/operators';
@@ -62,6 +68,7 @@ storiesOf('Inputs', module)
         ClearableInputModule,
         KalturaUIModule,
         SliderModule,
+        TimeSpinnerModule,
       ],
     })
   )
@@ -300,6 +307,17 @@ storiesOf('Inputs', module)
     `,
     props: {
       value: 200,
+      onChange: action('onChange'),
+    }
+  }))
+  .add('Timespinner-input', () => ({
+    styles: [styles],
+    template: `
+        <kTimeSpinner (onChange)="onChange($event)" [(ngModel)]="value"></kTimeSpinner>
+        <span class="input-value">{{value}} Seconds</span>
+    `,
+    props: {
+      value: 0,
       onChange: action('onChange'),
     }
   }));
