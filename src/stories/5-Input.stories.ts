@@ -2,7 +2,7 @@ import { moduleMetadata, storiesOf } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { AutoCompleteModule, SuggestionsProviderData } from '@kaltura-ng/kaltura-primeng-ui';
+import { AutoCompleteModule, ClearableInputModule, SuggestionsProviderData } from '@kaltura-ng/kaltura-primeng-ui';
 import { of, Subject } from 'rxjs';
 import { SelectItem } from 'primeng/api';
 import { delay, map } from 'rxjs/operators';
@@ -58,6 +58,7 @@ storiesOf('Inputs', module)
         RadioButtonModule,
         CheckboxModule,
         CalendarModule,
+        ClearableInputModule,
       ],
     })
   )
@@ -117,6 +118,19 @@ storiesOf('Inputs', module)
       }
     }
   )
+  .add('Clearable input', () => ({
+    styles: [styles],
+    template: `
+        <kClearableInput placeholder="Enter text & press enter"
+                          (onEnterKeyup)="onEnterKeyup($event)"
+                          (onClear)="onClear($event)"></kClearableInput>
+    `,
+    props: {
+      value: '',
+      onEnterKeyup: action('onEnterKeyup'),
+      onClear: action('onClear'),
+    }
+  }))
   .add(
     'Textarea',
     () => ({
