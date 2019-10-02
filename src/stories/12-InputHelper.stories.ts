@@ -19,22 +19,22 @@ storiesOf('InputHelper', module)
   )
   .add('Default', () => ({
     template: `
-        <kInputHelper title="Helper tip content">
-            Helper content
+        <kInputHelper title="Helper tip title">
+            Helper tip content
         </kInputHelper>
     `,
   }))
   .add('Open on click', () => ({
     template: `
-        <kInputHelper title="Helper tip content" trigger="click">
-            Helper content
+        <kInputHelper title="Helper tip title" trigger="click">
+            Helper tip content
         </kInputHelper>
     `,
   }))
   .add('Custom icons', () => ({
     template: `
-        <kInputHelper title="Helper tip content" triggerIcon="kIconrating" icon="kIconlife_donut">
-            Helper content
+        <kInputHelper title="Helper tip title" triggerIcon="kIconrating" icon="kIconlife_donut">
+            Helper tip content
         </kInputHelper>
     `,
   }));
