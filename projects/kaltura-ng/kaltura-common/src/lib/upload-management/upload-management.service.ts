@@ -20,7 +20,7 @@ export class UploadManagement implements OnDestroy {
     private _maxUploadRequests: number = null;
     public onTrackedFileChanged$ = this._onTrackedFileChanged.asObservable();
     private _tokenGenerator = new FriendlyHashId();
-    syncUploadQueueTimeoutId : number;
+    syncUploadQueueTimeoutId: any;
 
     constructor(@Inject(UploadFileAdapterToken) @Optional() private _uploadFileAdapter: UploadFileAdapter<any>[]) {
 

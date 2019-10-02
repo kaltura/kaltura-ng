@@ -11,7 +11,7 @@ export class AreaBlockerComponent implements OnInit  {
 
   private _showLoader: boolean;
   public _message : AreaBlockerMessage;
-  private _showLoaderHandler: number;
+  private _showLoaderHandler: any;
 
   @ViewChild('areaBlockerContainer', { static: false }) areaBlockerContainer: ElementRef;
   @ViewChild('spinnerContainer', { static: false }) spinnerContainer: ElementRef;

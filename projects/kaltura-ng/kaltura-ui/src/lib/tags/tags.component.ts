@@ -47,9 +47,9 @@ export class TagsComponent implements AfterViewInit, OnDestroy, OnChanges {
 	@ViewChildren(TagComponent)
 	private tagsList: QueryList<any>
 	private tagsListObserver: Subscription;
- 
+
 	public _showMore: boolean = false;
-	private showMoreCheckIntervalID: number;
+	private showMoreCheckIntervalID: any;
 	public _scrollLeftEnabled: boolean = false;
 	public _scrollRightEnabled: boolean = true;
 
