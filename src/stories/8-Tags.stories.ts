@@ -80,7 +80,7 @@ storiesOf('Tags', module)
                (onTagRemove)="onTagRemove($event)"
                (onRemoveAll)="onRemoveAll()"
                (onTagsChange)="onTagsChange($event)"></kTags>
-        <button *ngIf="!items.length" pButton label="Reset" (click)="reset()"></button>
+        <button *ngIf="!items.length" class="kButtonDefault" pButton label="Reset" (click)="reset()"></button>
     `,
     props: {
       items,

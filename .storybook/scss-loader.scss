@@ -1,10 +1,12 @@
 $mc-theme-font-path: '../projects/kaltura-ng/mc-theme/themes/default/fonts';
-
 @import '../projects/kaltura-ng/kaltura-ui/src/styles/scss/theme';
 @import '../projects/kaltura-ng/kaltura-primeng-ui/src/styles/scss/theme';
-
+@import '~normalize.css/normalize.css';
 @import '../projects/kaltura-ng/mc-theme/themes/default/scss/variables';
-@import '../projects/kaltura-ng/mc-theme/themes/default/scss/index';
+@import '../projects/kaltura-ng/mc-theme/themes/default/scss/primeng/index';
+@import '../projects/kaltura-ng/mc-theme/themes/default/scss/icons';
+@import '../projects/kaltura-ng/mc-theme/themes/default/scss/base';
+@import '../projects/kaltura-ng/mc-theme/themes/default/scss/components';
 
 #root {
   padding: 1em;

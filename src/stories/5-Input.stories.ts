@@ -235,7 +235,7 @@ storiesOf('Input', module)
   .add('Switch', () => ({
     styles: [styles],
     template: `
-        <button pButton style="width: 6em; margin-bottom: 1em"
+        <button pButton class="kButtonDefault" style="width: 6em; margin-bottom: 1em"
                 [label]="disabled ? 'Enable' : 'Disable'"
                 (click)="disabled = !disabled"></button>
         <p-inputSwitch [disabled]="disabled" (onChange)="onChange($event)" [(ngModel)]="value"></p-inputSwitch>
