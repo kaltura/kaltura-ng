@@ -33,6 +33,7 @@ storiesOf('AreaBlocker', module)
     `,
     props: {
       message: new AreaBlockerMessage({
+        title: 'Area blocker title',
         message: 'Area blocker message content',
         buttons: [
           {
