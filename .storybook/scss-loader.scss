@@ -70,3 +70,18 @@ $mc-theme-font-path: '../projects/kaltura-ng/mc-theme/themes/default/fonts';
     transform: translate3d(-50px, -50px, 0);
   }
 }
+
+.modal-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: .5em;
+  right: .5em;
+  font-size: 1em;
+}
