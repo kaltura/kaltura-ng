@@ -6,6 +6,7 @@ import { MenuModule } from 'primeng/menu';
 import { ButtonModule } from 'primeng/button';
 import { KalturaPrimeNgUIModule } from '@kaltura-ng/kaltura-primeng-ui';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TieredMenuModule } from 'primeng/tieredmenu';
 
 const items: MenuItem[] = [
   {
@@ -31,6 +32,22 @@ const items: MenuItem[] = [
   }
 ];
 
+const nestedItems = [
+  {
+    label: 'Level 1',
+    items: [
+      {
+        label: 'Level 2',
+        command: (event) => action('Level 2 Action Executed')(event),
+      },
+    ]
+  },
+  {
+    label: 'Some item',
+    command: (event) => action('Some item Action Executed')(event),
+  },
+];
+
 storiesOf('Menu', module)
   .addDecorator(story => {
     document.body.classList.add('kOverrideFAIcons');
@@ -44,6 +61,7 @@ storiesOf('Menu', module)
         KalturaPrimeNgUIModule,
         ButtonModule,
         MenuModule,
+        TieredMenuModule,
       ],
     })
   )
@@ -54,6 +72,18 @@ storiesOf('Menu', module)
     `,
     props: {
       items,
+      onShow: action('onShow'),
+      onHide: action('onHide'),
+    }
+  }))
+  .add('Nested', () => ({
+    template: `
+        <button pButton class="kButtonDefault" icon="kIconmore" (click)="menu.toggle($event)"></button>
+        <p-tieredMenu #menu [popup]="true" [model]="items" [appendTo]="'body'"
+                      (onShow)="onShow($event)" (onHide)="onHide($event)"></p-tieredMenu>
+    `,
+    props: {
+      items: nestedItems,
       onShow: action('onShow'),
       onHide: action('onHide'),
     }
