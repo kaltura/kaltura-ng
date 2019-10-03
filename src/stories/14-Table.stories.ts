@@ -266,7 +266,7 @@ storiesOf('Table', module)
       cols: columns,
     }
   }))
-  .add('Resize', () => ({
+  .add('Resize columns', () => ({
     template: `
       <p-table dataKey="vin" [value]="data" [columns]="cols" [resizableColumns]="true" [scrollable]="true" scrollHeight="100%">
         <ng-template pTemplate="colgroup" let-columns>
