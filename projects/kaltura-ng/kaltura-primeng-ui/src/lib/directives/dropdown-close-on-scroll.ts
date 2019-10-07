@@ -1,5 +1,5 @@
 import { Directive, OnDestroy, AfterViewInit, ContentChild, Input } from '@angular/core';
-import { Dropdown } from 'primeng/primeng';
+import { Dropdown } from 'primeng/dropdown';
 import { ISubscription } from 'rxjs/Subscription';
 
 @Directive({
@@ -8,7 +8,7 @@ import { ISubscription } from 'rxjs/Subscription';
 export class DropdownCloseOnScroll implements AfterViewInit, OnDestroy {
 
 	@Input() scrollTarget: any;
-	@ContentChild(Dropdown) public dropdown: Dropdown;
+	@ContentChild(Dropdown, { static: true }) public dropdown: Dropdown;
 
 	private _registered = false;
 	private _dropdownChangesSubscription: ISubscription;
@@ -55,9 +55,9 @@ export class DropdownCloseOnScroll implements AfterViewInit, OnDestroy {
 		this._isDestroyed = true;
 	}
 
-	private closeDropdown():void{
+	private closeDropdown(event):void{
 		if (this.dropdown && typeof this.dropdown.hide !== "undefined"){
-			this.dropdown.hide();
+			this.dropdown.hide(event);
 			this.scrollTarget.removeEventListener('scroll', this._closeDropdownFunc);
 			this._registered = false;
 		}

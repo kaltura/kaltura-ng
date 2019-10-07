@@ -116,7 +116,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     @Output()
     itemClick = new EventEmitter<any>();
 
-    @ViewChild('panel') panelEL: ElementRef;
+    @ViewChild('panel', { static: true }) panelEL: ElementRef;
 
     @HostListener('paste', ['$event']) onPaste(event: ClipboardEvent) {
       if (!this.addOnPaste) {

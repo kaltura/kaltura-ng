@@ -4,6 +4,9 @@
                    [class]="inputStyleClass" autocomplete="off" [attr.required]="required"
                    [ngClass]="'ui-inputtext ui-widget ui-state-default ui-corner-all ui-autocomplete-input'"
                    [value]="inputFieldValue ? (field ? ObjectUtils.resolveFieldData(inputFieldValue, field) || inputFieldValue : value) : null"
+                   role="combobox"
+                   aria-autocomplete="list" role="combobox" [attr.aria-expanded]="overlayVisible" aria-haspopup="true" [attr.aria-activedescendant]="'p-highlighted-option'"
+                   [attr.aria-label]="ariaLabel" [attr.aria-labelledby]="ariaLabelledBy" [attr.aria-required]="required"
                    (click)="onInputClick($event)" (input)="onInput($event)" (keydown)="onKeydown($event)"
                    (keyup)="onKeyup($event)" (focus)="onInputFocus($event)" (blur)="onInputBlur($event)"
                    (change)="onInputChange($event)"
@@ -25,7 +28,9 @@
                            (input)="onInput($event)" (click)="onInputClick($event)"
                            (keydown)="onKeydown($event)" [readonly]="readonly" (keyup)="onKeyup($event)"
                            (focus)="onInputFocus($event)" (blur)="onInputBlur($event)" (change)="onInputChange($event)"
-                           autocomplete="off" [ngStyle]="inputStyle" [class]="inputStyleClass">
+                           autocomplete="off" [ngStyle]="inputStyle" [class]="inputStyleClass"
+                           [attr.aria-label]="ariaLabel" [attr.aria-labelledby]="ariaLabelledBy" [attr.aria-required]="required"
+                           aria-autocomplete="list" role="combobox" [attr.aria-expanded]="overlayVisible" aria-haspopup="true" [attr.aria-activedescendant]="'p-highlighted-option'">
                 </li>
             </ul
             ><i *ngIf="loading" class="ui-autocomplete-loader pi pi-spinner pi-spin"></i><button #ddBtn type="button"
@@ -39,7 +44,7 @@
                  [style.display]="overlayVisible ? 'block' : 'none'" [style.width]="appendTo ? 'auto' : '100%'"
                  [style.max-height]="scrollHeight" [@overlayAnimation]="'visible'" (@overlayAnimation.start)="onOverlayAnimationStart($event)" (@overlayAnimation.done)="onOverlayAnimationDone($event)"
                  (mouseenter)="overlayHovered=true" (mouseleave)="overlayHovered=false">
-                <ul
+                <ul role="listbox"
                   class="ui-autocomplete-items ui-autocomplete-list ui-widget-content ui-widget ui-corner-all ui-helper-reset"
                   *ngIf="overlayVisible">
                 <li *ngIf="_loading" class="ui-autocomplete-notification-item">
@@ -51,7 +56,7 @@
             <li *ngIf="_errorMessage" class="ui-autocomplete-notification-item">
                 {{ _errorMessage }}
             </li>
-                    <li *ngFor="let option of suggestions; let idx = index"
+                    <li role="option"  *ngFor="let option of suggestions; let idx = index"
                         [ngClass]="{'ui-autocomplete-list-item ui-corner-all':true,'ui-state-highlight':(highlightOption==option)}"
                     [class.kIsItemDisabled]="option | kIsSuggestionDisabled : suggestionSelectableField"
                         (mouseenter)="highlightOption=option" (mouseleave)="highlightOption=null"

@@ -8,5 +8,5 @@ export class ColumnComponent {
   @Input() field: string;
   @Input() style: string;
   @Input() header: string;
-  @ContentChild(TemplateRef) template: TemplateRef<any>;
+  @ContentChild(TemplateRef, { static: true }) template: TemplateRef<any>;
 }

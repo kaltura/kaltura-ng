@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TreeModule } from 'primeng/primeng';
+import { TreeModule } from 'primeng/tree';
 import { RefinePrimeTree } from './refine-prime-tree.directive';
 
 @NgModule({

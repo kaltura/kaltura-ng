@@ -56,7 +56,7 @@ $inputTextColor: #333333;
 $invalidInputBorderColor: #cd0a0a;
 $inputGroupTextColor: #222222;
 
-@import '~primeng/resources/themes/theme';
+@import './default-theme';
 
 /* input */
 .ui-inputtext, .ui-inputtext:enabled{
@@ -493,7 +493,7 @@ textarea.ui-inputtext {
   -o-transition: all 100ms ease-in-out;
   transition: all 100ms ease-in-out;
 }
-.ui-button.kButtonDefault {
+.kButtonDefault, .ui-button.kButtonDefault {
   &.ui-state-default{
     color: $kGrayscale1;
     background: #ffffff;
@@ -701,7 +701,7 @@ body .ui-tieredmenu {
       cursor: default;
 
       &::before {
-        @extend .kIconcheck_small:before;
+        content: $iconCheckSmallContent;
       }
     }
   }
@@ -748,7 +748,7 @@ body .ui-tieredmenu {
   }
 
   button{
-    @extend .ui-button.kButtonDefault;
+    @extend .kButtonDefault;
   }
   .ui-datepicker-prev, .ui-datepicker-next{
     color: #ffffff !important;
@@ -909,7 +909,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
     color: #000000;
     &:after{
       font-family: 'kmcng-icon-pack';
-      @extend .kIconcheck_small:before;
+      content: $iconCheckSmallContent;
       font-weight: normal;
       float: right;
       font-size: 12px;
@@ -1058,8 +1058,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
     font-size: 14px;
   }
   .ui-growl-icon-close.pi.pi-close:before{
-    @extend .kIconclose_small:before;
-
+    content: $iconCloseSmallContent;
   }
 
   .ui-growl-image {
@@ -1069,11 +1068,11 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
     font-size: 20px;
 
     &.pi-check:before{
-      @extend .kIconcheck_large:before;
+      content: $iconCheckLargeContent;
     }
 
     &.pi-minus:before{
-      @extend .kIconpen:before;
+      content: $iconOpenContent;
     }
   }
 

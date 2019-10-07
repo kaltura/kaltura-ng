@@ -64,7 +64,7 @@ export class PopupWidgetComponent implements AfterViewInit, OnDestroy{
 	@Input() placement: {x: PopupWidgetXPositions, y: PopupWidgetYPositions} = {x: 'right', y: 'bottom'}
   @Input() closeOnScroll: boolean = false;
 
-  @ContentChild(TemplateRef) public _template: TemplateRef<any>;
+  @ContentChild(TemplateRef, { static: true }) public _template: TemplateRef<any>;
   @HostBinding('class.opened') opened = false;
   @HostBinding('class.closed') closed = false;
 

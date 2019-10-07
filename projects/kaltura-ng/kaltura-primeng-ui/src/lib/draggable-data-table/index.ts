@@ -1,3 +1,3 @@
 export * from './draggable-data-table.component';
-export * from "./draggable-data-table.module";
+export * from './draggable-data-table.module';
 

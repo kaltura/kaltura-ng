@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MultiSelect } from 'primeng/primeng';
+import { MultiSelect } from 'primeng/multiselect';
 
 /* tslint:disable */
 export const KALTURA_MULTISELECT_VALUE_ACCESSOR: any = {

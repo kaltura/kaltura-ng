@@ -15,7 +15,7 @@
     </select>
   </div>
   <div class="ui-helper-hidden-accessible">
-    <input #in [attr.id]="inputId" type="text" [attr.aria-label]="selectedOption ? selectedOption.label : ' '" readonly (focus)="onInputFocus($event)" role="listbox"
+    <input #in [attr.id]="inputId" type="text" aria-haspopup="listbox" [attr.aria-label]="selectedOption ? selectedOption.label : ' '" readonly (focus)="onInputFocus($event)"
            (blur)="onInputBlur($event)" (keydown)="onKeydown($event, true)" [disabled]="disabled" [attr.tabindex]="tabindex" [attr.autofocus]="autofocus">
   </div>
   <label [ngClass]="{'ui-dropdown-label ui-inputtext ui-corner-all':true,'ui-dropdown-label-empty':(label == null || label.length === 0)}" *ngIf="!editable && (label != null)">
@@ -37,7 +37,7 @@
       <span class="ui-dropdown-filter-icon pi pi-search"></span>
     </div>
     <div #itemswrapper class="ui-dropdown-items-wrapper" [style.max-height]="scrollHeight||'auto'">
-      <ul class="ui-dropdown-items ui-dropdown-list ui-widget-content ui-widget ui-corner-all ui-helper-reset">
+      <ul class="ui-dropdown-items ui-dropdown-list ui-widget-content ui-widget ui-corner-all ui-helper-reset" role="listbox">
         <ng-container *ngIf="group">
           <ng-template ngFor let-optgroup [ngForOf]="optionsToDisplay">
             <li class="ui-dropdown-item-group">
@@ -58,7 +58,7 @@
                 'ui-dropdown-item-empty':!option.label||option.label.length === 0,
                 'ui-state-disabled': option.disabled
               }"
-              (click)="onItemClick($event, option)">
+              (click)="onItemClick($event)">
             <span *ngIf="!itemTemplate">{{option.label||'empty'}}</span>
             <ng-container *ngTemplateOutlet="itemTemplate; context: {$implicit: option}"></ng-container>
           </li>

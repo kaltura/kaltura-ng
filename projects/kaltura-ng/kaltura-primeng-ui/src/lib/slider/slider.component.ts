@@ -1,7 +1,7 @@
 import { Component, forwardRef, Input } from '@angular/core';
-import { DomHandler } from "primeng/components/dom/domhandler";
+import { DomHandler } from 'primeng/components/dom/domhandler';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Slider } from "primeng/primeng";
+import { Slider } from 'primeng/slider';
 
 /* tslint:disable */
 export const KALTURA_SLIDER_VALUE_ACCESSOR: any = {

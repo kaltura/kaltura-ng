@@ -1,5 +1,5 @@
 // TODO this style is not applied - find out why
-:host /deep/ .ui-multiselect-panel {
+:host ::ng-deep .ui-multiselect-panel {
   .pi-minus {
     background-color: #00a784;
     border: 1px solid #00a784;
