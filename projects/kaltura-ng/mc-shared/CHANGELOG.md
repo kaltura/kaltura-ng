@@ -1,4 +1,13 @@
 # Change Log
+<a name="5.2.0"></a>
+# [5.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@5.1.7...5.2.0) (2019-10-07)
+
+
+### Features
+
+* Upgrade to Angular 8 ([#151](https://github.com/kaltura/kaltura-ng/issues/151)) ([515b897](https://github.com/kaltura/kaltura-ng/commit/515b897))
+
+
 <a name="5.1.7"></a>
 ## [5.1.7](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@5.1.6...5.1.7) (2019-07-11)
 
