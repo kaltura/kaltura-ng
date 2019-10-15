@@ -457,7 +457,25 @@ textarea.ui-inputtext {
   height: 34px;
   font-size: 14px;
 
-  .ui-button-icon-left{
+  &:not(.ui-button-icon-only) {
+    min-width: 100px;
+  }
+
+  &.ui-button-text-only .ui-button-text {
+    padding: .25em .572em;
+  }
+
+  &.ui-button-text-icon-left {
+    .ui-button-text {
+      padding: .25em .572em .25em 2.8em;
+    }
+
+    .ui-button-icon-left {
+      left: 8px;
+    }
+  }
+
+  .ui-button-icon-left {
     font-size: 24px;
   }
 }
@@ -523,7 +541,7 @@ textarea.ui-inputtext {
     border: 0px solid darken($kDandger, 10%);
   }
   &:active:not(:disabled){
-    box-shadow: inset 0px 1px 3px 0 rgba(0,0,0,0.50);
+    box-shadow: 0 0 0 3px rgba(219, 31, 38, 0.4);
   }
   &:disabled{
     @extend .disabled;

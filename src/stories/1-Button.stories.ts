@@ -46,25 +46,14 @@ storiesOf('Button', module)
       onClick: action('click'),
     }
   }))
-  .add(
-    'With Icon',
-    () => ({
-      template: `
-      <button pButton class="kButtonDefault" label="With Icon" icon="kIconplus" iconPos="left"></button>
+  .add('With Icon', () => ({
+    template: `
+      <button pButton class="kButtonDefault" label="With Icon" icon="kIconcalendar" iconPos="left"></button>
     `,
-      props: {
-        onClick: action('click'),
-      }
-    }),
-    {
-      notes: {
-        markdown: `
-        In case you want to use icons from kaltura-ng font, make sure you've set an appropriate font-size.
-
-        In this example font-size is \`font-size: 18px\` and you might need to use \`!important\` to overwrite font-size
-        `,
-      }
-    })
+    props: {
+      onClick: action('click'),
+    }
+  }))
   .add('Icon only', () => ({
     template: `
       <button pButton class="kButtonDanger" icon="kIcontrash" kTooltip="Delete" placement="right"
