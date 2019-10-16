@@ -168,7 +168,8 @@ storiesOf('Input', module)
   .add('Autocomplete', () => ({
     styles: [styles],
     template: `
-        <kAutoComplete suggestionLabelField="label"
+        <div style="margin-top: 1em;">
+            <kAutoComplete suggestionLabelField="label"
                      field="label"
                      placeholder="First, Second, Third"
                      [multiple]="true"
@@ -177,8 +178,8 @@ storiesOf('Input', module)
                      [tooltipResolver]="tooltipResolver"
                      [suggestionsProvider]="suggestions"
                      (completeMethod)="search($event)"
-                     [(ngModel)]="value">
-      </kAutoComplete>
+                     [(ngModel)]="value"></kAutoComplete>
+        </div>
     `,
     props: {
       value: '',
