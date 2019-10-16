@@ -1,4 +1,13 @@
 # Change Log
+<a name="7.3.0"></a>
+# [7.3.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@7.2.0...7.3.0) (2019-10-07)
+
+
+### Features
+
+* Upgrade to Angular 8 ([#151](https://github.com/kaltura/kaltura-ng/issues/151)) ([515b897](https://github.com/kaltura/kaltura-ng/commit/515b897))
+
+
 <a name="7.2.0"></a>
 # [7.2.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@7.1.0...7.2.0) (2019-07-11)
 

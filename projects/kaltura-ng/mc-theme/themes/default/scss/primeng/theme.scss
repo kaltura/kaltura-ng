@@ -746,13 +746,16 @@ body .ui-tieredmenu {
   border-radius: 3px;
 }
 .ui-calendar{
-  button.ui-state-default {
+  button.ui-state-default.ui-calendar-button {
     height: 34px;
     width: 42px;
     border: 0px solid white;
     color: $kGrayscale4;
     &:active{
       box-shadow: none;
+    }
+    &:enabled:hover {
+      color: $kGrayscale1;
     }
   }
   .ui-button-icon-left.kIconcalendar{
