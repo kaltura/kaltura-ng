@@ -1,4 +1,22 @@
 # Change Log
+<a name="3.1.1"></a>
+## [3.1.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.1.0...3.1.1) (2019-10-16)
+
+
+### Bug Fixes
+
+* fix calendar button style ([081a244](https://github.com/kaltura/kaltura-ng/commit/081a244))
+
+
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.13...3.1.0) (2019-10-07)
+
+
+### Features
+
+* Upgrade to Angular 8 ([#151](https://github.com/kaltura/kaltura-ng/issues/151)) ([515b897](https://github.com/kaltura/kaltura-ng/commit/515b897))
+
+
 <a name="3.0.13"></a>
 ## [3.0.13](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.0.12...3.0.13) (2019-09-08)
 
