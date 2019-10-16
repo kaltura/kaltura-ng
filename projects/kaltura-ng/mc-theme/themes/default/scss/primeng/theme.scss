@@ -120,11 +120,16 @@ textarea.ui-inputtext {
   }
 }
 .ui-chkbox{
-  margin-right: 6px;
+  margin-right: 12px;
 }
 .ui-chkbox-box:not(.ui-state-disabled):not(.ui-state-active):hover{
   border: 1px solid $kGrayscale4;
 }
+
+.ui-chkbox-label {
+  font-weight: normal;
+}
+
 /* radio buttons */
 .ui-radiobutton-box.ui-state-active{
   background-color: #ffffff;
@@ -132,7 +137,11 @@ textarea.ui-inputtext {
   color: #ffffff;
 }
 .ui-radiobutton{
-  margin-right: 6px;
+  margin-right: 12px;
+}
+.ui-radiobutton-label {
+  font-weight: normal;
+  vertical-align: middle;
 }
 
 
@@ -716,7 +725,6 @@ body .ui-tieredmenu {
         border: 1px solid $kPrimary;
       }
     }
-
   }
 
   &:not(.ui-treenode-selectable) {

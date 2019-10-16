@@ -205,7 +205,7 @@ storiesOf('Input', module)
   .add('Radio-button', () => ({
     styles: [styles],
     template: `
-        <div style="display: flex; width: 15em; justify-content: space-between">
+        <div style="display: flex; width: 18em; justify-content: space-between">
           <p-radioButton name="radioButton" value="this" label="This" (change)="onChange($event)" [(ngModel)]="value"></p-radioButton>
           <p-radioButton name="radioButton" value="that" label="That" (change)="onChange($event)" [(ngModel)]="value"></p-radioButton>
           <p-radioButton name="radioButton" value="whatever" label="Disabled" [disabled]="true" [(ngModel)]="value"></p-radioButton>
@@ -220,7 +220,7 @@ storiesOf('Input', module)
   .add('Checkbox', () => ({
     styles: [styles],
     template: `
-        <div style="display: flex; width: 20em; justify-content: space-between">
+        <div style="display: flex; width: 24em; justify-content: space-between">
           <p-checkbox label="First" name="checkbox" value="1" (onChange)="onChange($event)" [(ngModel)]="value"></p-checkbox>
           <p-checkbox label="Second" name="checkbox" value="2" (onChange)="onChange($event)" [(ngModel)]="value"></p-checkbox>
           <p-checkbox label="Third" name="checkbox" value="3" (onChange)="onChange($event)" [(ngModel)]="value"></p-checkbox>
