@@ -774,12 +774,11 @@ body .ui-tieredmenu {
   .ui-inputtext {
     width: 100px;
     float: right;
-    margin-left: 40px;
     background-color: white;
-    border: 0px solid white;
+    border: 0 solid white;
     outline: hidden;
     &:focus{
-      border: 0px solid $kGrayscale4;
+      border: 0 solid $kGrayscale4;
     }
   }
 
