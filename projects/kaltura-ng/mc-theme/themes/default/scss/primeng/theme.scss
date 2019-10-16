@@ -169,14 +169,14 @@ textarea.ui-inputtext {
   }
   .ui-widget-header.ui-datatable-scrollable-header {
     height: 40px;
-    border-top: 1px solid #d9d9d9;
+    border-top: 1px solid $kGrayscale6;
     border-left: none;
     border-right: none;
     tr {
       height: 40px;
       border-left: none;
       border-right: none;
-      border-top: 0px solid #ffffff;
+      border-top: 0 solid #ffffff;
     }
   }
   .ui-datatable-thead > tr > th {
@@ -273,8 +273,22 @@ textarea.ui-inputtext {
 
 /* turbo data table */
 .ui-table {
+  .ui-column-resizer {
+    background-color: $kGrayscale6;
+    border: none;
+    width: 1px;
+  }
+
+  .ui-table-scrollable-header {
+    border: 1px solid $kGrayscale6;
+  }
+
+  .ui-table-scrollable-header-table {
+    background-color: #FFFFFF;
+  }
+
   .ui-table-tbody > tr > td {
-    height: 70px;
+    height: 72px;
     overflow: hidden;
     border-left: none;
     border-right: none;
@@ -295,8 +309,6 @@ textarea.ui-inputtext {
     }
   }
   .ui-table-thead > tr > th {
-    border-left: none;
-    border-right: none;
     font-weight: bold;
     text-align: left;
     border: none;
@@ -312,13 +324,16 @@ textarea.ui-inputtext {
     z-index: 10;
     display: table;
     background-color: white;
-    border-bottom: 1px solid $kGrayscale5;
+    border-bottom: 1px solid $kGrayscale6;
   }
   th.ui-state-highlight {
     color: $kGrayscale1;
     p-sorticon{
       display: inline;
     }
+  }
+  tr.ui-selectable-row {
+    outline: none;
   }
 
   .ui-table-sort-icon {
@@ -330,26 +345,26 @@ textarea.ui-inputtext {
     font-weight: 400;
     color: $kGrayscale3;
     text-overflow: ellipsis;
+    border: 1px solid $kGrayscale6;
+    border-right: none;
+    border-left: none;
   }
-  /*
-  .ui-table .ui-table-data tr.ui-state-highlight{
-    background-color: #ffffff;
-    cursor: auto;
-  }
-  */
-  p-sorticon{
+  p-sorticon {
     display: none;
-    a{
+    vertical-align: text-top;
+
+    a {
       text-decoration: none !important;
     }
-    i{
+
+    i {
       font-size: 10px;
       margin-left: 8px;
       visibility: visible;
     }
   }
   .ui-table-data > tr > td {
-    border: 0px solid #ffffff;
+    border: 0 solid #ffffff;
     overflow: hidden;
   }
   .ui-table-scrollable-body {
@@ -364,6 +379,7 @@ textarea.ui-inputtext {
     line-height: 200px;
     font-size: 28px;
     color: $kGrayscale3;
+    background: #FFFFFF;
   }
 
   .ui-table-data tr.uploadFailure {
@@ -616,7 +632,7 @@ body .ui-tieredmenu {
   }
 }
 .ui-paginator.ui-widget-header.ui-unselectable-text{
-  background: transparent;
+  background: #FFFFFF;
   border: none;
 }
 .ui-paginator-element{
@@ -628,6 +644,7 @@ body .ui-tieredmenu {
   border-radius: 0px;
 }
 .ui-paginator .ui-paginator-pages, .ui-paginator .ui-paginator-page, .ui-paginator .ui-paginator-next, .ui-paginator .ui-paginator-prev, .ui-paginator .ui-paginator-first, .ui-paginator .ui-paginator-last{
+  font-size: 14px;
   color: $kGrayscale2;
   font-weight: 400;
   margin-left: 0px;
