@@ -38,6 +38,7 @@ storiesOf('AreaBlocker', module)
         buttons: [
           {
             label: 'Some action button',
+            classes: 'kButtonDefault',
             action: () => action('Some action button event')()
           }
         ]
