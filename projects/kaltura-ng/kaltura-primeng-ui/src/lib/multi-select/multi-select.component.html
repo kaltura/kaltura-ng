@@ -11,7 +11,7 @@
     </label>
   </div>
   <div [ngClass]="{'ui-multiselect-trigger ui-state-default ui-corner-right':true}">
-    <span class="ui-multiselect-trigger-icon ui-clickable" [ngClass]="dropdownIcon"></span>
+    <span class="ui-multiselect-trigger-icon ui-clickable" [ngClass]="dropdownIcon" [class.inverse]="overlayVisible"></span>
   </div>
   <div *ngIf="overlayVisible" [ngClass]="['ui-multiselect-panel ui-widget ui-widget-content ui-corner-all ui-shadow']" [@overlayAnimation]="{value: 'visible', params: {showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions}}" (@overlayAnimation.start)="onOverlayAnimationStart($event)"
        [ngStyle]="panelStyle" [class]="panelStyleClass" (click)="panelClick=true">
