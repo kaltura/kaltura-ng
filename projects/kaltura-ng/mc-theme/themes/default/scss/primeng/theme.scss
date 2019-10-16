@@ -575,6 +575,13 @@ body .ui-tieredmenu {
 .ui-menu .ui-menuitem-text {
   vertical-align: middle;
 }
+
+.ui-tieredmenu .ui-menuitem .ui-menuitem-link:hover,
+.ui-menu-list .ui-menuitem .ui-menuitem-link:hover,
+.ui-menu .ui-menuitem .ui-menuitem-link:hover {
+  background-color: $kGrayscale7 !important;
+}
+
 .ui-submenu{
   .ui-submenu-list{
     padding: 0px;
@@ -949,7 +956,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   overflow-x: hidden;
 }
 .ui-dropdown-panel .ui-dropdown-item:not(.ui-state-highlight):hover{
-  background-color: $kGrayscale6 !important;
+  background-color: $kGrayscale7 !important;
 }
 .ui-dropdown-label.ui-inputtext{
   background-color: #ffffff;
@@ -1017,8 +1024,12 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
 }
 
 .ui-multiselect-panel .ui-multiselect-item:not(.ui-state-highlight):not(.ui-state-disabled):hover {
-  background-color: $kGrayscale6 !important;
+  background-color: $kGrayscale7 !important;
   border-radius: 0;
+}
+
+.ui-multiselect-panel .ui-multiselect-item .ui-chkbox {
+  vertical-align: text-bottom;
 }
 
 .ui-multiselect:not(.ui-state-disabled) .ui-multiselect-label-container:active{
