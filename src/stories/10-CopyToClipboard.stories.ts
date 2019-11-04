@@ -17,14 +17,29 @@ storiesOf('CopyToClipboard', module)
       ],
     })
   )
-  .add('Default', () => ({
-    template: `
+  .add(
+    'Default',
+    () => ({
+      template: `
         <div style="display: flex; align-items: center; padding: 1.5em 2.5em;">
             <kCopyToClipboard [text]="text"></kCopyToClipboard>
             <span style="margin-left: 1em;">{{text}}</span>
         </div>
     `,
-    props: {
-      text: 'This text will be copied to the clipboard'
+      props: {
+        text: 'This text will be copied to the clipboard'
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        Inputs:\n
+        * \`text: string\`\n
+        Usage example:\n
+        \`\`\`
+        <kCopyToClipboard [text]="text"></kCopyToClipboard>
+        \`\`\`
+        `,
+      }
     }
-  }));
+  );

@@ -20,8 +20,10 @@ storiesOf('PopupWidget', module)
       ],
     })
   )
-  .add('Default', () => ({
-    template: `
+  .add(
+    'Default',
+    () => ({
+      template: `
         <button pButton class="kButtonDefault" label="Open Modal" (click)="modal.open()"></button>
         <kPopupWidget #modal
                       [popupWidth]="300"
@@ -36,11 +38,62 @@ storiesOf('PopupWidget', module)
           </ng-template>
         </kPopupWidget>
     `,
-    props: {
-      onOpen: action('onOpen'),
-      onClose: action('onClose'),
-    },
-  }))
+      props: {
+        onOpen: action('onOpen'),
+        onClose: action('onClose'),
+      },
+    }),
+    {
+      notes: {
+        markdown: `
+          Inputs:\n
+          * \`appendTo: string | ElementRef\`
+          * \`childrenPopups: PopupWidgetComponent[] = []\`
+          * \`closeBtn: boolean = true\`
+          * \`closeBtnInside: boolean = false\`
+          * \`closeOnBrowserNav: boolean = true\`
+          * \`closeOnClickOutside: boolean = true\`
+          * \`closeOnResize: boolean = false\`
+          * \`closeOnScroll: boolean = false\`
+          * \`fullScreen: boolean = false\`
+          * \`modal: boolean = false\`
+          * \`parentPopup: PopupWidgetComponent\`
+          * \`placement: { x: PopupWidgetXPositions, y: PopupWidgetYPositions } = { x: 'right', y: 'bottom' }\`
+          * \`popupHeight: number | 'auto' = 'auto'\`
+          * \`popupWidth: number = true\`
+          * \`preventPageScroll: boolean = false\`
+          * \`showTooltip: boolean = false\`
+          * \`slider: boolean = false\`
+          * \`targetOffset: { x: number, y: number }\`
+          * \`targetRef: HTMLElement\`
+          * \`trigger: 'click' | 'hover' = 'click'\`
+          * \`transparent: boolean = false\`
+          Outputs:\n
+          * \`onClose: EventEmitter<void>\`
+          * \`onOpen: EventEmitter<void>\`\n
+          Custom Types:\n
+          * \`type PopupWidgetXPositions = 'left' | 'right' | 'center'\`
+          * \`type PopupWidgetYPositions = 'top' | 'bottom' | 'center'\`\n
+          Usage example:\n
+          \`\`\`
+          <button pButton class="kButtonDefault" label="Open Modal" (click)="modal.open()"></button>
+          <kPopupWidget #modal
+                        [popupWidth]="300"
+                        [popupHeight]="300"
+                        [modal]="true"
+                        (onOpen)="onOpen($event)"
+                        (onClose)="onClose($event)">
+            <ng-template>
+              <div class="modal-container" [style.height.px]="300">
+                  Modal Content
+              </div>
+            </ng-template>
+          </kPopupWidget>
+          \`\`\`
+        `,
+      }
+    }
+  )
   .add('Close Button inside', () => ({
     template: `
         <button pButton class="kButtonDefault" label="Open Modal" (click)="modal.open()"></button>

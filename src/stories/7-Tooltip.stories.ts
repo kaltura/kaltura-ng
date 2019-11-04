@@ -17,13 +17,38 @@ storiesOf('Tooltip', module)
       ],
     })
   )
-  .add('Default', () => ({
-    template: `
+  .add(
+    'Default',
+    () => ({
+      template: `
         <div style="padding: 1.5em;">
             <span kTooltip="Example of a tooltip">Hover me</span>
         </div>
     `,
-  }))
+    }),
+    {
+      notes: {
+        markdown: `
+        Inputs:\n
+        * \`kTooltip: string\`
+        * \`tooltipResolver: string | ((val: any) => string) = null\`
+        * \`escape: boolean = true\`
+        * \`tooltipOffset: number = 8\`
+        * \`placement: TooltipPositions = 'top'\`
+        * \`delay: number = 300\`
+        * \`maxWidth: number = 300\`
+        * \`followTarget: boolean = false\`
+        * \`showOnEllipsis: boolean = false\`\n
+        Custom Types:\n
+        * \`type TooltipPositions = 'top' | 'left' | 'right' | 'bottom'\`\n
+        Usage example:\n
+        \`\`\`
+        <span kTooltip="Example of a tooltip">Hover me</span>
+        \`\`\`
+        `,
+      }
+    }
+  )
   .add('With markdown', () => ({
     template: `
         <div style="padding: 1.5em;">
