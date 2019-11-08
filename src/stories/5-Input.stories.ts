@@ -72,17 +72,28 @@ storiesOf('Input', module)
       ],
     })
   )
-  .add('Default', () => ({
-    styles: [styles],
-    template: `
+  .add(
+    'Default',
+    () => ({
+      styles: [styles],
+      template: `
         <input type="text" pInputText placeholder="Enter text" (input)="onChange($event)" [(ngModel)]="value">
         <span class="input-value">{{value}}</span>
     `,
-    props: {
-      value: '',
-      onChange: action('input'),
+      props: {
+        value: '',
+        onChange: action('input'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        The documentation for a primeng input component can be found
+        <a href="https://www.primefaces.org/primeng/#/inputtext" target="_blank">here</a>
+        `,
+      }
     }
-  }))
+  )
   .add('Disabled', () => ({
     styles: [styles],
     template: `
@@ -128,19 +139,43 @@ storiesOf('Input', module)
       }
     }
   )
-  .add('Clearable input', () => ({
-    styles: [styles],
-    template: `
+  .add(
+    'Clearable input',
+    () => ({
+      styles: [styles],
+      template: `
         <kClearableInput placeholder="Enter text & press enter"
                           (onEnterKeyup)="onEnterKeyup($event)"
                           (onClear)="onClear($event)"></kClearableInput>
     `,
-    props: {
-      value: '',
-      onEnterKeyup: action('onEnterKeyup'),
-      onClear: action('onClear'),
+      props: {
+        value: '',
+        onEnterKeyup: action('onEnterKeyup'),
+        onClear: action('onClear'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        Inputs:\n
+        * \`disabled: boolean\`
+        * \`placeholder: string\`\n
+        Outputs:\n
+        * \`onChange: EventEmitter<Event>\`
+        * \`onFocus: EventEmitter<FocusEvent>\`
+        * \`onBlur: EventEmitter<FocusEvent>\`
+        * \`onEnterKeyup: EventEmitter<string>\`
+        * \`onClear: EventEmitter<void>\`\n
+        Usage example:\n
+        \`\`\`
+        <kClearableInput placeholder="Enter text & press enter"
+                         (onEnterKeyup)="onEnterKeyup($event)"
+                         (onClear)="onClear($event)"></kClearableInput>
+        \`\`\`
+        `,
+      }
     }
-  }))
+  )
   .add(
     'Textarea',
     () => ({
@@ -161,13 +196,19 @@ storiesOf('Input', module)
     }),
     {
       notes: {
-        markdown: 'In addition to `rows` property use `height` style-property to style `textarea` height'
+        markdown: `
+        In addition to \`rows\` property use \`height\` style-property to style \`textarea\` height\n
+        The documentation for a primeng textarea component can be found
+        <a href="https://www.primefaces.org/primeng/#/inputtextarea" target="_blank">here</a>
+        `
       }
     }
   )
-  .add('Autocomplete', () => ({
-    styles: [styles],
-    template: `
+  .add(
+    'Autocomplete',
+    () => ({
+      styles: [styles],
+      template: `
         <kAutoComplete suggestionLabelField="label"
                      field="label"
                      placeholder="First, Second, Third"
@@ -180,30 +221,66 @@ storiesOf('Input', module)
                      [(ngModel)]="value">
       </kAutoComplete>
     `,
-    props: {
-      value: '',
-      tooltipResolver: (value: SelectItem) => `${value.label}: ${value.value}`,
-      suggestions: suggestions,
-      search: (event) => {
-        action('completeMethod')(event);
+      props: {
+        value: '',
+        tooltipResolver: (value: SelectItem) => `${value.label}: ${value.value}`,
+        suggestions: suggestions,
+        search: (event) => {
+          action('completeMethod')(event);
 
-        suggestions.next({ suggestions: [], isLoading: true });
+          suggestions.next({ suggestions: [], isLoading: true });
 
-        const searchTerm = (event.query || '').trim().toLowerCase();
-        of(options.filter(item => item.label.toLowerCase().startsWith(searchTerm) && !item.disabled))
-          .pipe(
-            map(result => ({ suggestions: result, isLoading: false })),
-            delay(500),
-          )
-          .subscribe(result => {
-            suggestions.next(result);
-          });
+          const searchTerm = (event.query || '').trim().toLowerCase();
+          of(options.filter(item => item.label.toLowerCase().startsWith(searchTerm) && !item.disabled))
+            .pipe(
+              map(result => ({ suggestions: result, isLoading: false })),
+              delay(500),
+            )
+            .subscribe(result => {
+              suggestions.next(result);
+            });
+        }
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        kAutoComplete component is extended from primeng autocomplete component.
+        The documentation for a primeng autocomplete component can be found
+        <a href="https://www.primefaces.org/primeng/#/autocomplete" target="_blank">here</a>\n
+        Inputs:\n
+        * \`limitToSuggestions: boolean = true\`
+        * \`suggestionSelectableField: string = ''\`
+        * \`suggestionItemField: string = ''\`
+        * \`classField: string = null\`
+        * \`suggestionLabelField: string = ''\`
+        * \`onItemAdding: (value: any) => any\`
+        * \`tooltipResolver: string | ((val: any) => string) = null\`\n
+        Outputs:\n
+        * \`itemClick: EventEmitter<any>\`\n
+        Usage example:\n
+        \`\`\`
+        <kAutoComplete suggestionLabelField="label"
+                     field="label"
+                     placeholder="First, Second, Third"
+                     [multiple]="true"
+                     [limitToSuggestions]="true"
+                     [minLength]="3"
+                     [tooltipResolver]="tooltipResolver"
+                     [suggestionsProvider]="suggestions"
+                     (completeMethod)="search($event)"
+                     [(ngModel)]="value">
+        </kAutoComplete>
+        \`\`\`
+        `,
       }
     }
-  }))
-  .add('Radio-button', () => ({
-    styles: [styles],
-    template: `
+  )
+  .add(
+    'Radio-button',
+    () => ({
+      styles: [styles],
+      template: `
         <div style="display: flex; width: 15em; justify-content: space-between">
           <p-radioButton name="radioButton" value="this" label="This" (change)="onChange($event)" [(ngModel)]="value"></p-radioButton>
           <p-radioButton name="radioButton" value="that" label="That" (change)="onChange($event)" [(ngModel)]="value"></p-radioButton>
@@ -211,14 +288,25 @@ storiesOf('Input', module)
         </div>
         <span class="input-value">{{value}}</span>
     `,
-    props: {
-      value: 'this',
-      onChange: action('change'),
+      props: {
+        value: 'this',
+        onChange: action('change'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        The documentation for a primeng radio-button component can be found
+        <a href="https://www.primefaces.org/primeng/#/radiobutton" target="_blank">here</a>
+        `,
+      }
     }
-  }))
-  .add('Checkbox', () => ({
-    styles: [styles],
-    template: `
+  )
+  .add(
+    'Checkbox',
+    () => ({
+      styles: [styles],
+      template: `
         <div style="display: flex; width: 20em; justify-content: space-between">
           <p-checkbox label="First" name="checkbox" value="1" (onChange)="onChange($event)" [(ngModel)]="value"></p-checkbox>
           <p-checkbox label="Second" name="checkbox" value="2" (onChange)="onChange($event)" [(ngModel)]="value"></p-checkbox>
@@ -227,29 +315,51 @@ storiesOf('Input', module)
         </div>
         <span class="input-value">{{value}}</span>
     `,
-    props: {
-      value: null,
-      onChange: action('onChange'),
+      props: {
+        value: null,
+        onChange: action('onChange'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        The documentation for a primeng checkbox component can be found
+        <a href="https://www.primefaces.org/primeng/#/checkbox" target="_blank">here</a>
+        `,
+      }
     }
-  }))
-  .add('Switch', () => ({
-    styles: [styles],
-    template: `
+  )
+  .add(
+    'Switch',
+    () => ({
+      styles: [styles],
+      template: `
         <button pButton class="kButtonDefault" style="width: 6em; margin-bottom: 1em"
                 [label]="disabled ? 'Enable' : 'Disable'"
                 (click)="disabled = !disabled"></button>
         <p-inputSwitch [disabled]="disabled" (onChange)="onChange($event)" [(ngModel)]="value"></p-inputSwitch>
         <span class="input-value">{{value}}</span>
     `,
-    props: {
-      value: false,
-      disabled: false,
-      onChange: action('onChange'),
+      props: {
+        value: false,
+        disabled: false,
+        onChange: action('onChange'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        The documentation for a primeng input-switch component can be found
+        <a href="https://www.primefaces.org/primeng/#/inputswitch" target="_blank">here</a>
+        `,
+      }
     }
-  }))
-  .add('Calendar', () => ({
-    styles: [styles],
-    template: `
+  )
+  .add(
+    'Calendar',
+    () => ({
+      styles: [styles],
+      template: `
         <p-calendar class="fix-calendar-input"
                     icon="kIconcalendar"
                     yearRange="2005:2050"
@@ -260,11 +370,20 @@ storiesOf('Input', module)
                     (onSelect)="onSelect($event)"></p-calendar>
         <span class="input-value">{{value}}</span>
     `,
-    props: {
-      value: null,
-      onSelect: action('onSelect'),
+      props: {
+        value: null,
+        onSelect: action('onSelect'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        The documentation for a primeng calendar component can be found
+        <a href="https://www.primefaces.org/primeng/#/calendar" target="_blank">here</a>
+        `,
+      }
     }
-  }))
+  )
   .add(
     'File-input',
     () => ({
@@ -292,32 +411,78 @@ storiesOf('Input', module)
       notes: {
         markdown: `
           The component is not visible on the page.
-          You should use \`open($event)\` method of the component in order to open file dialog.
+          You should use \`open($event)\` method of the component in order to open file dialog.\n
+          Inputs:\n
+          * \`filter: string = ''\`
+          * \`allowMultiple: boolean = false\`\n
+          Outputs:\n
+          * \`onFileSelected: EventEmitter<File[]>\`\n
+          Usage example:\n
+          \`\`\`
+          <kFileDialog #fileDialog
+                      [allowMultiple]="true"
+                      filter="'.png'"
+                      (onFileSelected)="onFileSelected($event)"></kFileDialog>
+          <button pButton class="kButtonDefault" label="Browse files"
+                  (click)="fileDialog.open($event)"></button>
+          \`\`\`
         `
       }
     }
   )
-  .add('Slider-input', () => ({
-    styles: [styles],
-    template: `
+  .add(
+    'Slider-input',
+    () => ({
+      styles: [styles],
+      template: `
         <div style="padding-top: 1.5em">
             <kSlider [min]="1" [max]="200" [step]="1" (onChange)="onChange($event)" [(ngModel)]="value"></kSlider>
             <span class="input-value">{{value}}</span>
         </div>
     `,
-    props: {
-      value: 200,
-      onChange: action('onChange'),
+      props: {
+        value: 200,
+        onChange: action('onChange'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        kSlider component is extended from slider autocomplete component.
+        The documentation for a primeng slider component can be found
+        <a href="https://www.primefaces.org/primeng/#/slider" target="_blank">here</a>
+
+        Inputs:\n
+        * \`tooltip: boolean = true\`
+        `,
+      }
     }
-  }))
-  .add('Timespinner-input', () => ({
-    styles: [styles],
-    template: `
+  )
+  .add(
+    'Timespinner-input',
+    () => ({
+      styles: [styles],
+      template: `
         <kTimeSpinner (onChange)="onChange($event)" [(ngModel)]="value"></kTimeSpinner>
         <span class="input-value">{{value}} Seconds</span>
     `,
-    props: {
-      value: 0,
-      onChange: action('onChange'),
+      props: {
+        value: 0,
+        onChange: action('onChange'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        Outputs:\n
+        * \`onChange: EventEmitter<Event>\`
+        * \`onFocus: EventEmitter<FocusEvent>\`
+        * \`onBlur: EventEmitter<FocusEvent>\`\n
+        Usage example:\n
+        \`\`\`
+        <kTimeSpinner (onChange)="onChange($event)" [(ngModel)]="value"></kTimeSpinner>
+        \`\`\`
+        `,
+      }
     }
-  }));
+  );

@@ -65,17 +65,28 @@ storiesOf('Menu', module)
       ],
     })
   )
-  .add('Default', () => ({
-    template: `
+  .add(
+    'Default',
+    () => ({
+      template: `
         <button pButton class="kButtonDefault" icon="kIconmore" (click)="menu.toggle($event)"></button>
         <p-menu #menu [popup]="true" [model]="items" [appendTo]="'body'" (onShow)="onShow($event)" (onHide)="onHide($event)"></p-menu>
     `,
-    props: {
-      items,
-      onShow: action('onShow'),
-      onHide: action('onHide'),
+      props: {
+        items,
+        onShow: action('onShow'),
+        onHide: action('onHide'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        The documentation for a primeng menu component can be found
+        <a href="https://www.primefaces.org/primeng/#/menu" target="_blank">here</a>
+        `,
+      }
     }
-  }))
+  )
   .add('Nested', () => ({
     template: `
         <button pButton class="kButtonDefault" icon="kIconmore" (click)="menu.toggle($event)"></button>

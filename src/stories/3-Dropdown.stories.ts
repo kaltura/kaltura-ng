@@ -45,17 +45,28 @@ storiesOf('Dropdown', module)
       ],
     })
   )
-  .add('Default', () => ({
-    template: `<p-dropdown placeholder="Select an item"
+  .add(
+    'Default',
+    () => ({
+      template: `<p-dropdown placeholder="Select an item"
                             [options]="options"
                             (onChange)="onChange($event)"
                             [(ngModel)]="selected"></p-dropdown>`,
-    props: {
-      options,
-      selected: null,
-      onChange: action('onChange'),
+      props: {
+        options,
+        selected: null,
+        onChange: action('onChange'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        The documentation for a primeng dropdown component can be found
+        <a href="https://www.primefaces.org/primeng/#/dropdown" target="_blank">here</a>
+        `,
+      }
     }
-  }))
+  )
   .add('With Filter', () => ({
     template: `<p-dropdown placeholder="Select an item"
                     filterBy="label,value.name"
@@ -69,8 +80,10 @@ storiesOf('Dropdown', module)
       onChange: action('onChange'),
     }
   }))
-  .add('Multiselect', () => ({
-    template: `
+  .add(
+    'Multiselect',
+    () => ({
+      template: `
       <kMultiSelect menuItemDisplayStyle="flex"
                     defaultLabel="Select Items"
                     allSelectedLabel="All Selected"
@@ -82,9 +95,26 @@ storiesOf('Dropdown', module)
                     (onChange)="onChange($event)"
                     [(ngModel)]="selected"></kMultiSelect>
     `,
-    props: {
-      options,
-      selected: null,
-      onChange: action('onChange'),
+      props: {
+        options,
+        selected: null,
+        onChange: action('onChange'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        kMultiSelect component is extended from slider multiselect component.
+        The documentation for a primeng multiselect component can be found
+        <a href="https://www.primefaces.org/primeng/#/multiselect" target="_blank">here</a>
+
+        Inputs:\n
+        * \`disabledLabel: string\`
+        * \`allSelectedLabel: string\`
+        * \`selectAllLabel: string = 'Select All'\`
+        * \`menuItemDisplayStyle: string = 'block'\`
+        * \`hideOnScroll: string | Element\`
+        `,
+      }
     }
-  }));
+  );

@@ -25,8 +25,10 @@ storiesOf('DetailsBar', module)
       ],
     })
   )
-  .add('Default', () => ({
-    template: `
+  .add(
+    'Default',
+    () => ({
+      template: `
         <div style="padding-top: 1.5em;">
           <k-details-bar #detailsBar [data]="data">
             <kDetailInfo label="ID:" valueField="id"></kDetailInfo>
@@ -36,8 +38,40 @@ storiesOf('DetailsBar', module)
           </k-details-bar>
         </div>
     `,
-    props: {
-      data,
-      itemClick: action('itemClick'),
-    }
-  }));
+      props: {
+        data,
+        itemClick: action('itemClick'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        Inputs:\n
+        * \`basicDetailsLabel: string = 'Basic Details'\`
+        * \`moreDetailsLabel: string = 'More Details'\`
+        * \`data: any\`\n
+        kDetailInfo component Inputs:\n
+        * \`label: string\`
+        * \`value: string\`
+        * \`valueField: string\`
+        * \`link: string\`
+        * \`tooltip: string\`
+        * \`toolTipAsHTML: boolean = true\`
+        * \`iconStyle: string\`
+        * \`separator: string = '|'\`
+        * \`maxItemWidth: number = 300\`
+        * \`isLastItem: boolean = false\`\n
+        kDetailInfo component Outputs:\n
+        * \`itemClick: EventEmitter<MouseEvent>\`\n
+        Usage example:\n
+        \`\`\`
+        <k-details-bar #detailsBar [data]="data">
+            <kDetailInfo label="ID:" valueField="id"></kDetailInfo>
+            <kDetailInfo label="Name:" valueField="name"></kDetailInfo>
+            <kDetailInfo [iconStyle]="data.icon" tooltip="Tooltip Content"></kDetailInfo>
+            <kDetailInfo label="Email:" valueField="email" (itemClick)="itemClick($event)"></kDetailInfo>
+        </k-details-bar>
+        \`\`\`
+        `,
+      }
+    });

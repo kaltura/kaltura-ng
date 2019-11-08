@@ -72,5 +72,16 @@ storiesOf('ConfirmDialog', module)
       ],
     })
   )
-  .add('Default', () => ({ template: '<app-confirm-dialog></app-confirm-dialog>' }))
+  .add(
+    'Default',
+    () => ({ template: '<app-confirm-dialog></app-confirm-dialog>' }),
+    {
+      notes: {
+        markdown: `
+        The documentation for a primeng confirmdialog component can be found
+        <a href="https://www.primefaces.org/primeng/#/confirmdialog" target="_blank">here</a>
+        `,
+      }
+    }
+  )
   .add('Alert', () => ({ template: '<app-alert-dialog></app-alert-dialog>' }));
