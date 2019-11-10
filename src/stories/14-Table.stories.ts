@@ -222,6 +222,7 @@ storiesOf('Table', module)
         <ng-template pTemplate="header" let-columns>
           <tr>
             <th *ngFor="let col of columns">{{col.header}}</th>
+            <th></th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-columns="columns">
