@@ -18,13 +18,37 @@ storiesOf('AreaBlocker', module)
       ],
     })
   )
-  .add('Default', () => ({
-    template: `
+  .add(
+    'Default',
+    () => ({
+      template: `
         <k-area-blocker [showLoader]="true">
             <div style="width: 100%; height: 20em; background: white"></div>
         </k-area-blocker>
     `,
-  }))
+    }),
+    {
+      notes: {
+        markdown: `
+        Inputs:\n
+        * \`bodyScroll: boolean = false\`
+        * \`spinnerMarginTop: number = 0\`
+        * \`classes: string\`
+        * \`showLoader: boolean\`
+        * \`message: string | AreaBlockerMessage\`\n
+        CustomTypes:\n
+        * \`interface AreaBlockerMessage { title: string; message: string; buttons: AreaBlockerMessageButton[] }\`
+        * \`interface AreaBlockerMessageButton { label: string; action: () => void; classes?: string }\`\n
+        Usage example:\n
+        \`\`\`
+        <k-area-blocker [showLoader]="isLoading" [message]="errorMessage">
+            Content
+        </k-area-blocker>
+        \`\`\`
+        `
+      }
+    }
+  )
   .add('Message', () => ({
     template: `
         <k-area-blocker [message]="message">

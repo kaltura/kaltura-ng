@@ -54,8 +54,10 @@ storiesOf('Tree', module)
       ],
     })
   )
-  .add('Default', () => ({
-    template: `
+  .add(
+    'Default',
+    () => ({
+      template: `
         <div style="padding: 1em; border-radius: 3px; background: white">
         <p-tree selectionMode="checkbox"
                 [value]="items"
@@ -64,10 +66,19 @@ storiesOf('Tree', module)
                 (onNodeUnselect)="onNodeUnselect($event)"></p-tree>
         </div>
     `,
-    props: {
-      items,
-      value: [],
-      onNodeSelect: action('onNodeSelect'),
-      onNodeUnselect: action('onNodeUnselect'),
+      props: {
+        items,
+        value: [],
+        onNodeSelect: action('onNodeSelect'),
+        onNodeUnselect: action('onNodeUnselect'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        The documentation for a primeng tree component can be found
+        <a href="https://www.primefaces.org/primeng/#/tree" target="_blank">here</a>
+        `,
+      }
     }
-  }));
+  );

@@ -94,8 +94,10 @@ storiesOf('Table', module)
       ],
     })
   )
-  .add('Default', () => ({
-    template: `
+  .add(
+    'Default',
+    () => ({
+      template: `
       <p-table dataKey="vin" [value]="data" [columns]="cols" [scrollable]="true" scrollHeight="100%">
         <ng-template pTemplate="header" let-columns>
           <tr>
@@ -109,11 +111,20 @@ storiesOf('Table', module)
         </ng-template>
       </p-table>
     `,
-    props: {
-      data,
-      cols: columns,
+      props: {
+        data,
+        cols: columns,
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        The documentation for a primeng table component can be found
+        <a href="https://www.primefaces.org/primeng/#/table" target="_blank">here</a>
+        `,
+      }
     }
-  }))
+  )
   .add('Empty data', () => ({
     template: `
       <p-table dataKey="vin" [value]="data" [columns]="cols" [scrollable]="true" scrollHeight="100%">

@@ -14,14 +14,25 @@ storiesOf('Button', module)
       ],
     })
   )
-  .add('Default', () => ({
-    template: `
+  .add(
+    'Default',
+    () => ({
+      template: `
       <button pButton class="kButtonDefault" label="Default" (click)="onClick($event)"></button>
     `,
-    props: {
-      onClick: action('click'),
+      props: {
+        onClick: action('click'),
+      }
+    }),
+    {
+      notes: {
+        markdown: `
+        The documentation for a primeng button component can be found
+        <a href="https://www.primefaces.org/primeng/#/button" target="_blank">here</a>
+        `,
+      }
     }
-  }))
+  )
   .add('Branded', () => ({
     template: `
       <button pButton class="kButtonBranded" label="Branded" (click)="onClick($event)"></button>
