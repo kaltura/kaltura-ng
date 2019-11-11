@@ -1,7 +1,16 @@
 # KalturaNg
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
+The Kaltura NG project is a monorepo providing Kaltura Angular libraries for developing Angular projects:
+* Unified theme
+* Shared components build on top of [PrimeNG](https://www.primefaces.org/primeng/#/)
+* Shared classes and utilities such as Logger, parsers, uploader etc.
 
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.0.
+<!--
+## Storybook
+
+You can view all components styles, behaviour and documentation in the [Storybook project](https://kaltura.github.io/kaltura-ng/index.html)
+-->
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
