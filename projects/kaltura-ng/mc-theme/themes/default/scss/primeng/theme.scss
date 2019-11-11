@@ -481,9 +481,11 @@ textarea.ui-inputtext {
   border-radius: 3px;
   height: 34px;
   font-size: 14px;
+  min-width: 100px;
 
-  &:not(.ui-button-icon-only) {
-    min-width: 100px;
+  &.ui-button-icon-only,
+  &.ui-spinner-button {
+    min-width: auto;
   }
 
   &.ui-button-text-only .ui-button-text {
