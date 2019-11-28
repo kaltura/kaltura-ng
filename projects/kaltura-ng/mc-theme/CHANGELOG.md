@@ -1,4 +1,10 @@
 # Change Log
+<a name="3.1.2"></a>
+## [3.1.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.1.1...3.1.2) (2019-11-28)
+
+* update dependent libraries versions
+
+
 <a name="3.1.1"></a>
 ## [3.1.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.1.0...3.1.1) (2019-10-16)
 
