@@ -196,6 +196,11 @@ export class KTooltipDirective implements OnDestroy {
                 if (this.placement == 'left' || this.placement == 'right') {
                     this._tooltipElement.style.top = elemPosition.top + elemHeight / 2 - this._tooltipElement.clientHeight / 2 + 'px';
                 }
+                // correct left positioning of tooltip if outside the screen
+                const offsetLeft = parseInt(this._tooltipElement.style.left);
+                if (offsetLeft < 0) {
+                  this._tooltipElement.style.left = 0 + 'px';
+                }
             }
         }else
 		{
