@@ -8,27 +8,34 @@
 
   // auto complete
   .ui-autocomplete {
+    min-width: 200px;
+
     .ui-autocomplete-panel {
+      font-size: 15px;
+      font-weight: normal;
+      overflow-x: hidden;
       .ui-autocomplete-list-item {
-        min-height: 50px;
-        border-left: none;
-        border-right: none;
-        border-bottom: 2px solid #dadada;
+        min-height: 32px;
         display: flex;
         align-items: center;
+        margin: 0 -7px;
+        border-radius: 0;
+        padding: 0 1em;
+        color: $kGrayscale3;
 
         &:last-child {
           border-bottom: none;
         }
         &.ui-state-highlight, &:hover {
-          background-color: #dadada;
+          background-color: $kGrayscale7;
+        }
+        .kHighlightedText {
+          color: $kGrayscale1;
         }
       }
 
       .ui-autocomplete-notification-item {
-        min-height: 50px;
-        border-left: none;
-        border-right: none;
+        min-height: 32px;
         display: flex;
         align-items: center;
 
@@ -45,13 +52,13 @@
     }
     ul.ui-autocomplete-multiple-container {
       width: 100%;
-      padding: 4px 6px;
-      padding-right: 0px;
+      padding: 4px 0 4px 6px;
     }
     li.ui-autocomplete-token {
+      min-width: 76px;
       margin-right: 6px;
       height: 24px;
-      border: 0px solid $kPrimary;
+      border: 0 solid $kPrimary;
       background-color: $kPrimary;
       border-radius: 3px;
       color: #ffffff;

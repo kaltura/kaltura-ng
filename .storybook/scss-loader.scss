@@ -1,0 +1,79 @@
+$mc-theme-font-path: '../projects/kaltura-ng/mc-theme/themes/default/fonts';
+@import '../projects/kaltura-ng/kaltura-ui/src/styles/scss/theme';
+@import '../projects/kaltura-ng/kaltura-primeng-ui/src/styles/scss/theme';
+@import '~normalize.css/normalize.css';
+@import '../projects/kaltura-ng/mc-theme/themes/default/scss/variables';
+@import '../projects/kaltura-ng/mc-theme/themes/default/scss/primeng/index';
+@import '../projects/kaltura-ng/mc-theme/themes/default/scss/icons';
+@import '../projects/kaltura-ng/mc-theme/themes/default/scss/base';
+@import '../projects/kaltura-ng/mc-theme/themes/default/scss/components';
+
+#root {
+  padding: 1em;
+}
+
+.icons-list {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 2.5em;
+  color: #333333;
+  margin: .5em .25em;
+
+  i {
+    display: flex;
+    justify-content: center;
+    min-width: 2em;
+    min-height: 2em;
+  }
+}
+
+.input-value {
+  font-size: .9em;
+  margin-top: .5em;
+  color: $kGrayscale2;
+}
+
+.has-error {
+  border-color: $kDandger !important;
+}
+
+.input-error {
+  color: $kDandger !important;
+}
+
+.search-text-input {
+  background: $kMagnifyingGlassBkg;
+  padding-left: 2.375em;
+}
+
+.loading-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+
+  .spinner-container {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50px, -50px, 0);
+  }
+}
+
+.modal-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: .5em;
+  right: .5em;
+  font-size: 1em;
+}

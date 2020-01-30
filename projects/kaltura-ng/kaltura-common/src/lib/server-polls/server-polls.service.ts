@@ -24,7 +24,7 @@ interface PollItem<TError> {
 export abstract class ServerPolls<TRequest, TError> {
   private _pollQueue: { [key: string]: PollItem<TError> } = {};
   private _tokenGenerator = new FriendlyHashId();
-  private _queueTimeout: number;
+  private _queueTimeout: any;
   private _missingDestoryHandling = false;
   private _subscriptions: ISubscription[] = [];
   private _state = new BehaviorSubject({ busy: false });

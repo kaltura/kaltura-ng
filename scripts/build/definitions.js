@@ -15,6 +15,12 @@ var cliArgs = argv.option( [
     description: "build specific library",
     example: "'script --library=@kaltura-ng/kaltura-common'"
   },
+  {
+    name: 'link',
+    type: 'boolean',
+    description: "run 'npm link' command for kaltura-ng packages, required by storybook",
+    example: "'script --link'"
+  },
 ] ).run().options;
 
 if (cliArgs['verbose']) {
@@ -22,7 +28,8 @@ if (cliArgs['verbose']) {
 }
 
 const options = {
-  specificLibrary: cliArgs.library || null
+  specificLibrary: cliArgs.library || null,
+  link: cliArgs.link || null,
 };
 
 log.silly('cli args', cliArgs);

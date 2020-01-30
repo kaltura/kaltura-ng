@@ -1,15 +1,4 @@
-// TODO this style is not applied - find out why
-:host ::ng-deep .ui-multiselect-panel {
-  .pi-minus {
-    background-color: #00a784;
-    border: 1px solid #00a784;
-    color: #ffffff;
-    width: 16px;
-    height: 16px;
-    border-radius: 3px;
-    top: -1px;
-    position: relative;
-    left: -1px;
-  }
+.inverse {
+  transform: rotate(180deg) translateY(-50%);
+  margin-top: -12px !important;
 }
-// END OF TODO

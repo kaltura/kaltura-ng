@@ -1,9 +1,4 @@
-:host ::ng-deep .ui-autocomplete-token-label{
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-size: 14px;
-
+:host ::ng-deep .ui-autocomplete-token-label {
   /* main content width according to screen resolution */
   @media screen and (max-width: 991px) {
     max-width: 270px;
@@ -20,8 +15,4 @@
   @media screen and (min-width: 1600px) {
     max-width: 800px;
   }
-}
-
-:host ::ng-deep .kHighlightedText {
-  text-decoration: underline;
 }
