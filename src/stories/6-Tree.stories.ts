@@ -55,7 +55,7 @@ storiesOf('Tree', module)
     })
   )
   .add(
-    'Default',
+    'Checkbox Tree',
     () => ({
       template: `
         <div style="padding: 1em; border-radius: 3px; background: white">

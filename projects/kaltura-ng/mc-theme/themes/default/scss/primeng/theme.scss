@@ -715,7 +715,8 @@ body .ui-tieredmenu {
   width: 100%;
   color: #a9a9a9;
   cursor: default;
-
+  outline: none;
+  height: 32px;
   &.ui-treenode-selectable {
     color: $kGrayscale1;
     cursor: pointer;
