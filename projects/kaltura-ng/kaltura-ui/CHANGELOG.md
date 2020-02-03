@@ -1,4 +1,13 @@
 # Change Log
+<a name="7.3.2"></a>
+## [7.3.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@7.3.1...7.3.2) (2020-02-03)
+
+
+### Bug Fixes
+
+* **area-blocker:** Fix error message positioning in IE11 ([a100606](https://github.com/kaltura/kaltura-ng/commit/a100606))
+
+
 <a name="7.3.1"></a>
 ## [7.3.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@7.3.0...7.3.1) (2019-12-29)
 
