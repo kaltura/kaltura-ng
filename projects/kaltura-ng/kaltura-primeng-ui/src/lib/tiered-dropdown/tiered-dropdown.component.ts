@@ -137,7 +137,7 @@ export class TieredDropdownComponent extends TieredMenu implements ControlValueA
     };
   }
 
-  private selectItem(item: SelectItem, event) {
+  selectItem(item: SelectItem, event) {
     this.writeValue(item.value);
     this.onModelChange(this.value);
     this.onChange.emit(this.value);
