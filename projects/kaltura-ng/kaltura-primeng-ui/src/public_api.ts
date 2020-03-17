@@ -13,3 +13,4 @@ export * from './lib/k-p-table/index';
 export * from './lib/multi-select/index';
 export * from './lib/draggable-data-table/index';
 export * from './lib/dropdown/index';
+export * from './lib/tiered-dropdown/index';
