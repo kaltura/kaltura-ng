@@ -1,6 +1,6 @@
 {
   "name": "@kaltura-ng/kaltura-primeng-ui",
-  "version": "3.3.4",
+  "version": "3.3.5",
   "private": false,
   "description": "Angular - Kaltura UI directives, pipes and services that utilizes PrimeNG suite",
   "scripts": {
