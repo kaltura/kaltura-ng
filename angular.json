@@ -146,7 +146,8 @@
           "options": {
             "main": "projects/kaltura-ng/kaltura-primeng-ui/src/test.ts",
             "tsConfig": "projects/kaltura-ng/kaltura-primeng-ui/tsconfig.spec.json",
-            "karmaConfig": "projects/kaltura-ng/kaltura-primeng-ui/karma.conf.js"
+            "karmaConfig": "projects/kaltura-ng/kaltura-primeng-ui/karma.conf.js",
+            "polyfills": "projects/kaltura-ng/kaltura-primeng-ui/polyfills.ts"
           }
         },
         "lint": {

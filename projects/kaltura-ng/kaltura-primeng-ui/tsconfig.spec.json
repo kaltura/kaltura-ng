@@ -8,10 +8,14 @@
     ]
   },
   "files": [
-    "src/test.ts"
+    "src/test.ts",
+    "polyfills.ts"
   ],
   "include": [
     "**/*.spec.ts",
     "**/*.d.ts"
+  ],
+  "exclude": [
+    "dist/**/*.*"
   ]
 }
