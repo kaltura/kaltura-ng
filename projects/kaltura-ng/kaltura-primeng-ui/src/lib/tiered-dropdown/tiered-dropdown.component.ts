@@ -1,14 +1,14 @@
 import {
   AfterContentInit,
   Component,
-  ContentChildren,
+  ContentChildren, ElementRef,
   EventEmitter,
   forwardRef,
   Inject,
   Input,
   OnInit,
   Output,
-  QueryList,
+  QueryList, Renderer2,
   TemplateRef
 } from '@angular/core';
 import {TieredMenu} from 'primeng/tieredmenu';
@@ -17,7 +17,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {PrimeTemplate} from 'primeng/shared';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
-interface TieredMenuItem extends MenuItem {
+interface TieredMenuItemm  extends MenuItem {
   value?: any;
   items?: TieredMenuItem[];
 }
@@ -55,6 +55,7 @@ export class TieredDropdownComponent extends TieredMenu implements ControlValueA
   @Input() placeholder;
 
   @Input() set items(value: Array<SelectItem | { label: string, icon: string, items: Array<SelectItem> }>) {
+    this.popup = true;
     this.menuItems = [];
     this.allOptions = value;
     value.forEach((item, index) => {
@@ -92,17 +93,15 @@ export class TieredDropdownComponent extends TieredMenu implements ControlValueA
   onModelTouched: Function = () => {
   };
 
+  constructor(el: ElementRef, renderer: Renderer2) {
+    super(el, renderer);
+    this.popup = true;
+  }
+
 
   ngOnInit() {
-    if (!this.placeholder && !this.selectedMenuItemOption && !this.option) {
-      if (this.allOptions[0]['items']) {
-        this.option = this.allOptions['items'][0] as SelectItem;
-      } else {
-        this.option = this.allOptions[0] as SelectItem;
-      }
-
-      this.selectedMenuItemOption = this.menuItems[0];
-    }
+    this.popup = true;
+    this.updateSelected();
   }
 
   ngAfterContentInit() {
@@ -137,8 +136,21 @@ export class TieredDropdownComponent extends TieredMenu implements ControlValueA
     };
   }
 
-  selectItem(item: SelectItem, event) {
-    this.writeValue(item.value);
+  private updateSelected() {
+    if (this.allOptions && this.allOptions.length > 0 && !this.placeholder &&
+      (!this.selectedMenuItemOption || (this.selectedMenuItemOption && !this.value)) && !this.option) {
+      if (this.allOptions[0]['items']) {
+        this.option = this.allOptions['items'][0] as SelectItem;
+      } else {
+        this.option = this.allOptions[0] as SelectItem;
+      }
+
+      this.selectedMenuItemOption = this.menuItems[0];
+    }
+  }
+
+  selectItem(item: SelectItem, event = null) {
+    this.writeValue(item ? item.value : null);
     this.onModelChange(this.value);
     this.onChange.emit(this.value);
   }
@@ -155,6 +167,12 @@ export class TieredDropdownComponent extends TieredMenu implements ControlValueA
 
   registerOnChange(fn: Function): void {
     this.onModelChange = fn;
+  }
+
+  public clear() {
+    this.selectedMenuItemOption = null;
+    this.option = null;
+    this.selectItem(null);
   }
 
   registerOnTouched(fn: Function): void {
