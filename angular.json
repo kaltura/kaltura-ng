@@ -205,5 +205,5 @@
       }
     }
   },
-  "defaultProject": "kaltura-ng"
+  "defaultProject": "@kaltura-ng/kaltura-common"
 }
