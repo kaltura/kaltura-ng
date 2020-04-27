@@ -5,16 +5,16 @@ import { KPSortableColumn } from './k-p-sortable-column';
  * @deprecated use separated module for each component
  */
 @NgModule({
-    imports: <any[]>[
+    imports: [
 
     ],
-    declarations: <any[]>[
+    declarations: [
         KPSortableColumn
     ],
-    exports: <any[]>[
+    exports: [
         KPSortableColumn
     ],
-    providers: <any[]>[
+    providers: [
     ]
 })
 export class KPTableModule {}

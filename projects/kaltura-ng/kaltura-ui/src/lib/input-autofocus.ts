@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Renderer, Input, AfterViewInit } from '@angular/core';
+import { Directive, ElementRef, Renderer2, Input, AfterViewInit } from '@angular/core';
 
 @Directive({
   selector: '[kAutofocus]'
@@ -6,13 +6,13 @@ import { Directive, ElementRef, Renderer, Input, AfterViewInit } from '@angular/
 export class AutofocusDirective implements AfterViewInit {
   private _autofocus = true;
 
-  constructor(private el: ElementRef, private renderer: Renderer) {
+  constructor(private el: ElementRef, private renderer: Renderer2) {
   }
 
   ngAfterViewInit() {
     if (this._autofocus) {
       setTimeout(() => {
-        this.renderer.invokeElementMethod(this.el.nativeElement, 'focus', []);
+        this.renderer.selectRootElement(this.el.nativeElement).focus();
       });
     }
   }

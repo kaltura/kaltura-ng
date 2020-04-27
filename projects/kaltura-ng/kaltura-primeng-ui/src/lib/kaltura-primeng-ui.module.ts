@@ -11,20 +11,20 @@ import { MenuModule } from 'primeng/menu';
  * @deprecated use separated module for each component
  */
 @NgModule({
-    imports: <any[]>[
+    imports: [
         CommonModule, InputTextModule, MenuModule, KalturaCommonModule
     ],
-    declarations: <any[]>[
+    declarations: [
 	    StickyDatatableHeaderDirective,
         DropdownCloseOnScroll,
         MenuCloseOnScroll
     ],
-    exports: <any[]>[
+    exports: [
 	    StickyDatatableHeaderDirective,
         DropdownCloseOnScroll,
         MenuCloseOnScroll
     ],
-    providers: <any[]>[
+    providers: [
     ]
 })
 export class KalturaPrimeNgUIModule {}

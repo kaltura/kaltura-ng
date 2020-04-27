@@ -14,7 +14,7 @@ import {
 import {TieredMenu} from 'primeng/tieredmenu';
 import {MenuItem, SelectItem} from 'primeng/api';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {PrimeTemplate} from 'primeng/shared';
+import {PrimeTemplate} from 'primeng/api/shared';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 interface TieredMenuItem extends MenuItem {

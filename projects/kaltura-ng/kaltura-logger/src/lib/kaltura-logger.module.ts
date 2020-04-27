@@ -9,15 +9,15 @@ if (window && window.onerror) {
 }
 
 @NgModule({
-    imports: <any[]>[
+    imports: [
         CommonModule
     ],
-    declarations: <any[]>[
+    declarations: [
 
     ],
-    exports: <any[]>[
+    exports: [
     ],
-    providers: <any[]>[
+    providers: [
     ]
 })
 export class KalturaLoggerModule {

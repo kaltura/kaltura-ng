@@ -1,4 +1,4 @@
-import { Directive, Renderer, ElementRef } from '@angular/core';
+import { Directive, Renderer2, ElementRef } from '@angular/core';
 import { StickyScrollService } from '@kaltura-ng/kaltura-ui';
 import { StickyDirective } from '@kaltura-ng/kaltura-ui';
 
@@ -9,7 +9,7 @@ import { StickyDirective } from '@kaltura-ng/kaltura-ui';
 export class StickyDatatableHeaderDirective extends StickyDirective {
 
     private _dataTableRef: ElementRef;
-    constructor(elementRef: ElementRef, renderer: Renderer, _stickyScrollService: StickyScrollService) {
+    constructor(elementRef: ElementRef, renderer: Renderer2, _stickyScrollService: StickyScrollService) {
         super(elementRef, renderer, _stickyScrollService);
         this._dataTableRef = elementRef;
     }

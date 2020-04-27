@@ -1,4 +1,4 @@
-import { Directive, Input, Renderer, ElementRef, AfterViewInit, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Directive, Input, Renderer2, ElementRef, AfterViewInit, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { StickyScrollService } from '../services/sticky-scroll.service';
 import { cancelOnDestroy, tag } from '@kaltura-ng/kaltura-common';
 
@@ -29,7 +29,7 @@ export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
 
     protected _stickyElement: any;
 
-    constructor(private elementRef: ElementRef, private renderer: Renderer, private _stickyScrollService: StickyScrollService) {
+    constructor(private elementRef: ElementRef, private renderer: Renderer2, private _stickyScrollService: StickyScrollService) {
 
     }
 
@@ -181,11 +181,11 @@ export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
     protected onResize():void{}; // used by primeng directive to update table layout
 
     private setStyle(key: string, value: string): void {
-        this.renderer.setElementStyle(this._stickyElement, key, value);
+        this.renderer.setStyle(this._stickyElement, key, value);
     }
 
     private setClass(add: boolean): void {
-        this.renderer.setElementClass(this._stickyElement, this.stickyClass, add);
+        this.renderer.setStyle(this._stickyElement, this.stickyClass, add);
     }
 
 }

@@ -18,7 +18,8 @@
           "configurations": {
             "production": {
               "project": "projects/kaltura-ng/kaltura-logger/ng-package.prod.json"
-            }
+            ,              "tsConfig": "projects/kaltura-ng/kaltura-logger/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -58,7 +59,8 @@
           "configurations": {
             "production": {
               "project": "projects/kaltura-ng/kaltura-common/ng-package.prod.json"
-            }
+            ,              "tsConfig": "projects/kaltura-ng/kaltura-common/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -98,7 +100,8 @@
           "configurations": {
             "production": {
               "project": "projects/kaltura-ng/kaltura-ui/ng-package.prod.json"
-            }
+            ,              "tsConfig": "projects/kaltura-ng/kaltura-ui/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -138,7 +141,8 @@
           "configurations": {
             "production": {
               "project": "projects/kaltura-ng/kaltura-primeng-ui/ng-package.prod.json"
-            }
+            ,              "tsConfig": "projects/kaltura-ng/kaltura-primeng-ui/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {
@@ -179,7 +183,8 @@
           "configurations": {
             "production": {
               "project": "projects/kaltura-ng/mc-shared/ng-package.prod.json"
-            }
+            ,              "tsConfig": "projects/kaltura-ng/mc-shared/tsconfig.lib.prod.json"
+}
           }
         },
         "test": {

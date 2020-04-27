@@ -11,10 +11,10 @@ import { AutofocusDirective } from './input-autofocus';
 import { ScrollToTopContainerComponent } from './scroll-to-top-container.component';
 
 @NgModule({
-    imports: <any[]>[
+    imports: [
         CommonModule
     ],
-    declarations: <any[]>[
+    declarations: [
         SafePipe,
         TimePipe,
 	      FileDialogComponent,
@@ -25,7 +25,7 @@ import { ScrollToTopContainerComponent } from './scroll-to-top-container.compone
         AutofocusDirective,
         ScrollToTopContainerComponent,
     ],
-    exports: <any[]>[
+    exports: [
         TimePipe,
         SafePipe,
 	      FileDialogComponent,
@@ -34,9 +34,9 @@ import { ScrollToTopContainerComponent } from './scroll-to-top-container.compone
         FileSizePipe,
         LineBreakPipe,
         AutofocusDirective,
-        ScrollToTopContainerComponent,
+        ScrollToTopContainerComponent
     ],
-    providers: <any[]>[
+    providers: [
     ]
 })
 export class KalturaUIModule {}

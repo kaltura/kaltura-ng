@@ -4,13 +4,13 @@ import {OperationTagStoreMediator} from "./operation-tag-store-mediator";
 import {OperationTagManagerService} from "./operation-tag-manager.service";
 
 @NgModule({
-    imports: <any[]>[
+    imports: [
     ],
-    declarations: <any[]>[
+    declarations: [
     ],
-    exports: <any[]>[
+    exports: [
     ],
-    providers: <any[]>[
+    providers: [
     ]
 })
 export class OperationTagModule {

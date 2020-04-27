@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input } from '@angular/core';
-import { DomHandler } from 'primeng/components/dom/domhandler';
+import { DomHandler } from 'primeng/dom/domhandler';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Slider } from 'primeng/slider';
 

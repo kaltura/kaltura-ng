@@ -4,7 +4,7 @@ import {TieredMenu, TieredMenuModule} from 'primeng/tieredmenu';
 import {TieredDropdownComponent} from './tiered-dropdown.component';
 import {TieredDropdownSubComponent} from './tiered-dropdown-sub/tiered-dropdown-sub.component';
 import {ButtonModule} from 'primeng/button';
-import {SharedModule} from 'primeng/components/common/shared';
+import {SharedModule} from 'primeng/api/shared';
 
 @NgModule(
   {

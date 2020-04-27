@@ -9,7 +9,7 @@
         (mouseenter)="onItemMouseEnter($event, listItem, child)">
       <a [attr.href]="child.url" class="ui-menuitem-link ui-corner-all" [attr.target]="child.target"
          [attr.tabindex]="child.tabindex ? child.tabindex : '0'" [attr.title]="child.title" [attr.id]="child.id"
-         [ngClass]="{'ui-state-disabled':child.disabled}" (click)="selectItem($event, child)" role="menuitem"
+         [ngClass]="{'ui-state-disabled':child.disabled}" (click)="selectItem($event, listItem, child)" role="menuitem"
          [attr.aria-haspopup]="item.items != null" [attr.aria-expanded]="item === activeItem">
         <ng-container *ngTemplateOutlet="template; context: {$implicit: child}"></ng-container>
         <ng-container *ngIf="!template">
