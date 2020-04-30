@@ -17,7 +17,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {PrimeTemplate} from 'primeng/shared';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
-interface TieredMenuItemm  extends MenuItem {
+interface TieredMenuItem  extends MenuItem {
   value?: any;
   items?: TieredMenuItem[];
 }
