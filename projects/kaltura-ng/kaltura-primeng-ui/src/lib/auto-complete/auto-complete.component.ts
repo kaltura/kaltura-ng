@@ -17,9 +17,9 @@ import {
 import {trigger,state,style,transition,animate,AnimationEvent} from '@angular/animations';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
-import { AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR } from "primeng/autocomplete/autocomplete";
+import { AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR } from "primeng/autocomplete";
 import { KalturaBrowserUtils, BrowserNames } from '@kaltura-ng/kaltura-ui';
-import { ObjectUtils } from 'primeng/utils/objectutils';
+import { ObjectUtils } from 'primeng/utils';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 // [kmcng] upon upgrade: Be patient and bring a big cup of coffee.... good luck!

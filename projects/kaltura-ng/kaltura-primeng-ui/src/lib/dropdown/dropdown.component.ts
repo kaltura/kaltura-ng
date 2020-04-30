@@ -1,6 +1,6 @@
 import { Component, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Dropdown } from 'primeng/dropdown/dropdown';
+import { Dropdown } from 'primeng/dropdown';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { SelectItem } from 'primeng/api/selectitem';
 
