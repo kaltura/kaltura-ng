@@ -31,7 +31,7 @@ export class TieredDropdownSubComponent extends TieredMenuSub {
   _parentActive: boolean;
   _isItemSelected: boolean;
 
-  selectItem(event, item) {
-    super.itemClick(event, item);
+  constructor(@Inject(forwardRef(() => TieredDropdownComponent)) tieredMenu, cf: ChangeDetectorRef, public renderer: Renderer2) {
+    super(tieredMenu, cf, renderer);
   }
 }

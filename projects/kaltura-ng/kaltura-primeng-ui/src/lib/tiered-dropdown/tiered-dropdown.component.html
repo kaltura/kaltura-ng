@@ -1,30 +1,34 @@
-<div [ngClass]="{'ui-dropdown ui-widget ui-state-default ui-corner-all ui-helper-clearfix':true}"
-     (click)="toggle($event)" [ngStyle]="style" [class]="styleClass">
-  <div class="ui-dropdown-label-container">
-    <label *ngIf="option"
-           [ngClass]="{'ui-dropdown-label ui-inputtext ui-corner-all':true}">
+<div>
+  <div [ngClass]="{'ui-dropdown ui-widget ui-state-default ui-corner-all ui-helper-clearfix':true}"
+       (click)="toggle($event)" [ngStyle]="style" [class]="styleClass">
+    <div class="ui-dropdown-label-container">
+      <label *ngIf="option"
+             [ngClass]="{'ui-dropdown-label ui-inputtext ui-corner-all':true}">
 
-      <ng-container
-        *ngIf="!selectedItemTemplate">{{option.label}}</ng-container>
-      <ng-container *ngTemplateOutlet="selectedItemTemplate; context: {$implicit: option}"></ng-container>
-    </label>
-    <label
-      [ngClass]="{'ui-dropdown-label ui-inputtext ui-corner-all ui-placeholder':true,'ui-dropdown-label-empty': (placeholder == null || placeholder.length === 0)}"
-      *ngIf="option == null">
-      {{placeholder || 'Select an item'}}
-    </label>
-  </div>
-  <div class="ui-dropdown-trigger ui-state-default ui-corner-right" role="button">
+        <ng-container
+          *ngIf="!selectedItemTemplate">{{option.label}}</ng-container>
+        <ng-container *ngTemplateOutlet="selectedItemTemplate; context: {$implicit: option}"></ng-container>
+      </label>
+      <label
+        [ngClass]="{'ui-dropdown-label ui-inputtext ui-corner-all ui-placeholder':true,'ui-dropdown-label-empty': (placeholder == null || placeholder.length === 0)}"
+        *ngIf="option == null">
+        {{placeholder || 'Select an item'}}
+      </label>
+    </div>
+    <div class="ui-dropdown-trigger ui-state-default ui-corner-right" role="button">
     <span class="ui-dropdown-trigger-icon ui-clickable pi pi-chevron-down"
           [ngClass]="{'pi-chevron-down':!visible, 'pi-chevron-up':visible}"></span>
+    </div>
   </div>
+  <div
+    [ngClass]="{'ui-tieredmenu ui-widget ui-widget-content ui-corner-all':true, 'ui-tieredmenu-dynamic ui-shadow':true}"
+    [class]="styleClass" [ngStyle]="style"
+    [@overlayAnimation]="{value: 'visible', params: {showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions}}"
+    (@overlayAnimation.start)="onOverlayAnimationStart($event)" *ngIf="visible">
+    <kTieredDropdownSub [item]="menuItems" root="root" [parentActive]="parentActive"
+                        [selectedItem]="selectedMenuItemOption"
+                        [template]="itemTemplate"></kTieredDropdownSub>
+  </div>
+
 </div>
-<div
-  [ngClass]="{'ui-tieredmenu ui-widget ui-widget-content ui-corner-all':true, 'ui-tieredmenu-dynamic ui-shadow':true}"
-  [class]="styleClass" [ngStyle]="style"
-  [@overlayAnimation]="{value: 'visible', params: {showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions}}"
-  [@.disabled]="popup !== true" (@overlayAnimation.start)="onOverlayAnimationStart($event)" *ngIf="!popup || visible">
-  <kTieredDropdownSub [item]="menuItems" root="root" [parentActive]="parentActive"
-                      [selectedItem]="selectedMenuItemOption"
-                      [template]="itemTemplate"></kTieredDropdownSub>
-</div>
+
