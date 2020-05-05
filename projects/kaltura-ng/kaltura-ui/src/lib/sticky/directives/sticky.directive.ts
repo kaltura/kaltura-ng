@@ -187,7 +187,11 @@ export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
     }
 
     private setClass(add: boolean): void {
-        this.renderer.setStyle(this._stickyElement, this.stickyClass, add);
+      if (add) {
+        this.renderer.addClass(this._stickyElement, this.stickyClass);
+      } else {
+        this.renderer.removeClass(this._stickyElement, this.stickyClass);
+      }
     }
 
 }

@@ -795,6 +795,9 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
 .ui-dropdown-panel .ui-dropdown-item:not(.ui-state-highlight):hover{
   background-color: $kGrayscale6 !important;
 }
+.ui-dropdown-label-container{
+  width: 100%;
+}
 .ui-dropdown-label.ui-inputtext{
   background-color: #ffffff;
 }
@@ -1094,8 +1097,8 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
   left: 0px;
   position: fixed;
   z-index: 550;
-  background-color: #263243;
-  opacity: 0.9;
+  background-color: rgba(38,50,67,0.9);
+  opacity: 1;
 }
 .kPopupWidgetModalOverlay.kTransparent{
   opacity: 0;
