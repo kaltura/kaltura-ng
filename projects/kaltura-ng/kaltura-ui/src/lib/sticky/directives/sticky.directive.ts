@@ -102,7 +102,9 @@ export class StickyDirective implements OnInit, OnDestroy, AfterViewInit {
             if (this.stickyId && this._stickyElement) {
                 // console.log(`[${this.stickyId}] - update service`);
                 const elementHeight = this._stickyElement.getBoundingClientRect()['height'];
-                this._stickyScrollService.update(this.stickyId, elementHeight + this._stickyTop, this._stickyOffset);
+                setTimeout(() => {
+                  this._stickyScrollService.update(this.stickyId, elementHeight + this._stickyTop, this._stickyOffset);
+                }, 0);
             }
         }
     }
