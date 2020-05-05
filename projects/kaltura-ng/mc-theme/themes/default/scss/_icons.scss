@@ -101,10 +101,10 @@
     color: #666;
     font-size: .8em;
   }
-  .pi-sort-down:before{
+  .pi-sort-amount-down:before{
     content: $iconDropdownArrowBottomContent;
   }
-  .pi-sort-up:before{
+  .pi-sort-amount-up-alt:before, .pi-sort-amount-up:before{
     content: $iconDropdownArrowTopContent;
   }
 	.ui-multiselect-trigger .pi.pi-caret-down:before{
