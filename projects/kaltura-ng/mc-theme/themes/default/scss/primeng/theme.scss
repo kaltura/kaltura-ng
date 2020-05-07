@@ -911,32 +911,21 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
 }
 
 // messages
-.ui-growl-item {
-  padding: 12px;
-}
-.ui-growl-item-container.ui-state-highlight{
-  color: white;
-  font-size: 15px;
-  line-height: 18px;
+.ui-toast{
 
-  .ui-growl-message {
-    padding: 0;
-    margin-left: 32px;
-  }
-
-  .ui-growl-title{
+  .ui-toast-summary{
     display: none;
   }
-  .ui-growl-icon-close.pi.pi-close{
+  .ui-toast-icon-close.pi.pi-close{
     top: 9px;
     right: 9px;
     font-size: 14px;
   }
-  .ui-growl-icon-close.pi.pi-close:before{
+  .ui-toast-icon-close.pi.pi-close:before{
     content: $iconCloseSmallContent;
   }
 
-  .ui-growl-image {
+  .ui-toast-icon {
     margin-left: 2px;
     margin-right: 14px;
     margin-top: 6px;
@@ -950,12 +939,18 @@ ul.ui-autocomplete-multiple-container.ui-widget.ui-inputtext{
       content: $iconOpenContent;
     }
   }
-
-  &.ui-growl-message-success{
-    background-color: $kSuccess;
+  .ui-toast-message-text-content{
+    line-height: 24px;
+    padding: 0px;
+    margin-left: 28px;
   }
-  &.ui-growl-message-error{
+  .ui-toast-message-success{
+    background-color: $kSuccess;
+    color: white;
+  }
+  .ui-toast-message-error{
     background-color: $kDandger;
+    color: white;
   }
 }
 
