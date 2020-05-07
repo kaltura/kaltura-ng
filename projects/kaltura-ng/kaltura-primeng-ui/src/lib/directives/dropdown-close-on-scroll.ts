@@ -1,4 +1,4 @@
-import { Directive, OnDestroy, AfterViewInit, ContentChild, Input } from '@angular/core';
+import { Directive, OnDestroy, AfterViewInit, Input } from '@angular/core';
 import { Dropdown } from 'primeng/dropdown';
 import { ISubscription } from 'rxjs/Subscription';
 
@@ -8,7 +8,7 @@ import { ISubscription } from 'rxjs/Subscription';
 export class DropdownCloseOnScroll implements AfterViewInit, OnDestroy {
 
 	@Input() scrollTarget: any;
-	@ContentChild(Dropdown, { static: true }) public dropdown: Dropdown;
+  @Input() dropdownComponent: Dropdown;
 
 	private _registered = false;
 	private _dropdownChangesSubscription: ISubscription;
@@ -19,23 +19,23 @@ export class DropdownCloseOnScroll implements AfterViewInit, OnDestroy {
 	}
 
 	ngAfterViewInit() {
-		this.dropdown.el.nativeElement.addEventListener('click', ()=>{
+		this.dropdownComponent.el.nativeElement.addEventListener('click', ()=>{
 			this.handleScrollRegistration();
 		});
-		this._dropdownChangesSubscription = this.dropdown.onChange.subscribe((event) => {
+		this._dropdownChangesSubscription = this.dropdownComponent.onChange.subscribe((event) => {
 			this.handleScrollRegistration();
 		});
 	}
 
 	handleScrollRegistration():void{
-		if (this.scrollTarget && this.dropdown){
+		if (this.scrollTarget && this.dropdownComponent){
 			setTimeout(()=>{
 				if (!this._isDestroyed) {
-					if (this.dropdown.overlayVisible && !this._registered) {
+					if (this.dropdownComponent.overlayVisible && !this._registered) {
 						this.scrollTarget.addEventListener('scroll', this._closeDropdownFunc);
 						this._registered = true;
 					}
-					if (!this.dropdown.overlayVisible && this._registered) {
+					if (!this.dropdownComponent.overlayVisible && this._registered) {
 						this.scrollTarget.removeEventListener('scroll', this._closeDropdownFunc);
 						this._registered = false;
 					}
@@ -56,8 +56,8 @@ export class DropdownCloseOnScroll implements AfterViewInit, OnDestroy {
 	}
 
 	private closeDropdown(event):void{
-		if (this.dropdown && typeof this.dropdown.hide !== "undefined"){
-			this.dropdown.hide(event);
+		if (this.dropdownComponent && typeof this.dropdownComponent.hide !== "undefined"){
+			this.dropdownComponent.hide(event);
 			this.scrollTarget.removeEventListener('scroll', this._closeDropdownFunc);
 			this._registered = false;
 		}
