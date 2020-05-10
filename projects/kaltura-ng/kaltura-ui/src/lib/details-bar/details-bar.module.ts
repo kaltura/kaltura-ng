@@ -5,19 +5,19 @@ import { DetailInfoComponent } from "./detail-info.component";
 import { TooltipModule } from "../tooltip/k-tooltip.module";
 
 @NgModule({
-    imports: <any[]>[
+    imports: [
         CommonModule,
         TooltipModule
     ],
-    declarations: <any[]>[
+    declarations: [
         DetailsBarComponent,
         DetailInfoComponent
     ],
-    exports: <any[]>[
+    exports: [
         DetailsBarComponent,
         DetailInfoComponent
     ],
-    providers: <any[]>[
+    providers: [
     ]
 })
 export class DetailsBarModule {

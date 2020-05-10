@@ -12,15 +12,14 @@ import {
   Output,
   EventEmitter,
   ViewChild,
-  HostListener, AfterContentInit, DoCheck
+  HostListener, AfterContentInit
 } from '@angular/core';
 import {trigger,state,style,transition,animate,AnimationEvent} from '@angular/animations';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
-import { AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR } from "primeng/components/autocomplete/autocomplete";
+import { AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR } from "primeng/autocomplete";
 import { KalturaBrowserUtils, BrowserNames } from '@kaltura-ng/kaltura-ui';
-import { DomHandler } from "primeng/components/dom/domhandler";
-import { ObjectUtils } from 'primeng/components/utils/objectutils';
+import { ObjectUtils } from 'primeng/utils';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 
 // [kmcng] upon upgrade: Be patient and bring a big cup of coffee.... good luck!
@@ -69,7 +68,7 @@ export const KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     /* tslint:enable */
 })
 // [kmcng] upon upgrade: compare implemented interfaces in the original component (no need to include ControlValueAccessor)
-export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterViewChecked, AfterContentInit,DoCheck  {
+export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterViewChecked, AfterContentInit  {
     private _suggestionsProvider$ : ISubscription = null;
     public _loading = false;
     public _showNoItems = false;

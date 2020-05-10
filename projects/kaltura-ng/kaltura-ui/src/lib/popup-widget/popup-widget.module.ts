@@ -3,16 +3,16 @@ import { CommonModule } from '@angular/common';
 import { PopupWidgetComponent } from './popup-widget.component';
 
 @NgModule({
-    imports: <any[]>[
+    imports: [
         CommonModule
     ],
-    declarations: <any[]>[
+    declarations: [
         PopupWidgetComponent
     ],
-    exports: <any[]>[
+    exports: [
         PopupWidgetComponent
     ],
-    providers: <any[]>[
+    providers: [
     ]
 })
 export class PopupWidgetModule {}

@@ -133,14 +133,14 @@ export abstract class FiltersStoreBase<T extends { [key: string]: any }> {
             const previousValue = this._filters[filterName];
 
             if (adapter.hasChanges(newValue, previousValue)) {
-                const valueValidation = result[filterName] = adapter.validate(newValue);
+                const valueValidation = (result as any)[filterName] = adapter.validate(newValue);
                 if (!valueValidation.failed) {
                     this._logger.info(`update filter '${filterName}'`);
                     const immutableNewValue = Immutable(newValue);
                     newFilters = newFilters.set(filterName, immutableNewValue);
                     const changes = (immutableNewValue !== null && typeof immutableNewValue !== 'undefined' && immutableNewValue.asMutable) ? immutableNewValue.asMutable() : immutableNewValue;
-                    dataChanges.changes[filterName] = changes;
-                    dataChanges.diff[filterName] = { previousValue, currentValue: changes };
+                    (dataChanges.changes as any)[filterName] = changes;
+                    (dataChanges.diff as any)[filterName] = { previousValue, currentValue: changes };
                     hasChanges = true;
                 }
             }

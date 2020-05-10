@@ -4,17 +4,17 @@ import { InputRangeComponent } from './input-range.component';
 import { TooltipModule } from "../tooltip/k-tooltip.module";
 
 @NgModule({
-  imports: <any[]>[
+  imports: [
     CommonModule,
     TooltipModule
   ],
-  declarations: <any[]>[
+  declarations: [
     InputRangeComponent
   ],
-  exports: <any[]>[
+  exports: [
     InputRangeComponent
   ],
-  providers: <any[]>[
+  providers: [
   ]
 })
 export class InputRangeModule {}

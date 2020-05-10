@@ -5,13 +5,13 @@ import { KTooltipDirective } from './k-tooltip.directive';
 
 @NgModule(
   {
-    imports: <any[]>[
+    imports: [
       CommonModule
     ],
-    declarations: <any[]>[
+    declarations: [
       KTooltipDirective
     ],
-    exports: <any[]>[
+    exports: [
       KTooltipDirective
     ]
   }

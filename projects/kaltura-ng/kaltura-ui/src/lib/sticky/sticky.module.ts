@@ -5,18 +5,18 @@ import { StickyDirective} from './directives/sticky.directive';
 import { StickyScrollService } from './services/sticky-scroll.service';
 
 @NgModule({
-    imports: <any[]>[
+    imports: [
         KalturaCommonModule
     ],
-    declarations: <any[]>[
+    declarations: [
         StickyComponent,
         StickyDirective
     ],
-    exports: <any[]>[
+    exports: [
         StickyComponent,
         StickyDirective
     ],
-    providers: <any[]>[
+    providers: [
     ]
 })
 export class StickyModule {

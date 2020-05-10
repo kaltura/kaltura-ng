@@ -5,17 +5,17 @@ import { AppLocalization } from './app-localization.service';
 import { LocalizationPipe } from './localization.pipe';
 
 @NgModule({
-	imports: <any[]>[
+	imports: [
 		CommonModule,
 		TranslateModule
 	],
-	declarations: <any[]>[
+	declarations: [
 		LocalizationPipe
 	],
-	exports: <any[]>[
+	exports: [
 		LocalizationPipe
 	],
-	providers: <any[]>[
+	providers: [
 	]
 })
 export class LocalizationModule {

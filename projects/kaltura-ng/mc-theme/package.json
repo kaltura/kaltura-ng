@@ -16,7 +16,7 @@
   ],
   "peerDependencies": {
     "normalize.css": "^7.0.0",
-    "primeng": "^8.0.3"
+    "primeng": "^9.0.6"
   },
   "repository": {
     "type": "git",

@@ -21,3 +21,8 @@ export * from './lib/safe.pipe';
 export * from './lib/scroll-to-top-container.component';
 export * from './lib/time.pipe';
 export * from './lib/input-range/index';
+export * from './lib/details-bar/details-bar.component';
+export * from './lib/details-bar/detail-info.component';
+export * from './lib/dynamic-form/dynamic-form-item.component';
+export * from './lib/input-helper/input-helper.component';
+export * from './lib/input-range/input-range.component';

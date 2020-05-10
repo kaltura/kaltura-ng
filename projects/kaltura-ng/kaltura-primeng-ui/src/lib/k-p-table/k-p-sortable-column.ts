@@ -2,7 +2,7 @@
 import { Directive, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Table } from 'primeng/table';
-import { DomHandler } from 'primeng/api';
+import { DomHandler } from 'primeng/dom';
 
 @Directive({
     selector: '[kpSortableColumn]',

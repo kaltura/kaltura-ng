@@ -4,17 +4,17 @@ import { PopupWidgetModule } from '../popup-widget/popup-widget.module';
 import { InputHelperComponent } from './input-helper.component';
 
 @NgModule({
-    imports: <any[]>[
+    imports: [
         CommonModule,
         PopupWidgetModule
     ],
-    declarations: <any[]>[
+    declarations: [
 	    InputHelperComponent
     ],
-    exports: <any[]>[
+    exports: [
 	    InputHelperComponent
     ],
-    providers: <any[]>[
+    providers: [
     ]
 })
 export class InputHelperModule {}

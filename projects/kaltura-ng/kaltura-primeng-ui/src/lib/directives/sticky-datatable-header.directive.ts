@@ -1,4 +1,4 @@
-import { Directive, Renderer, ElementRef } from '@angular/core';
+import { Directive, Renderer2, ElementRef } from '@angular/core';
 import { StickyScrollService } from '@kaltura-ng/kaltura-ui';
 import { StickyDirective } from '@kaltura-ng/kaltura-ui';
 
@@ -9,16 +9,15 @@ import { StickyDirective } from '@kaltura-ng/kaltura-ui';
 export class StickyDatatableHeaderDirective extends StickyDirective {
 
     private _dataTableRef: ElementRef;
-    constructor(elementRef: ElementRef, renderer: Renderer, _stickyScrollService: StickyScrollService) {
+    constructor(elementRef: ElementRef, renderer: Renderer2, _stickyScrollService: StickyScrollService) {
         super(elementRef, renderer, _stickyScrollService);
         this._dataTableRef = elementRef;
     }
 
     protected _getStickyElement(elementRef: ElementRef) :any{
-        const headers = elementRef.nativeElement.querySelectorAll('.ui-table-scrollable-header-box,.ui-datatable-scrollable-header-box');
+        const headers = elementRef.nativeElement.querySelectorAll('.ui-table-scrollable-header-box');
 
         if (headers && headers.length > 0) {
-            // console.log("got primeng table header!");
             return headers[0];
         } else {
             console.warn("failed to extract table header (did you set the prime table with header and set it to scrollable?)");

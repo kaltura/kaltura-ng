@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TooltipModule } from '@kaltura-ng/kaltura-ui';
-import { SharedModule } from 'primeng/components/common/shared';
 import { MultiSelectComponent } from './multi-select.component';
 import { MultiSelectModule as PrimeMultiSelectModule } from 'primeng/multiselect';
 import { MultiSelectItem } from './multi-select-item.component';
@@ -11,7 +10,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
   imports: [
     PrimeMultiSelectModule,
     CommonModule,
-    SharedModule,
     TooltipModule,
     ScrollingModule
   ],

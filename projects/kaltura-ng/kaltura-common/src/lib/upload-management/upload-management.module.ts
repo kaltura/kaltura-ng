@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { UploadManagement } from './upload-management.service';
 
 @NgModule({
-    imports: <any[]>[
+    imports: [
     ],
-    declarations: <any[]>[
+    declarations: [
     ],
-    exports: <any[]>[
+    exports: [
     ],
-    providers: <any[]>[
+    providers: [
         UploadManagement
     ]
 })

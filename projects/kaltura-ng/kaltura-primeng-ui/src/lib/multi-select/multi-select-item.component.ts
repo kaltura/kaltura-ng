@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
-import { SelectItem } from 'primeng/api';
+import { SelectItem } from 'primeng/api/selectitem';
 
 @Component({
   selector: 'p-multiSelectItem',
@@ -20,32 +20,32 @@ import { SelectItem } from 'primeng/api';
   `
 })
 export class MultiSelectItem {
-  
+
   @Input() option: SelectItem;
-  
+
   @Input() selected: boolean;
-  
+
   @Input() disabled: boolean;
-  
+
   @Input() visible: boolean;
-  
+
   @Input() itemSize: number;
-  
+
   @Input() template: TemplateRef<any>;
-  
+
   @Input() maxSelectionLimitReached: boolean;
-  
+
   @Output() onClick: EventEmitter<any> = new EventEmitter();
-  
+
   @Output() onKeydown: EventEmitter<any> = new EventEmitter();
-  
+
   onOptionClick(event: Event) {
     this.onClick.emit({
       originalEvent: event,
       option: this.option
     });
   }
-  
+
   onOptionKeydown(event: Event) {
     this.onKeydown.emit({
       originalEvent: event,
