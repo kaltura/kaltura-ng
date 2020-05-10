@@ -1,4 +1,20 @@
 # Change Log
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.1.4...4.0.0) (2020-05-10)
+
+
+### Features
+
+* Upgrade libraries to Angular 9 ([#171](https://github.com/kaltura/kaltura-ng/issues/171)) ([5608cea](https://github.com/kaltura/kaltura-ng/commit/5608cea))
+
+
+### BREAKING CHANGES
+
+* use input instead of ContentChild due to problems with Angular 9 Ivy
+
+* add tsConfig override json for disabling ivy for library projects
+
+
 <a name="3.1.4"></a>
 ## [3.1.4](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.1.3...3.1.4) (2020-03-17)
 

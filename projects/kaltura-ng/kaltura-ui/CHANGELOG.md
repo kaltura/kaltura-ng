@@ -1,4 +1,20 @@
 # Change Log
+<a name="8.0.0"></a>
+# [8.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@7.3.2...8.0.0) (2020-05-10)
+
+
+### Features
+
+* Upgrade libraries to Angular 9 ([#171](https://github.com/kaltura/kaltura-ng/issues/171)) ([5608cea](https://github.com/kaltura/kaltura-ng/commit/5608cea))
+
+
+### BREAKING CHANGES
+
+* use input instead of ContentChild due to problems with Angular 9 Ivy
+
+* add tsConfig override json for disabling ivy for library projects
+
+
 <a name="7.3.2"></a>
 ## [7.3.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@7.3.1...7.3.2) (2020-02-03)
 
