@@ -30,7 +30,7 @@ function grabSelectedlibraries(filterByName = null) {
 }
 
 async function executeNGBuild(libraryName) {
-  executeCommand('ng', ['build', libraryName]);
+  executeCommand('ng', ['build', libraryName, '--prod']);
 }
 
 async function buildLibraries(libraries) {
