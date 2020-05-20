@@ -57,7 +57,7 @@
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
     "core-js": "^3.2.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.1",
     "jsnlog": "^2.29.0",
     "moment": "^2.24.0",
     "normalize.css": "^7.0.0",
