@@ -26,8 +26,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-
-
 .kIconUpload:before {
   content: "\e943";
 }
@@ -134,7 +132,7 @@
   content: "\e90d";
 }
 .kIconmagnifier:before {
-  content: $iconMagnifierContent;
+  content: "\e911";
 }
 .kIconplus:before {
   content: "\e937";
@@ -198,6 +196,12 @@
 }
 .kIconPlaylist_RuleBased:before {
   content: "\e931";
+}
+.kIconsettings-solid:before {
+  content: "\e991";
+}
+.kIconCategories-333:before {
+  content: "\e992";
 }
 .kIconnotifications:before {
   content: "\e98f";
@@ -386,16 +390,16 @@
   content: "\e92f";
 }
 .kIconcheck_large:before {
-  content: $iconCheckLargeContent;
+  content: "\e912";
 }
 .kIconpen:before {
-  content: $iconOpenContent;
+  content: "\e915";
 }
 .kIcontree-arrow-right:before {
-  content: $iconTreeArrowRightContent;
+  content: "\e919";
 }
 .kIcontree-arrow-down:before {
-  content: $iconTreeArrowDownContent;
+  content: "\e91b";
 }
 .kIcontranscoding:before {
   content: "\e940";
@@ -416,31 +420,31 @@
   content: "\e950";
 }
 .kIconpartial_small:before {
-  content: $iconPartialSmallContent;
+  content: "\e922";
 }
 .kIconpagination_end:before {
-  content: $iconPaginationEndContent;
+  content: "\e91f";
 }
 .kIconpagination_start:before {
-  content: $iconPaginationStartContent;
+  content: "\e920";
 }
 .kIconcheck_small:before {
-  content: $iconCheckSmallContent;
+  content: "\e91c";
 }
 .kIconclose_small:before {
-  content: $iconCloseSmallContent;
+  content: "\e91d";
 }
 .kIcondropdown_arrow_bottom:before {
-  content: $iconDropdownArrowBottomContent;
+  content: "\e91e";
 }
 .kIcondropdown_arrow_right:before {
-  content: $iconDropdownArrowRightContent;
+  content: "\e921";
 }
 .kIcondropdown_arrow_left:before {
-  content: $iconDropdownArrowLeftContent;
+  content: "\e929";
 }
 .kIcondropdown_arrow_top:before {
-  content: $iconDropdownArrowTopContent;
+  content: "\e92a";
 }
 .kIconsettings-upgrade-1:before {
   content: "\e92c";
@@ -466,4 +470,3 @@
 .kIconseries-small:before {
   content: "\e984";
 }
-
