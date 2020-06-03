@@ -1,4 +1,13 @@
 # Change Log
+<a name="4.0.1"></a>
+## [4.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@4.0.0...4.0.1) (2020-06-03)
+
+
+### Bug Fixes
+
+* updated icons set ([21f0f0a](https://github.com/kaltura/kaltura-ng/commit/21f0f0a))
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@3.1.4...4.0.0) (2020-05-10)
 

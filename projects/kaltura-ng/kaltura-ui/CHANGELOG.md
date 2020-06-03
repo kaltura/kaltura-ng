@@ -1,4 +1,10 @@
 # Change Log
+<a name="8.0.1"></a>
+## [8.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@8.0.0...8.0.1) (2020-06-03)
+
+* update dependent libraries versions
+
+
 <a name="8.0.0"></a>
 # [8.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@7.3.2...8.0.0) (2020-05-10)
 
