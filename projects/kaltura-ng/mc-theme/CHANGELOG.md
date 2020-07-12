@@ -1,4 +1,13 @@
 # Change Log
+<a name="4.0.2"></a>
+## [4.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@4.0.1...4.0.2) (2020-07-12)
+
+
+### Bug Fixes
+
+* magnifying glass for input fields color fix ([7bafdf2](https://github.com/kaltura/kaltura-ng/commit/7bafdf2))
+
+
 <a name="4.0.1"></a>
 ## [4.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@4.0.0...4.0.1) (2020-06-03)
 
