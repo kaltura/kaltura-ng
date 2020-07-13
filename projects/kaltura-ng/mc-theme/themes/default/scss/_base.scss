@@ -23,7 +23,7 @@ label {
 .link {
 	font-size: 15px;
 	color: $kTertiary;
-	text-decoration: underline;
+	font-weight: 700;
 	cursor: pointer;
 	&:hover:not(.disabled) {
 		color: darken($kTertiary, 10%);
