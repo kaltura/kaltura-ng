@@ -1,4 +1,13 @@
 # Change Log
+<a name="4.0.3"></a>
+## [4.0.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@4.0.2...4.0.3) (2020-07-13)
+
+
+### Bug Fixes
+
+* link style ([ee7f3fc](https://github.com/kaltura/kaltura-ng/commit/ee7f3fc))
+
+
 <a name="4.0.2"></a>
 ## [4.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@4.0.1...4.0.2) (2020-07-12)
 
