@@ -1,4 +1,13 @@
 # Change Log
+<a name="8.0.2"></a>
+## [8.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@8.0.1...8.0.2) (2020-12-07)
+
+
+### Bug Fixes
+
+* **validators:** Allow the '^' character in URL validator ([b8e4c7c](https://github.com/kaltura/kaltura-ng/commit/b8e4c7c))
+
+
 <a name="8.0.1"></a>
 ## [8.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@8.0.0...8.0.1) (2020-06-03)
 

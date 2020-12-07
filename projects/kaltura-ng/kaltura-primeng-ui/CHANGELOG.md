@@ -1,4 +1,10 @@
 # Change Log
+<a name="4.0.2"></a>
+## [4.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@4.0.1...4.0.2) (2020-12-07)
+
+* update dependent libraries versions
+
+
 <a name="4.0.1"></a>
 ## [4.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@4.0.0...4.0.1) (2020-06-03)
 

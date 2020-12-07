@@ -1,4 +1,10 @@
 # Change Log
+<a name="6.0.2"></a>
+## [6.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@6.0.1...6.0.2) (2020-12-07)
+
+* update dependent libraries versions
+
+
 <a name="6.0.1"></a>
 ## [6.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@6.0.0...6.0.1) (2020-06-03)
 
