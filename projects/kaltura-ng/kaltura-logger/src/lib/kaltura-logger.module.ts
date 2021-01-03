@@ -23,7 +23,7 @@ if (window && window.onerror) {
 export class KalturaLoggerModule {
 
 
-    static forRoot(name: string): ModuleWithProviders {
+    static forRoot(name: string): ModuleWithProviders<KalturaLoggerModule> {
         return {
           ngModule: KalturaLoggerModule,
           providers: [

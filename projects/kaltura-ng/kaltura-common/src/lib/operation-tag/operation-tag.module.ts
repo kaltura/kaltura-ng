@@ -23,7 +23,7 @@ export class OperationTagModule {
         }
     }
 
-    static forRoot(): ModuleWithProviders {
+    static forRoot(): ModuleWithProviders<OperationTagModule> {
         return {
             ngModule: OperationTagModule,
             providers: <any[]>[

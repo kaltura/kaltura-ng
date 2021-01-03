@@ -52,5 +52,7 @@
     "primeng": "^9.0.6",
     "seamless-immutable": "^7.1.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
 }

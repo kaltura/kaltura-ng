@@ -22,6 +22,7 @@ export enum OnDataSavingReasons
     buildRequestFailure
 }
 
+// TODO: Add Angular decorator.
 export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsManagerBase<TData, TRequest>, OnDestroy {
     private _widgets: WidgetBase<this, TData, TRequest>[] = [];
     private _widgetsState: BehaviorSubject<FormWidgetsState> = new BehaviorSubject<FormWidgetsState>({});
