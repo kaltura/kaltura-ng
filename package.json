@@ -100,8 +100,8 @@
     "slash": "^2.0.0",
     "temp-write": "^3.4.0",
     "ts-node": "~5.0.1",
-    "tslint": "~6.1.0",
-    "typescript": "4.0.5",
+    "tslint": "^5.15.0",
+    "typescript": "^3.9.4",
     "write-json-file": "^2.3.0"
   },
   "engines": {
