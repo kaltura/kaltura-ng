@@ -1,4 +1,10 @@
 # Change Log
+<a name="4.0.1"></a>
+## [4.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@4.0.0...4.0.1) (2021-01-03)
+
+* update dependent libraries versions
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@3.1.0...4.0.0) (2020-05-10)
 
