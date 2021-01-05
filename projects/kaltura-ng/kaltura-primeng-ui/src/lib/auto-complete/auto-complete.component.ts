@@ -101,6 +101,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     @Input()
     addOnPaste = true;
 
+    // @ts-ignore
     get multiple() : boolean
     {
         // always return true to affect component ui of selected item.
@@ -159,6 +160,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
         }
     }
 
+    // @ts-ignore
     @Input() set placeholder(value : string)
     {
         // IE11 bug causing output event to fire upon input field blur event when there is a placeholder. Thus, we remove the placeholder attribute for IE11, single selection mode.

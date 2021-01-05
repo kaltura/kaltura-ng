@@ -1,9 +1,8 @@
 import { TypeAdapterBase } from './filter-types/type-adapter-base';
-import { Subject } from 'rxjs/Subject';
-import { Observable } from 'rxjs/Observable';
-import { KalturaLogger } from '@kaltura-ng/kaltura-logger';
+import { Subject } from 'rxjs';
 import { FiltersUtils } from './/filters-utils';
 import Immutable from 'seamless-immutable';
+import {KalturaLogger} from '@kaltura-ng/kaltura-logger';
 
 export type TypeAdaptersMapping<T> = {
     readonly [P in keyof T]: TypeAdapterBase<T[P]>;

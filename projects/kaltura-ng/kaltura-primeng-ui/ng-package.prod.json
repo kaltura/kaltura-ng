@@ -3,5 +3,9 @@
   "dest": "../../../dist/kaltura-ng/kaltura-primeng-ui",
   "lib": {
     "entryFile": "src/public_api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "@kaltura-ng/kaltura-common",
+    "@kaltura-ng/kaltura-ui"
+  ]
 }

@@ -20,7 +20,7 @@ import { StickyScrollService } from './services/sticky-scroll.service';
     ]
 })
 export class StickyModule {
-    static forRoot(): ModuleWithProviders {
+    static forRoot(): ModuleWithProviders<StickyModule> {
         return {
             ngModule: StickyModule,
             providers: <any[]>[

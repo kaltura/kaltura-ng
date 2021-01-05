@@ -52,5 +52,9 @@
     "primeng": "^9.0.6",
     "seamless-immutable": "^7.1.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@kaltura-ng/kaltura-common": "8.0.0",
+    "@kaltura-ng/kaltura-logger": "4.0.0",
+    "@kaltura-ng/kaltura-ui": "8.0.2"
+  }
 }

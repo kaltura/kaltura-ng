@@ -13,8 +13,8 @@
   <div [ngClass]="{'ui-multiselect-trigger ui-state-default ui-corner-right':true}">
     <span class="ui-multiselect-trigger-icon ui-clickable" [ngClass]="dropdownIcon"></span>
   </div>
-  <div *ngIf="overlayVisible" [ngClass]="['ui-multiselect-panel ui-widget ui-widget-content ui-corner-all ui-shadow']" [@overlayAnimation]="{value: 'visible', params: {showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions}}" (@overlayAnimation.start)="onOverlayAnimationStart($event)"
-       [ngStyle]="panelStyle" [class]="panelStyleClass" (click)="panelClick=true">
+  <div *ngIf="overlayVisible" [ngClass]="['p-multiselect-panel p-component']" [@overlayAnimation]="{value: 'visible', params: {showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions}}" (@overlayAnimation.start)="onOverlayAnimationStart($event)"
+       [ngStyle]="panelStyle" [class]="panelStyleClass" (keydown)="onKeydown($event)">
     <div class="ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix" [ngClass]="{'ui-multiselect-header-no-toggleall': !showToggleAll}" *ngIf="showHeader">
       <div class="ui-chkbox ui-widget" *ngIf="showToggleAll && !selectionLimit">
         <div class="ui-helper-hidden-accessible">
@@ -39,14 +39,14 @@
         <ng-container *ngIf="!virtualScroll; else virtualScrollList">
           <ng-template ngFor let-option let-i="index" [ngForOf]="options">
             <p-multiSelectItem [option]="option" [selected]="isSelected(option.value)" (onClick)="onOptionClick($event)" (onKeydown)="onOptionKeydown($event)"
-                               [maxSelectionLimitReached]="maxSelectionLimitReached" [visible]="isItemVisible(option)" [template]="itemTemplate"></p-multiSelectItem>
+                               [maxSelectionLimitReached]="maxSelectionLimitReached" [template]="itemTemplate"></p-multiSelectItem>
           </ng-template>
         </ng-container>
         <ng-template #virtualScrollList>
           <cdk-virtual-scroll-viewport #viewport [ngStyle]="{'height': scrollHeight}" [itemSize]="itemSize" *ngIf="virtualScroll">
             <ng-container *cdkVirtualFor="let option of options; let i = index; let c = count; let f = first; let l = last; let e = even; let o = odd">
               <p-multiSelectItem [option]="option" [selected]="isSelected(option.value)" (onClick)="onOptionClick($event)" (onKeydown)="onOptionKeydown($event)"
-                                 [maxSelectionLimitReached]="maxSelectionLimitReached" [visible]="isItemVisible(option)" [template]="itemTemplate" [itemSize]="itemSize"></p-multiSelectItem>
+                                 [maxSelectionLimitReached]="maxSelectionLimitReached" [template]="itemTemplate" [itemSize]="itemSize"></p-multiSelectItem>
             </ng-container>
           </cdk-virtual-scroll-viewport>
         </ng-template>

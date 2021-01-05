@@ -24,7 +24,7 @@ export class KalturaCommonModule {
     //     }
     // }
 
-    static forRoot(): ModuleWithProviders {
+    static forRoot(): ModuleWithProviders<KalturaCommonModule> {
         return {
             ngModule: KalturaCommonModule,
             providers: [

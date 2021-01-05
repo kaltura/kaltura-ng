@@ -1,4 +1,4 @@
-import { OnDestroy } from '@angular/core';
+import {Directive, OnDestroy} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/operator/mergeMap';
@@ -22,6 +22,7 @@ export enum OnDataSavingReasons
     buildRequestFailure
 }
 
+@Directive()
 export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsManagerBase<TData, TRequest>, OnDestroy {
     private _widgets: WidgetBase<this, TData, TRequest>[] = [];
     private _widgetsState: BehaviorSubject<FormWidgetsState> = new BehaviorSubject<FormWidgetsState>({});
