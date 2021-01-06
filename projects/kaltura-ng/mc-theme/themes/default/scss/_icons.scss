@@ -19,27 +19,27 @@
     .ui-sortable-column-icon.fa-sort-desc:before{
       content: $iconDropdownArrowBottomContent;
     }
-    .ui-paginator-next.ui-paginator-element .ui-paginator-icon.pi.pi-caret-right:before{
+    .p-paginator-next.p-paginator-element .p-paginator-icon.pi.pi-angle-right:before{
         content: $iconDropdownArrowRightContent;
         font-size: 12px;
     }
-    .ui-paginator-prev.ui-paginator-element .ui-paginator-icon.pi.pi-caret-left:before{
+    .p-paginator-prev.p-paginator-element .p-paginator-icon.pi.pi-angle-left:before{
       content: $iconDropdownArrowLeftContent;
         font-size: 12px;
     }
-    .ui-paginator-last.ui-paginator-element .pi.pi-step-forward:before{
+    .p-paginator-last.p-paginator-element .pi.pi-angle-double-right:before{
         content: $iconPaginationEndContent;
         font-size: 12px;
     }
-    .ui-paginator-first.ui-paginator-element .pi.pi-step-backward:before{
+    .p-paginator-first.p-paginator-element .pi.pi-angle-double-left:before{
         content: $iconPaginationStartContent;
         font-size: 12px;
     }
-    .ui-chkbox-icon.pi.pi-check:before, .ui-chkbox-icon.fa.fa-check:before{
+    .p-checkbox-icon.pi.pi-check:before{
         font-size: 10px;
         content: $iconCheckSmallContent;
     }
-    .ui-chkbox-icon.pi.pi-minus:before{
+    .p-checkbox-icon.pi.pi-minus:before{
         content: $iconPartialSmallContent;
         font-size: 9px;
     }
@@ -51,11 +51,11 @@
         content: $iconDropdownArrowRightContent;
         font-size: 9px;
     }
-  .ui-dropdown-open .ui-dropdown-trigger-icon {
+  .p-dropdown-open .p-dropdown-trigger-icon {
     transform: rotate(180deg) translateY(-50%);
     margin-top: -11px;
   }
-	.ui-dropdown-trigger .pi.pi-caret-down:before{
+	.p-dropdown-trigger .pi.pi-caret-down:before{
     content: $iconDropdownArrowBottomContent;
 		font-size: 10px;
 	}
@@ -73,14 +73,14 @@
 	.ui-timepicker .pi.pi-chevron-down:before{
     content: $iconDropdownArrowBottomContent;
 	}
-  .ui-dropdown-trigger .pi.pi-chevron-up{
+  .p-dropdown-trigger .pi.pi-chevron-up{
     &:before {
       content: $iconDropdownArrowTopContent;
     }
     color: #666;
     font-size: .8em;
   }
-  .ui-dropdown-trigger .pi.pi-chevron-down {
+  .p-dropdown-trigger .pi.pi-chevron-down {
     &:before {
       content: $iconDropdownArrowBottomContent;
     }
@@ -115,11 +115,11 @@
     content: $iconMagnifierContent;
 	}
 
-  .ui-table-tbody .pi.pi-chevron-right:before{
+  .p-datatable-tbody .pi.pi-chevron-right:before{
     content: $iconTreeArrowRightContent;
   }
 
-  .ui-table-tbody .pi.pi-chevron-down:before{
+  .p-datatable-tbody .pi.pi-chevron-down:before{
     content: $iconTreeArrowDownContent;
   }
 }
