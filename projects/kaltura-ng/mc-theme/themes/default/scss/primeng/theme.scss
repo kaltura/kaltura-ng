@@ -132,20 +132,34 @@ textarea.p-inputtext {
   width: 18px;
   height: 18px;
   .p-checkbox-box {
-    width: 18px;
-    height: 18px;
+    width: 100%;
+    height: 100%;
+    &.p-disabled {
+      opacity: 0.35;
+    }
   }
 }
 .p-checkbox:hover{
   border: 1px solid $kGrayscale4;
 }
 /* radio buttons */
-.ui-radiobutton-box.ui-state-active{
+.p-radiobutton-box{
+  width: 1.125em;
+  height: 1.125em;
+  line-height: 1.125em;
+  border-radius: 100%;
+  text-align: center;
+  position: relative;
+  border: 1px solid #d9d9d9;
+  background-color: #fff;
+  color: #1c94c4;
+}
+.p-radiobutton-box.p-highlight{
   background-color: #ffffff;
   border: 6px solid $kPrimary;
   color: #ffffff;
 }
-.ui-radiobutton{
+.p-radiobutton{
   margin-right: 6px;
 }
 
@@ -354,11 +368,28 @@ p-table {
   height: 34px;
   font-size: 14px;
   outline: none;
-  .ui-button-icon-left{
+  padding: 0px;
+  .p-button-icon-left{
     font-size: 24px;
   }
+  .p-button-icon-right{
+    right: 8px;
+    left: auto !important;
+  }
+  .p-button-label {
+    padding: .25em 1em;
+  }
+  .p-button-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -.5em;
+    margin-left: -.5em;
+    width: 1em;
+    height: 1em;
+  }
 }
-.disabled:not(a){
+.p-disabled:not(a){
   color: $kGrayscale4;
   background: transparent;
   border: 1px solid $kGrayscale4;
@@ -402,7 +433,7 @@ p-table {
     color: $kGrayscale4;
     background: transparent;
     border: 1px solid $kGrayscale4;
-    cursor: none;
+    cursor: default;
   }
 }
 .p-button.kButtonDanger {
@@ -422,30 +453,51 @@ p-table {
 }
 
 /* menu */
-.ui-tieredmenu, .ui-menu-list, .ui-menu {
+.p-tieredmenu, .p-menu-list, .p-menu {
+  padding: 4px;
   padding-left: 0px;
   padding-right: 0px;
-  .ui-menuitem-link{
+  width: 200px;
+  &.p-tieredmenu-overlay{
+    border: 1px solid #d9d9d9;
+    background-color: #fff;
+    color: #333;
+  }
+  .p-submenu-list{
+    border: 1px solid #d9d9d9;
+    background-color: #fff;
+    color: #333;
+  }
+  .p-menuitem-link{
     min-height: 32px;
     line-height: 1.5em;
     padding-left: 12px;
+    color: $kGrayscale1;
   }
-  .ui-menuitem .ui-menuitem-link:hover{
+  .p-menuitem .p-menuitem-link:hover{
     border-radius: 0px;
     background-color: $kGrayscale6;
   }
-  .ui-menuitem.kDanger .ui-menuitem-text{
+  .p-menuitem.kDanger .p-menuitem-text{
     color: $kDandger;
   }
 }
-body .ui-tieredmenu {
+body .p-tieredmenu {
   width: 250px;
-  .ui-menuitem-link .ui-submenu-icon {
+  .p-submenu-icon {
     font-size: 10px;
     right: 3px;
   }
 }
-.ui-menu .ui-menuitem-text {
+.p-menu-overlay {
+  border: 1px solid #d9d9d9;
+  background-color: #fff;
+  color: #333;
+  border-radius: 3px;
+  padding-left: 0;
+  padding-right: 0;
+}
+.p-menu .p-menuitem-text {
   vertical-align: middle;
 }
 .ui-submenu{
@@ -549,25 +601,30 @@ body .ui-tieredmenu {
   opacity: 0.35;
 }
 /* tree */
-.ui-tree .ui-tree-container{
+.p-tree .p-tree-container{
   padding-left: 0px;
   padding-top: 0px;
   overflow: hidden;
 }
-.ui-tree.ui-widget.ui-widget-content.ui-corner-all.ui-tree-selectable{
+.p-tree.p-tree-selectable{
   border: none;
 }
-.ui-treenode-label.ui-corner-all.ui-state-hover{
+.p-tree-wrapper {
+  overflow: visible !important;
+}
+.p-treenode-label.ui-corner-all.ui-state-hover{
   background-color: #ffffff;
 }
-.ui-tree .ui-tree-toggler{
+.p-tree .p-tree-toggler{
   color: $kGrayscale3;
   margin-right: 8px;
+  margin-top: 0px !important;
+  outline: none !important;
 }
-.ui-tree .ui-treenode-leaf-icon{
+.p-tree .p-treenode-leaf-icon{
   width: 27px;
 }
-.ui-tree .p-checkbox .ui-chkbox-icon{
+.p-tree .p-checkbox .p-checkbox-icon{
   background-color: $kPrimary;
   border: 0px solid $kPrimary;
   margin-top: 0px;
@@ -575,15 +632,22 @@ body .ui-tieredmenu {
   border-radius: 3px;
   color: #ffffff;
 }
-.ui-tree .ui-treenode-label.ui-state-hover, .ui-tree .ui-treenode-label.ui-state-highlight{
+.p-tree .p-treenode-label:hover, .p-tree .p-treenode-label.p-highlight{
   background-color: #ffffff;
 }
-.ui-treenode-content {
+.p-tree .p-treenode-label{
+  padding: 0 .25em;
+  display: inline-block;
+  vertical-align: middle;
+}
+.p-treenode-children{
+  padding: 0 0 0 1em !important;
+}
+.p-treenode-content {
   width: 100%;
   color: #a9a9a9;
   cursor: default;
-
-  &.ui-treenode-selectable {
+  &.p-treenode-selectable {
     color: $kGrayscale1;
     cursor: pointer;
   }
@@ -597,16 +661,16 @@ body .ui-tieredmenu {
     }
 
     .p-checkbox-icon {
-      border: 1px solid $kGrayscale4;
       background-color: white;
       height: 100%;
-
+      width: 100%;
       &.pi-check {
         background-color: $kPrimary;
         border: 1px solid $kPrimary;
       }
 
       &.pi-minus {
+        padding-left: 1px;
         background-color: $kPrimary;
         border: 1px solid $kPrimary;
       }
@@ -614,8 +678,9 @@ body .ui-tieredmenu {
 
   }
 
-  &:not(.ui-treenode-selectable) {
+  &:not(.p-treenode-selectable) {
     .p-checkbox-icon {
+      opacity: 0.35;
       background-color: $kPrimary;
       border: 1px solid $kPrimary;
       cursor: default;
@@ -628,35 +693,45 @@ body .ui-tieredmenu {
 }
 
 /* Calendar */
-.ui-calendar.ui-calendar-w-btn{
+.p-calendar.p-calendar-w-btn{
   border: 1px solid $kGrayscale4;
   border-radius: 3px;
 }
-.ui-calendar{
-  button.ui-state-default.ui-calendar-button {
+.p-calendar{
+  button.p-button.p-datepicker-trigger {
     height: 34px;
     width: 42px;
     border: 0px solid white;
     color: $kGrayscale4;
     &:active{
-      box-shadow: none;
+      box-shadow: none !important;
+      border: none !important;
     }
     &:enabled:hover {
       color: $kGrayscale1;
+      border: none !important;
+      box-shadow: none !important;
     }
   }
-  .ui-button-icon-left.kIconcalendar{
+  .p-button-icon.kIconcalendar{
     font-size: 24px;
   }
-  .ui-datepicker{
+  .p-datepicker{
     padding: 0;
     width: 17em;
   }
-  .ui-datepicker-calendar{
+  .p-datepicker-calendar{
     margin: 0;
   }
-  .ui-datepicker-header{
+  .p-datepicker-group-container{
+    border: 1px solid #d9d9d9;
+    background-color: #fff;
+    color: #333;
+    border-width: 0;
+  }
+  .p-datepicker-header{
     background: $kPrimary;
+    padding: .5em 0;
   }
   .p-inputtext {
     width: 100px;
@@ -673,15 +748,26 @@ body .ui-tieredmenu {
   button{
     @extend .kButtonDefault;
   }
-  .ui-datepicker-prev, .ui-datepicker-next{
+  .p-datepicker-prev, .p-datepicker-next{
+    width: 24px;
+    height: 24px;
     color: #ffffff !important;
+    outline: none !important;
+    background: $kPrimary !important;
+    background-color: $kPrimary !important;
+    border: 0px solid $kPrimary !important;
     &:hover{
       background: $kPrimary !important;
       background-color: $kPrimary !important;
       border: 0px solid $kPrimary !important;
     }
+    &:active{
+      background: $kPrimary !important;
+      background-color: $kPrimary !important;
+      border: 0px solid $kPrimary !important;
+    }
   }
-  .ui-datepicker-prev-hover, .ui-datepicker-next-hover, thead{
+  .p-datepicker-prev-hover, .p-datepicker-next-hover, thead{
     background: $kPrimary;
     border: 0px solid $kPrimary;
   }
@@ -697,7 +783,7 @@ body .ui-tieredmenu {
       background: transparent;
     }
   }
-  .ui-datepicker-current-day{
+  .p-datepicker-current-day{
     background-color: $kPrimary;
   }
   .ui-timepicker.ui-widget-header{
@@ -711,18 +797,18 @@ body .ui-tieredmenu {
   .link, a{
     font-size: 14px;
   }
-  .ui-datepicker th{
+  .p-datepicker th{
     font-size: 12px;
     font-weight: 400;
     color: #ffffff;
     opacity: 0.7;
   }
-  .ui-datepicker td{
+  .p-datepicker td{
     padding: 0px;
     width: 36px;
     height: 30px;
     border: 1px solid #d9d9d9;
-    a{
+    span{
       border: 0px solid white;
       text-align: center;
     }
