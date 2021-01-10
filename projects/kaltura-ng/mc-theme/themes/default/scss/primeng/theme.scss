@@ -63,6 +63,7 @@ $inputGroupTextColor: #222222;
   background-color: white;
   border: 1px solid $kGrayscale4;
   height: 34px;
+  padding: .25em;
   outline: none;
   border-radius: 4px;
   font-size: 15px;
@@ -81,6 +82,7 @@ $inputGroupTextColor: #222222;
   background-color: $kGrayscale6;
   border: 1px solid $kGrayscale4;
   color: $kGrayscale3;
+  opacity: 0.35;
 }
 .p-inputtext.ui-state-focus, .p-inputtext:focus{
   box-shadow: none;
@@ -154,7 +156,7 @@ textarea.p-inputtext {
   background-color: #fff;
   color: #1c94c4;
 }
-.p-radiobutton-box.p-highlight{
+.p-radiobutton-checked .p-radiobutton-box.p-highlight{
   background-color: #ffffff;
   border: 6px solid $kPrimary;
   color: #ffffff;
@@ -368,18 +370,11 @@ p-table {
   height: 34px;
   font-size: 14px;
   outline: none;
-  padding: 0px;
-  .p-button-icon-left{
-    font-size: 24px;
+  .p-button-icon.p-button-icon-left{
+    margin-left: 4px;
+    margin-right: 8px;
   }
   .p-button-icon-right{
-    right: 8px;
-    left: auto !important;
-  }
-  .p-button-label {
-    padding: .25em 1em;
-  }
-  .p-button-icon {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -387,7 +382,21 @@ p-table {
     margin-left: -.5em;
     width: 1em;
     height: 1em;
+    right: 8px;
+    left: auto !important;
   }
+  .p-button-label {
+    padding-right: 4px;
+  }
+  &.p-button-icon-only{
+    .p-button-icon{
+      margin-left: 0px !important;
+    }
+    .p-button-label {
+      padding-right: 0px;
+    }
+  }
+
 }
 .p-disabled:not(a){
   color: $kGrayscale4;
@@ -525,6 +534,7 @@ body .p-tieredmenu {
       border: none;
       color: $kGrayscale1;
       font-size: 14px;
+      padding: 0px;
       padding-top: 4px;
       width: 32px;
       box-shadow: none !important;
@@ -951,6 +961,8 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
 .p-dropdown-label.p-inputtext{
   background-color: #ffffff;
   border: 0px;
+  padding: 0px;
+  padding-left: 8px;
 }
 .p-dropdown-label{
   height: 32px;
@@ -1264,6 +1276,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
   padding-top: 28px;
   padding-bottom: 28px;
   max-height: 450px;
+  width: 100%;
 }
 .p-dialog .p-dialog-header{
   height: 78px;
@@ -1430,5 +1443,17 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
     &:not(.ui-state-disabled):not(.ui-state-active):hover {
       background-color: $kGrayscale6;
     }
+  }
+}
+
+/* overlay panel */
+.p-overlaypanel {
+  .p-overlaypanel-content {
+    border: 1px solid #d9d9d9;
+    background-color: white;
+    color: $kGrayscale1;
+    padding: .5em 1em;
+    box-sizing: border-box;
+    outline: none!important;
   }
 }
