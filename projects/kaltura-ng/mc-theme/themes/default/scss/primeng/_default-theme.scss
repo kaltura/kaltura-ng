@@ -448,8 +448,8 @@
     }
 }
 
-.ui-dialog {
-    .ui-dialog-titlebar-icon {
+.p-dialog {
+    .p-dialog-titlebar-icon {
         color: $headerTextColor;
 
         &:hover {
@@ -793,8 +793,8 @@
     .ui-inputswitch-slider {
         -webkit-transition: background-color .3s, box-shadow .2s;
         transition: background-color .3s, box-shadow .2s;
-        background: #cccccc; 
-    
+        background: #cccccc;
+
         &:before {
             background-color: #ffffff;
         }
@@ -805,7 +805,7 @@
             -moz-box-shadow: 0px 0px 5px $stateFocusBorderColor;
             -webkit-box-shadow: 0px 0px 5px $stateFocusBorderColor;
             box-shadow: 0px 0px 5px $stateFocusBorderColor;
-        } 
+        }
     }
 
     &:not(.ui-state-disabled):hover {
