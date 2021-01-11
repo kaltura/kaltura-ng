@@ -39,9 +39,17 @@
         font-size: 10px;
         content: $iconCheckSmallContent;
     }
+    .p-button .pi.pi-check:before{
+      font-size: 12px;
+      content: $iconCheckSmallContent;
+    }
     .p-checkbox-icon.pi.pi-minus:before{
         content: $iconPartialSmallContent;
         font-size: 9px;
+    }
+    .p-button .pi.pi-times:before{
+      content: $iconCloseSmallContent;
+      font-size: 12px;
     }
     .p-datepicker-prev-icon.pi-chevron-left:before{
         content: $iconDropdownArrowLeftContent;

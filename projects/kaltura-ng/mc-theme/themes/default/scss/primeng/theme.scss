@@ -370,23 +370,14 @@ p-table {
   height: 34px;
   font-size: 14px;
   outline: none;
+  padding-left: 8px;
+  padding-right: 8px;
   .p-button-icon.p-button-icon-left{
     margin-left: 4px;
     margin-right: 8px;
   }
   .p-button-icon-right{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -.5em;
-    margin-left: -.5em;
-    width: 1em;
-    height: 1em;
-    right: 8px;
-    left: auto !important;
-  }
-  .p-button-label {
-    padding-right: 4px;
+    margin-left: 4px;
   }
   &.p-button-icon-only{
     .p-button-icon{
@@ -397,12 +388,6 @@ p-table {
     }
   }
 
-}
-.p-disabled:not(a){
-  color: $kGrayscale4;
-  background: transparent;
-  border: 1px solid $kGrayscale4;
-  cursor: default;
 }
 .p-button.kButtonBranded {
   border: none;
@@ -419,7 +404,7 @@ p-table {
     color: $kGrayscale4;
     background: transparent;
     border: 1px solid $kGrayscale4;
-    cursor: none;
+    cursor: default;
     box-shadow: none;
   }
   -webkit-transition: all 100ms ease-in-out;
@@ -534,11 +519,10 @@ body .p-tieredmenu {
       border: none;
       color: $kGrayscale1;
       font-size: 14px;
-      padding: 0px;
-      padding-top: 4px;
       width: 32px;
       box-shadow: none !important;
       height: 28px;
+      line-height: 24px;
     }
     .p-dropdown-trigger {
       height: 24px;
@@ -722,6 +706,9 @@ body .p-tieredmenu {
       border: none !important;
       box-shadow: none !important;
     }
+    &:disabled {
+      opacity: 0.35;
+    }
   }
   .p-button-icon.kIconcalendar{
     font-size: 24px;
@@ -729,6 +716,10 @@ body .p-tieredmenu {
   .p-datepicker{
     padding: 0;
     width: 17em;
+    border: 1px solid #d9d9d9;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.3);
   }
   .p-datepicker-calendar{
     margin: 0;
@@ -796,16 +787,20 @@ body .p-tieredmenu {
   .p-datepicker-current-day{
     background-color: $kPrimary;
   }
-  .ui-timepicker.ui-widget-header{
+  .p-timepicker{
     color: $kGrayscale1;
-  }
-  .ui-timepicker a{
-    color: $kGrayscale1;
-    font-size: 10px;
-    text-decoration: none;
-  }
-  .link, a{
-    font-size: 14px;
+    background-color: #fff;
+    font-weight: 700;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 15px;
+    button {
+      border: none;
+      font-size: 10px;
+    }
+    .p-separator {
+      width: 16px;
+    }
   }
   .p-datepicker th{
     font-size: 12px;
@@ -1293,7 +1288,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
   border-top: 1px solid $kGrayscale4;
   padding: 1em;
   .p-button-label{
-    padding: .25em 2.1em .25em 2.1em;
+    padding: 8px;
     font-size: 16px;
   }
   button{
