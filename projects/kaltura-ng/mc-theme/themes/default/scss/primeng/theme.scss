@@ -908,6 +908,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
 .p-dropdown{
   border: 1px solid $kGrayscale4;
   border-radius: 3px;
+  width: 180px;
 }
 .p-dropdown-trigger{
   cursor: pointer;
@@ -1317,10 +1318,10 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
 }
 
 // switch box
-.ui-inputswitch {
+.p-inputswitch {
   height: 24px;
   width: 42px !important;
-  overflow: visible;
+  overflow: hidden;
   vertical-align: middle;
   background-color: $kGrayscale4;
   -moz-border-radius: 13px;
@@ -1335,11 +1336,11 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
   transition: background-color 0.3s;
   // animation *
 
-  &.ui-inputswitch-focus .ui-inputswitch-slider {
+  &.p-inputswitch-focus .p-inputswitch-slider {
     box-shadow: none;
   }
 
-  .ui-inputswitch-handle {
+  .p-inputswitch-handle {
     top: 4px;
     left: 4px !important;
     background-color: #ffffff;
@@ -1358,33 +1359,35 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
     // animation *
   }
 
-  .ui-inputswitch-on, .ui-inputswitch-off {
+  .p-inputswitch-on, .p-inputswitch-off {
     visibility: hidden;
   }
 
-  &.ui-inputswitch-checked {
-    .ui-inputswitch-slider {
+  &.p-inputswitch-checked {
+    .p-inputswitch-slider {
       background-color: $kPrimary;
     }
 
-    .ui-inputswitch-handle {
+    .p-inputswitch-handle {
       left: 23px !important;
     }
-    .ui-inputswitch-slider:before {
+    .p-inputswitch-slider:before {
       transform: translateX(18px);
     }
   }
-  &.ui-inputswitch-checked:not(.ui-state-disabled):hover{
-    .ui-inputswitch-slider {
+  &.p-inputswitch-checked:not(.p-disabled):hover{
+    .p-inputswitch-slider {
       background-color: $kPrimary;
     }
   }
 
-  .ui-inputswitch-slider:before{
+  .p-inputswitch-slider:before{
     left: 3px;
     top: 3px;
     height: 18px;
     width: 18px;
+    background-color: white;
+    border-radius: 9px;
   }
 
 }
