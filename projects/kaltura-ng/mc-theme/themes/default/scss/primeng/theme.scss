@@ -1456,3 +1456,58 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
     outline: none!important;
   }
 }
+
+/* chips */
+.p-chips {
+  width: 100%;
+  min-height: 32px;
+  ul.p-inputtext {
+    max-height: 101px;
+    overflow-y: auto;
+    height: auto;
+  }
+  .p-chips-multiple-container {
+    padding-left: 4px;
+    padding-right: 4px;
+    flex-wrap: wrap;
+  }
+  .p-chips-token{
+    margin-right: 6px;
+    height: 24px;
+    border: 0px solid $kPrimary;
+    background-color: $kPrimary;
+    border-radius: 3px;
+    color: #ffffff;
+    padding-top: 4px;
+    margin-bottom: 3px;
+    margin-top: 3px;
+    &:hover {
+      background-color: darken(#00A784, 10%);
+    }
+    .p-chips-token-label{
+      font-weight: bold;
+      padding: 8px;
+      padding-top: 2px;
+      font-size: 14px;
+    }
+    .p-chips-token-icon.pi-times-circle{
+      flex: 0 0 auto;
+      margin-top: -5px;
+      right: 0px;
+      padding: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      margin-right: 2px;
+      padding-top: 4px;
+      &:hover{
+        background-color: rgba(255,255,255,0.3);
+        border: 0px solid rgba(255,255,255,0.3);
+        border-radius: 3px;
+      }
+    }
+  }
+}
+
+
+
+
