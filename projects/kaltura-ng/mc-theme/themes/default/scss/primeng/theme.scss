@@ -1053,9 +1053,11 @@ ul.p-autocomplete-multiple-container{
   color: #333;
   min-width: 70px;
   font-size: 15px;
+  width: 100%;
 }
 .p-dropdown-panel .p-dropdown-items-wrapper{
   overflow-x: hidden;
+  width: 100%;
 }
 .p-dropdown-panel .p-dropdown-item:not(.p-highlight):hover{
   background-color: $kGrayscale6 !important;
