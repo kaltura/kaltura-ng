@@ -532,7 +532,7 @@ body .p-tieredmenu {
     }
   }
 }
-.p-paginator.ui-widget-header.ui-unselectable-text{
+.p-paginator-header.ui-unselectable-text{
   background: transparent;
   border: none;
 }
@@ -562,7 +562,7 @@ body .p-tieredmenu {
   font-weight: 400;
   margin-right: 0px;
 }
-.p-paginator-rpp-options.ui-widget.ui-state-default{
+.p-paginator-rpp-options.ui-state-default{
   border: none;
 }
 .p-paginator .p-paginator-page, .p-paginator .p-paginator-next, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-first, .p-paginator .p-paginator-last{
@@ -772,7 +772,7 @@ body .p-tieredmenu {
     background: $kPrimary;
     border: 0px solid $kPrimary;
   }
-  .ui-widget-header{
+  -header{
     border: 0px solid $kPrimary;
     border-radius: 0px;
   }
@@ -821,33 +821,146 @@ body .p-tieredmenu {
 
 }
 // tooltips
-.ui-tooltip .ui-tooltip-text {
+.p-tooltip .p-tooltip-text {
   background-color: #000000;
   color: #ffffff;
   font-size: 14px;
 }
-.ui-tooltip .ui-tooltip-arrow{
+.p-tooltip .p-tooltip-arrow{
   font-size: 16px;
 }
-.ui-tooltip-top .ui-tooltip-arrow {
+.p-tooltip-top .p-tooltip-arrow {
   border-top-color: #000000;
 }
-.ui-tooltip-bottom .ui-tooltip-arrow {
+.p-tooltip-bottom .p-tooltip-arrow {
   border-bottom-color: #000000;
 }
-.ui-tooltip-right .ui-tooltip-arrow {
+.p-tooltip-right .p-tooltip-arrow {
   border-right-color: #000000;
 }
-.ui-tooltip-left .ui-tooltip-arrow {
+.p-tooltip-left .p-tooltip-arrow {
   border-left-color: #000000;
 }
 
 // auto complete
-ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
-  height: auto;
+.p-autocomplete {
+  position: relative;
+  .p-autocomplete-panel {
+    position: absolute;
+    min-width: 100%;
+    top: 18px !important;
+  }
+  .p-autocomplete-items {
+    padding: 0px;
+    margin: 0px;
+    border: 1px solid #d9d9d9;
+    background-color: #fff;
+    color: #333;
+    order-radius: 3px;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.3);
+    .p-autocomplete-item {
+      border: 0;
+      cursor: pointer;
+      font-weight: 400;
+      margin: 1px 0;
+      padding: .186em .313em;
+      text-align: left;
+      min-height: 50px;
+      border-left: none;
+      border-right: none;
+      border-bottom: 2px solid #dadada;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      &:last-child {
+        border-bottom: none;
+      }
+      &.p-highlight, &:hover {
+        background-color: $kGrayscale7;
+      }
+    }
+  }
 }
-.ui-autocomplete .ui-autocomplete-panel {
-  .ui-autocomplete-list-item {
+.p-autocomplete-input-token {
+  margin: 0;
+  list-style-type: none;
+  display: inline-block;
+  input {
+    height: 34px;
+    width: 328px;
+    border: 0px solid $kGrayscale6;
+    color: $kGrayscale1;
+    outline: none;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box; /* Firefox, other Gecko */
+    box-sizing: border-box; /* Opera/IE 8+ */
+  }
+}
+ul.p-autocomplete-multiple-container.p-inputtext{
+  min-height: 34px;
+  height: auto;
+  overflow: hidden;
+  display: inline-block;
+}
+ul.p-autocomplete-multiple-container{
+  padding: 0;
+  padding-left: 4px;
+  box-sizing: border-box;
+  display: inline-block;
+  li.p-autocomplete-token{
+    cursor: default;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    padding-left: 4px;
+    padding-right: 4px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    position: relative;
+    margin-right: 6px;
+    margin-bottom: 4px;
+    height: 24px;
+    border: 0 solid #00a784;
+    background-color: #00a784;
+    border-radius: 3px;
+    color: #fff;
+    padding-top: 3px;
+    &:hover {
+      background-color: #00745c;
+    }
+    .p-autocomplete-token-icon {
+      margin-left: 8px;
+      cursor: pointer;
+      flex: 0 0 auto;
+      margin-top: -10px;
+      right: 0;
+      padding: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      &:hover {
+        background-color: hsla(0,0%,100%,.3);
+        border: 0 solid hsla(0,0%,100%,.3);
+        border-radius: 3px;
+      }
+    }
+  }
+}
+.p-autocomplete-notification-item {
+  min-height: 50px;
+  padding-left: 8px;
+  border-left: none;
+  border-right: none;
+  display: flex;
+  align-items: center;
+  &.p-highlight, &:hover {
+    background-color: transparent;
+    cursor: default;
+  }
+}
+/*
+
+.p-autocomplete .p-autocomplete-panel {
+  .p-autocomplete-list-item {
     min-height: 50px;
     overflow: hidden;
     border-left: none;
@@ -863,7 +976,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
       background-color: $kGrayscale7;
     }
   }
-  .ui-autocomplete-notification-item
+  .p-autocomplete-notification-item
   {
     min-height: 50px;
     border-left: none;
@@ -877,18 +990,8 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
     }
   }
 }
-.ui-autocomplete-input-token{
-  margin: 0px;
-  input {
-    width: auto;
-    border: 0px solid $kGrayscale6;
-    color: $kGrayscale1;
-    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-    -moz-box-sizing: border-box; /* Firefox, other Gecko */
-    box-sizing: border-box; /* Opera/IE 8+ */
-  }
-}
-.ui-autocomplete-token-icon.pi-times{
+
+.p-autocomplete-token-icon.pi-times{
   flex: 0 0 auto;
   margin-top: -10px;
   right: 0px;
@@ -901,9 +1004,11 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
     border-radius: 3px;
   }
 }
-.ui-autocomplete-token-label{
+.p-autocomplete-token-label{
   font-weight: bold;
 }
+
+*/
 // drop down
 .p-dropdown{
   border: 1px solid $kGrayscale4;
@@ -982,7 +1087,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
   width: 237px;
   border-radius: 3px;
   border: 1px solid $kGrayscale4;
-  .ui-widget-header {
+  -header {
     border: 0;
   }
   .ui-multiselect-label-container{
@@ -1037,7 +1142,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
     font-size: 24px;
     font-weight: 700;
   }
-  .p-dialog-content.ui-widget-content{
+  .p-dialog-content-content{
     text-align: center;
     padding-top: 28px;
     padding-bottom: 28px;
@@ -1115,7 +1220,7 @@ ul.ui-autocomplete-multiple-container.ui-widget.p-inputtext{
 }
 
 // spinner
-.ui-spinner.ui-widget{
+.ui-spinner{
   height: 34px;
   .ui-spinner-button{
     height: 16px;

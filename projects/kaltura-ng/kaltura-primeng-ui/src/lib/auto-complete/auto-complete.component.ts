@@ -12,12 +12,12 @@ import {
   Output,
   EventEmitter,
   ViewChild,
-  HostListener, AfterContentInit
+  HostListener, AfterContentInit, ChangeDetectionStrategy, ViewEncapsulation
 } from '@angular/core';
-import {trigger,state,style,transition,animate,AnimationEvent} from '@angular/animations';
+import {trigger, state, style, transition, animate, AnimationEvent} from '@angular/animations';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from 'rxjs/Subscription';
-import { AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR } from "primeng/autocomplete";
+import { AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR } from 'primeng/autocomplete';
 import { KalturaBrowserUtils, BrowserNames } from '@kaltura-ng/kaltura-ui';
 import { ObjectUtils } from 'primeng/utils';
 import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
@@ -25,9 +25,9 @@ import {NG_VALUE_ACCESSOR, ControlValueAccessor} from '@angular/forms';
 // [kmcng] upon upgrade: Be patient and bring a big cup of coffee.... good luck!
 
 export interface SuggestionsProviderData{
-    suggestions : any[];
-    isLoading : boolean;
-    errorMessage? : string;
+    suggestions: any[];
+    isLoading: boolean;
+    errorMessage?: string;
 }
 
 /* tslint:disable */
@@ -47,29 +47,17 @@ export const KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
     styleUrls: [ './auto-complete.component.scss' ],
     templateUrl: './auto-complete.component.html',
     providers: [KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR],
-    animations: [
-      trigger('overlayAnimation', [
-        state('void', style({
-          transform: 'translateY(5%)',
-          opacity: 0
-        })),
-        state('visible', style({
-          transform: 'translateY(0)',
-          opacity: 1
-        })),
-        transition('void => visible', animate('225ms ease-out')),
-        transition('visible => void', animate('195ms ease-in'))
-      ])
-    ],
     host: {
-        '[class.ui-inputwrapper-filled]': 'filled',
-        '[class.ui-inputwrapper-focus]': 'focus'
+      '[class.p-inputwrapper-filled]': 'filled',
+      '[class.p-inputwrapper-focus]': 'focus && !disabled'
     },
+    changeDetection: ChangeDetectionStrategy.Default,
+    encapsulation: ViewEncapsulation.None,
     /* tslint:enable */
 })
 // [kmcng] upon upgrade: compare implemented interfaces in the original component (no need to include ControlValueAccessor)
 export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterViewChecked, AfterContentInit  {
-    private _suggestionsProvider$ : ISubscription = null;
+    private _suggestionsProvider$: ISubscription = null;
     public _loading = false;
     public _showNoItems = false;
     public _errorMessage = '';
@@ -79,13 +67,13 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     public overlayHovered = false;
 
     @Input()
-    onItemAdding : (value : any) => any;
+    onItemAdding: (value : any) => any;
 
     @Input()
-    limitToSuggestions : boolean = true;
+    limitToSuggestions: boolean = true;
 
     @Input()
-    suggestionSelectableField : string = '';
+    suggestionSelectableField: string = '';
 
     @Input()
     suggestionItemField : string = '';
