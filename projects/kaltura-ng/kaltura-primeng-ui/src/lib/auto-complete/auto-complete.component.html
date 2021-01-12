@@ -55,6 +55,7 @@
               <li *ngIf="_errorMessage" class="p-autocomplete-notification-item">{{ _errorMessage }}</li>
               <li role="option" *ngFor="let option of suggestions; let idx = index" class="p-autocomplete-item"
                   pRipple [ngClass]="{'p-highlight': (option === highlightOption)}"
+                  [class.kIsItemDisabled]="option | kIsSuggestionDisabled : suggestionSelectableField"
                   [id]="highlightOption == option ? 'p-highlighted-option':''" (click)="selectItem(option)">
                   <span *ngIf="!itemTemplate"
                         [innerHTML]="_getSuggestionText(option) | kHighlight : searchText"></span>

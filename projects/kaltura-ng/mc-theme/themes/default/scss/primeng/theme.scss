@@ -878,6 +878,10 @@ body .p-tieredmenu {
       &.p-highlight, &:hover {
         background-color: $kGrayscale7;
       }
+      &.kIsItemDisabled {
+        color: #999999;
+        cursor: default;
+      }
     }
   }
 }
@@ -957,58 +961,7 @@ ul.p-autocomplete-multiple-container{
     cursor: default;
   }
 }
-/*
 
-.p-autocomplete .p-autocomplete-panel {
-  .p-autocomplete-list-item {
-    min-height: 50px;
-    overflow: hidden;
-    border-left: none;
-    border-right: none;
-    border-bottom: 2px solid $kGrayscale5;
-    display: flex;
-    align-items: center;
-
-    &:last-child {
-      border-bottom: none;
-    }
-    &.ui-state-highlight, &:hover {
-      background-color: $kGrayscale7;
-    }
-  }
-  .p-autocomplete-notification-item
-  {
-    min-height: 50px;
-    border-left: none;
-    border-right: none;
-    display: flex;
-    align-items: center;
-
-    &.ui-state-highlight, &:hover {
-      background-color: transparent;
-      cursor: default;
-    }
-  }
-}
-
-.p-autocomplete-token-icon.pi-times{
-  flex: 0 0 auto;
-  margin-top: -10px;
-  right: 0px;
-  padding: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  &:hover{
-    background-color: rgba(255,255,255,0.3);
-    border: 0px solid rgba(255,255,255,0.3);
-    border-radius: 3px;
-  }
-}
-.p-autocomplete-token-label{
-  font-weight: bold;
-}
-
-*/
 // drop down
 .p-dropdown{
   border: 1px solid $kGrayscale4;
