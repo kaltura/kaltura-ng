@@ -902,6 +902,9 @@ body .p-tieredmenu {
     -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
     -moz-box-sizing: border-box; /* Firefox, other Gecko */
     box-sizing: border-box; /* Opera/IE 8+ */
+    &:disabled{
+      background-color: white;
+    }
   }
 }
 ul.p-autocomplete-multiple-container.p-inputtext{
@@ -909,6 +912,9 @@ ul.p-autocomplete-multiple-container.p-inputtext{
   height: auto;
   overflow: hidden;
   display: inline-block;
+  &.p-disabled {
+    opacity: 0.35;
+  }
 }
 ul.p-autocomplete-multiple-container{
   padding: 0;
