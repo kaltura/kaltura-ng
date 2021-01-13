@@ -51,7 +51,13 @@
     cursor: pointer;
   }
 
+  .ui-spinner-up {
+    position: absolute;
+    top: 0px;
+    z-index: 1;
+  }
   .ui-spinner-down {
-    margin-bottom: 5px;
+    position: absolute;
+    top: 12px;
   }
 }
