@@ -465,8 +465,12 @@ p-table {
   .p-menuitem-link{
     min-height: 32px;
     line-height: 1.5em;
-    padding-left: 12px;
     color: $kGrayscale1;
+    padding: .25em;
+    padding-left: 12px;
+    .p-menuitem-text {
+      line-height: 1.5em;
+    }
   }
   .p-menuitem .p-menuitem-link:hover{
     border-radius: 0px;
