@@ -4,17 +4,15 @@ import { SelectItem } from 'primeng/api/selectitem';
 @Component({
   selector: 'p-multiSelectItem',
   template: `
-    <li class="ui-multiselect-item ui-corner-all" (click)="onOptionClick($event)" (keydown)="onOptionKeydown($event)"
-        [attr.aria-label]="option.label"
-        [style.display]="visible ? 'block' : 'none'" [attr.tabindex]="option.disabled ? null : '0'" [ngStyle]="{'height': itemSize + 'px'}"
-        [ngClass]="{'ui-state-highlight': selected, 'ui-state-disabled': (option.disabled || (maxSelectionLimitReached && !selected))}">
-      <div class="ui-chkbox ui-widget">
-        <div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"
-             [ngClass]="{'ui-state-active': selected}">
-          <span class="ui-chkbox-icon ui-clickable" [ngClass]="{'pi pi-check': selected}"></span>
+    <li class="p-multiselect-item" (click)="onOptionClick($event)" (keydown)="onOptionKeydown($event)" [attr.aria-label]="option.label"
+        [attr.tabindex]="option.disabled ? null : '0'" [ngStyle]="{'height': itemSize + 'px'}" [style.display]="visible ? 'block' : 'none'"
+        [ngClass]="{'p-highlight': selected, 'p-disabled': (option.disabled || (maxSelectionLimitReached && !selected))}">
+      <div class="p-checkbox p-component">
+        <div class="p-checkbox-box" [ngClass]="{'p-highlight': selected}">
+          <span class="p-checkbox-icon" [ngClass]="{'pi pi-check': selected}"></span>
         </div>
       </div>
-      <label *ngIf="!template">{{option.label}}</label>
+      <span *ngIf="!template">{{option.label}}</span>
       <ng-container *ngTemplateOutlet="template; context: {$implicit: option}"></ng-container>
     </li>
   `

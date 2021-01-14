@@ -10,7 +10,7 @@
     .p-tree-toggler-icon.pi-chevron-right:before{
       content: $iconTreeArrowRightContent;
     }
-  .p-tree-toggler-icon.pi-chevron-down:before{
+    .p-tree-toggler-icon.pi-chevron-down:before{
       content: $iconTreeArrowDownContent;
     }
     .p-sortable-column-icon.fa-sort-asc:before{
@@ -43,7 +43,8 @@
       font-size: 12px;
       content: $iconCheckSmallContent;
     }
-    .p-checkbox-icon.pi.pi-minus:before{
+    .p-checkbox-icon.pi-minus:before{
+        font-family: 'kmcng-icon-pack' !important;
         content: $iconPartialSmallContent;
         font-size: 9px;
     }
