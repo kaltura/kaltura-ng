@@ -1003,13 +1003,8 @@ ul.p-autocomplete-multiple-container{
   &.p-highlight {
     font-weight: bold;
     color: #000000;
-    &:after{
-      font-family: 'kmcng-icon-pack';
-      content: $iconCheckSmallContent;
-      font-weight: normal;
-      float: right;
-      font-size: 12px;
-      padding-top: 2px;
+    i {
+      display: block !important;
     }
   }
 }
@@ -1020,6 +1015,7 @@ ul.p-autocomplete-multiple-container{
   min-width: 70px;
   font-size: 15px;
   width: 100%;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.3);
 }
 .p-dropdown-panel .p-dropdown-items-wrapper{
   overflow-x: hidden;
