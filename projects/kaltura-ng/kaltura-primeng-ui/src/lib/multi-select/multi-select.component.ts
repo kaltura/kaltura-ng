@@ -7,6 +7,7 @@ import {
   OnDestroy,
   Renderer2,
 } from '@angular/core';
+import { FilterService } from 'primeng/api';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MultiSelect } from 'primeng/multiselect';
@@ -56,8 +57,9 @@ export class MultiSelectComponent extends MultiSelect implements OnDestroy {
 
   constructor(public el: ElementRef,
               public renderer: Renderer2,
-              private _cd: ChangeDetectorRef) {
-    super(el, renderer, _cd);
+              public _cd: ChangeDetectorRef,
+              public filterService: FilterService) {
+    super(el, renderer, _cd, filterService);
   }
 
   ngOnDestroy() {
@@ -94,6 +96,6 @@ export class MultiSelectComponent extends MultiSelect implements OnDestroy {
   }
 
   public isPartiallyChecked(): boolean {
-    return !this.isAllChecked() && (this.value || []).length > 0;
+    return !this.allChecked && (this.value || []).length > 0;
   }
 }

@@ -61,10 +61,12 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     public _loading = false;
     public _showNoItems = false;
     public _errorMessage = '';
-    private _allowMultiple = false;
     public _placeholder = '';
     public ObjectUtils = ObjectUtils;
     public overlayHovered = false;
+
+    @Input()
+    allowMultiple = false;
 
     @Input()
     onItemAdding: (value : any) => any;
@@ -88,14 +90,6 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
 
     @Input()
     addOnPaste = true;
-
-    // @ts-ignore
-    get multiple() : boolean
-    {
-        // always return true to affect component ui of selected item.
-        // internally you should use _allowMultiple
-        return true;
-    }
 
     @Input() get suggestions(): any[] {
         return this._suggestions;
@@ -146,23 +140,6 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
                 }
             }
         }
-    }
-
-    // @ts-ignore
-    @Input() set placeholder(value : string)
-    {
-        // IE11 bug causing output event to fire upon input field blur event when there is a placeholder. Thus, we remove the placeholder attribute for IE11, single selection mode.
-        // Additional details: https://connect.microsoft.com/IE/feedback/details/810538/ie-11-fires-input-event-on-focus
-        const isIE11 = KalturaBrowserUtils.detectBrowser() === BrowserNames.IE11;
-        this._placeholder = isIE11 && !this._allowMultiple ? '' : value;
-    }
-    get placeholder(): string{
-        return this._placeholder;
-    }
-
-    @Input() set multiple(value : boolean)
-    {
-        this._allowMultiple = value;
     }
 
     @Input()
@@ -227,7 +204,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     }
 
      public getValue() : any {
-         if (this._allowMultiple) {
+         if (this.allowMultiple) {
              if (this.value instanceof Array) {
                  return this.value;
              } else {
@@ -347,9 +324,15 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
      * @param renderer
      * @param cd
      */
-    constructor(public el: ElementRef, public renderer: Renderer2, public cd: ChangeDetectorRef, public differs: IterableDiffers)
-    {
-        super(el, renderer, cd, differs);
+    constructor(public el: ElementRef, public renderer: Renderer2, public cd: ChangeDetectorRef, public differs: IterableDiffers) {
+      super(el, renderer, cd, differs);
+      // IE11 bug causing output event to fire upon input field blur event when there is a placeholder. Thus, we remove the placeholder attribute for IE11, single selection mode.
+      // Additional details: https://connect.microsoft.com/IE/feedback/details/810538/ie-11-fires-input-event-on-focus
+      const isIE11 = KalturaBrowserUtils.detectBrowser() === BrowserNames.IE11;
+      if (this.placeholder !== '' && isIE11  && !this.allowMultiple) {
+        this.placeholder = '';
+      }
+      this.multiple = true;
     }
 
 
@@ -381,7 +364,7 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
     }
 
     public onInput($event) : void{
-        if (!this._allowMultiple)
+        if (!this.allowMultiple)
         {
             this.value = null;
         }
