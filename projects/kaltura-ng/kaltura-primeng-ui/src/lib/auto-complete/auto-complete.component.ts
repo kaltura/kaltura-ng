@@ -303,16 +303,16 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
         }
     }
 
-    onInputBlur(event) {
-
-        this._addValueFromInput();
-
-        if (!this.overlayVisible) {
-            // primng fix: if the panel is not visible (!overlayVisible) and we currently leaving the input field clear input content
-            this._clearInputValue();
-        }
-        super.onInputBlur(event);
-    }
+    // onInputBlur(event) {
+    //
+    //     this._addValueFromInput();
+    //
+    //     if (!this.overlayVisible) {
+    //         // primng fix: if the panel is not visible (!overlayVisible) and we currently leaving the input field clear input content
+    //         this._clearInputValue();
+    //     }
+    //     super.onInputBlur(event);
+    // }
 
     /**
      * Consume the arguments needed to construct 'AutoComplete' and pass them to self (the 'AutoComplete' constructor).

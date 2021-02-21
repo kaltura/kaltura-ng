@@ -1,14 +1,24 @@
-:host ::ng-deep .ui-slider {
+:host ::ng-deep .p-slider {
   background-color: #cccccc;
   height: 6px;
   border: none;
-
-  .ui-slider-range {
+  border-radius: 3px;
+  font-size: 1em;
+  position: relative;
+  text-align: left;
+  .p-slider-range {
     background: #00a784;
     border: 2px solid #00a784;
+    border-radius: 3px;
+    display: block;
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    left: 0px;
+    font-size: 0.7em;
   }
 
-  .ui-slider-handle {
+  .p-slider-handle {
     top: -.3em;
     margin-left: -.6em;
     border-radius: 50%;
@@ -16,5 +26,8 @@
     height: 16px;
     width: 16px;
     box-shadow: 0 2px 8px 0 rgba(0,0,0,0.24);
+    position: absolute;
+    z-index: 1;
+    background-color: #ffffff;
   }
 }
