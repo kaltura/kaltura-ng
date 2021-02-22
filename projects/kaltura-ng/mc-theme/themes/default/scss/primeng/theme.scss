@@ -56,8 +56,6 @@ $inputTextColor: #333333;
 $invalidInputBorderColor: #cd0a0a;
 $inputGroupTextColor: #222222;
 
-@import './default-theme';
-
 /* input */
 .p-inputtext, .p-inputtext:enabled{
   background-color: white;
@@ -84,7 +82,7 @@ $inputGroupTextColor: #222222;
   color: $kGrayscale3;
   opacity: 0.35;
 }
-.p-inputtext.ui-state-focus, .p-inputtext:focus{
+.p-inputtext.p-focus, .p-inputtext:focus{
   box-shadow: none;
 }
 textarea.p-inputtext {
@@ -105,9 +103,10 @@ textarea.p-inputtext {
 }
 
 /* checkboxes */
-.p-checkbox, .p-datatable .ui-selection-column .p-checkbox{
+.p-checkbox, .p-datatable .p-selection-column .p-checkbox{
   width: 16px;
   height: 16px;
+  flex: 0 0 auto;
   border: 1px solid $kGrayscale4;
   border-radius: 3px;
   font-size: 10px;
@@ -131,12 +130,10 @@ textarea.p-inputtext {
 }
 .p-checkbox{
   margin-right: 6px;
-  width: 18px;
-  height: 18px;
   overflow: hidden;
   .p-checkbox-box {
-    width: 100%;
-    height: 100%;
+    width: 16px;
+    height: 16px;
     &.p-disabled {
       opacity: 0.35;
     }
@@ -165,7 +162,9 @@ textarea.p-inputtext {
 .p-radiobutton{
   margin-right: 6px;
 }
-
+.p-radiobutton-label {
+  line-height: 16px;
+}
 /* data table */
 p-table {
   .p-datatable-tbody > tr > td {
@@ -216,13 +215,13 @@ p-table {
     background-color: white;
     border-bottom: 1px solid $kGrayscale5;
   }
-  .p-datatable-thead > tr > th.ui-state-highlight {
+  .p-datatable-thead > tr > th.p-highlight {
     color: $kGrayscale1;
     p-sorticon{
       display: inline;
     }
   }
-  .p-datatable-thead > tr > th.ui-sortable-column {
+  .p-datatable-thead > tr > th.p-sortable-column {
     cursor: pointer;
   }
 
@@ -501,8 +500,8 @@ body .p-tieredmenu {
 .p-menu .p-menuitem-text {
   vertical-align: middle;
 }
-.ui-submenu{
-  .ui-submenu-list{
+.p-submenu{
+  .p-submenu-list{
     padding: 0px;
   }
 }
@@ -540,7 +539,7 @@ body .p-tieredmenu {
     }
   }
 }
-.p-paginator-header.ui-unselectable-text{
+.p-paginator-header.p-unselectable-text{
   background: transparent;
   border: none;
 }
@@ -570,7 +569,7 @@ body .p-tieredmenu {
   font-weight: 400;
   margin-right: 0px;
 }
-.p-paginator-rpp-options.ui-state-default{
+.p-paginator-rpp-options.p-default{
   border: none;
 }
 .p-paginator .p-paginator-page, .p-paginator .p-paginator-next, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-first, .p-paginator .p-paginator-last{
@@ -614,7 +613,7 @@ body .p-tieredmenu {
 .p-tree-wrapper {
   overflow: visible !important;
 }
-.p-treenode-label.ui-corner-all.ui-state-hover{
+.p-treenode-label.p-corner-all.p-hover{
   background-color: #ffffff;
 }
 .p-tree .p-tree-toggler{
@@ -790,9 +789,9 @@ body .p-tieredmenu {
     border: 0px solid $kPrimary;
     border-radius: 0px;
   }
-  .ui-state-default{
+  .p-default{
     color: $kGrayscale1;
-    &.ui-state-active{
+    &.p-active{
       color: white;
       padding-top: 7px;
       background: transparent;
@@ -831,8 +830,16 @@ body .p-tieredmenu {
     span{
       border: 0px solid white;
       text-align: center;
+      font-size: 14px;
+      font-weight: 700;
       &.p-disabled {
         opacity: 0.35;
+      }
+      &.p-highlight {
+        background-color: $kPrimary;
+        line-height: 29px;
+        padding-bottom: 1px;
+        color: white;
       }
     }
   }
@@ -1004,6 +1011,9 @@ ul.p-autocomplete-multiple-container{
   border: 1px solid $kGrayscale4;
   border-radius: 3px;
   width: 180px;
+  &.p-disabled {
+    opacity: 0.35;
+  }
 }
 .p-dropdown-trigger{
   cursor: pointer;
@@ -1137,7 +1147,10 @@ ul.p-autocomplete-multiple-container{
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding-left: 4px;
+    padding: 4px;
+    padding-bottom: 8px;
+    margin-bottom: 6px;
+    min-height: 32px;
   }
   .p-multiselect-items-wrapper {
     overflow: auto;
@@ -1209,7 +1222,7 @@ ul.p-autocomplete-multiple-container{
       color: $kGrayscale1;
       font-weight: 400;
       float: none;
-      .ui-button-text{
+      .p-button-text{
         padding-right: 2.1em;
       }
       &:hover {
@@ -1228,21 +1241,21 @@ ul.p-autocomplete-multiple-container{
 }
 
 // messages
-.ui-toast{
+.p-toast{
 
-  .ui-toast-summary{
+  .p-toast-summary{
     display: none;
   }
-  .ui-toast-icon-close.pi.pi-close{
+  .p-toast-icon-close.pi.pi-close{
     top: 9px;
     right: 9px;
     font-size: 14px;
   }
-  .ui-toast-icon-close.pi.pi-close:before{
+  .p-toast-icon-close.pi.pi-close:before{
     content: $iconCloseSmallContent;
   }
 
-  .ui-toast-icon {
+  .p-toast-icon {
     margin-left: 2px;
     margin-right: 14px;
     margin-top: 6px;
@@ -1256,31 +1269,31 @@ ul.p-autocomplete-multiple-container{
       content: $iconOpenContent;
     }
   }
-  .ui-toast-message-text-content{
+  .p-toast-message-text-content{
     line-height: 24px;
     padding: 0px;
     margin-left: 28px;
   }
-  .ui-toast-message-success{
+  .p-toast-message-success{
     background-color: $kSuccess;
     color: white;
   }
-  .ui-toast-message-error{
+  .p-toast-message-error{
     background-color: $kDandger;
     color: white;
   }
 }
 
 // spinner
-.ui-spinner{
+.p-spinner{
   height: 34px;
-  .ui-spinner-button{
+  .p-spinner-button{
     height: 16px;
   }
-  .ui-spinner-up{
+  .p-spinner-up{
     top: 1px;
   }
-  .ui-spinner-down{
+  .p-spinner-down{
     top: 17px;
   }
   .p-inputtext{
@@ -1473,7 +1486,7 @@ ul.p-autocomplete-multiple-container{
 }
 
 // list box
-.ui-listbox.p-inputtext{
+.p-listbox.p-inputtext{
   width: 100%;
 }
 
@@ -1554,21 +1567,21 @@ ul.p-autocomplete-multiple-container{
 
 /* ButtonSet */
 
-.ui-selectbutton.ui-buttonset{
+.p-selectbutton.p-buttonset{
   font-weight: bold;
   display: flex;
 
-  .p-button.ui-state-default {
+  .p-button.p-default {
     background: white;
     color: $kGrayscale3;
     border-left-width: 0;
   }
-  .p-button.ui-state-hover, .p-button.ui-state-focus, .p-button:focus {
+  .p-button.p-hover, .p-button.p-focus, .p-button:focus {
     background: white;
     color: $kGrayscale1;
   }
 
-  .p-button.ui-state-active {
+  .p-button.p-active {
     border: 1px solid $kPrimary;
     background: $kPrimary;
     color: white;
@@ -1599,7 +1612,7 @@ ul.p-autocomplete-multiple-container{
       border-bottom-right-radius: 3px;
     }
 
-    &:not(.ui-state-disabled):not(.ui-state-active):hover {
+    &:not(.p-disabled):not(.p-active):hover {
       background-color: $kGrayscale6;
     }
   }
