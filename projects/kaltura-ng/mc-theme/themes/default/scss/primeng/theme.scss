@@ -110,16 +110,29 @@ textarea.p-inputtext {
   border: 1px solid $kGrayscale4;
   border-radius: 3px;
   font-size: 10px;
-  .p-highlight {
-    background-color: $kPrimary;
-    border: 1px solid $kPrimary;
-    color: #ffffff;
+  position: relative;
+  &.p-checkbox-disabled {
+    opacity: 0.35;
+  }
+  .p-checkbox-box {
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    border: none;
+    flex: 0 0 auto;
+    &.p-highlight {
+      background-color: $kPrimary;
+      color: #ffffff;
+    }
   }
   .p-checkbox-icon{
     margin-left: 0px;
     margin-top: 0px;
     line-height: 14px;
   }
+}
+.p-checkbox {
+  margin-right: 6px;
 }
 .p-checkbox-label {
   font-size: 16px;
@@ -128,20 +141,7 @@ textarea.p-inputtext {
   color: $kGrayscale2;
   margin-left: 10px;
 }
-.p-checkbox{
-  margin-right: 6px;
-  overflow: hidden;
-  .p-checkbox-box {
-    width: 16px;
-    height: 16px;
-    &.p-disabled {
-      opacity: 0.35;
-    }
-  }
-}
-.p-checkbox:hover{
-  border: 1px solid $kGrayscale4;
-}
+
 /* radio buttons */
 .p-radiobutton-box{
   width: 1.125em;
@@ -161,6 +161,10 @@ textarea.p-inputtext {
 }
 .p-radiobutton{
   margin-right: 6px;
+  &.p-radiobutton-disabled {
+    cursor: default;
+    opacity: 0.35;
+  }
 }
 .p-radiobutton-label {
   line-height: 16px;
@@ -629,6 +633,7 @@ body .p-tieredmenu {
   background-color: $kPrimary;
   border: 0px solid $kPrimary;
   margin-top: 0px;
+  margin-left: 1px;
   line-height: 14px;
   border-radius: 3px;
   color: #ffffff;
