@@ -40,15 +40,15 @@
       <ul class="p-multiselect-items p-component" role="listbox" aria-multiselectable="true">
         <ng-container *ngIf="!virtualScroll; else virtualScrollList">
           <ng-template ngFor let-option let-i="index" [ngForOf]="optionsToRender">
-            <p-multiSelectItem [option]="option" [selected]="isSelected(option.value)" (onClick)="onOptionClick($event)" (onKeydown)="onOptionKeydown($event)"
-                               [maxSelectionLimitReached]="maxSelectionLimitReached" [template]="itemTemplate"></p-multiSelectItem>
+            <p-multiSelectItem [option]="option" [selected]="isSelected(option)" [label]="getOptionLabel(option)" [disabled]="isOptionDisabled(option)" (onClick)="onOptionClick($event)" (onKeydown)="onOptionKeydown($event)"
+                               [template]="itemTemplate"></p-multiSelectItem>
           </ng-template>
         </ng-container>
         <ng-template #virtualScrollList>
           <cdk-virtual-scroll-viewport #viewport [ngStyle]="{'height': scrollHeight}" [itemSize]="itemSize" *ngIf="virtualScroll && optionsToRender && optionsToRender.length">
             <ng-container *cdkVirtualFor="let option of optionsToRender; let i = index; let c = count; let f = first; let l = last; let e = even; let o = odd">
-              <p-multiSelectItem [option]="option" [selected]="isSelected(option.value)" (onClick)="onOptionClick($event)" (onKeydown)="onOptionKeydown($event)"
-                                 [maxSelectionLimitReached]="maxSelectionLimitReached" [template]="itemTemplate" [itemSize]="itemSize"></p-multiSelectItem>
+              <p-multiSelectItem [option]="option" [selected]="isSelected(option)" [label]="getOptionLabel(option)" [disabled]="isOptionDisabled(option)" (onClick)="onOptionClick($event)" (onKeydown)="onOptionKeydown($event)"
+                                 [template]="itemTemplate" [itemSize]="itemSize"></p-multiSelectItem>
             </ng-container>
           </cdk-virtual-scroll-viewport>
         </ng-template>

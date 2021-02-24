@@ -124,6 +124,9 @@ textarea.p-inputtext {
       background-color: $kPrimary;
       color: #ffffff;
     }
+    &.p-indeterminate {
+      background-color: $kPrimary;
+    }
   }
   .p-checkbox-icon{
     margin-left: 0px;
@@ -677,6 +680,7 @@ body .p-tieredmenu {
 
       &.pi-minus {
         padding-left: 1px;
+        margin-bottom: 2px;
         background-color: $kPrimary;
         border: 1px solid $kPrimary;
       }
