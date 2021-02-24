@@ -14,7 +14,8 @@
              [attr.aria-labelledby]="ariaLabelledBy" [attr.aria-required]="required"
       ><ul *ngIf="multiple" #multiContainer class="p-autocomplete-multiple-container p-component p-inputtext"
            [ngClass]="{'p-disabled':disabled,'p-focus':focus}" (click)="multiIn.focus()">
-          <li #token *ngFor="let val of value" class="p-autocomplete-token">
+            <li #token *ngFor="let val of value" [class]="'p-autocomplete-token ' + (classField && val ? val[classField] : '')"
+                [kTooltip]="val" [tooltipResolver]="tooltipResolver">
               <ng-container *ngTemplateOutlet="selectedItemTemplate; context: {$implicit: val}"></ng-container>
               <span *ngIf="!selectedItemTemplate"
                     class="p-autocomplete-token-label">{{resolveFieldData(val)}}</span>
@@ -47,7 +48,8 @@
       <div #panel [class.kHidden]="!overlayVisible" [ngClass]="['p-autocomplete-panel p-component']"
            [style.max-height]="scrollHeight" [ngStyle]="panelStyle" [class]="panelStyleClass"
            [@overlayAnimation]="{value: 'visible', params: {showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions}}"
-           (@overlayAnimation.start)="onOverlayAnimationStart($event)">
+           (@overlayAnimation.start)="onOverlayAnimationStart($event)"
+           (mouseenter)="overlayHovered=true" (mouseleave)="overlayHovered=false">
           <ul role="listbox" [attr.id]="listId" class="p-autocomplete-items">
               <li *ngIf="_loading" class="p-autocomplete-notification-item">Searching...</li>
               <li *ngIf="_showNoItems" class="p-autocomplete-notification-item">No Items Found...</li>
