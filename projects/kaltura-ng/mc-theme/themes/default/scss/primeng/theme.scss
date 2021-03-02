@@ -1157,8 +1157,6 @@ ul.p-autocomplete-multiple-container{
     flex-direction: row;
     align-items: center;
     padding: 4px;
-    padding-bottom: 8px;
-    margin-bottom: 6px;
     min-height: 32px;
   }
   .p-multiselect-items-wrapper {
@@ -1168,6 +1166,8 @@ ul.p-autocomplete-multiple-container{
     margin-bottom: 0;
     .p-multiselect-items {
       padding: 0;
+      margin-block-start: 0px;
+      margin-block-end: 0px;
       .p-multiselect-item {
         height: 40px;
         border: 0;
@@ -1251,37 +1251,37 @@ ul.p-autocomplete-multiple-container{
 
 // messages
 .p-toast{
-
+  width: 320px !important;
   .p-toast-summary{
     display: none;
   }
-  .p-toast-icon-close.pi.pi-close{
+  .p-toast-message-icon-close.pi.pi-close{
     top: 9px;
     right: 9px;
     font-size: 14px;
   }
-  .p-toast-icon-close.pi.pi-close:before{
+  .p-toast-message-icon-close.pi.pi-close:before{
     content: $iconCloseSmallContent;
   }
 
-  .p-toast-icon {
+  .p-toast-message-icon {
     margin-left: 2px;
     margin-right: 14px;
-    margin-top: 6px;
+    margin-top: 8px;
     font-size: 20px;
 
     &.pi-check:before{
       content: $iconCheckLargeContent;
     }
 
-    &.pi-minus:before{
-      content: $iconOpenContent;
+    &.pi-times-circle:before{
+      content: $iconErrorContent;
     }
   }
-  .p-toast-message-text-content{
-    line-height: 24px;
+  .p-toast-message-content {
+    line-height: 36px;
     padding: 0px;
-    margin-left: 28px;
+    margin-left: 12px;
   }
   .p-toast-message-success{
     background-color: $kSuccess;
