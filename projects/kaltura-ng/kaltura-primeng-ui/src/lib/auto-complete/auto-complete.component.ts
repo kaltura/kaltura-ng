@@ -15,7 +15,7 @@ import {
   HostListener, AfterContentInit, ChangeDetectionStrategy, ViewEncapsulation
 } from '@angular/core';
 import {trigger, state, style, transition, animate, AnimationEvent} from '@angular/animations';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 import {ISubscription} from 'rxjs/Subscription';
 import {AutoComplete as PrimeAutoComplete, AUTOCOMPLETE_VALUE_ACCESSOR} from 'primeng/autocomplete';
 import {KalturaBrowserUtils, BrowserNames} from '@kaltura-ng/kaltura-ui';
