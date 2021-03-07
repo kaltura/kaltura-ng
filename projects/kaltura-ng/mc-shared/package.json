@@ -51,10 +51,5 @@
     "@ngx-translate/core": "^11.0.1",
     "primeng": "^9.0.6",
     "seamless-immutable": "^7.1.4"
-  },
-  "dependencies": {
-    "@kaltura-ng/kaltura-common": "8.0.0",
-    "@kaltura-ng/kaltura-logger": "4.0.0",
-    "@kaltura-ng/kaltura-ui": "8.0.2"
   }
 }
