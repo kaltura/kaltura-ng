@@ -1,4 +1,13 @@
 # Change Log
+<a name="7.0.3"></a>
+## [7.0.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@7.0.2...7.0.3) (2021-03-07)
+
+
+### Bug Fixes
+
+* reformat code ([dfc6520](https://github.com/kaltura/kaltura-ng/commit/dfc6520))
+
+
 <a name="7.0.2"></a>
 ## [7.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@7.0.1...7.0.2) (2021-03-07)
 
