@@ -92,7 +92,6 @@ export class KalturaLogger implements OnDestroy {
       const getLevelValue = JL[`get${options.level}Level`];
       level = typeof getLevelValue === 'function' ? getLevelValue() : undefined;
     }
-
     JL().setOptions({level: level});
   }
 
