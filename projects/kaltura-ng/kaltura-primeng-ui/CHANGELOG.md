@@ -1,4 +1,11 @@
 # Change Log
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@4.0.2...5.0.0) (2021-03-07)
+
+* update Angular to 11.1.1
+* update PrimeNG to 11.2.0
+
+
 <a name="4.0.2"></a>
 ## [4.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@4.0.1...4.0.2) (2020-12-07)
 

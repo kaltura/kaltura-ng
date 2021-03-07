@@ -1,6 +1,6 @@
 {
   "name": "@kaltura-ng/kaltura-ui",
-  "version": "8.0.2",
+  "version": "9.0.0",
   "private": false,
   "description": "Angular - Kaltura UI directives, pipes and services",
   "scripts": {
@@ -47,7 +47,7 @@
     "rxjs": "^6.5.3",
     "rxjs-compat": "^6.5.3",
     "@angular/forms": "^8.2.6",
-    "@kaltura-ng/kaltura-common": "8.0.0",
+    "@kaltura-ng/kaltura-common": "9.0.0",
     "jquery": "~3.5.0",
     "moment": "^2.24.0"
   }

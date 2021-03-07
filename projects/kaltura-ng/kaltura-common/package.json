@@ -1,6 +1,6 @@
 {
   "name": "@kaltura-ng/kaltura-common",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "private": false,
   "description": "Angular - commonly needed services within Kaltura projects",
   "scripts": {

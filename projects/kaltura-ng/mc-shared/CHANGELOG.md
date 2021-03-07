@@ -1,4 +1,10 @@
 # Change Log
+<a name="7.0.0"></a>
+# [7.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@6.0.2...7.0.0) (2021-03-07)
+
+* update Angular to 11.1.1
+
+
 <a name="6.0.2"></a>
 ## [6.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@6.0.1...6.0.2) (2020-12-07)
 

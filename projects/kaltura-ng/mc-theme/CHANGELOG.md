@@ -1,4 +1,10 @@
 # Change Log
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@4.0.3...5.0.0) (2021-03-07)
+
+* update Angular to 11.1.1
+
+
 <a name="4.0.3"></a>
 ## [4.0.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@4.0.2...4.0.3) (2020-07-13)
 

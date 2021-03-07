@@ -1,4 +1,10 @@
 # Change Log
+<a name="9.0.0"></a>
+# [9.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@8.0.2...9.0.0) (2021-03-07)
+
+* update Angular to 11.1.1
+
+
 <a name="8.0.2"></a>
 ## [8.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@8.0.1...8.0.2) (2020-12-07)
 
