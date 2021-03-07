@@ -1,4 +1,13 @@
 # Change Log
+<a name="9.0.1"></a>
+## [9.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@9.0.0...9.0.1) (2021-03-07)
+
+
+### Bug Fixes
+
+* update readme ([f64e9bf](https://github.com/kaltura/kaltura-ng/commit/f64e9bf))
+
+
 <a name="9.0.0"></a>
 # [9.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-common@8.0.0...9.0.0) (2021-03-07)
 
