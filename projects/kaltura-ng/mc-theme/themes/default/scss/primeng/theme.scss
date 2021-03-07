@@ -480,6 +480,9 @@ p-table {
     .p-menuitem-text {
       line-height: 1.5em;
     }
+    &.p-disabled {
+      opacity: 0.35;
+    }
   }
   .p-menuitem .p-menuitem-link:hover{
     border-radius: 0px;
