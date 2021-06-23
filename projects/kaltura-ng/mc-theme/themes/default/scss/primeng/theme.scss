@@ -164,6 +164,7 @@ textarea.p-inputtext {
 }
 .p-radiobutton{
   margin-right: 6px;
+  display: block;
   &.p-radiobutton-disabled {
     cursor: default;
     opacity: 0.35;
