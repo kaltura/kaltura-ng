@@ -12,7 +12,7 @@ import {
   Output,
   EventEmitter,
   ViewChild,
-  HostListener, AfterContentInit, ChangeDetectionStrategy, ViewEncapsulation
+  HostListener, AfterContentInit, ChangeDetectionStrategy, ViewEncapsulation, OnInit
 } from '@angular/core';
 import {trigger, state, style, transition, animate, AnimationEvent} from '@angular/animations';
 import {Observable} from 'rxjs';
@@ -56,7 +56,7 @@ export const KALTURA_AUTOCOMPLETE_VALUE_ACCESSOR: any = {
   /* tslint:enable */
 })
 // [kmcng] upon upgrade: compare implemented interfaces in the original component (no need to include ControlValueAccessor)
-export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterViewChecked, AfterContentInit {
+export class AutoComplete extends PrimeAutoComplete implements OnDestroy, OnInit, AfterViewChecked, AfterContentInit {
   private _suggestionsProvider$: ISubscription = null;
   public _loading = false;
   public _showNoItems = false;
@@ -309,13 +309,16 @@ export class AutoComplete extends PrimeAutoComplete implements OnDestroy, AfterV
    */
   constructor(public el: ElementRef, public renderer: Renderer2, public cd: ChangeDetectorRef, public differs: IterableDiffers) {
     super(el, renderer, cd, differs);
+    this.multiple = true;
+  }
+
+  ngOnInit() {
     // IE11 bug causing output event to fire upon input field blur event when there is a placeholder. Thus, we remove the placeholder attribute for IE11, single selection mode.
     // Additional details: https://connect.microsoft.com/IE/feedback/details/810538/ie-11-fires-input-event-on-focus
     const isIE11 = KalturaBrowserUtils.detectBrowser() === BrowserNames.IE11;
     if (this.placeholder !== '' && isIE11 && !this.allowMultiple) {
       this.placeholder = '';
     }
-    this.multiple = true;
   }
 
 
