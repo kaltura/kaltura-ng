@@ -406,7 +406,7 @@ p-table {
     background: darken($kPrimary, 10%);
   }
   &:active {
-    box-shadow: 0 0 0 3px rgba(0,167,132,0.4);
+    box-shadow: 0 0 0 3px rgba($kPrimary,0.4);
   }
   &:disabled {
     opacity: 1;
@@ -430,7 +430,7 @@ p-table {
     border: 1px solid $kPrimary;
   }
   &:active:not(:disabled){
-    box-shadow: 0 0 0 3px rgba(0,167,132,0.4);
+    box-shadow: 0 0 0 3px rgba($kPrimary,0.4);
   }
   &:disabled{
     color: $kGrayscale4;
@@ -982,8 +982,8 @@ ul.p-autocomplete-multiple-container{
     margin-right: 6px;
     margin-bottom: 4px;
     height: 24px;
-    border: 0 solid #00a784;
-    background-color: #00a784;
+    border: 0 solid $kPrimary;
+    background-color: $kPrimary;
     border-radius: 3px;
     color: #fff;
     padding-top: 3px;
@@ -991,7 +991,7 @@ ul.p-autocomplete-multiple-container{
       font-weight: 700;
     }
     &:hover {
-      background-color: #00745c;
+      background-color: darken($kPrimary, 20%);
     }
     .p-autocomplete-token-icon {
       margin-left: 8px;
@@ -1042,7 +1042,7 @@ ul.p-autocomplete-multiple-container{
   padding: 0 .25em;
 }
 .p-dropdown:active{
-  box-shadow: 0 0 0 1px rgba(0,167,132,0.4);
+  box-shadow: 0 0 0 1px rgba($kPrimary,0.4);
 }
 .p-dropdown:not(.p-disabled):hover{
   border-color: $kPrimary;
@@ -1193,7 +1193,7 @@ ul.p-autocomplete-multiple-container{
 }
 .p-multiselect:not(.p-disabled) .p-multiselect-label-container:active{
   border-radius: 3px;
-  box-shadow: 0 0 0 3px rgba(0,167,132,0.4);
+  box-shadow: 0 0 0 3px rgba($kPrimary,0.4);
 }
 .p-multiselect:not(.p-disabled):hover{
   border-color: $kPrimary;
@@ -1246,7 +1246,7 @@ ul.p-autocomplete-multiple-container{
         border: 1px solid $kPrimary;
       }
       &:active {
-        box-shadow: 0 0 0 3px rgba(0,167,132,0.4);
+        box-shadow: 0 0 0 3px rgba($kPrimary,0.4);
       }
       -webkit-transition: all 100ms ease-in-out;
       -moz-transition: all 100ms ease-in-out;
@@ -1492,7 +1492,7 @@ ul.p-autocomplete-multiple-container{
       border: 1px solid $kPrimary;
     }
     &:active {
-      box-shadow: 0 0 0 3px rgba(0,167,132,0.4);
+      box-shadow: 0 0 0 3px rgba($kPrimary,0.4);
     }
     -webkit-transition: all 100ms ease-in-out;
     -moz-transition: all 100ms ease-in-out;
@@ -1676,7 +1676,7 @@ ul.p-autocomplete-multiple-container{
     margin-bottom: 3px;
     margin-top: 3px;
     &:hover {
-      background-color: darken(#00A784, 10%);
+      background-color: darken($kPrimary, 10%);
     }
     .p-chips-token-label{
       font-weight: bold;
