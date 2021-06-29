@@ -1,3 +1,5 @@
+@import "../../styles/scss/theme";
+
 :host{
     width: 100%;
 }
@@ -32,7 +34,7 @@
     text-decoration: underline;
     cursor: pointer;
     &:hover{
-        color: #00A784;
+        color: $kPrimary;
     }
 }
 .kMoreTagsBtn{

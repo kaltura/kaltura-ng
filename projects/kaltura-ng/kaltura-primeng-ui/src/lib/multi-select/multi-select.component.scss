@@ -1,8 +1,10 @@
+@import "../../styles/scss/theme";
+
 // TODO this style is not applied - find out why
 :host ::ng-deep .p-multiselect-panel {
   .pi-minus {
-    background-color: #00a784;
-    border: 1px solid #00a784;
+    background-color: $kPrimary;
+    border: 1px solid $kPrimary;
     color: #ffffff;
     width: 16px;
     height: 16px;
