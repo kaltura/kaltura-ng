@@ -113,8 +113,8 @@ textarea.p-inputtext {
     opacity: 0.35;
   }
   .p-checkbox-box {
-    width: 14px;
-    height: 14px;
+    width: 16px;
+    height: 16px;
     position: absolute;
     border: 1px solid $kGrayscale4;
     border-radius: 3px;
@@ -235,6 +235,10 @@ p-table {
 
   .p-datatable-sort-icon {
     vertical-align: initial;
+  }
+
+  .p-sortable-column-icon {
+    vertical-align: initial !important;
   }
 
   .p-datatable-tbody > tr > td {
@@ -638,9 +642,9 @@ body .p-tieredmenu {
 }
 .p-tree .p-checkbox .p-checkbox-icon{
   background-color: $kPrimary;
-  border: 0px solid $kPrimary;
+  border: 1px solid $kGrayscale4;
   margin-top: 0px;
-  margin-left: 1px;
+  padding-left: 2px;
   line-height: 14px;
   border-radius: 3px;
   color: #ffffff;
