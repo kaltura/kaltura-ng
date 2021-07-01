@@ -3,9 +3,9 @@ import {
     QueryList, Renderer2, TemplateRef, ViewChild
 } from '@angular/core';
 import {ColumnComponent} from './column.component';
-import {Observable} from 'rxjs/Observable';
+import {Observable, fromEvent} from 'rxjs';
 import {Subscription} from 'rxjs/Subscription';
-import "rxjs/add/operator/delay";
+import { delay } from 'rxjs/operators';
 
 const Events = {
     MOUSE_UP: 'mouseup',
@@ -69,12 +69,12 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
         this._orderItems();
         this.draggable = this.draggableElement.nativeElement;
         this.tableBodyElement = this.tableBody.nativeElement;
-        this.mouseMove = Observable.fromEvent(document, Events.MOUSE_MOVE).delay(50);
+        this.mouseMove = fromEvent(document, Events.MOUSE_MOVE).pipe(delay(50));
 
         // cover non-permitted dragging/dropping:
-        Observable.fromEvent(document, Events.MOUSE_UP).subscribe(() => this.onMouseUp());
-        Observable.fromEvent(this.tableBody.nativeElement, Events.MOUSE_LEAVE).subscribe(() => this._onMouseLeave());
-        Observable.fromEvent(this.tableBody.nativeElement, Events.MOUSE_ENTER).subscribe(() => this._onMouseEnter());
+        fromEvent(document, Events.MOUSE_UP).subscribe(() => this.onMouseUp());
+        fromEvent(this.tableBody.nativeElement, Events.MOUSE_LEAVE).subscribe(() => this._onMouseLeave());
+        fromEvent(this.tableBody.nativeElement, Events.MOUSE_ENTER).subscribe(() => this._onMouseEnter());
     }
 
     ngAfterContentInit(): void {

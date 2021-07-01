@@ -19,7 +19,7 @@ import { LocalizationPipe } from './localization.pipe';
 	]
 })
 export class LocalizationModule {
-	static forRoot(): ModuleWithProviders {
+	static forRoot(): ModuleWithProviders<LocalizationModule> {
 		return {
 			ngModule: LocalizationModule,
 			providers: [

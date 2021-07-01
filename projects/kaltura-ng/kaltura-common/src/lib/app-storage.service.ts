@@ -12,6 +12,7 @@ export interface IAppStorage {
 
 export const APP_STORAGE_TOKEN: InjectionToken<IAppStorage> = new InjectionToken<IAppStorage>('APP_STORAGE_TOKEN');
 
+
 export class AppStorage implements IAppStorage{
     private storage : any = {};
 

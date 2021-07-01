@@ -1,3 +1,5 @@
+@import "../../styles/scss/theme";
+
 .kDetailInfo {
     display: flex;
     line-height: 26px;
@@ -25,14 +27,14 @@
     }
     .link {
         font-size: 15px;
-        color: #1B4A97;
+        color: $kPrimary;
         text-decoration: underline;
         cursor: pointer;
         &:hover {
-            color: darken(#1B4A97, 10%);
+            color: darken($kPrimary, 10%);
         }
         &:active {
-            color: #1B4A97;
+            color: $kPrimary;
         }
         &:disabled {
             cursor: none;

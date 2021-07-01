@@ -32,6 +32,6 @@ export class TieredDropdownSubComponent extends TieredMenuSub {
   _isItemSelected: boolean;
 
   selectItem(event, item, menuItem) {
-    super.itemClick(event, item, menuItem);
+    super.onItemClick(event, item);
   }
 }

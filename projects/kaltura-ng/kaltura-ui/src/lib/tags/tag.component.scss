@@ -1,10 +1,12 @@
+@import "../../styles/scss/theme";
+
 :host{
 	display: table-cell;
 }
 .kTag{
   display: table-cell;
   height: 24px;
-  background-color: #00A784;
+  background-color: $kPrimary;
   border-radius: 3px;
   color: #ffffff;
   font-size: 14px;

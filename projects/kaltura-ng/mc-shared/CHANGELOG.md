@@ -1,4 +1,49 @@
 # Change Log
+<a name="7.0.5"></a>
+## [7.0.5](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@7.0.4...7.0.5) (2021-07-01)
+
+
+### Bug Fixes
+
+* **copy-to-clipboard:** copying in IE11 gets error ([#194](https://github.com/kaltura/kaltura-ng/issues/194)) ([77e6cf1](https://github.com/kaltura/kaltura-ng/commit/77e6cf1))
+
+
+<a name="7.0.4"></a>
+## [7.0.4](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@7.0.3...7.0.4) (2021-03-07)
+
+
+### Bug Fixes
+
+* reformat code ([b7569df](https://github.com/kaltura/kaltura-ng/commit/b7569df))
+
+
+<a name="7.0.3"></a>
+## [7.0.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@7.0.2...7.0.3) (2021-03-07)
+
+
+### Bug Fixes
+
+* reformat code ([dfc6520](https://github.com/kaltura/kaltura-ng/commit/dfc6520))
+
+
+<a name="7.0.2"></a>
+## [7.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@7.0.1...7.0.2) (2021-03-07)
+
+* update dependent libraries versions
+
+
+<a name="7.0.1"></a>
+## [7.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@7.0.0...7.0.1) (2021-03-07)
+
+* update dependent libraries versions
+
+
+<a name="7.0.0"></a>
+# [7.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@6.0.2...7.0.0) (2021-03-07)
+
+* update Angular to 11.1.1
+
+
 <a name="6.0.2"></a>
 ## [6.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@6.0.1...6.0.2) (2020-12-07)
 

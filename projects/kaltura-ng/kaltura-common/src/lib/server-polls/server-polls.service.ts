@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 import { Subscriber } from 'rxjs/Subscriber';
 import { FriendlyHashId } from '../friendly-hash-id';
 import { ISubscription } from 'rxjs/Subscription';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { EmptyLogger, KalturaLogger } from '../kaltura-logger';
 import { Optional } from '@angular/core';
 

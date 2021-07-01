@@ -13,10 +13,10 @@ import {
   ViewChild
 } from '@angular/core';
 import { ColumnComponent } from './column.component';
-import { Subscription } from 'rxjs/Subscription';
-import 'rxjs/add/operator/delay';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/fromEvent';
+import { ISubscription } from 'rxjs/Subscription';
+import { delay } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { fromEvent } from 'rxjs';
 
 const sortingFunction = (a, b) => {
   if (a === b)
@@ -67,7 +67,7 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
 
   selectedIndexes: number[] = [];
 
-  mouseMoveSubscription: Subscription;
+  mouseMoveSubscription: ISubscription;
 
   mouseMove: Observable<any>;
 
@@ -140,12 +140,12 @@ export class DraggableDataTableComponent implements AfterContentInit, OnInit {
     this._orderItems();
     this.draggable = this.draggableElement.nativeElement;
     this.tableBodyElement = this.tableBody.nativeElement;
-    this.mouseMove = Observable.fromEvent(document, Events.MOUSE_MOVE).delay(50);
+    this.mouseMove = fromEvent(document, Events.MOUSE_MOVE).pipe(delay(50));
 
     // cover non-permitted dragging/dropping:
-    Observable.fromEvent(document, Events.MOUSE_UP).subscribe(() => this.onMouseUp());
-    Observable.fromEvent(this.tableBody.nativeElement, Events.MOUSE_LEAVE).subscribe(() => this._onMouseLeave());
-    Observable.fromEvent(this.tableBody.nativeElement, Events.MOUSE_ENTER).subscribe(() => this._onMouseEnter());
+    fromEvent(document, Events.MOUSE_UP).subscribe(() => this.onMouseUp());
+    fromEvent(this.tableBody.nativeElement, Events.MOUSE_LEAVE).subscribe(() => this._onMouseLeave());
+    fromEvent(this.tableBody.nativeElement, Events.MOUSE_ENTER).subscribe(() => this._onMouseEnter());
   }
 
   ngAfterContentInit(): void {
