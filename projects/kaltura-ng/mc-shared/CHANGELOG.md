@@ -1,4 +1,13 @@
 # Change Log
+<a name="7.0.5"></a>
+## [7.0.5](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@7.0.4...7.0.5) (2021-07-01)
+
+
+### Bug Fixes
+
+* **copy-to-clipboard:** copying in IE11 gets error ([#194](https://github.com/kaltura/kaltura-ng/issues/194)) ([77e6cf1](https://github.com/kaltura/kaltura-ng/commit/77e6cf1))
+
+
 <a name="7.0.4"></a>
 ## [7.0.4](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@7.0.3...7.0.4) (2021-03-07)
 
