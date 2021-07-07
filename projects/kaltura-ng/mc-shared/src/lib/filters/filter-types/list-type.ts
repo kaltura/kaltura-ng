@@ -13,7 +13,7 @@ export class ListTypeAdapter<T> extends TypeAdapterBase<T[]> {
             return true;
         } else {
 
-            let result = true;
+            let result = false;
             for (let value of currentValue) {
 
                 // using indexOf for now as we don't expect big arrays.
@@ -21,7 +21,7 @@ export class ListTypeAdapter<T> extends TypeAdapterBase<T[]> {
                 // to hashmaps first and use them for comparison.
 
                 if (previousValue.indexOf(value) === -1) {
-                    result = false;
+                    result = true;
                     break;
                 }
             }
