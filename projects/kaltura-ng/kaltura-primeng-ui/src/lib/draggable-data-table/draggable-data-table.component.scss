@@ -1,3 +1,5 @@
+@import "../../styles/scss/theme";
+
 table {
 
   width: 100%;
@@ -114,7 +116,7 @@ table {
   z-index: 1;
   width: 20px;
   height: 20px;
-  background: #00a784;
+  background: $kPrimary;
   display: block;
   border-radius: 10px;
   color: white;

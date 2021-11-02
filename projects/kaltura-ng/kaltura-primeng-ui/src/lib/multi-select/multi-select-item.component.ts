@@ -1,39 +1,35 @@
-import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
-import { SelectItem } from 'primeng/api/selectitem';
+import {Component, EventEmitter, Input, Output, TemplateRef, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'p-multiSelectItem',
   template: `
-    <li class="ui-multiselect-item ui-corner-all" (click)="onOptionClick($event)" (keydown)="onOptionKeydown($event)"
-        [attr.aria-label]="option.label"
-        [style.display]="visible ? 'block' : 'none'" [attr.tabindex]="option.disabled ? null : '0'" [ngStyle]="{'height': itemSize + 'px'}"
-        [ngClass]="{'ui-state-highlight': selected, 'ui-state-disabled': (option.disabled || (maxSelectionLimitReached && !selected))}">
-      <div class="ui-chkbox ui-widget">
-        <div class="ui-chkbox-box ui-widget ui-corner-all ui-state-default"
-             [ngClass]="{'ui-state-active': selected}">
-          <span class="ui-chkbox-icon ui-clickable" [ngClass]="{'pi pi-check': selected}"></span>
+    <li class="p-multiselect-item" (click)="onOptionClick($event)" (keydown)="onOptionKeydown($event)" [attr.aria-label]="label"
+        [attr.tabindex]="disabled ? null : '0'" [ngStyle]="{'height': itemSize + 'px'}"
+        [ngClass]="{'p-highlight': selected, 'p-disabled': disabled}" pRipple>
+      <div class="p-checkbox p-component">
+        <div class="p-checkbox-box" [ngClass]="{'p-highlight': selected}">
+          <span class="p-checkbox-icon" [ngClass]="{'pi pi-check': selected}"></span>
         </div>
       </div>
-      <label *ngIf="!template">{{option.label}}</label>
+      <span *ngIf="!template">{{label}}</span>
       <ng-container *ngTemplateOutlet="template; context: {$implicit: option}"></ng-container>
     </li>
-  `
+  `,
+  encapsulation: ViewEncapsulation.None
 })
 export class MultiSelectItem {
 
-  @Input() option: SelectItem;
+  @Input() option: any;
 
   @Input() selected: boolean;
 
-  @Input() disabled: boolean;
+  @Input() label: any;
 
-  @Input() visible: boolean;
+  @Input() disabled: boolean;
 
   @Input() itemSize: number;
 
   @Input() template: TemplateRef<any>;
-
-  @Input() maxSelectionLimitReached: boolean;
 
   @Output() onClick: EventEmitter<any> = new EventEmitter();
 

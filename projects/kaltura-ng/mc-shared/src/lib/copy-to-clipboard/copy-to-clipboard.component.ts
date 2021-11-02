@@ -52,12 +52,10 @@ export class CopyToClipboardComponent implements OnInit {
 
   private _copyElement(el: HTMLInputElement): 'success' | 'failure' {
     try {
-      if (document.body['createTextRange']) {
+      if (window['clipboardData']) {
         // IE
-        const textRange = document.body['createTextRange']();
-        textRange.moveToElementText(el);
-        textRange.select();
-        textRange.execCommand('Copy');
+        window['clipboardData'].clearData();
+        window['clipboardData'].setData('Text', el.value);
         return 'success';
       } else if (window.getSelection && document.createRange) {
         // non-IE

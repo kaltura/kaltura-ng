@@ -1,11 +1,8 @@
-import { OnDestroy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/forkJoin';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/share';
-import 'rxjs/add/operator/map';
-
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import {Directive, OnDestroy} from '@angular/core';
+import { Observable } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
+import { flatMap, map, catchError } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 import { WidgetBase } from './widget-base';
 import { WidgetState } from './widget-state';
 import { KalturaLogger, EmptyLogger } from '@kaltura-ng/kaltura-common';
@@ -22,6 +19,7 @@ export enum OnDataSavingReasons
     buildRequestFailure
 }
 
+@Directive()
 export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsManagerBase<TData, TRequest>, OnDestroy {
     private _widgets: WidgetBase<this, TData, TRequest>[] = [];
     private _widgetsState: BehaviorSubject<FormWidgetsState> = new BehaviorSubject<FormWidgetsState>({});
@@ -123,31 +121,31 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
         return {errors};
     }
 
-    public notifyDataSaving(newData: TData, request: TRequest, originalData: TData): Observable<{ ready: boolean, reason?: OnDataSavingReasons, errors?: Error[] }> {
+    public notifyDataSaving(newData: TData, request: TRequest, originalData: TData): Observable<{ ready?: boolean, reason?: OnDataSavingReasons, errors?: Error[] }> {
 
         this._logger.info(`[widgets manager] notify data saving.`);
 
         const isAttachedWidgetBusy = !!this._widgets.find(widget => widget.isAttached && widget.isBusy);
 
-        return Observable.of(isAttachedWidgetBusy ?
+        return of(isAttachedWidgetBusy ?
             {
                 ready: false,
                 reason: OnDataSavingReasons.attachedWidgetBusy
             } : {ready: true} )
             .pipe(cancelOnDestroy(this))
-            .flatMap(response => {
+            .pipe(flatMap(response => {
                 if (response.ready) {
                     return this._validateWidgets()
-                        .catch((error, caught) => Observable.of({isValid: false}))
-                        .map(response => response.isValid ? {ready: true} : {
+                        .pipe(catchError((error, caught) => of({isValid: false})))
+                        .pipe(map(response => response.isValid ? {ready: true} : {
                             ready: false,
                             reason: OnDataSavingReasons.validationErrors
-                        });
+                        }));
                 } else {
-                    return Observable.of(response);
+                    return of(response);
                 }
-            })
-            .map(response => {
+            }))
+            .pipe(map(response => {
                 if (response.ready) {
                     const saveContent = this._widgetsOnDataSaving(newData, request, originalData);
 
@@ -164,7 +162,7 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
                 } else {
                     return response;
                 }
-            });
+            }));
     }
 
     private _validateWidgets(): Observable<{ isValid: boolean }> {
@@ -172,15 +170,15 @@ export abstract class WidgetsManagerBase<TData, TRequest> implements WidgetsMana
         const widgetsResults = widgets.map(widget => {
             return widget._validate()
                 .pipe(cancelOnDestroy(this))
-                .catch((err, caught) => Observable.of({isValid: false}));
+                .pipe(catchError((err, caught) => of({isValid: false})));
         });
 
         if (widgetsResults.length) {
-            return Observable.forkJoin(...widgetsResults).map(responses => {
+            return forkJoin(...widgetsResults).pipe(map(responses => {
                 return responses.find(response => !response.isValid) || {isValid: true};
-            });
+            }));
         } else {
-            return Observable.of({isValid: true});
+            return of({isValid: true});
         }
     }
 

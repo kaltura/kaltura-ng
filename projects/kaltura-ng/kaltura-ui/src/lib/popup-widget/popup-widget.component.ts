@@ -12,11 +12,10 @@ import {
   Renderer2,
   HostBinding
 } from "@angular/core";
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ISubscription } from 'rxjs/Subscription';
 import { PopupWidgetLayout } from './popup-widget-layout';
-import 'rxjs/add/observable/fromEvent';
 import { cancelOnDestroy } from '@kaltura-ng/kaltura-common';
 
 export const PopupWidgetStates = {

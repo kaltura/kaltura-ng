@@ -1,4 +1,20 @@
 # Change Log
+<a name="5.0.1"></a>
+## [5.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@5.0.0...5.0.1) (2021-03-07)
+
+
+### Bug Fixes
+
+* reformat code ([b08640e](https://github.com/kaltura/kaltura-ng/commit/b08640e))
+* update readme ([f64e9bf](https://github.com/kaltura/kaltura-ng/commit/f64e9bf))
+
+
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@4.0.0...5.0.0) (2021-03-07)
+
+* update Angular to 11.1.1 
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-logger@3.1.0...4.0.0) (2020-05-10)
 

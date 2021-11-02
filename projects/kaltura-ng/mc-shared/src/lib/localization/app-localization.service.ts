@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable, throwError } from 'rxjs';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -52,7 +52,7 @@ export class AppLocalization {
                     },0);
                 },
                 () => {
-                    Observable.throw(new Error("Loading localization file failed. Language = " + this.selectedLanguage));
+                    throwError(new Error("Loading localization file failed. Language = " + this.selectedLanguage));
                 }
             );
         });

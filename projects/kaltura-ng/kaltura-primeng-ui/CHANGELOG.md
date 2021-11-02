@@ -1,4 +1,32 @@
 # Change Log
+<a name="5.0.3"></a>
+## [5.0.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@5.0.2...5.0.3) (2021-07-01)
+
+
+### Bug Fixes
+
+* **autocomplete:** remove placeholder for not multiple on IE11 ([#195](https://github.com/kaltura/kaltura-ng/issues/195)) ([bfcd095](https://github.com/kaltura/kaltura-ng/commit/bfcd095))
+
+
+<a name="5.0.2"></a>
+## [5.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@5.0.1...5.0.2) (2021-03-07)
+
+* update dependent libraries versions
+
+
+<a name="5.0.1"></a>
+## [5.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@5.0.0...5.0.1) (2021-03-07)
+
+* update dependent libraries versions
+
+
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@4.0.2...5.0.0) (2021-03-07)
+
+* update Angular to 11.1.1
+* update PrimeNG to 11.2.0
+
+
 <a name="4.0.2"></a>
 ## [4.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-primeng-ui@4.0.1...4.0.2) (2020-12-07)
 

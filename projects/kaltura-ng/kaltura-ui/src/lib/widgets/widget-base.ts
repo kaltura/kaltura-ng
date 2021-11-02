@@ -1,10 +1,9 @@
-import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
-import 'rxjs/add/observable/of';
-import { Subject } from 'rxjs/Subject';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/do';
+import { Observable } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
+import { of } from 'rxjs';
+import { Subject } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { WidgetsManagerBase } from './widgets-manager-base';
 import { ISubscription } from 'rxjs/Subscription';
 import { WidgetState, WidgetStateData } from './widget-state';
@@ -82,7 +81,7 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
     }
 
     protected onValidate(wasActivated: boolean): Observable<{isValid: boolean}> {
-        return Observable.of({isValid: true});
+        return of({isValid: true});
     }
 
     protected updateState(stateUpdate : {isValid? : boolean, isDirty? : boolean, isBusy? : boolean}) : void {
@@ -142,7 +141,7 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
         this._verifyRegistered();
 
         return this.onValidate(this.wasActivated)
-            .do(
+            .pipe(tap(
                 response => {
                     const updateState = (response.isValid !== this._widgetState.isValid);
 
@@ -151,7 +150,7 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
                         this.updateState({isValid: response.isValid});
                     }
                 }
-            );
+            ));
     }
 
     public _handleDataSaving(newData: TData, request: TRequest, originalData: TData): void {
@@ -203,7 +202,7 @@ export abstract class WidgetBase<TForm extends WidgetsManagerBase<TData,TRequest
             if (activate$ instanceof Observable) {
                 this._logger.info(`[widget] widget '${this.key}': widget requested for async activation operation. executing async operation.`);
                 this._activateSubscription = activate$
-                    .catch((error, caught) => Observable.of({failed: true, error}))
+                    .pipe(catchError((error, caught) => of({failed: true, error})))
                     .subscribe(
                         response => {
                             if (response && response.failed) {

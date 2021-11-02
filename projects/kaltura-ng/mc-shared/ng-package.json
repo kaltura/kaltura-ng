@@ -4,5 +4,10 @@
   "deleteDestPath": true,
   "lib": {
     "entryFile": "src/public_api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": [
+    "@kaltura-ng/kaltura-common",
+    "@kaltura-ng/kaltura-logger",
+    "@kaltura-ng/kaltura-ui"
+  ]
 }

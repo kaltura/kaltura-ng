@@ -2,7 +2,6 @@ import { OnDestroy, Injectable, Inject, Optional, InjectionToken } from '@angula
 import { UploadFileData } from './upload-file-data';
 import { UploadFileAdapter } from './upload-file-adapter';
 import { Subject, Observable } from 'rxjs';
-import 'rxjs/add/operator/groupBy';
 import { FriendlyHashId } from '../friendly-hash-id';
 import { TrackedFile, TrackedFileChanges, TrackedFileData, TrackedFileStatuses } from './tracked-file';
 import { cancelOnDestroy } from '../rxjs/operators';

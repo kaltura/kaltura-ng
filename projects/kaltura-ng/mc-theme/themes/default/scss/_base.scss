@@ -22,14 +22,14 @@ label {
 
 .link {
 	font-size: 15px;
-	color: $kTertiary;
+	color: $kPrimary;
 	font-weight: 700;
 	cursor: pointer;
 	&:hover:not(.disabled) {
-		color: darken($kTertiary, 10%);
+		color: darken($kPrimary, 10%);
 	}
 	&:active:not(.disabled) {
-		color: $kTertiary;
+		color: $kPrimary;
 	}
 	&:disabled {
 		border: 0px solid white;

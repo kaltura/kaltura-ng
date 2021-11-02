@@ -1,6 +1,6 @@
 {
   "name": "@kaltura-ng/kaltura-common",
-  "version": "8.0.0",
+  "version": "9.0.1",
   "private": false,
   "description": "Angular - commonly needed services within Kaltura projects",
   "scripts": {
@@ -36,6 +36,9 @@
   "engines": {
     "node": ">=8.9.1 <9.0.0",
     "npm": ">= 5.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
   },
   "peerDependencies": {
     "@angular/common": "^8.2.6",

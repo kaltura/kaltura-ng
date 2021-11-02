@@ -1,4 +1,28 @@
 # Change Log
+<a name="9.0.3"></a>
+## [9.0.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@9.0.2...9.0.3) (2021-07-01)
+
+* update dependent libraries versions
+
+
+<a name="9.0.2"></a>
+## [9.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@9.0.1...9.0.2) (2021-03-07)
+
+* update dependent libraries versions
+
+
+<a name="9.0.1"></a>
+## [9.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@9.0.0...9.0.1) (2021-03-07)
+
+* update dependent libraries versions
+
+
+<a name="9.0.0"></a>
+# [9.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@8.0.2...9.0.0) (2021-03-07)
+
+* update Angular to 11.1.1
+
+
 <a name="8.0.2"></a>
 ## [8.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/kaltura-ui@8.0.1...8.0.2) (2020-12-07)
 

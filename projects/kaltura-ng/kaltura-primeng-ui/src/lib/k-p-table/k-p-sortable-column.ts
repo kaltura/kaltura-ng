@@ -7,8 +7,8 @@ import { DomHandler } from 'primeng/dom';
 @Directive({
     selector: '[kpSortableColumn]',
     host: {
-        '[class.ui-sortable-column]': 'isEnabled',
-        '[class.ui-state-highlight]': 'sorted'
+        '[class.p-sortable-column]': 'isEnabled',
+        '[class.p-highlight]': 'sorted'
     }
 })
 export class KPSortableColumn implements OnInit, OnDestroy {

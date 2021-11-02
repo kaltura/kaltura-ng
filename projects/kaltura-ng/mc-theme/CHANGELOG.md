@@ -1,4 +1,41 @@
 # Change Log
+<a name="5.0.3"></a>
+## [5.0.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@5.0.2...5.0.3) (2021-07-01)
+
+
+### Bug Fixes
+
+* **checkbox:** Green color box not aligned properly in check box ([#196](https://github.com/kaltura/kaltura-ng/issues/196)) ([5f8c8a4](https://github.com/kaltura/kaltura-ng/commit/5f8c8a4))
+* **datatable:** add scroll to datatable ([#189](https://github.com/kaltura/kaltura-ng/issues/189)) ([49332dc](https://github.com/kaltura/kaltura-ng/commit/49332dc))
+* **entries:** IE11 - datatable rows options has shifted down number ([#193](https://github.com/kaltura/kaltura-ng/issues/193)) ([9d24dc4](https://github.com/kaltura/kaltura-ng/commit/9d24dc4))
+* **entries:** IE11 - Scheduling - fields have wrong calendar button position KMCNG-2325 ([#192](https://github.com/kaltura/kaltura-ng/issues/192)) ([8b48323](https://github.com/kaltura/kaltura-ng/commit/8b48323))
+* **entries:** radiobutton in filter preferences has a oval shape in IE 11 ([#190](https://github.com/kaltura/kaltura-ng/issues/190)) ([4a23793](https://github.com/kaltura/kaltura-ng/commit/4a23793))
+* **paginator:** number of rows are truncated ([#191](https://github.com/kaltura/kaltura-ng/issues/191)) ([c7099de](https://github.com/kaltura/kaltura-ng/commit/c7099de))
+* **theme/checkbox:** size and border for unchecked KMCNG-2375 ([#198](https://github.com/kaltura/kaltura-ng/issues/198)) ([ef18927](https://github.com/kaltura/kaltura-ng/commit/ef18927))
+
+
+<a name="5.0.2"></a>
+## [5.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@5.0.1...5.0.2) (2021-03-15)
+
+* update dependent libraries versions
+
+
+<a name="5.0.1"></a>
+## [5.0.1](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@5.0.0...5.0.1) (2021-03-07)
+
+
+### Bug Fixes
+
+* reformat code ([b08640e](https://github.com/kaltura/kaltura-ng/commit/b08640e))
+* update readme ([f64e9bf](https://github.com/kaltura/kaltura-ng/commit/f64e9bf))
+
+
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@4.0.3...5.0.0) (2021-03-07)
+
+* update Angular to 11.1.1 
+
+
 <a name="4.0.3"></a>
 ## [4.0.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@4.0.2...4.0.3) (2020-07-13)
 

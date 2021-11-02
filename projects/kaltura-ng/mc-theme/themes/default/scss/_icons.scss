@@ -1,100 +1,116 @@
 @import '../fonts/style';
-
 .kOverrideFAIcons {
     .pi, .fa {
         font-family: 'kmcng-icon-pack' !important;
     }
-    .ui-submenu-icon.pi-caret-right:before{
+    .p-submenu-icon.pi-angle-right:before{
       content: $iconDropdownArrowRightContent;
     }
-    .ui-tree-toggler.pi-caret-right:before{
+    .p-tree-toggler-icon.pi-chevron-right:before{
       content: $iconTreeArrowRightContent;
     }
-    .ui-tree-toggler.pi-caret-down:before{
+    .p-tree-toggler-icon.pi-chevron-down:before{
       content: $iconTreeArrowDownContent;
     }
-    .ui-sortable-column-icon.fa-sort-asc:before{
+    .p-sortable-column-icon.fa-sort-asc:before{
       content: $iconDropdownArrowTopContent;
     }
-    .ui-sortable-column-icon.fa-sort-desc:before{
+    .p-sortable-column-icon.fa-sort-desc:before{
       content: $iconDropdownArrowBottomContent;
     }
-    .ui-paginator-next.ui-paginator-element .ui-paginator-icon.pi.pi-caret-right:before{
+    .p-paginator-next.p-paginator-element .p-paginator-icon.pi.pi-angle-right:before{
         content: $iconDropdownArrowRightContent;
         font-size: 12px;
     }
-    .ui-paginator-prev.ui-paginator-element .ui-paginator-icon.pi.pi-caret-left:before{
+    .p-paginator-prev.p-paginator-element .p-paginator-icon.pi.pi-angle-left:before{
       content: $iconDropdownArrowLeftContent;
         font-size: 12px;
     }
-    .ui-paginator-last.ui-paginator-element .pi.pi-step-forward:before{
+    .p-paginator-last.p-paginator-element .pi.pi-angle-double-right:before{
         content: $iconPaginationEndContent;
         font-size: 12px;
     }
-    .ui-paginator-first.ui-paginator-element .pi.pi-step-backward:before{
+    .p-paginator-first.p-paginator-element .pi.pi-angle-double-left:before{
         content: $iconPaginationStartContent;
         font-size: 12px;
     }
-    .ui-chkbox-icon.pi.pi-check:before, .ui-chkbox-icon.fa.fa-check:before{
+    .p-checkbox-icon.pi.pi-check:before{
         font-size: 10px;
         content: $iconCheckSmallContent;
     }
-    .ui-chkbox-icon.pi.pi-minus:before{
+    .p-button .pi.pi-check:before{
+      font-size: 12px;
+      content: $iconCheckSmallContent;
+    }
+    .p-checkbox-icon.pi-minus:before{
+        font-family: 'kmcng-icon-pack' !important;
         content: $iconPartialSmallContent;
         font-size: 9px;
     }
-    .ui-datepicker-prev .pi.pi-chevron-left:before{
+    .p-button .pi.pi-times:before{
+      content: $iconCloseSmallContent;
+      font-size: 12px;
+    }
+    .p-autocomplete-token-icon.pi.pi-times-circle:before{
+      content: $iconCloseSmallContent;
+      font-size: 12px;
+    }
+    .p-chips-token-icon.pi.pi-times-circle:before{
+      content: $iconCloseSmallContent;
+      font-size: 12px;
+    }
+    .p-datepicker-prev-icon.pi-chevron-left:before{
         content: $iconDropdownArrowLeftContent;
         font-size: 9px;
     }
-    .ui-datepicker-next .pi.pi-chevron-right:before{
+    .p-datepicker-next-icon.pi-chevron-right:before{
         content: $iconDropdownArrowRightContent;
         font-size: 9px;
     }
-  .ui-dropdown-open .ui-dropdown-trigger-icon {
+  .p-dropdown-open .p-dropdown-trigger-icon {
     transform: rotate(180deg) translateY(-50%);
     margin-top: -11px;
   }
-	.ui-dropdown-trigger .pi.pi-caret-down:before{
+	.p-dropdown-trigger .pi.pi-caret-down:before{
     content: $iconDropdownArrowBottomContent;
 		font-size: 10px;
 	}
-	.ui-spinner.ui-widget .pi.pi-caret-down:before{
+	.p-spinner.p-widget .pi.pi-caret-down:before{
     content: $iconDropdownArrowBottomContent;
 		font-size: 10px;
 	}
-	.ui-spinner.ui-widget .pi.pi-caret-up:before{
+	.p-spinner.p-widget .pi.pi-caret-up:before{
     content: $iconDropdownArrowTopContent;
 		font-size: 10px;
 	}
-	.ui-timepicker .pi.pi-chevron-up:before{
+	.p-timepicker .pi.pi-chevron-up:before{
     content: $iconDropdownArrowTopContent;
 	}
-	.ui-timepicker .pi.pi-chevron-down:before{
+	.p-timepicker .pi.pi-chevron-down:before{
     content: $iconDropdownArrowBottomContent;
 	}
-  .ui-dropdown-trigger .pi.pi-chevron-up{
+  .p-dropdown-trigger .pi.pi-chevron-up{
     &:before {
       content: $iconDropdownArrowTopContent;
     }
     color: #666;
     font-size: .8em;
   }
-  .ui-dropdown-trigger .pi.pi-chevron-down {
+  .p-dropdown-trigger .pi.pi-chevron-down {
     &:before {
       content: $iconDropdownArrowBottomContent;
     }
     color: #666;
     font-size: .8em;
   }
-  .ui-multiselect-trigger .pi.pi-chevron-up {
+  .p-multiselect-trigger .pi.pi-chevron-up {
     &:before {
       content: $iconDropdownArrowTopContent;
     }
     color: #666;
     font-size: .8em;
   }
-  .ui-multiselect-trigger .pi.pi-chevron-down {
+  .p-multiselect-trigger .pi.pi-chevron-down {
     &:before {
       content: $iconDropdownArrowBottomContent;
     }
@@ -107,19 +123,19 @@
   .pi-sort-amount-up-alt:before, .pi-sort-amount-up:before{
     content: $iconDropdownArrowTopContent;
   }
-	.ui-multiselect-trigger .pi.pi-caret-down:before{
+	.p-multiselect-trigger .pi.pi-caret-down:before{
     content: $iconDropdownArrowBottomContent;
 		font-size: 12px;
 	}
-	.ui-multiselect-filter-container  .pi.pi-search:before{
+	.p-multiselect-filter-container  .pi.pi-search:before{
     content: $iconMagnifierContent;
 	}
 
-  .ui-table-tbody .pi.pi-chevron-right:before{
+  .p-datatable-tbody .pi.pi-chevron-right:before{
     content: $iconTreeArrowRightContent;
   }
 
-  .ui-table-tbody .pi.pi-chevron-down:before{
+  .p-datatable-tbody .pi.pi-chevron-down:before{
     content: $iconTreeArrowDownContent;
   }
 }
