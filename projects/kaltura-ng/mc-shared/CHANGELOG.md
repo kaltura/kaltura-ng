@@ -1,4 +1,13 @@
 # Change Log
+<a name="7.0.6"></a>
+## [7.0.6](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@7.0.5...7.0.6) (2021-11-02)
+
+
+### Bug Fixes
+
+* **filters base store/list filter:** fix wrong comparison of arrays with the same length ([#199](https://github.com/kaltura/kaltura-ng/issues/199)) ([fa1b9c1](https://github.com/kaltura/kaltura-ng/commit/fa1b9c1))
+
+
 <a name="7.0.5"></a>
 ## [7.0.5](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@7.0.4...7.0.5) (2021-07-01)
 
