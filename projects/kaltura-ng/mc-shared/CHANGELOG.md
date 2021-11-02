@@ -53,6 +53,15 @@
 * update Angular to 11.1.1
 
 
+<a name="6.0.3"></a>
+## [6.0.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@6.0.2...6.0.3) (2021-11-01)
+
+
+### Bug Fixes
+
+* fix list-type change detection SUP-27709 ([7a39a8a](https://github.com/kaltura/kaltura-ng/commit/7a39a8a))
+
+
 <a name="6.0.2"></a>
 ## [6.0.2](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@6.0.1...6.0.2) (2020-12-07)
 
