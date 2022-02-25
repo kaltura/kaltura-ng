@@ -2,14 +2,16 @@
 
 .kDetailInfo {
     display: flex;
-    line-height: 26px;
-    height: 26px;
+    min-height: 26px;
     .kDetails{
         display: flex;
         overflow: hidden;
         >div, >span, >a{
             flex: 0 0 auto;
-            line-height: 26px;
+        }
+        span:not(.kLabel) {
+            max-width: 82%;
+            word-break: break-all;
         }
     }
 
