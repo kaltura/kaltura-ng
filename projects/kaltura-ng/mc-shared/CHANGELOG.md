@@ -1,4 +1,10 @@
 # Change Log
+<a name="7.0.7"></a>
+## [7.0.7](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@6.0.3...7.0.7) (2025-12-22)
+
+* update dependent libraries versions
+
+
 <a name="7.0.6"></a>
 ## [7.0.6](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-shared@7.0.5...7.0.6) (2021-11-02)
 

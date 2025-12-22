@@ -1,4 +1,10 @@
 # Change Log
+<a name="5.0.4"></a>
+## [5.0.4](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@4.0.3...5.0.4) (2025-12-22)
+
+* update dependent libraries versions
+
+
 <a name="5.0.3"></a>
 ## [5.0.3](https://github.com/kaltura/kaltura-ng/compare/@kaltura-ng/mc-theme@5.0.2...5.0.3) (2021-07-01)
 
