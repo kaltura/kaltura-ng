@@ -11,16 +11,6 @@
   },
   "homepage": "https://github.com/kaltura/kaltura-ng#readme",
   "description": "A set of packages providing common infrastructure for angular based applications connected to the Kaltura platform",
-  "contributors": [
-    {
-      "name": "Eran Sakal",
-      "email": "eran@sakalim.com"
-    },
-    {
-      "name": "Amir Chervinsky",
-      "email": "amir.chr@gmail.com"
-    }
-  ],
   "keywords": [
     "kaltura"
   ],
